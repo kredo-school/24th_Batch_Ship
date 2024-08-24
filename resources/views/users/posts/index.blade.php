@@ -6,7 +6,11 @@
     <div class="row" style="">
         <div class="col p-1">
                         {{-- Frame of 1 Post & It's going to be repeat--}}
+<<<<<<< HEAD
                         <div class="card w-100 mb-1 bg-pink">
+=======
+                        <div class="card w-100 mb-1" style="background-color: #FCEFEE;">
+>>>>>>> c51f8c906e97d9dc69f84adcd45ed5e22da68523
                             <div class="card-body">
                                 {{-- post text --}}
                                 <div class="mb-3">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nesciunt natus dolorum odit laudantium, vel expedita, commodi quidem veniam velit vitae sunt itaque fugit maxime! Eum ea iste necessitatibus inventore a!
@@ -20,15 +24,24 @@
                                 {{-- post category --}}
                                 <div class="row text-start">
                                     <div class="col">
+<<<<<<< HEAD
                                         <span class="badge me-1 bg-turquoise text-white">Anime</span> 
                                         <span class="badge me-1 bg-turquoise text-white">Food</span> 
+=======
+                                        <span class="badge me-1" style="background-color: #0D768B; text-color: white;">Anime</span> 
+                                        <span class="badge me-1" style="background-color: #0D768B; text-color: white;">Food</span> 
+>>>>>>> c51f8c906e97d9dc69f84adcd45ed5e22da68523
                                     </div>
                                 </div>
                             </div>
                         </div>
             
                         {{-- Just a example of other Post--}}
+<<<<<<< HEAD
                         <div class="card w-100 mb-1 bg-pink">
+=======
+                        <div class="card w-100 mb-1" style="background-color: #FCEFEE;">
+>>>>>>> c51f8c906e97d9dc69f84adcd45ed5e22da68523
                             <div class="card-body">
                                 {{-- post text --}}
                                 <div class="mb-3">
@@ -42,14 +55,22 @@
                                 {{-- post category --}}
                                 <div class="row">
                                     <div class="col text-end">
+<<<<<<< HEAD
                                         <span class="badge me-1 bg-turquoise text-white">Anime</span> 
+=======
+                                        <span class="badge " style="background-color: #0D768B; text-color: white;">Anime</span> 
+>>>>>>> c51f8c906e97d9dc69f84adcd45ed5e22da68523
                                     </div>
                                 </div>
                             </div>
                         </div>
             
                          {{-- Just a example of other Post--}}
+<<<<<<< HEAD
                          <div class="card w-100 mb-1 bg-pink">
+=======
+                         <div class="card w-100 mb-1" style="background-color: #FCEFEE;">
+>>>>>>> c51f8c906e97d9dc69f84adcd45ed5e22da68523
                             <div class="card-body">
                                 {{-- post text --}}
                                 <div class="mb-3">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nesciunt natus dolorum odit laudantium, vel expedita, commodi quidem veniam velit vitae sunt itaque fugit maxime! Eum ea iste necessitatibus inventore a!
@@ -67,14 +88,22 @@
                                 {{-- post category --}}
                                 <div class="row">
                                     <div class="col text-end">
+<<<<<<< HEAD
                                         <span class="badge me-1 bg-turquoise text-white">Anime</span> 
+=======
+                                        <span class="badge " style="background-color: #0D768B; text-color: white;">Anime</span> 
+>>>>>>> c51f8c906e97d9dc69f84adcd45ed5e22da68523
                                     </div>
                                 </div>
                             </div>
                         </div>
             
                         {{-- Just a example of other Post--}}
+<<<<<<< HEAD
                         <div class="card w-100 mb-1 bg-pink">
+=======
+                        <div class="card w-100 mb-1" style="background-color: #FCEFEE;">
+>>>>>>> c51f8c906e97d9dc69f84adcd45ed5e22da68523
                             <div class="card-body">
                                 {{-- post text --}}
                                 <div class="mb-3">Lorem, ipsum dolor sit amet consectetur adipisicing elit. </div>
@@ -95,7 +124,11 @@
 
         </div>
         <div class="col p-1">
+<<<<<<< HEAD
             <div class="card w-100 mb-1 bg-pink">
+=======
+            <div class="card w-100 mb-1" style="background-color: #FCEFEE;">
+>>>>>>> c51f8c906e97d9dc69f84adcd45ed5e22da68523
                 <div class="card-body">
                     {{-- post text --}}
                     <div class="mb-3">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nesciunt natus dolorum odit laudantium, vel expedita, commodi quidem veniam velit vitae sunt itaque fugit maxime! Eum ea iste necessitatibus inventore a!Lorem, ipsum dolor sit amet consectetur adipisicing elit.
@@ -109,14 +142,23 @@
                     {{-- post category --}}
                     <div class="row text-start">
                         <div class="col">
+<<<<<<< HEAD
                             <span class="badge me-1 bg-turquoise text-white">Anime</span> 
                             <span class="badge me-1 bg-turquoise text-white">Food</span> 
+=======
+                            <span class="badge me-1" style="background-color: #0D768B; text-color: white;">Anime</span> 
+                            <span class="badge me-1" style="background-color: #0D768B; text-color: white;">Food</span> 
+>>>>>>> c51f8c906e97d9dc69f84adcd45ed5e22da68523
                         </div>
                     </div>
                 </div>
             </div>
 
+<<<<<<< HEAD
             <div class="card w-100 mb-1 bg-pink">
+=======
+            <div class="card w-100 mb-1" style="background-color: #FCEFEE;">
+>>>>>>> c51f8c906e97d9dc69f84adcd45ed5e22da68523
                 <div class="card-body">
                     {{-- post text --}}
                     <div class="mb-3">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nesciunt natus dolorum odit laudantium, vel expedita, commodi quidem veniam velit vitae sunt itaque fugit maxime! Eum ea iste necessitatibus inventore a!Lorem, ipsum dolor sit amet consectetur adipisicing elit.
@@ -130,8 +172,13 @@
                     {{-- post category --}}
                     <div class="row text-start">
                         <div class="col">
+<<<<<<< HEAD
                             <span class="badge me-1 bg-turquoise text-white">Anime</span> 
                             <span class="badge me-1 bg-turquoise text-white">Food</span> 
+=======
+                            <span class="badge me-1" style="background-color: #0D768B; text-color: white;">Anime</span> 
+                            <span class="badge me-1" style="background-color: #0D768B; text-color: white;">Food</span> 
+>>>>>>> c51f8c906e97d9dc69f84adcd45ed5e22da68523
                         </div>
                     </div>
                 </div>
@@ -139,7 +186,11 @@
             
         </div>
         <div class="col  p-1">
+<<<<<<< HEAD
             <div class="card w-100 mb-1 bg-pink">
+=======
+            <div class="card w-100 mb-1" style="background-color: #FCEFEE;">
+>>>>>>> c51f8c906e97d9dc69f84adcd45ed5e22da68523
                 <div class="card-body">
                     {{-- post text --}}
                     <div class="mb-3">
@@ -153,13 +204,22 @@
                     {{-- post category --}}
                     <div class="row text-start">
                         <div class="col">
+<<<<<<< HEAD
                             <span class="badge me-1 bg-turquoise text-white">Anime</span> 
                             <span class="badge me-1 bg-turquoise text-white">Food</span> 
+=======
+                            <span class="badge me-1" style="background-color: #0D768B; text-color: white;">Anime</span> 
+                            <span class="badge me-1" style="background-color: #0D768B; text-color: white;">Food</span> 
+>>>>>>> c51f8c906e97d9dc69f84adcd45ed5e22da68523
                         </div>
                     </div>
                 </div>
             </div>
+<<<<<<< HEAD
             <div class="card w-100 mb-1 bg-pink">
+=======
+            <div class="card w-100 mb-1" style="background-color: #FCEFEE;">
+>>>>>>> c51f8c906e97d9dc69f84adcd45ed5e22da68523
                 <div class="card-body">
                     {{-- post text --}}
                     <div class="mb-3">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nesciunt natus dolorum odit laudantium, vel expedita, commodi quidem veniam velit vitae sunt itaque fugit maxime! Eum ea iste necessitatibus inventore a!Lorem, ipsum dolor sit amet consectetur adipisicing elit.
@@ -173,15 +233,24 @@
                     {{-- post category --}}
                     <div class="row text-start">
                         <div class="col">
+<<<<<<< HEAD
                             <span class="badge me-1 bg-turquoise text-white">Anime</span> 
                             <span class="badge me-1 bg-turquoise text-white">Food</span> 
+=======
+                            <span class="badge me-1" style="background-color: #0D768B; text-color: white;">Anime</span> 
+                            <span class="badge me-1" style="background-color: #0D768B; text-color: white;">Food</span> 
+>>>>>>> c51f8c906e97d9dc69f84adcd45ed5e22da68523
                         </div>
                     </div>
                 </div>
             </div>
         </div>
         <div class="col  p-1">
+<<<<<<< HEAD
             <div class="card w-100 mb-1 bg-pink">
+=======
+            <div class="card w-100 mb-1" style="background-color: #FCEFEE;">
+>>>>>>> c51f8c906e97d9dc69f84adcd45ed5e22da68523
                 <div class="card-body">
                     {{-- post text --}}
                     <div class="mb-3">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nesciunt natus dolorum odit laudantium, vel expedita, commodi quidem veniam velit vitae sunt itaque fugit maxime! Eum ea iste necessitatibus inventore a!Lorem, ipsum dolor sit amet consectetur adipisicing elit.
@@ -195,15 +264,24 @@
                     {{-- post category --}}
                     <div class="row text-start">
                         <div class="col">
+<<<<<<< HEAD
                             <span class="badge me-1 bg-turquoise text-white">Anime</span> 
                             <span class="badge me-1 bg-turquoise text-white">Food</span> 
+=======
+                            <span class="badge me-1" style="background-color: #0D768B; text-color: white;">Anime</span> 
+                            <span class="badge me-1" style="background-color: #0D768B; text-color: white;">Food</span> 
+>>>>>>> c51f8c906e97d9dc69f84adcd45ed5e22da68523
                         </div>
                     </div>
                 </div>
             </div>
         </div>
         <div class="col  p-1">
+<<<<<<< HEAD
             <div class="card w-100 mb-1 bg-pink">
+=======
+            <div class="card w-100 mb-1" style="background-color: #FCEFEE;">
+>>>>>>> c51f8c906e97d9dc69f84adcd45ed5e22da68523
                 <div class="card-body">
                     {{-- post text --}}
                     <div class="mb-3">Lorem, ipsum dolor sit amet consectetur adipisicing elit. 
@@ -216,8 +294,13 @@
                     {{-- post category --}}
                     <div class="row text-start">
                         <div class="col">
+<<<<<<< HEAD
                             <span class="badge me-1 bg-turquoise text-white">Anime</span> 
                             <span class="badge me-1 bg-turquoise text-white">Food</span> 
+=======
+                            <span class="badge me-1" style="background-color: #0D768B; text-color: white;">Anime</span> 
+                            <span class="badge me-1" style="background-color: #0D768B; text-color: white;">Food</span> 
+>>>>>>> c51f8c906e97d9dc69f84adcd45ed5e22da68523
                         </div>
                     </div>
                 </div>
