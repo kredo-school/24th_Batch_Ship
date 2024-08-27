@@ -1,0 +1,14 @@
+.green{
+    background-color: #E3EBED;
+  }
+  .search-bg{
+    background-color: #F5F5F5;
+}
+.search-img {
+
+display:inline-block;
+align-items: center;
+width:300px;
+height:300px;
+
+}

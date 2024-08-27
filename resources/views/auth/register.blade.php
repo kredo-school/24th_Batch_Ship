@@ -17,7 +17,7 @@
             <div class="row">
                 <div class="col-md mb-3">
                     <input id="first_name" type="text" class="form-control bg-yellow @error('first_name') is-invalid @enderror" name="first_name" value="{{ old('name') }}" required autocomplete="first_name"  placeholder="First Name" autofocus >
-         
+
                              @error('first_name')
                                  <span class="invalid-feedback" role="alert">
                                      <strong>{{ $message }}</strong>
@@ -26,7 +26,7 @@
                  </div>
                  <div class="col-md mb-3">
                     <input id="last_name" type="text" class="form-control bg-yellow @error('last_name') is-invalid @enderror" name="last_name" value="{{ old('last_name') }}" required autocomplete="last_name"  placeholder="Last Name" autofocus >
-         
+
                              @error('last_name')
                                  <span class="invalid-feedback" role="alert">
                                      <strong>{{ $message }}</strong>
@@ -44,14 +44,14 @@
             </div>
             <div class="mb-3">
                 <input id="email" type="email" class="form-control bg-yellow @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" placeholder="Email">
-                
+
                 @error('email')
                  <span class="invalid-feedback" role="alert">
                     <strong>{{ $message }}</strong>
                  </span>
                 @enderror
              </div>
-            
+
             <div class="mb-3">
                 <input id="password" type="password" class="form-control bg-yellow @error('password') is-invalid @enderror" name="password" required autocomplete="new-password" placeholder="Enter your password">
                     @error('password')
