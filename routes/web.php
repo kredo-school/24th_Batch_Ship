@@ -9,7 +9,7 @@ Route::get('/search', function () {
     return view('search');
 });
 Route::get('/users', function () {
-    return view('users.posts.index');
+    return view('users.community.index');
 });
 
 Auth::routes();
