@@ -29,6 +29,28 @@ p {
 .text-turquoise {
     color: #0D768B;
 }
+
+/* Button Color */
+.btn-turquoise {
+    background-color: #0D768B;
+}
+
+.btn-gold {
+    background-color: #CFB53B;
+}
+
+.btn-yellow {
+    background-color: #FBF9EF;
+}
+
+.btn-pink {
+    background-color: #FCEFEE;
+}
+
+.btn-blue {
+    background-color: #EDFAFD;
+}
+
 /* SMALL */
 .icon-sm {
     font-size: 2rem;
