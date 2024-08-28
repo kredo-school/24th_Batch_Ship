@@ -97,7 +97,7 @@
                                                             document.getElementById('logout-form').submit();">
                                             <i class="fa-solid fa-right-from-bracket"></i> {{ __('Logout') }}
                                         </a>
-                                        
+
                                         <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                             @csrf
                                         </form>
