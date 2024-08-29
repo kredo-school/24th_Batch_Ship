@@ -7,10 +7,10 @@
 
   {{-- Owner's view --}}
   <div class="row">
-    <div class="col-4 p-3 d-flex justify-content-center align-items-center">
+    <div class="col-3 p-3 d-flex justify-content-center align-items-center">
       <img src="{{ asset('storage/Image.png') }}" class="img-thumbnail rounded-circle avatar-lg">
     </div>
-    <div class="col-8 p-5">
+    <div class="col-9 p-5">
       <h2 class="display-6 mb-0">Fredy Mercury</h2><br>
       <button type="button" class="text-danger btn btn-lg" data-bs-toggle="modal" data-bs-target="#reacted-profile">
         <i class="fa-solid fa-heart text-danger"></i>
@@ -26,6 +26,7 @@
   </div>
   <div class="row mx-2">
     <div class="col d-flex">
+      {{-- @foreach all selected categories --}}
       <div class="badge bg-turquoise fs-6 me-2 px-4">
         Design
       </div>
@@ -38,11 +39,12 @@
   </div>
   <div class="bg-pink mx-2">
     <div class="row">
+      {{-- @foreach 4 posts --}}
       <div class="col-3">
         <div class="container bg-white m-3">
           <div class="row">
             <div class="col-5 d-flex justify-content-center mt-2">
-              <p class="mb-0">Lorem ipsum dolor sit amet.</p>
+              <p class="mb-0">Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi, obcaecati!</p>
             </div>
             <div class="col-7 d-flex justify-content-center mt-2">
               <img src="{{ asset('storage/Rectangle 84.png') }}" class="d-block w-100" style="height: auto;">
@@ -50,19 +52,36 @@
           </div>          
           <div class="row">
             <div class="col d-flex align-items-center">
+              {{-- @foreach selected categories --}}
               <div class="badge bg-turquoise me-1">Animal</div>
-              <a href="#" class="text-decoration-none ms-auto">see all reactions</a>
             </div>
           </div>
-          <hr class="mx-auto">
-          <div class="row">
-            <div class="col d-flex align-items-center mb-2">
-              <p class="mb-0 me-1" style="font-size: 0.8rem;">93%</p>
-              <a href="#" class="me-2 d-flex align-items-center text-decoration-none text-black">
-                  <i class="fa-solid fa-circle-user xsmall"></i>
-                  <span class="fw-bold ms-1" style="font-size: 0.8rem;">Tim Simpson</span>
+          <div class="row text-end">
+            <a href="#" class="text-decoration-none">see all reactions</a>
+          </div>
+          <hr>
+          <div class="row mb-2">
+            {{-- @foreach 2 reactions --}}
+            <div class="col-5 d-flex align-items-center">
+              <p class="mb-0 me-2">93%</p>
+              <a href="#" class="me-1 d-flex align-items-center text-decoration-none text-black">
+                <i class="fa-solid fa-circle-user icon-sm"></i>
+                <span class="fw-bold mx-1">Tim Simpson</span>
               </a>
-              <p class="mb-0 me-1" style="font-size: 0.8rem;">How Cute!</p>
+            </div>
+            <div class="col-7 d-flex align-items-center">
+              <p class="mb-0 me-1">How Cute!</p>
+              <p class="mb-0 text-muted ms-auto xsmall">Aug.18.2024</p>
+            </div>   
+            <div class="col-5 d-flex align-items-center">
+              <p class="mb-0 me-2">99%</p>
+              <a href="#" class="me-1 d-flex align-items-center text-decoration-none text-black">
+                  <i class="fa-solid fa-circle-user icon-sm"></i>
+                  <span class="fw-bold mx-1">Keiko Watanabe</span>
+              </a>
+            </div>
+            <div class="col-7 d-flex align-items-center">
+              <p class="mb-0 me-1">I love your cat!</p>
               <p class="mb-0 text-muted ms-auto xsmall">Aug.18.2024</p>
             </div>   
           </div>     
@@ -78,6 +97,7 @@
   </div>
   <div class="bg-blue mx-2">
     <div class="row">
+      {{-- @foreach 4 owner communities --}}
       <div class="col-3">
         <div class="container bg-white m-3 p-0">
           <a href="#" class="d-block">
@@ -89,7 +109,7 @@
               <p class="text-end">
                 Created by
                 <a href="#" class="ms-2">
-                  <img src="{{ asset('storage/Image.png') }}" class="rounded-circle avatar-sm">
+                  <img src="{{ asset('storage/Image.png') }}" class="rounded-circle avatar-md">
                 </a>
               </p>
             </div>
@@ -104,6 +124,7 @@
   </div>
   <div class="bg-blue mx-2">
     <div class="row">
+      {{-- @foreach 4 join communities --}}
       <div class="col-3">
         <div class="container bg-white m-3 p-0">
           <a href="#" class="d-block">
@@ -116,7 +137,7 @@
             <p class="text-end">
               Created by
               <a href="#" class="text-black ms-2">
-                <i class="fa-solid fa-circle-user icon-sm"></i>
+                <i class="fa-solid fa-circle-user icon-md"></i>
               </a>
             </p>
           </div>
@@ -132,6 +153,7 @@
   </div>
   <div class="bg-yellow mx-2">
     <div class="row">
+      {{-- @foreach 4 owner events --}}
       <div class="col-3">
         <div class="container bg-white m-3 p-0">
           <a href="#" class="d-block">
@@ -139,13 +161,15 @@
           </a>        
           <div class="row mt-2 mx-auto">
             <div class="col d-flex align-items-center">
-              <h5 class="mb-1 me-3"><a href="#" class="text-black fw-bold">Event title</a></h5>
-              <a href="#" class="text-black align-self-center">Community title</a>
-            </div>
+              <h5 class="mb-0 me-3">
+                <a href="#" class="text-black fw-bold">Event title</a>
+              </h5>
+              <a href="#" class="text-black">Community title</a>
+            </div>            
             <p class="text-end">
               Created by
               <a href="#" class="ms-2">
-                <img src="{{ asset('storage/Image.png') }}" class="rounded-circle avatar-sm">
+                <img src="{{ asset('storage/Image.png') }}" class="rounded-circle avatar-md">
               </a>
             </p>
           </div>
@@ -159,6 +183,7 @@
   </div>
   <div class="bg-yellow mx-2">
     <div class="row">
+      {{-- @foreach 4 join events --}}
       <div class="col-3">
         <div class="container bg-white m-3 p-0">
           <a href="#" class="d-block">
@@ -172,7 +197,7 @@
             <p class="text-end">
               Created by
               <a href="#" class="text-black ms-2">
-                <i class="fa-solid fa-circle-user icon-sm"></i>
+                <i class="fa-solid fa-circle-user icon-md"></i>
               </a>
             </p>
           </div>
@@ -183,10 +208,10 @@
 
   {{-- Other user's view --}}
   <div class="row">
-    <div class="col-4 p-3 d-flex justify-content-center align-items-center">
-      <img src="{{ asset('storage/Untitled design (2) 1.png') }}" class="img-thumbnail rounded-circle avatar-lg">
+    <div class="col-3 p-3 d-flex justify-content-center align-items-center">
+      <img src="{{ asset('storage/https___images.genius.com_d947ff78d8b4cadcf7d2d9ed3b12e8a5.500x500x1.jpg') }}" class="img-thumbnail rounded-circle avatar-lg">
     </div>
-    <div class="col-8 p-5">
+    <div class="col-9 p-5">
       <h2 class="display-6 mb-0">Maria Konnno</h2><br>
       <button type="button" class="text-danger btn btn-lg" data-bs-toggle="modal" data-bs-target="#reacted-profile">
         <i class="fa-solid fa-heart text-danger"></i>
@@ -212,6 +237,7 @@
   </div>
   <div class="row mx-2">
     <div class="col d-flex">
+      {{-- @foreach all selected categories --}}
       <div class="badge bg-turquoise fs-6 me-2 px-4">
         Movie
       </div>
@@ -224,44 +250,50 @@
   </div>
   <div class="bg-pink mx-2">
     <div class="row">
+      {{-- @foreach 4 posts --}}
       <div class="col-3">
         <div class="container bg-white m-3">
           <div class="row">
             <div class="col-5 d-flex justify-content-center mt-2">
-              <p class="mb-0">Lorem ipsum dolor sit amet.</p>
+              <p class="mb-0">Lorem ipsum dolor sit amet, consectetur adipisicing elit. In, dolor.</p>
             </div>
             <div class="col-7 d-flex justify-content-center mt-2">
               <img src="{{ asset('storage/pancake.png') }}" class="d-block w-100" style="height: auto;">
             </div>
           </div>          
-          <div class="row">
-            <div class="col d-flex align-items-center">
+          <div class="row d-flex align-items-center">
+            <div class="col">
+              {{-- @foreach selected categories --}}
               <div class="badge bg-turquoise me-1">Sweets</div>
               <div class="badge bg-turquoise me-1">Cafe</div>
-              <a href="#" class="text-decoration-none ms-auto">see all reactions</a>
             </div>
           </div>
+          <div class="row text-end">
+            <a href="#" class="text-decoration-none">see all reactions</a>
+          </div>
           <hr class="mx-auto">
-          <div class="d-flex">
-            <form action="#" method="post">
-              @csrf
-    
-              <div class="row gx-2">
-                <div class="col-8">
-                  <label for="empathy" class="form-label">empathy</label>
-                  <div class="input-group">
-                    <input type="number" name="empathy" id="empathy" class="form-control">
-                    <span class="input-group-text text-turquoise">%</span>
-                  </div>
-                </div>
-                <div class="col-4 d-flex align-items-end">
-                  <button type="submit" class="btn bg-gold text-white text-center w-100">send</button>
+          <form action="#" method="post">
+            @csrf
+  
+            <div class="row justify-content-center align-items-center gx-2">
+              <div class="col-4">
+                <label for="empathy" class="form-label">empathy</label>
+                <div class="input-group">
+                  <input type="number" name="empathy" id="empathy" class="form-control">
+                  <span class="input-group-text text-turquoise">%</span>
                 </div>
               </div>
-              <label for="comment" class="form-label mt-1">comment</label>
-              <input type="text" name="comment" id="comment" class="form-control mb-2"> 
-            </form>
-          </div>        
+              <div class="col-8">
+                <label for="comment" class="form-label">comment</label>
+                <input type="text" name="comment" id="comment" class="form-control">
+              </div>
+            </div>
+            <div class="row justify-content-end">
+              <div class="col-auto my-2">
+                <button type="submit" class="btn bg-gold text-white">send</button>
+              </div>
+            </div>
+          </form>
         </div>
       </div>
     </div>
@@ -274,6 +306,7 @@
   </div>
   <div class="bg-blue mx-2">
     <div class="row">
+      {{-- @foreach 4 owner communities --}}
       <div class="col-3">
         <div class="container bg-white m-3 p-0">
           <a href="#" class="d-block">
@@ -285,7 +318,7 @@
               <p class="text-end">
                 Created by
                 <a href="#" class="ms-2">
-                  <img src="{{ asset('storage/Untitled design (2) 1.png') }}" class="rounded-circle avatar-sm">
+                  <img src="{{ asset('storage/https___images.genius.com_d947ff78d8b4cadcf7d2d9ed3b12e8a5.500x500x1.jpg') }}" class="rounded-circle avatar-md">
                 </a>
               </p>
             </div>
@@ -300,6 +333,7 @@
   </div>
   <div class="bg-blue mx-2">
     <div class="row">
+      {{-- @foreach 4 join communities --}}
       <div class="col-3">
         <div class="container bg-white m-3 p-0">
           <a href="#" class="d-block">
@@ -312,7 +346,7 @@
             <p class="text-end">
               Created by
               <a href="#" class="text-black ms-2">
-                <i class="fa-solid fa-circle-user icon-sm"></i>
+                <i class="fa-solid fa-circle-user icon-md"></i>
               </a>
             </p>
           </div>
@@ -328,6 +362,7 @@
   </div>
   <div class="bg-yellow mx-2">
     <div class="row">
+      {{-- @foreach 4 owner events --}}
       <div class="col-3">
         <div class="container bg-white m-3 p-0">
           <a href="#" class="d-block">
@@ -341,7 +376,7 @@
             <p class="text-end">
               Created by
               <a href="#" class="ms-2">
-                <img src="{{ asset('storage/Untitled design (2) 1.png') }}" class="rounded-circle avatar-sm">
+                <img src="{{ asset('storage/https___images.genius.com_d947ff78d8b4cadcf7d2d9ed3b12e8a5.500x500x1.jpg') }}" class="rounded-circle avatar-md">
               </a>
             </p>
           </div>
@@ -355,6 +390,7 @@
   </div>
   <div class="bg-yellow mx-2">
     <div class="row">
+      {{-- @foreach 4 join events --}}
       <div class="col-3">
         <div class="container bg-white m-3 p-0">
           <a href="#" class="d-block">
@@ -368,7 +404,7 @@
             <p class="text-end">
               Created by
               <a href="#" class="text-black ms-2">
-                <i class="fa-solid fa-circle-user icon-sm"></i>
+                <i class="fa-solid fa-circle-user icon-md"></i>
               </a>
             </p>
           </div>
