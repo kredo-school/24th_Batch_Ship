@@ -16,14 +16,12 @@ class HomeController extends Controller
         $this->middleware('auth');
     }
 
-<<<<<<< HEAD
+
     public function search(Request $request)
     {
         return view('search');
     }
 
-=======
->>>>>>> 18b281259328301bbfbe03ab62b631c0043efa5b
     /**
      * Show the application dashboard.
      *
