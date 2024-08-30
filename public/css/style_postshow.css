@@ -83,8 +83,12 @@ p {
     width: 100%;
 }
 
-.icon-show {
-    font-size: 4rem;
+.avatar-show {
+    font-size: 6rem;
+}
+
+.show-icon {
+    font-size: 1.5rem;
 }
 
 .img-show {
@@ -105,4 +109,28 @@ p {
 
 .post-delete {
     color: #CFB53B;
+}
+
+.bg-white {
+    background-color: #F5F5F5;
+}
+
+.border-gray {
+    border-color: rgb(216, 216, 216);
+}
+
+.btn-gold-cancel {
+    background-color: #CFB53B;
+    color: white;
+}
+
+.btn-gold-cancel:hover {
+    background-color: #FBF9EF;
+    color: #CFB53B;
+    border-color: rgb(216, 216, 216);
+}
+
+.btn-gold-delete:hover {
+    background-color: #CFB53B;
+    color: white;
 }
