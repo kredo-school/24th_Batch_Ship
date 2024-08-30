@@ -23,7 +23,7 @@
 <body>
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-turquoise shadow-sm">
-            <div class="container">
+            <div class="container-fluid">
                 <a class="navbar-brand" href="{{ url('/') }}">
                     <img src="" alt="" width="30" height="24">
                 </a>
@@ -39,7 +39,7 @@
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ms-auto">
                         <!-- Authentication Links -->
-                        @guest
+                        {{-- @guest
                             @if (Route::has('login'))
                                 <li class="nav-item">
                                     <a class="nav-link text-white" href="{{ route('login') }}">{{ __('Login') }}</a>
@@ -51,7 +51,7 @@
                                     <a class="nav-link text-white" href="{{ route('register') }}">{{ __('Register') }}</a>
                                 </li>
                             @endif
-                        @else
+                        @else --}}
                             {{-- Ship icon --}}
                             <li class="nav-item dropdown">
                                 <a href="#" class="nav-link dropdown-toggle text-white" role="button" data-bs-toggle="dropdown" area-expanded="false">
@@ -104,19 +104,20 @@
                                     </li>
                                 </ul>
                             </li>
-                        @endguest
+                        {{-- @endguest --}}
                     </ul>
                 </div>
             </div>
         </nav>
 
         <main class="py-5">
-            <div class="container-fulid">
+            <div class="container-fluid">
                 <div class="row justify-content-center">
-                    {{-- Admin Menu(optional) (col-3)  --}}
+                    {{-- Admin Menu(optional) --}}
+                    {{-- put admin manu positioned side by side --}}
 
                     {{-- Main Content --}}
-                    <div class="col-9">
+                    <div class="col-11">
                         @yield('content')
                     </div>
                 </div>
