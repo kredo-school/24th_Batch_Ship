@@ -22,7 +22,7 @@ use Illuminate\Support\Facades\Route;
 // });
 
 Route::get('/', function () {
-    return view('users.posts.index');
+    return view('auth.login');
 });
 
 
@@ -42,6 +42,7 @@ Route::get('/post/create', [PostController::class, 'create'])->name('users.posts
 // Route::get('/post/{id}/show', [PostController::class, 'show'])->name('users.posts.show');
 
 //Profile
+Route::get('/profile/index', [ProfileController::class, 'index'])->name('users.profile.index');
 Route::get('/profile/create', [ProfileController::class, 'create'])->name('users.profile.create');
 
 
