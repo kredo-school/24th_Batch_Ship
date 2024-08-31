@@ -25,6 +25,17 @@ p {
 .bg-gold {
     background-color: #CFB53B;
 }
+
+.btn-turquoise {
+    background-color: #0D768B;
+    color: white;
+}
+
+.btn-turquoise:hover {
+    background-color: white;
+    color: #0D768B ;
+}
+
 /* Text Color */
 .text-turquoise {
     color: #0D768B;
@@ -119,6 +130,16 @@ p {
     border-color: rgb(216, 216, 216);
 }
 
+.border-turquoise {
+    border-color: #0D768B;
+    border-width: thick;
+}
+
+.border-red {
+    border-color: rgb(174, 17, 17);
+    border-width: thick;
+}
+
 .btn-gold-cancel {
     background-color: #CFB53B;
     color: white;
@@ -133,4 +154,9 @@ p {
 .btn-gold-delete:hover {
     background-color: #CFB53B;
     color: white;
+}
+
+.modal-with {
+    width:740px; 
+    margin-left: -70px;
 }

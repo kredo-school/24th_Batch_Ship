@@ -31,7 +31,8 @@ Auth::routes();
 
 //Post
 Route::get('/post/index', [PostController::class, 'index'])->name('users.posts.index');
-Route::get('/post/{id}/show', [PostController::class, 'show'])->name('users.posts.show');
+Route::get('/post/show', [PostController::class, 'show'])->name('users.posts.show');
+//Route::get('/post/{id}/show', [PostController::class, 'show'])->name('users.posts.show');
 Route::get('/post/create', [PostController::class, 'create'])->name('users.posts.create');
 
 Route::get('/search', [HomeController::class, 'search'])->name('search');
