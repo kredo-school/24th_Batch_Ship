@@ -58,16 +58,7 @@
                 <div class="col ">  {{-- right side div--}}
                     <p class=" text-center mt-3 ">▼ Select your Interests ! </p>
                     <div class="m-3 scroll-container ">
-                        @foreach($all_categories as $category)
-                <div class="form-check form-check-inline">
-                    <input type="checkbox" name="category[]" id="{{ $category->name }}" value="{{ $category->id }}" class="form-check-input">
-                    <label for="{{ $category->name }}" class="form-check-label">{{ $category->name }}</label>
-                </div>
-            @endforeach
-            @error('category')
-                <div class="text-danger small">{{ $message }}</div>
-            @enderror
-        </div>
+                       
                         <button class="btn bg-pink btn-sm m-2">Anime</button>
                         <button class="btn bg-pink btn-sm m-2">Manga</button>
                         <button class="btn bg-pink btn-sm m-2">Game</button>

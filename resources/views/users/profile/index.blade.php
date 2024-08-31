@@ -31,6 +31,16 @@
   <div class="row mx-2">
     <div class="col d-flex">
       {{-- @foreach all selected categories --}}
+      @foreach($all_categories as $category)
+      <div class="form-check form-check-inline">
+          <input type="checkbox" name="category[]" id="{{ $category->name }}" value="{{ $category->id }}" class="form-check-input">
+          <label for="{{ $category->name }}" class="form-check-label">{{ $category->name }}</label>
+      </div>
+  @endforeach
+  @error('category')
+      <div class="text-danger small">{{ $message }}</div>
+  @enderror
+</div>
       <div class="badge bg-turquoise fs-6 me-2 px-4">
         Design
       </div>
