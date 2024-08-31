@@ -3,38 +3,28 @@
 @section('title', 'Create Post')
 
 @section('content')
+<head>
+    @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+    <link rel="stylesheet" href="{{ asset('css/style_postshow.css') }}">
+    
+</head>
 
-    <style>
+    <div class="bg-pink px-5 py-4">   {{-- Container  bg-pink div--}}
 
-    .right-border
-    {
-        border-right: 1px solid rgb(181, 179, 176);
-    }
+        <h3 class="d-block fw-bold text-center mb-4">
+            Share what you like !
+        </h3>
 
-    .scroll-container
-    {
-    overflow-y: auto;
-    height: 350px;
-     }
-
-    </style>
-
-
-    <div class="bg-pink p-5">   {{-- Container  bg-pink div--}}
-
-        <form action="#" method="post" enctype="multipart/form-data">
+        <form action="{{-- {{ route('post.store' )}} --}}" method="post" enctype="multipart/form-data">
          @csrf
-            <h3 class="d-block fw-bold text-center mb-5 ">
-                Share what you like !
-            </h3>
-
- {{-- Description  --}}
+            {{-- Description  --}}
             <div class="row bg-white">   {{-- white background div --}}
 
-                <div class="col-7 mt-2 right-border ">　 {{-- left side div--}}
+                <div class="col-7 mt-4 right-border "> {{-- left side div--}}
+                    {{-- description of post --}}
                     <textarea name="description" id="description" rows="10" class="form-control " placeholder="Tell us what you got !"></textarea>
 
-　 {{-- Image  --}}
+                    {{-- Image  --}}
                     <div class="row">
                         <div class="col-8">
                          <label for="image" class="form-label fw-bold mt-2">Image</label>
@@ -45,67 +35,72 @@
                               Max file size is 1048kB.
                             </div>
                         </div>
-{{-- PostButton  --}}
+                        {{-- PostButton  --}}
                         <div class="col">
-                             <button type="submit" class="btn bg-gold text-white mt-5 mx-5 w-50">Post</button>
+                            <button type="submit" class="btn btn-gold mt-5 mx-5 w-50">Post</button>
                         </div>
 
                    </div>
 
                 </div> {{-- end of left side div--}}
 
- {{-- Category  --}}
-                <div class="col ">  {{-- right side div--}}
+                {{-- Category  --}}
+                <div class="col">  {{-- right side div--}}
                     <p class=" text-center mt-3 ">▼ Select your Interests ! </p>
-                    <div class="m-3 scroll-container ">
-                        <button class="btn bg-pink btn-sm m-2">Anime</button>
-                        <button class="btn bg-pink btn-sm m-2">Manga</button>
-                        <button class="btn bg-pink btn-sm m-2">Game</button>
-                        <button class="btn bg-pink btn-sm m-2">Anime</button>
-                        <button class="btn bg-pink btn-sm m-2">Manga</button>
-                        <button class="btn bg-pink btn-sm m-2">Game</button>
-                        <button class="btn bg-pink btn-sm m-2">Anime</button>
-                        <button class="btn bg-pink btn-sm m-2">Manga</button>
-                        <button class="btn bg-pink btn-sm m-2">Game</button>
-                        <button class="btn bg-pink btn-sm m-2">Anime</button>
-                        <button class="btn bg-pink btn-sm m-2">Manga</button>
-                        <button class="btn bg-pink btn-sm m-2">Game</button>
-                        <button class="btn bg-pink btn-sm m-2">Anime</button>
-                        <button class="btn bg-pink btn-sm m-2">Manga</button>
-                        <button class="btn bg-pink btn-sm m-2">Game</button>
-                        <button class="btn bg-pink btn-sm m-2">Anime</button>
-                        <button class="btn bg-pink btn-sm m-2">Manga</button>
-                        <button class="btn bg-pink btn-sm m-2">Game</button>
-                        <button class="btn bg-pink btn-sm m-2">Game</button>
-                        <button class="btn bg-pink btn-sm m-2">Anime</button>
-                        <button class="btn bg-pink btn-sm m-2">Manga</button>
-                        <button class="btn bg-pink btn-sm m-2">Game</button>
-                        <button class="btn bg-pink btn-sm m-2">Anime</button>
-                        <button class="btn bg-pink btn-sm m-2">Manga</button>
-                        <button class="btn bg-pink btn-sm m-2">Game</button>
-                        <button class="btn bg-pink btn-sm m-2">Anime</button>
-                        <button class="btn bg-pink btn-sm m-2">Manga</button>
-                        <button class="btn bg-pink btn-sm m-2">Game</button>
-                        <button class="btn bg-pink btn-sm m-2">Anime</button>
-                        <button class="btn bg-pink btn-sm m-2">Manga</button>
-                        <button class="btn bg-pink btn-sm m-2">Game</button>
-                        <button class="btn bg-pink btn-sm m-2">Anime</button>
-                        <button class="btn bg-pink btn-sm m-2">Manga</button>
-                        <button class="btn bg-pink btn-sm m-2">Game</button>
-                        <button class="btn bg-pink btn-sm m-2">Anime</button>
-                        <button class="btn bg-pink btn-sm m-2">Manga</button>
-                        <button class="btn bg-pink btn-sm m-2">Game</button>
-                        <button class="btn bg-pink btn-sm m-2">Anime</button>
-                        <button class="btn bg-pink btn-sm m-2">Manga</button>
-                        <button class="btn bg-pink btn-sm m-2">Game</button>
-                        <button class="btn bg-pink btn-sm m-2">Anime</button>
-                        <button class="btn bg-pink btn-sm m-2">Anime</button>
-                        <button class="btn bg-pink btn-sm m-2">Manga</button>
-                        <button class="btn bg-pink btn-sm m-2">Game</button>
-                        <button class="btn bg-pink btn-sm m-2">Anime</button>
+                    <div class="m-3 scroll-container "> {{-- use foreach to make loop--}}
 
+                            <input type="checkbox" name="category[]" class="btn-check" id="category{{-- {{ $category->name }} --}}" value="{{-- {{ $category->id }} --}}" checked autocomplete="off">
+                            <label for="category{{-- {{ $category->name }} --}}" class="btn border-0 btn-sm m-2 btn-warning">
+                                Test{{-- {{ $category->name}} --}}
+                            </label>
 
+                        
 
+                        <button class="btn bg-pink btn-sm m-2">Anime</button>
+                        <button class="btn bg-pink btn-sm m-2">Manga</button>
+                        <button class="btn bg-pink btn-sm m-2">Game</button>
+                        <button class="btn bg-pink btn-sm m-2">Anime</button>
+                        <button class="btn bg-pink btn-sm m-2">Manga</button>
+                        <button class="btn bg-pink btn-sm m-2">Game</button>
+                        <button class="btn bg-pink btn-sm m-2">Anime</button>
+                        <button class="btn bg-pink btn-sm m-2">Manga</button>
+                        <button class="btn bg-pink btn-sm m-2">Game</button>
+                        <button class="btn bg-pink btn-sm m-2">Anime</button>
+                        <button class="btn bg-pink btn-sm m-2">Manga</button>
+                        <button class="btn bg-pink btn-sm m-2">Game</button>
+                        <button class="btn bg-pink btn-sm m-2">Anime</button>
+                        <button class="btn bg-pink btn-sm m-2">Manga</button>
+                        <button class="btn bg-pink btn-sm m-2">Game</button>
+                        <button class="btn bg-pink btn-sm m-2">Anime</button>
+                        <button class="btn bg-pink btn-sm m-2">Manga</button>
+                        <button class="btn bg-pink btn-sm m-2">Game</button>
+                        <button class="btn bg-pink btn-sm m-2">Game</button>
+                        <button class="btn bg-pink btn-sm m-2">Anime</button>
+                        <button class="btn bg-pink btn-sm m-2">Manga</button>
+                        <button class="btn bg-pink btn-sm m-2">Game</button>
+                        <button class="btn bg-pink btn-sm m-2">Anime</button>
+                        <button class="btn bg-pink btn-sm m-2">Manga</button>
+                        <button class="btn bg-pink btn-sm m-2">Game</button>
+                        <button class="btn bg-pink btn-sm m-2">Anime</button>
+                        <button class="btn bg-pink btn-sm m-2">Manga</button>
+                        <button class="btn bg-pink btn-sm m-2">Game</button>
+                        <button class="btn bg-pink btn-sm m-2">Anime</button>
+                        <button class="btn bg-pink btn-sm m-2">Manga</button>
+                        <button class="btn bg-pink btn-sm m-2">Game</button>
+                        <button class="btn bg-pink btn-sm m-2">Anime</button>
+                        <button class="btn bg-pink btn-sm m-2">Manga</button>
+                        <button class="btn bg-pink btn-sm m-2">Game</button>
+                        <button class="btn bg-pink btn-sm m-2">Anime</button>
+                        <button class="btn bg-pink btn-sm m-2">Manga</button>
+                        <button class="btn bg-pink btn-sm m-2">Game</button>
+                        <button class="btn bg-pink btn-sm m-2">Anime</button>
+                        <button class="btn bg-pink btn-sm m-2">Manga</button>
+                        <button class="btn bg-pink btn-sm m-2">Game</button>
+                        <button class="btn bg-pink btn-sm m-2">Anime</button>
+                        <button class="btn bg-pink btn-sm m-2">Anime</button>
+                        <button class="btn bg-pink btn-sm m-2">Manga</button>
+                        <button class="btn bg-pink btn-sm m-2">Game</button>
+                        <button class="btn bg-pink btn-sm m-2">Anime</button>
                     </div>
                 </div> {{-- end of right side div--}}
 
