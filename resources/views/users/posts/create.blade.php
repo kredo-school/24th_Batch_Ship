@@ -20,16 +20,16 @@
     </style>
 
 
-    <div class="bg-pink p-4">   {{-- Container  bg-pink div--}}
+    <div class="bg-pink p-5">   {{-- Container  bg-pink div--}}
 
         <form action="#" method="post" enctype="multipart/form-data">
          @csrf
-            <h4 class="d-block fw-bold text-center mb-4 ">
+            <h3 class="d-block fw-bold text-center mb-5 ">
                 Share what you like !
-            </h4>
+            </h3>
 
  {{-- Description  --}}
-            <div class="row bg-white ">   {{-- white background div --}}
+            <div class="row bg-white">   {{-- white background div --}}
 
                 <div class="col-7 mt-2 right-border ">　 {{-- left side div--}}
                     <textarea name="description" id="description" rows="10" class="form-control " placeholder="Tell us what you got !"></textarea>
@@ -47,7 +47,7 @@
                         </div>
 {{-- PostButton  --}}
                         <div class="col">
-                             <button type="submit" class="btn bg-gold text-white mt-5 mx-5">Post</button>
+                             <button type="submit" class="btn bg-gold text-white mt-5 mx-5 w-50">Post</button>
                         </div>
 
                    </div>
@@ -55,9 +55,9 @@
                 </div> {{-- end of left side div--}}
 
  {{-- Category  --}}
-                <div class="col">  {{-- right side div--}}
+                <div class="col ">  {{-- right side div--}}
                     <p class=" text-center mt-3 ">▼ Select your Interests ! </p>
-                    <div class="p-2 scroll-container ">
+                    <div class="m-3 scroll-container ">
                         <button class="btn bg-pink btn-sm m-2">Anime</button>
                         <button class="btn bg-pink btn-sm m-2">Manga</button>
                         <button class="btn bg-pink btn-sm m-2">Game</button>
