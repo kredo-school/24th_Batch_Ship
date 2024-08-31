@@ -20,10 +20,10 @@ class PostController extends Controller
 
 
     //create() - view Create Post Page
-    public function showCreate()
+    public function create()
     {
 
-        return view('posts.create');
+        return view('users.posts.create');
     }
 
     # index() - view the post index page
