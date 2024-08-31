@@ -27,18 +27,24 @@ class PostController extends Controller
     }
 
     # index() - view the post index page
-    // public function index()
-    // {
-    //     return view('users.posts.index');
-    // }
+    public function index()
+    {
+        return view('users.posts.index');
+    }
 
-    // // show() - view Show Post Page
-    // public function show($id)
-    // {
-    //     $post = $this->post->findOrFail($id);
+    # show() - view Show Post Page
+    public function show()
+    {
+        return view('users.posts.show');
+    }
 
-    //     return view('users.posts.show');
-    // }
+    # show() - view Show Post Page
+    //public function show($id)
+    //{
+    //    $post = $this->post->findOrFail($id);
+
+    //   return view('users.posts.show');
+    //}
 
 
 

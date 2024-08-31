@@ -108,8 +108,8 @@
                 <button class="shadow-none p-0 border-0 text-turquoise bg-pink" data-bs-toggle="modal" data-bs-target="#see-all-reactions{{-- #delete-post-{{ $post->id }} --}}">
                     {{-- use modal to show all reaction --}}
                     see all reactions
-                    {{-- @include('users.posts..modals.delete') --}}
                 </button>
+                @include('users.posts.modals.empathy')
             </div>
         </div>
     </div>

@@ -1,6 +1,6 @@
 <div class="modal fade" id="delete">
     <div class="modal-dialog">
-        <div class="modal-content border-danger">
+        <div class="modal-content border-red">
             <div class="modal-header border-danger">
                 <div class="h5 modal-title text-dark text-bold mx-auto">
                     <i class="fa-solid fa-circle-exclamation"></i> Are you sure?
