@@ -19,7 +19,7 @@
         <i class="fa-solid fa-heart"></i>
       </button>
     </div>
-    @include('users.profile.modal.compatibility')
+    {{-- @include('users.profile.modal.compatibility') --}}
   </div>
   <div class="row mx-2">
     <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut provident a suscipit delectus, minima, totam, autem reiciendis voluptates fugiat excepturi amet exercitationem nemo unde fugit explicabo. Error libero inventore, ab est obcaecati architecto aspernatur ex labore, vero amet ut placeat maxime. Eligendi, asperiores quo magni culpa exercitationem facilis? Porro, culpa! Perspiciatis iure eos magnam, soluta harum aliquam corporis temporibus dolorem sunt accusamus corrupti repellat expedita asperiores itaque. Ut aperiam alias accusantium, velit voluptates rem exercitationem delectus quidem voluptatem? Fuga dolores eveniet molestiae recusandae, quam a placeat ad eaque dicta, delectus non exercitationem. Suscipit temporibus commodi vitae eaque numquam cum corrupti?</p>
