@@ -21,6 +21,10 @@ Route::get('/post/create', function () {
 // });
 
 
+Route::get('/', function () {
+    return view('auth.login');
+});
+
 
 Auth::routes();
 
@@ -33,4 +37,5 @@ Route::get('/post/create', [PostController::class, 'create'])->name('users.posts
 Route::get('/search', [HomeController::class, 'search'])->name('search');
 
 //Profile
+Route::get('/profile/index', [ProfileController::class, 'index'])->name('users.profile.index');
 Route::get('/profile/create', [ProfileController::class, 'create'])->name('users.profile.create');
