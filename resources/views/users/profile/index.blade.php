@@ -11,7 +11,9 @@
       <img src="{{ asset('storage/Image.png') }}" class="img-thumbnail rounded-circle avatar-lg">
     </div>
     <div class="col-9 p-5">
-      <h2 class="display-6 mb-0">Fredy Mercury</h2><br>　{{Auth::user()->id}}
+
+
+      <h2 class="display-6 mb-0">Fredy Mercury</h2><br>
       <button type="button" class="text-danger btn btn-lg" data-bs-toggle="modal" data-bs-target="#reacted-profile">
         <i class="fa-solid fa-heart text-danger"></i>
       </button>
@@ -19,7 +21,9 @@
         <i class="fa-solid fa-heart"></i>
       </button>
     </div>
-    @include('users.profile.modal.compatibility')
+
+    {{-- @include('users.profile.modal.compatibility') --}}
+
   </div>
   <div class="row mx-2">
     <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut provident a suscipit delectus, minima, totam, autem reiciendis voluptates fugiat excepturi amet exercitationem nemo unde fugit explicabo. Error libero inventore, ab est obcaecati architecto aspernatur ex labore, vero amet ut placeat maxime. Eligendi, asperiores quo magni culpa exercitationem facilis? Porro, culpa! Perspiciatis iure eos magnam, soluta harum aliquam corporis temporibus dolorem sunt accusamus corrupti repellat expedita asperiores itaque. Ut aperiam alias accusantium, velit voluptates rem exercitationem delectus quidem voluptatem? Fuga dolores eveniet molestiae recusandae, quam a placeat ad eaque dicta, delectus non exercitationem. Suscipit temporibus commodi vitae eaque numquam cum corrupti?</p>
@@ -48,6 +52,7 @@
             </div>
             <div class="col-7 d-flex justify-content-center mt-2">
               <img src="{{ asset('storage/Rectangle 84.png') }}" class="d-block w-100" style="height: auto;">
+
             </div>
           </div>
           <div class="row">
@@ -72,7 +77,6 @@
             <div class="col-7 d-flex align-items-center">
               <p class="mb-0 me-1">How Cute!</p>
               <p class="mb-0 text-muted ms-auto xsmall">Aug.18.2024</p>
-            </div>
             <div class="col-5 d-flex align-items-center">
               <p class="mb-0 me-2">99%</p>
               <a href="#" class="me-1 d-flex align-items-center text-decoration-none text-black">
@@ -83,8 +87,7 @@
             <div class="col-7 d-flex align-items-center">
               <p class="mb-0 me-1">I love your cat!</p>
               <p class="mb-0 text-muted ms-auto xsmall">Aug.18.2024</p>
-            </div>
-          </div>
+
         </div>
       </div>
     </div>
@@ -165,7 +168,7 @@
                 <a href="#" class="text-black fw-bold">Event title</a>
               </h5>
               <a href="#" class="text-black">Community title</a>
-            </div>
+
             <p class="text-end">
               Created by
               <a href="#" class="ms-2">

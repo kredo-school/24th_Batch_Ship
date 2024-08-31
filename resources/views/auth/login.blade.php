@@ -3,12 +3,14 @@
 @section('content')
 <div class="container-fluid h-100">
     <div class="row justify-content-center border border-1 h-100">
-        
+
         {{-- left side --}}
      <div class="col-md bg-turquoise d-flex justify-content-center align-items-center">
         <div class="logo text-center">
             <img src="assets/image/logo.png" class="w-50" alt="">
-            <h1 class="text-white display-4 fw-bold">SHIP</h1>
+
+            <h1 class="text-white display-4 fw-bold">SHIP {{ Auth::user()->id ?? '' }}</h1>
+
         </div>
      </div>
 
@@ -21,7 +23,7 @@
             <div class="mb-3">
                 <label for="email" class="col-form-label text-md-end text-muted">{{ __('Email Address') }}</label>
                 <input id="email" type="email" class="form-control bg-yellow @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
-                
+
                 @error('email')
                  <span class="invalid-feedback" role="alert">
                     <strong>{{ $message }}</strong>
