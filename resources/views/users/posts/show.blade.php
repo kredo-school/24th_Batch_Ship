@@ -99,7 +99,7 @@
                         <textarea name="postcomment" rows="1" placeholder="comment" class="form-control form-control-sm form-group mb-2"></textarea>
 
                     {{-- submit --}}
-                        <button type="submit" class="btn btn-sm bg-gold text-white form-group">Post</button> 
+                        <button type="submit" class="btn btn-sm btn-gold form-group">Post</button> 
                 </form>
             </div>
 

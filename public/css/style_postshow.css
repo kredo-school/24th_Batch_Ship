@@ -26,14 +26,31 @@ p {
     background-color: #CFB53B;
 }
 
+.btn-gold {
+    background-color: #CFB53B;
+    color: white;
+}
+
+.btn-gold:hover {
+    background-color: #FBF9EF;
+    color: #CFB53B;
+    border-color: rgb(216, 216, 216);
+}
+
 .btn-turquoise {
     background-color: #0D768B;
     color: white;
 }
 
 .btn-turquoise:hover {
-    background-color: white;
+    background-color: #EDFAFD;
     color: #0D768B ;
+    border-color: rgb(216, 216, 216);
+}
+
+.btn-category {
+    background-color: #FCEFEE;
+    color: black;
 }
 
 /* Text Color */
@@ -159,4 +176,15 @@ p {
 .modal-with {
     width:740px; 
     margin-left: -70px;
+}
+
+.right-border
+{
+    border-right: 1px solid rgb(181, 179, 176);
+}
+
+.scroll-container
+{
+    overflow-y: auto;
+    height: 350px;
 }
