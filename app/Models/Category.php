@@ -9,6 +9,12 @@ class Category extends Model
 {
     use HasFactory;
 
+    public function index()
+    {
+        $categories = Category::all();
+        return view('users.posts.crate');
+    }
+
     public function categoryPost()
     {
         return $this->hasMany(Category::class);
@@ -24,4 +30,10 @@ class Category extends Model
     {
         return $this->belongsTo(Category::class);
     }
+
+    public function create()
+{
+    $all_categories = Category::all();
+    return view('post.create', compact('all_categories'));
+}
 }

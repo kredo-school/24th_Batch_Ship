@@ -49,7 +49,18 @@
                     <p class=" text-center mt-3 ">▼ Select your Interests ! </p>
                     <div class="m-3 scroll-container "> {{-- use foreach to make loop--}}
 
-                
+                        @foreach($all_categories as $category )
+                            <div class="form-check form-check-inline">
+                                <input type="checkbox" name="category[]" class="btn-check" id="category{{ $category->id }}" value="{{ $category->id }}" checked autocomplete="off">
+                                <label for="category{{ $category->id }}" class="btn border-0 btn-sm m-2 btn-warning">
+                                    {{ $category->name }}
+                                </label>
+                            </div>
+                        @endforeach
+
+                    </div>
+
+
 
                      {{-- <div class="form-check form-check-inline">
                          @foreach($all_categories as $category )
