@@ -5,6 +5,21 @@ use Illuminate\Support\Facades\Auth;
 
 use App\Http\Controllers\PostController;
 
+
+
+
+Route::get('/', function () {
+    return view('users.community.create');
+
+    # Community
+Route::get('/community/create',[CommunityController::class,'create'])->name('community.create');
+Route::post('/community/store',[CommunityController::class,'store'])->name('community.store');
+});
+
+
+
+
+
 Route::get('/', function () {
     return view('users.posts.index');
 });
