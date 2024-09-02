@@ -83,8 +83,12 @@ p {
     width: 100%;
 }
 
-.icon-show {
-    font-size: 4rem;
+.avatar-show {
+    font-size: 6rem;
+}
+
+.show-icon {
+    font-size: 1.5rem;
 }
 
 .img-show {

@@ -24,7 +24,7 @@
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-turquoise shadow-sm">
             <div class="container-fluid">
-                <a class="navbar-brand" href="{{ url('/') }}">
+                <a class="navbar-brand" href="{{ url('profile/index') }}">
                     <img src="" alt="" width="30" height="24">
                 </a>
                 <a href="#" class="nav-link me-auto mb-2 mb-lg-0 text-white"><h1 class="h5 mb-0">{{ config('app.name', 'SHIP') }}</h1></a>
@@ -39,7 +39,7 @@
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ms-auto">
                         <!-- Authentication Links -->
-                        {{-- @guest
+                        @guest
                             @if (Route::has('login'))
                                 <li class="nav-item">
                                     <a class="nav-link text-white" href="{{ route('login') }}">{{ __('Login') }}</a>
@@ -51,7 +51,7 @@
                                     <a class="nav-link text-white" href="{{ route('register') }}">{{ __('Register') }}</a>
                                 </li>
                             @endif
-                        @else --}}
+                        @else
                             {{-- Ship icon --}}
                             <li class="nav-item dropdown">
                                 <a href="#" class="nav-link dropdown-toggle text-white" role="button" data-bs-toggle="dropdown" area-expanded="false">
@@ -104,7 +104,7 @@
                                     </li>
                                 </ul>
                             </li>
-                        {{-- @endguest --}}
+                        @endguest
                     </ul>
                 </div>
             </div>
