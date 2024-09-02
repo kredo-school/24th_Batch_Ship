@@ -8,7 +8,6 @@ use App\Models\User;
 class ProfileController extends Controller
 {
     private $user;
-
     public function __construct(User $user){
         $this->user = $user;
     }

@@ -4,6 +4,7 @@
 
 @section('content')
 <head>
+    @vite(['resources/sass/app.scss', 'resources/js/app.js'])
     <link rel="stylesheet" href="{{ asset('css/style_postshow.css') }}">
     
 </head>
@@ -98,14 +99,17 @@
                         <textarea name="postcomment" rows="1" placeholder="comment" class="form-control form-control-sm form-group mb-2"></textarea>
 
                     {{-- submit --}}
-                        <button type="submit" class="btn btn-sm bg-gold text-white form-group">Post</button> 
+                        <button type="submit" class="btn btn-sm btn-gold form-group">Post</button> 
                 </form>
             </div>
 
+            <div class="text-end">
                 {{-- you can see all reaction witch post owner get here --}}
                 <button class="shadow-none p-0 border-0 text-turquoise bg-pink" data-bs-toggle="modal" data-bs-target="#see-all-reactions{{-- #delete-post-{{ $post->id }} --}}">
                     {{-- use modal to show all reaction --}}
                     see all reactions
+                </button>
+                @include('users.posts.modals.empathy')
             </div>
         </div>
     </div>
