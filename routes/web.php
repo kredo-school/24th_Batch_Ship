@@ -64,5 +64,5 @@ Auth::routes();
         Route::get('/profile/create', [ProfileController::class, 'create'])->name('users.profile.create');
 
 
-    
+
 
