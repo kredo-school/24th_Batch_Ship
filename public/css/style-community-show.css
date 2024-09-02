@@ -1,0 +1,13 @@
+
+/* button-size */
+
+/* event card */
+.event-card {
+    border-radius: 20px;
+}
+
+.community-show-img {
+    border-top-left-radius: 20px; 
+    border-top-right-radius: 20px;
+    height: 100px;
+}
