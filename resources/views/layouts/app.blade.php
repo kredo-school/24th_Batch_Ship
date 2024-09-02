@@ -23,8 +23,8 @@
 <body>
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-turquoise shadow-sm">
-            <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="{{ url('profile/index') }}">
                     <img src="" alt="" width="30" height="24">
                 </a>
                 <a href="#" class="nav-link me-auto mb-2 mb-lg-0 text-white"><h1 class="h5 mb-0">{{ config('app.name', 'SHIP') }}</h1></a>
@@ -97,7 +97,7 @@
                                                             document.getElementById('logout-form').submit();">
                                             <i class="fa-solid fa-right-from-bracket"></i> {{ __('Logout') }}
                                         </a>
-                                        
+
                                         <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                             @csrf
                                         </form>
@@ -111,12 +111,13 @@
         </nav>
 
         <main class="py-5">
-            <div class="container">
+            <div class="container-fluid">
                 <div class="row justify-content-center">
-                    {{-- Admin Menu(optional) (col-3)  --}}
+                    {{-- Admin Menu(optional) --}}
+                    {{-- put admin manu positioned side by side --}}
 
                     {{-- Main Content --}}
-                    <div class="col-9">
+                    <div class="col-11">
                         @yield('content')
                     </div>
                 </div>
