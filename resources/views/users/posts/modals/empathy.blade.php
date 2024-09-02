@@ -5,9 +5,9 @@
       <div class="modal-header text-center border-0 d-block">
         <p class="mt-4 mb-0">
           Sort by 
-          <button class="btn btn-turquoise border border-gray mx-2" type="button" id="sort-compatibility">compatibility %</button>
+          <button class="btn btn-turquoise mx-2" type="button" id="sort-compatibility">compatibility %</button>
           or
-          <button class="btn btn-turquoise border border-gray mx-2" type="button" id="sort-date">date (newest list)</button>
+          <button class="btn btn-turquoise mx-2" type="button" id="sort-date">date (newest list)</button>
         </p> 
       </div>
       <div class="modal-body" style="max-height: 400px; overflow-y: scroll;"> 
