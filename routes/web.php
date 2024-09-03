@@ -7,7 +7,7 @@ use App\Http\Controllers\CommunityController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
-
+use App\Http\Controllers\EventController;
 
 Auth::routes();
 
@@ -28,5 +28,13 @@ Route::group(['middleware' => 'auth'], function(){
     Route::get('community/index', [CommunityController::class,'index'])->name('community.index');
     Route::get('/community/create',[CommunityController::class,'create'])->name('community.create');
     Route::post('/community/store',[CommunityController::class,'store'])->name('community.store');
-        
+
+    # Event
+    Route::get('/event/create', [EventController::class, 'create'])->name('event.create');
+    Route::post('/event/store', [EventController::class, 'store'])->name('event.store');
+    Route::get('/event/{id}/show', [EventController::class, 'show'])->name('event.show');
+    Route::get('/event/{id}/edit', [EventController::class, 'edit'])->name('event.edit');
+    Route::patch('/event/{id}/update', [EventController::class, 'update'])->name('event.update');
+    Route::delete('/event/{id}/destroy', [EventController::class, 'destroy'])->name('event.destroy');
+    
 });
