@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Create ')
+@section('title', 'Create Event')
     
 @section('content')
 <body class="bg-yellow">
