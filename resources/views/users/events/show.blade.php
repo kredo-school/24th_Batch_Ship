@@ -48,7 +48,7 @@
                 {{-- Community this event belongs to --}}
                 <div class="row">
                     <a href="#" class="text-decoration-none">
-                        <div class="card border-0 w-auto mx-auto">
+                        <div class="card border-0 w-auto mx-auto bg-transparent">
                             <img src="https://img.freepik.com/free-vector/hand-drawn-english-book-background_23-2149483336.jpg?size=626&ext=jpg" alt="#" class="card-img-top">
                             <div class="card-body">
                                 <div class="row">
@@ -73,13 +73,14 @@
                         <i class="fa-solid fa-circle-user text-dark icon-sm"></i>
                     </a>
                 </div>
-                {{-- Atendees --}}
+                {{-- Attendees --}}
                 <div class="row mt-3">
                     <div class="col">
                         <h1 class="h6">Attendees (12)</h1>
                     </div>
                     <div class="col text-end">
-                        <a href="#" class="fw-bold text-dark text-decoration-none" data-bs-toggle="modal" data-bs-target="#atendees">see all</a>
+                        <a href="#" class="fw-bold text-dark text-decoration-none" data-bs-toggle="modal" data-bs-target="#attendees">see all</a>
+                        @include('users.events.modals.attendees-list')
                     </div>
                 </div>
                 <div class="row mt-1 d-inline">
@@ -89,16 +90,33 @@
                 </div>
                 {{-- Review form --}}
                 <div class="row mt-3">
-                    <h1 class="h6">Review Event</h1>
+                    <div class="col-8">
+
                     <form action="#" method="post">
                         @csrf
+                    <h1 class="h6">Review Event</h1>
+                        <div class="input-group d-line">
+                            <input type="number" name="interest%" id="" class="form-control bg-white border-0 text-end">
+                            <span class="input-group-text bg-white border-0">%</span>
+                            <button class="btn bg-turquoise text-white rounded fw-bold px-2 py-0">Send review <i class="fa-solid fa-face-grin-wide"></i> </button>      
+                          </div>
+                    </form>                        
+                    </div>
 
-                        <input type="number" name="#" id="#" class="form-control w-30">
-                    </form>
+
                 </div>
                 {{-- Edit/Delete Button --}}
-                <div class="row mt-3">
-
+                <div class="row mt-5 d-flex justify-content-end">
+                    <div class="col text-end">
+                        <a href="#" class="btn bg-gold text-white py-1">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                            Edit event
+                        </a>
+                        <a href="#" class="btn bg-white text-danger py-1 ms-2">
+                            <i class="fa-solid fa-trash-can"></i>
+                            Delete event
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
