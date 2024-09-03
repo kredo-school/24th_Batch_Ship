@@ -24,10 +24,10 @@
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-turquoise shadow-sm">
             <div class="container-fluid">
-                <a class="navbar-brand" href="{{ url('profile/index') }}">
+                <a class="navbar-brand" href="{{ route('users.profile.index') }}">
                     <img src="" alt="" width="30" height="24">
                 </a>
-                <a href="#" class="nav-link me-auto mb-2 mb-lg-0 text-white"><h1 class="h5 mb-0">{{ config('app.name', 'SHIP') }}</h1></a>
+                <a href="{{ route('users.profile.index') }}" class="nav-link me-auto mb-2 mb-lg-0 text-white"><h1 class="h5 mb-0">{{ config('app.name', 'SHIP') }}</h1></a>
 
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
@@ -54,13 +54,13 @@
                         @else
                             {{-- Ship icon --}}
                             <li class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle text-white" role="button" data-bs-toggle="dropdown" area-expanded="false">
+                                <a href="" class="nav-link dropdown-toggle text-white" role="button" data-bs-toggle="dropdown" area-expanded="false">
                                     <i class="fa-solid fa-ship"></i>
                                 </a>
                                 <ul class="dropdown-menu">
                                     <li><h1 class="h6 text-center text-dark">Go to...</h1></li>
-                                    <li><a href="#" class="dropdown-item">Post</a></li>
-                                    <li><a href="#" class="dropdown-item">Community</a></li>
+                                    <li><a href="{{ route('users.posts.index') }}" class="dropdown-item">Post</a></li>
+                                    <li><a href="{{ route('community.index') }}" class="dropdown-item">Community</a></li>
                                 </ul>
                             </li>
                             {{-- Create icon --}}
@@ -70,8 +70,8 @@
                                 </a>
                                 <ul class="dropdown-menu">
                                     <li><h1 class="h6 text-center text-dark">Create...</h1></li>
-                                    <li><a href="#" class="dropdown-item">Post</a></li>
-                                    <li><a href="#" class="dropdown-item">Community</a></li>
+                                    <li><a href="{{ route('users.posts.create') }}" class="dropdown-item">Post</a></li>
+                                    <li><a href="{{ route('community.create') }}" class="dropdown-item">Community</a></li>
                                 </ul>
                             </li>
                             {{-- Search icon (open modal)--}}
