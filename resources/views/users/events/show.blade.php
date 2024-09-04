@@ -112,12 +112,13 @@
                             <i class="fa-solid fa-pen-to-square"></i>
                             Edit event
                         </a>
-                        <a href="#" class="btn bg-white text-danger py-1 ms-2">
-                            <i class="fa-solid fa-trash-can"></i>
+                        <button type="button" class="btn bg-white text-danger py-1 ms-2" data-bs-toggle="modal" data-bs-target="#delete-event">
+                            <i class="fa-solid fa-trash-can"></i> 
                             Delete event
-                        </a>
+                        </button>
                     </div>
                 </div>
+                @include('users.events.modals.delete')
             </div>
         </div>
     </div>
