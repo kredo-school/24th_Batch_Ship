@@ -8,13 +8,9 @@
      <div class="col-md bg-turquoise d-flex justify-content-center align-items-center">
         <div class="logo text-center">
             <img src="assets/image/logo.png" class="w-50" alt="">
-<<<<<<< HEAD
 
-            <h1 class="text-white display-4 fw-bold">SHIP {{ Auth::user()->id ?? '' }}</h1>
-
-=======
             <h1 class="text-white display-4 fw-bold">SHIP</h1>
->>>>>>> 55de206b402212497e39c362d66fe5a91c3b3710
+
         </div>
      </div>
 

@@ -6,32 +6,9 @@
 <head>
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
     <link rel="stylesheet" href="{{ asset('css/style_postshow.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/style_category.css') }}">
 
-    <style>
-        .category label
-        {
-            width: 100px;
-            background: #FCEFEE;
-            color: #000;
-            padding: 6px;
-            margin: 5px;
-            /* box-sizing: border-box; */
-            text-align: center;
-            text-decoration: none;
-            border-radius: 10px;
-            cursor: pointer;
-        }
-
-        .category input:checked+label
-        {
-            background: #0D768B;
-            color: #FFF;
-        }
-
-        .category input{
-            display: none;
-        }
-        </style>
+    
 </head>
 
     <div class="bg-pink px-5 py-4">   {{-- Container  bg-pink div--}}
