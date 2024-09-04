@@ -44,4 +44,13 @@ Route::group(['middleware' => 'auth'], function(){
         Route::get('/', [ProfileController::class, 'index'])->name('users.profile.index');
         Route::get('/profile/create', [ProfileController::class, 'create'])->name('users.profile.create');
 
+    # Event
+    Route::get('/event/create', [EventController::class, 'create'])->name('event.create');
+    Route::post('/event/store', [EventController::class, 'store'])->name('event.store');
+    Route::get('/event/show', [EventController::class, 'show'])->name('event.show');
+    Route::get('/event/edit', [EventController::class, 'edit'])->name('event.edit');
+    Route::patch('/event/update', [EventController::class, 'update'])->name('event.update');
+    Route::delete('/event/destroy', [EventController::class, 'destroy'])->name('event.destroy');
+
+
 });
