@@ -199,3 +199,7 @@ p {
     overflow-y: auto;
     height: 350px;
 }
+
+.avatar-display {
+    display: none;
+}
