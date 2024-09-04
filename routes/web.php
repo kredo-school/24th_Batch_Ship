@@ -5,31 +5,15 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CommunityController;
+use App\Http\Controllers\CommunityController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PostController;
-use App\Http\Controllers\CategoryController;
-
-
-
-
-Route::get('/', function () {
-    return view('users.community.create');
-
-    # Community
-Route::get('/community/create',[CommunityController::class,'create'])->name('community.create');
-Route::post('/community/store',[CommunityController::class,'store'])->name('community.store');
-});
-
-
-
-
-
-Route::get('/', function () {
-    return view('users.posts.index');
-});
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\EventController;
 
 Auth::routes();
 
-// Route::group(['middleware' => 'auth'], function(){
+Route::group(['middleware' => 'auth'], function(){
 
 
     Route::get('/search', function () {
@@ -63,6 +47,4 @@ Auth::routes();
         Route::get('/', [ProfileController::class, 'index'])->name('users.profile.index');
         Route::get('/profile/create', [ProfileController::class, 'create'])->name('users.profile.create');
 
-
-
-
+});
