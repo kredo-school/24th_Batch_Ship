@@ -48,6 +48,17 @@ p {
     border-color: rgb(216, 216, 216);
 }
 
+.btn-turquoise2 {
+    background-color: #0D768B;
+    color: white;
+}
+
+.btn-turquoise2:hover {
+    background-color: white;
+    color: #0D768B ;
+    border-color: rgb(216, 216, 216);
+}
+
 .btn-category {
     background-color: #FCEFEE;
     color: black;
@@ -187,4 +198,8 @@ p {
 {
     overflow-y: auto;
     height: 350px;
+}
+
+.avatar-display {
+    display: none;
 }
