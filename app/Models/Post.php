@@ -17,11 +17,11 @@ class Post extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class)->withTrashed();
+        return $this->belongsTo(User::class);
     }
 
     # To get the categories under a post
-    public function category()
+    public function categoryPost()
     {
         return $this->hasMany(Category::class);
     }

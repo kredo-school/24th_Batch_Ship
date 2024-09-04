@@ -7,6 +7,31 @@
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
     <link rel="stylesheet" href="{{ asset('css/style_postshow.css') }}">
 
+    <style>
+        .category label
+        {
+            width: 100px;
+            background: #FCEFEE;
+            color: #000;
+            padding: 6px;
+            margin: 5px;
+            /* box-sizing: border-box; */
+            text-align: center;
+            text-decoration: none;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        .category input:checked+label
+        {
+            background: #0D768B;
+            color: #FFF;
+        }
+
+        .category input{
+            display: none;
+        }
+        </style>
 </head>
 
     <div class="bg-pink px-5 py-4">   {{-- Container  bg-pink div--}}
@@ -22,7 +47,7 @@
 
                 <div class="col-7 mt-4 right-border "> {{-- left side div--}}
                     {{-- description of post --}}
-                    <textarea name="description" id="description" rows="10" class="form-control " placeholder="Tell us what you got !"></textarea>
+                    <textarea name="description" id="description" rows="10" class="form-control " placeholder="Tell us what you got !">{{ old('description') }}</textarea>
 
                     {{-- Image  --}}
                     <div class="row">
@@ -42,98 +67,32 @@
 
                    </div>
 
-                </div> {{-- end of left side div--}}
+            </div> {{-- end of left side div--}}
+
 
                 {{-- Category  --}}
-                <div class="col">  {{-- right side div--}}
-                    <p class=" text-center mt-3 ">▼ Select your Interests ! </p>
-                    <div class="m-3 scroll-container "> {{-- use foreach to make loop--}}
-
-                        @foreach($all_categories as $category )
-                            <div class="form-check form-check-inline">
-                                <input type="checkbox" name="category[]" class="btn-check" id="category{{ $category->id }}" value="{{ $category->id }}" checked autocomplete="off">
-                                <label for="category{{ $category->id }}" class="btn border-0 btn-sm m-2 btn-warning">
-                                    {{ $category->name }}
-                                </label>
-                            </div>
-                        @endforeach
-
-                    </div>
+                 <div class="col">  {{-- right side div--}}
+                     <p class=" text-center mt-3 ">▼ Select your Interests ! </p>
+                       <div class="m-3 scroll-container ">
+                          <div class="category">
+                            <table>
+                             <tr>
+                               <td>
+                                   @foreach($all_categories as $category)
 
 
+                                    <input type="checkbox" name="category[]" id="{{ $category->name }}" name="{{ $category->id }}" autocomplete="off">
+                                   <label for="{{ $category->name }}" class="form-check-label">{{ $category->name }}</label>
 
-                     {{-- <div class="form-check form-check-inline">
-                         @foreach($all_categories as $category )
+                                   @endforeach
+                               </td>
+                            </tr>
+                          </table>
+ 　　　　　　　            </div>
+                       </div>
 
-                            <input type="checkbox" name="category[]" class="btn-check" id="category{{ $category->name }}" value="{{ $category->id }}" checked autocomplete="off">
-                            <label for="category{{ $category->name }}" class="btn border-0 btn-sm m-2 btn-warning">
-                                Test{{ $category->name}}
-                            </label> --}}
-
-                            {{-- <input type="checkbox" name="category[]" id="{{ $category->name }}" value="{{ $category->id }}" class="form-check-input">
-                            <label for="{{ $category->name }}" class="form-check-label"{{ $category->name }}></label> --}}
-
-                            {{-- <button name="category[]" class="btn bg-pink btn-sm m-2" value="{{ $category->id }}" id="category{{ $category->name }}"></button>
-                            <label class="form-check-label" for="category{{ $category->name }}">{{ $category->name }}</label> --}}
-
-
-                         {{-- @endforeach
-                         </div> --}}
- </div>
-                </div>
-
-
-
-                        {{-- <button class="btn bg-pink btn-sm m-2">Anime</button>
-                        <button class="btn bg-pink btn-sm m-2">Manga</button>
-                        <button class="btn bg-pink btn-sm m-2">Game</button>
-                        <button class="btn bg-pink btn-sm m-2">Anime</button>
-                        <button class="btn bg-pink btn-sm m-2">Manga</button>
-                        <button class="btn bg-pink btn-sm m-2">Game</button>
-                        <button class="btn bg-pink btn-sm m-2">Anime</button>
-                        <button class="btn bg-pink btn-sm m-2">Manga</button>
-                        <button class="btn bg-pink btn-sm m-2">Game</button>
-                        <button class="btn bg-pink btn-sm m-2">Anime</button>
-                        <button class="btn bg-pink btn-sm m-2">Manga</button>
-                        <button class="btn bg-pink btn-sm m-2">Game</button>
-                        <button class="btn bg-pink btn-sm m-2">Anime</button>
-                        <button class="btn bg-pink btn-sm m-2">Manga</button>
-                        <button class="btn bg-pink btn-sm m-2">Game</button>
-                        <button class="btn bg-pink btn-sm m-2">Anime</button>
-                        <button class="btn bg-pink btn-sm m-2">Manga</button>
-                        <button class="btn bg-pink btn-sm m-2">Game</button>
-                        <button class="btn bg-pink btn-sm m-2">Game</button>
-                        <button class="btn bg-pink btn-sm m-2">Anime</button>
-                        <button class="btn bg-pink btn-sm m-2">Manga</button>
-                        <button class="btn bg-pink btn-sm m-2">Game</button>
-                        <button class="btn bg-pink btn-sm m-2">Anime</button>
-                        <button class="btn bg-pink btn-sm m-2">Manga</button>
-                        <button class="btn bg-pink btn-sm m-2">Game</button>
-                        <button class="btn bg-pink btn-sm m-2">Anime</button>
-                        <button class="btn bg-pink btn-sm m-2">Manga</button>
-                        <button class="btn bg-pink btn-sm m-2">Game</button>
-                        <button class="btn bg-pink btn-sm m-2">Anime</button>
-                        <button class="btn bg-pink btn-sm m-2">Manga</button>
-                        <button class="btn bg-pink btn-sm m-2">Game</button>
-                        <button class="btn bg-pink btn-sm m-2">Anime</button>
-                        <button class="btn bg-pink btn-sm m-2">Manga</button>
-                        <button class="btn bg-pink btn-sm m-2">Game</button>
-                        <button class="btn bg-pink btn-sm m-2">Anime</button>
-                        <button class="btn bg-pink btn-sm m-2">Manga</button>
-                        <button class="btn bg-pink btn-sm m-2">Game</button>
-                        <button class="btn bg-pink btn-sm m-2">Anime</button>
-                        <button class="btn bg-pink btn-sm m-2">Manga</button>
-                        <button class="btn bg-pink btn-sm m-2">Game</button>
-                        <button class="btn bg-pink btn-sm m-2">Anime</button>
-                        <button class="btn bg-pink btn-sm m-2">Anime</button>
-                        <button class="btn bg-pink btn-sm m-2">Manga</button>
-                        <button class="btn bg-pink btn-sm m-2">Game</button>
-                        <button class="btn bg-pink btn-sm m-2">Anime</button>
-                    </div> --}}
                 </div> {{-- end of right side div--}}
-
-        </form>
-
+         </form>
     </div>  {{-- end of white background div --}}
-    </div>  {{-- end of container bg-pink div --}}
+</div>  {{-- end of container bg-pink div --}}
 @endsection

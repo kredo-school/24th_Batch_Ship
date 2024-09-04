@@ -22,21 +22,21 @@ class PostController extends Controller
     //create() - view Create Post Page
     public function create()
     {
-        $all_categories = $this->category->all();
-        return view('users.posts.create')->with('all_categories', $all_categories);
+        $all_categories = Category::latest()->get();
+        return view('users.posts.create', compact('all_categories'));
     }
 
     # index() - view the post index page
-    public function index()
-    {
-        return view('users.posts.index');
-    }
+    // public function index()
+    // {
+    //     return view('users.posts.index');
+    // }
 
-    # show() - view Show Post Page
-    public function show()
-    {
-        return view('users.posts.show');
-    }
+    // # show() - view Show Post Page
+    // public function show()
+    // {
+    //     return view('users.posts.show');
+    // }
 
     # show() - view Show Post Page
     //public function show($id)
