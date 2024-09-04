@@ -3,22 +3,39 @@
 @section('content')
 
 @section('title', 'Create Profile')
+<head>
+  @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+  <link rel="stylesheet" href="{{ asset('css/style_postshow.css') }}">
+  
+</head>
 <div class="conteiner bg-blue">
   <div class="row p-3">
     <form action="" method="post">
       @csrf
       <div class="col-8 mx-auto">
 
-        {{-- avator --}}
         <div class="mb-3 text-center">
           <h4>Create your profile!</h4>
+          {{-- avatar & upload image --}}
+          {{-- @if ($user->avatar) --}}
+          {{-- <img src="{{ $user->avatar }}" alt="{{ $user->name }}" class="img-thumbnail rounded-circle d-block mx-auto avatar-lg"> --}}
+          {{-- @else --}}
           <p class="display-1 mb-0"><i class="fa-solid fa-circle-user text-turquoise"></i></p>
+          {{-- @endif --}}
 
           <label class="mb-3">
-            <span class="btn btn-sm bg-turquoise text-white">
+            <span class="btn btn-sm btn-turquoise2">
                 Choose your avatar
-                <input type="file" style="display:none" >
+                <input type="file" name="avatar" id="avatar" class="form-control avatar-display" aria-describedby="avatar-info">
             </span>
+            <div class="form-text" id="avatar-info">
+              Acceptable formats: jpeg, jpg, png, gif only<br>
+              Max file size is 1048kb
+            </div>
+            {{-- Error --}}
+            @error('avatar')
+              <p class="text-danger small">{{ $message }}</p>
+            @enderror
           </label>
         </div>
 
@@ -53,7 +70,7 @@
 
         {{-- button --}}
         <div class="mb-3 text-center fw-bold">
-          <button type="submit" class="btn bg-turquoise w-50 text-white">
+          <button type="submit" class="btn w-50 btn-turquoise2">
             CREATE !
           </button>          
         </div>
