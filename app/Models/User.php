@@ -48,4 +48,9 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    # To get all the categories of a user but only IDs
+    public function categoryUser(){
+        return $this->hasMany(CategoryUser::class);
+    }
 }
