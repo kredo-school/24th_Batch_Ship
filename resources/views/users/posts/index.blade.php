@@ -3,12 +3,11 @@
 @section('title', 'Post:index')
 
 @section('content')
-<head>
-    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-</head>
     <div class="row" style="">
         <div class="col p-1">
-                        {{-- Frame of 1 Post & It's going to be repeat--}}
+
+            <div class="col-8">
+ {{-- Frame of 1 Post & It's going to be repeat--}}
                         <div class="card w-100 mb-1 bg-pink">
                             <div class="card-body">
                                 {{-- post text --}}
