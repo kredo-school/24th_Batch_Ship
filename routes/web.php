@@ -38,5 +38,5 @@ Route::group(['middleware' => 'auth'], function(){
     Route::get('/event/edit', [EventController::class, 'edit'])->name('event.edit');
     Route::patch('/event/update', [EventController::class, 'update'])->name('event.update');
     Route::delete('/event/destroy', [EventController::class, 'destroy'])->name('event.destroy');
-    
+
 });

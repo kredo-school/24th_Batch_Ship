@@ -26,7 +26,7 @@
           <label class="mb-3">
             <span class="btn btn-sm btn-turquoise2">
                 Choose your avatar
-                <input type="file" name="avatar" id="avatar" class="form-control" aria-describedby="avatar-info" style="display:none" >
+                <input type="file" name="avatar" id="avatar" class="form-control avatar-display" aria-describedby="avatar-info">
             </span>
             <div class="form-text" id="avatar-info">
               Acceptable formats: jpeg, jpg, png, gif only<br>
