@@ -44,7 +44,7 @@ class ProfileController extends Controller
         }
 
         $this->user->categoryUser()->createMany($category_user);
- 
+
 
         return redirect()->route('profile.show', Auth::user()->id);
     }
