@@ -31,7 +31,7 @@ class ProfileController extends Controller
         $all_categories = Category::latest()->get();
         return view('users.profile.create', compact('all_categories'));
     }
-
+    
     // store the user information - add avatar, introduction, category
     public function store(Request $request)
     {
