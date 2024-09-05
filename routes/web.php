@@ -16,7 +16,9 @@ Route::group(['middleware' => 'auth'], function(){
     Route::get('/search', [HomeController::class, 'search'])->name('search');
 
     //Profile
-    Route::get('/', [ProfileController::class, 'index'])->name('users.profile.index');
+    Route::get('/', [ProfileController::class,'index'])->name('users.profile.index');
+    Route::get('/profile/{id}', [ProfileController::class,'specificProfile'])->name('users.profile.specificProfile');
+    // Route::get('/{id}/show', [ProfileController::class, 'show'])->name('users.profile.show');
     Route::get('/profile/create', [ProfileController::class, 'create'])->name('users.profile.create');
 
     //Post
@@ -25,7 +27,7 @@ Route::group(['middleware' => 'auth'], function(){
     Route::get('/post/create', [PostController::class, 'create'])->name('users.posts.create');
 
     # Community
-    Route::get('community/index', [CommunityController::class,'index'])->name('community.index');
+    Route::get('/community/index', [CommunityController::class,'index'])->name('community.index');
     Route::get('/community/create',[CommunityController::class,'create'])->name('community.create');
     Route::post('/community/store',[CommunityController::class,'store'])->name('community.store');
 
