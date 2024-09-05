@@ -10,7 +10,7 @@
 </head>
 <div class="conteiner bg-blue">
   <div class="row p-3">
-    <form action="" method="post">
+    <form action="{{-- route('users.profile.index') --}}" method="post">
       @csrf
       <div class="col-8 mx-auto">
 
@@ -54,16 +54,19 @@
           </p>
 
           {{-- category foreach? --}}
-          <div class="border bg-white p-2 w-100">
-            <input type="checkbox" class="btn-check" id="category1" autocomplete="off">
-            <label class="btn btn-sm btn-outline-primary m-1" for="category1">category 1</label>         
-
-            <input type="checkbox" class="btn-check" id="category2" autocomplete="off">
-            <label class="btn btn-sm btn-outline-primary m-1" for="category2">category 2</label>
-            <input type="checkbox" class="btn-check" id="category3" autocomplete="off">
-            <label class="btn btn-sm btn-outline-primary m-1" for="category3">category 3</label>
-            <input type="checkbox" class="btn-check" id="category4" autocomplete="off">
-            <label class="btn btn-sm btn-outline-primary m-1" for="category4">category 4</label>
+          <div class="border bg-white p-2 w-100 scroll-container">
+            <div class="category">
+              <table>
+               <tr>
+                 <td>
+                     @foreach($all_categories as $category)
+                      <input type="checkbox" name="category[]" id="{{ $category->name }}" name="{{ $category->id }}" autocomplete="off">
+                      <label for="{{ $category->name }}" class="form-check-label">{{ $category->name }}</label>
+                     @endforeach
+                 </td>
+                </tr>
+              </table>
+            </div>
             
           </div>
         </div>
