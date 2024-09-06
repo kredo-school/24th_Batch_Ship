@@ -8,7 +8,7 @@
         <div class="row py-3">
             {{-- Title --}}
             <div class="col-10">
-                <h1 class="h1">Event Title</h1>
+                <h1 class="h1">{{ $event->title }}</h1>
             </div>
             {{-- Join Button --}}
             <div class="col-2">
@@ -24,23 +24,23 @@
             {{-- Left Side of Contents --}}
             <div class="col-8">
                 {{-- Cover Photo --}}
-                <img src="https://images.pexels.com/photos/225224/pexels-photo-225224.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="#" class="grid-img" >
+                <img src="{{ $event->image }}" alt="event id {{ $event->id }}" class="grid-img" >
                 <br>
                 {{-- Date --}}
                 <p class="d-inline me-4 mt-2">
-                    <i class="fa-regular fa-calendar"></i> 2024/12/25  18:30-20:30
+                    <i class="fa-regular fa-calendar"></i> {{ $date }} {{ $startTime }} - {{ $endTime }}
                 </p>
                 {{-- Price --}}
                 <p class="d-inline mt-2">
-                    <i class="fa-solid fa-money-check-dollar"></i> JPY 3,000
+                    <i class="fa-solid fa-money-check-dollar"></i> {{ $event->price }}
                 </p>
                 {{-- Location --}}
                 <p class="mt-2">
-                    <i class="fa-solid fa-location-dot"></i> <a href="#">SHIBUYA CAST</a> <span class="text-secondary">ADDRESS</span>
+                    <i class="fa-solid fa-location-dot"></i> <a href="#">location</a> <span class="text-secondary">{{ $event->address }}</span>
                 </p>
                 {{-- Description --}}
                 <h1 class="h4">Event Description</h1>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat sed quibusdam aliquam excepturi repellat vel exercitationem soluta nihil voluptas. Ipsam inventore eum recusandae dolorem omnis cupiditate itaque quidem tenetur eos?</p>
+                <p>{{ $event->description }}</p>
             </div>
 
             {{-- Right Side of Contents --}}
