@@ -13,16 +13,25 @@ class ProfileController extends Controller
         $this->user = $user;
     }
 
-    public function index()
-    {
-        return view('users.profile.index');
+    public function index(){
+        return $this->profileProcess(Auth::user()->id);
+    }
+
+    public function specificProfile($id){
+        return $this->profileProcess($id);
+    }
+
+    public function profileProcess($id){
+        $user = $this->user->findOrFail($id);
+        return view('users.profile.index', compact('user'));
     }
 
     public function create()
     {
-        return view('users.profile.create');
+        $all_categories = Category::latest()->get();
+        return view('users.profile.create', compact('all_categories'));
     }
-
+    
     // store the user information - add avatar, introduction, category
     public function store(Request $request)
     {
@@ -45,8 +54,7 @@ class ProfileController extends Controller
 
         $this->user->categoryUser()->createMany($category_user);
 
-
-        return redirect()->route('profile.show', Auth::user()->id);
+        return redirect()->route('profile.index');
     }
 }
 

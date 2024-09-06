@@ -203,3 +203,27 @@ p {
 .avatar-display {
     display: none;
 }
+
+.category label
+{
+    width: 100px;
+    background: #FCEFEE;
+    color: #000;
+    padding: 6px;
+    margin: 5px;
+    /* box-sizing: border-box; */
+    text-align: center;
+    text-decoration: none;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.category input:checked+label
+{
+    background: #0D768B;
+    color: #FFF;
+}
+
+.category input{
+    display: none;
+}
