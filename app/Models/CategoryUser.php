@@ -9,9 +9,9 @@ class CategoryUser extends Model
 {
     use HasFactory;
 
-    //protected $table = 'category_user';
-    //protected $fillable = ['category_id', 'user_id'];
-    //public $timestamps = false;
+    protected $table = 'category_user';
+    protected $fillable = ['category_id', 'user_id'];
+    public $timestamps = true;
 
     # to get the name of the category
     public function category(){

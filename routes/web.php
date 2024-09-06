@@ -19,7 +19,8 @@ Route::group(['middleware' => 'auth'], function(){
     Route::get('/', [ProfileController::class,'index'])->name('users.profile.index');
     Route::get('/profile/{id}', [ProfileController::class,'specificProfile'])->name('users.profile.specificProfile');
     // Route::get('/{id}/show', [ProfileController::class, 'show'])->name('users.profile.show');
-    Route::get('/profile/create', [ProfileController::class, 'create'])->name('users.profile.create');
+    Route::get('/profile/{id}/create', [ProfileController::class, 'create'])->name('users.profile.create');
+    Route::patch('/profile/update', [ProfileController::class, 'update'])->name('users.profile.store');
 
     //Post
     Route::get('/post/index', [PostController::class, 'index'])->name('users.posts.index');
