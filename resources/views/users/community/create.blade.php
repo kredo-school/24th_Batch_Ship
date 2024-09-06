@@ -5,10 +5,10 @@
 @section('content')
 
 
-    <form action="#" method="community" enctype="multipart/form-data">
+    <form action="{{route('community.store')}}" method="POST" enctype="multipart/form-data">
         @csrf
 
-        <div class="container-fluid p-4 rounded" style="background-color: #EDFAFD;">
+        <div class="container-fluid p-4 rounded bg-blue">
             <h1 class="mb-4">Create New Community</h1>
         
             <div class="container-fluid px-5 py-3 rounded" style="background-color: #f5f5f5;">
@@ -58,11 +58,22 @@
                     
                                     {{-- gonna repeat --}}
                     <div class="rounded bg-white overflow-scroll" style="max-height:80px;" >
-                        <div class="row m-1">
-                            <div class="col-2">
-                                <button class="btn bg-pink btn-sm fw-bold">Anime</button>
-                            </div> 
-                        </div> 
+                        <div class="m-3 scroll-container ">
+                            <div class="category">
+                                <table>
+                                    <tr>
+                                        <td>
+                                            @foreach($all_categories as $category)
+
+                                                <input type="checkbox" name="category[]" id="{{ $category->name }}" name="{{ $category->id }}" autocomplete="off">
+                                                <label for="{{ $category->name }}" class="form-check-label">{{ $category->name }}</label>
+        
+                                            @endforeach
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
                     </div>
                     
         
@@ -78,10 +89,10 @@
             <div class="mt-4">
                 <div class="row">
                     <div class="col">
-                        <a href="#" class="btn fw-bold text-turquoise">CANCEL</a>
+                        <a href="{{route('community.index')}}" class="btn fw-bold text-turquoise">CANCEL</a>
                     </div>
                     <div class="col text-end">
-                        <button type="submit" class="btn btn-turquoise btn-sm px-4">CREATE</button>
+                        <button type="submit" class="btn btn-turquoise btn-sm px-4 text-white">CREATE</button>
                     </div>
                 </div>
             </div>    
