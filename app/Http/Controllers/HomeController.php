@@ -31,6 +31,7 @@ class HomeController extends Controller
         $this->post = $post;
         $this->community = $community;
         $this->event = $event;
+        
     }
 
     public function search(Request $request)
@@ -46,6 +47,8 @@ class HomeController extends Controller
         $result_posts = [];
         $result_communities = [];
         $result_events = [];
+        // call all names from categories table
+        // $categories = Category::all(); 
 
         if ($keyword) {
             if (in_array('user', $contentTypes) || in_array('all', $contentTypes)) {
@@ -71,8 +74,6 @@ class HomeController extends Controller
             $no_results_message = "Please enter a search keyword.";
         }
 
-        // call all names from categories table
-        $categories = Category::all(); 
 
         return view('search')
             ->with('result_users', $result_users)
@@ -80,8 +81,8 @@ class HomeController extends Controller
             ->with('result_communities', $result_communities)
             ->with('result_events', $result_events)
             ->with('search', $keyword)
-            ->with('no_results_message', $no_results_message ?? null)
-            ->with('categories', $categories);
+            ->with('no_results_message', $no_results_message ?? null);
+            // ->with('categories', $categories);
     }
 }
 
