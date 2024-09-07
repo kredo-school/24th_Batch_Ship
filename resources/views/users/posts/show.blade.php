@@ -6,7 +6,7 @@
 <head>
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
     <link rel="stylesheet" href="{{ asset('css/style_postshow.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/style_category.css') }}">
+
 </head>
     <div class="card border-0 bg-pink">
         <div class="card-body">
@@ -19,10 +19,14 @@
                                 @if ($post->user->avatar)
                                     <img src="{{ $post->user->avatar }}" alt="{{ $post->user->name }}"
                                         class="rounded-circle avatar-sm">
+
                                 @else
                                     <i class="fas fa-circle-user text-secondary icon-sm"></i>
+                                    <a href="{{ route('users.profile.specificProfile', $post->user->id) }}"
+                                class="text-decoration-none text-dark fw-bold">{{ $post->user->name }}</a>
                                 @endif
                             </a>
+
                         </div>
 
                         <div class="col-10 my-auto">
@@ -45,20 +49,12 @@
                                             @foreach ($post->categoryPost as $category_post)
                                           <span class="badge me-1 bg-turquoise text-white"name="category[]">
                                           {{ $category_post->category->name }}</span>
-                                               {{-- @foreach($category_post as $category_post)
-
-
-                                               <span class="badge me-1 bg-turquoise text-white" name="category[]" id="{{ $category->name }}" name="{{ $category->id }}">
-                                               {{ $category->name }}</span> --}}
 
                                                @endforeach
                                            </td>
                                         </tr>
                                       </table>
              　　　　　　　            </div>
-                                    {{-- <span class="badge me-1 bg-turquoise text-white">Anime</span>
-                                    <span class="badge me-1 bg-turquoise text-white">Anime</span>
-                                    <span class="badge me-1 bg-turquoise text-white">Anime</span>  --}}
                                 </div>
 
                                  <div class="col-3 text-end pe-0 mt-4">
@@ -114,7 +110,7 @@
       {{-- If you are not the owner of the post, you can put empathy on this post --}}
                     {{-- Enpathy %  -> choose 1 from 2 patterns --}}
                         {{-- use javascript and show current value--}}
-                    @if ($post->user->id === !Auth::user()->id)
+                    @if (!($post->user->id === Auth::user()->id))
                         <div class="form-group mb-2">
                             <label for="enpathy">Enpathy:</label>
                             <input type="range" id="enpathy" class="form-control-range" min="60" max="100">
