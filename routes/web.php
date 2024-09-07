@@ -29,9 +29,10 @@ Route::group(['middleware' => 'auth'], function(){
     Route::post('/post/store', [PostController::class, 'store'])->name('users.posts.store');
 
     # Community
-    Route::get('/community/index', [CommunityController::class,'index'])->name('community.index');
-    Route::get('/community/create',[CommunityController::class,'create'])->name('community.create');
-    Route::post('/community/store',[CommunityController::class,'store'])->name('community.store');
+    Route::get('/community/index', [CommunityController::class,'index'])->name('communities.index');
+    Route::get('/community/create',[CommunityController::class,'create'])->name('communities.create');
+    Route::post('/community/store',[CommunityController::class,'store'])->name('communities.store');
+    Route::get('/community/{id}/show',[CommunityController::class,'show'])->name('communities.show');
 
     # Event
     Route::get('/event/create', [EventController::class, 'create'])->name('event.create');
