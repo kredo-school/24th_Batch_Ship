@@ -4,7 +4,7 @@
     
 @section('content')
 
-<form action="#" method="post" enctype="multipart/form-data">
+<form action="{{ route('event.update', $event->id) }}" method="post" enctype="multipart/form-data">
   @csrf
   @method('PATCH')
     
@@ -13,10 +13,10 @@
       {{-- Title --}}
       <div class="col-6">
         <label for="event-title" class="form-label">Event title</label>
-          <input type="text" name="title" id="event-title" value="{{ $event->title }}" class="form-control">
-          @error('title')
-            <div class="text-danger small">{{ $message }}</div> 
-          @enderror
+        <input type="text" name="title" id="event-title" value="{{ $event->title }}" class="form-control">
+        @error('title')
+          <div class="text-danger small">{{ $message }}</div> 
+        @enderror
       </div>
     </div>
 
