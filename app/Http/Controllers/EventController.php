@@ -70,11 +70,36 @@ class EventController extends Controller
         //     return redirect()->route('users.events.show');
         // }
 
-        $date = Carbon::parse($event->date)->format('Y/m/d');
-        $startTime = Carbon::parse($event->start_time)->format('H:i');
-        $endTime = Carbon::parse($event->end_time)->format('H:i');
+        return view('users.events.edit', compact('event'));
+    }
 
-        return view('users.events.edit', compact('event', 'date', 'startTime', 'endTime'));
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'title'        => 'required|string|max:255',
+            'date'         => 'required|date',
+            'start_time'   => 'required|date_format:H:i',
+            'end_time'     => 'required|date_format:H:i|after:start_time',
+            'address'      => 'required|string|max:255',
+            'price'        => 'required|string|max:255',
+            'description'  => 'required|string',
+            'image'        => 'mimes:jpeg,jpg,png,gif|max:1048'
+        ]);
+
+        $event = $this->event->findOrFail($id);
+        $event->title        = $request->title;
+        $event->date         = $request->date;
+        $event->start_time   = $request->start_time;
+        $event->end_time     = $request->end_time;
+        $event->address      = $request->address;
+        $event->price        = $request->price;
+        $event->description  = $request->description;
+        if($request->image){
+            $event->image = 'data:image/' . $request->image->extension() . ';base64,' . base64_encode(file_get_contents($request->image));
+        }
+        $event->save();
+
+        return redirect()->route('event.show', $id);
     }
 
     public function destroy($id)
