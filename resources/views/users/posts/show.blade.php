@@ -6,7 +6,7 @@
 <head>
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
     <link rel="stylesheet" href="{{ asset('css/style_postshow.css') }}">
-
+    <link rel="stylesheet" href="{{ asset('css/style_category.css') }}">
 </head>
     <div class="card border-0 bg-pink">
         <div class="card-body">
@@ -15,14 +15,14 @@
                 <div class="col-7">
                     <div class="row">
                         <div class="col-2 px-0 avatar-show text-center">
-                            {{-- <a href="{{ route('profile.show', $post->user->id) }}">
+                            <a href="{{ route('users.profile.specificProfile', $post->user->id) }}">
                                 @if ($post->user->avatar)
                                     <img src="{{ $post->user->avatar }}" alt="{{ $post->user->name }}"
                                         class="rounded-circle avatar-sm">
                                 @else
                                     <i class="fas fa-circle-user text-secondary icon-sm"></i>
                                 @endif
-                            </a> --}}
+                            </a>
                         </div>
 
                         <div class="col-10 my-auto">
@@ -42,13 +42,16 @@
                                         <table>
                                          <tr>
                                            <td>
-                                               {{-- @foreach($all_categories as $category)
+                                            @foreach ($post->categoryPost as $category_post)
+                                          <span class="badge me-1 bg-turquoise text-white"name="category[]">
+                                          {{ $category_post->category->name }}</span>
+                                               {{-- @foreach($category_post as $category_post)
 
 
                                                <span class="badge me-1 bg-turquoise text-white" name="category[]" id="{{ $category->name }}" name="{{ $category->id }}">
-                                               {{ $category->name }}</span>
+                                               {{ $category->name }}</span> --}}
 
-                                               @endforeach --}}
+                                               @endforeach
                                            </td>
                                         </tr>
                                       </table>
@@ -58,8 +61,8 @@
                                     <span class="badge me-1 bg-turquoise text-white">Anime</span>  --}}
                                 </div>
 
-                                {{-- <div class="col-3 text-end pe-0 mt-4">
-                                    <p class="text-uppercase text-muted xsmall">{{ date('M d, Y', strtotime($comment->created_at)) }}August 14 2024{{-- date('M d, Y', strtotime($post->created_at))</p>--}}
+                                 <div class="col-3 text-end pe-0 mt-4">
+                                    <p class="text-uppercase text-muted xsmall">{{ date('M d, Y', strtotime($post->created_at)) }}</p>
                                 </div>
 
                                 <div class="col-3 text-center mt-2">
@@ -92,13 +95,7 @@
                             class="text-decoration-none text-dark fw-bold">{{ $post->user->name }}</a> --}}
                         &nbsp;
                         <p class="d-inline fw-light">{{ $post->description }}</p>
-                        <p class="text-uppercase text-muted xsmall">{{ date('M d, Y', strtotime($post->created_at)) }}</p>
 
-                        {{-- Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nihil ad sint porro odit, illum neque blanditiis, maxime quis tempora voluptatem velit deserunt. Corporis perferendis deleniti, quisquam sint ipsum tenetur. Vitae!
-
-                        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nihil ad sint porro odit, illum neque blanditiis, maxime quis tempora voluptatem velit deserunt. Corporis perferendis deleniti, quisquam sint ipsum tenetur. Vitae!
-
-                        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nihil ad sint porro odit, illum neque blanditiis, maxime quis tempora voluptatem velit deserunt. Corporis perferendis deleniti, quisquam sint ipsum tenetur. Vitae! --}}
                     </div>
                 </div>
 
@@ -114,19 +111,22 @@
 
             <div class="row pt-6">
                 <form class="" action="" method="post">
+      {{-- If you are not the owner of the post, you can put empathy on this post --}}
                     {{-- Enpathy %  -> choose 1 from 2 patterns --}}
                         {{-- use javascript and show current value--}}
-                        {{-- <div class="form-group mb-2">
+                    @if ($post->user->id === !Auth::user()->id)
+                        <div class="form-group mb-2">
                             <label for="enpathy">Enpathy:</label>
                             <input type="range" id="enpathy" class="form-control-range" min="60" max="100">
-                        </div> --}}
+                        </div>
 
                         {{-- input type --}}
-                        {{-- <div class="input-group mb-2 w-25" rows="1"  >
+                        <div class="input-group mb-2 w-25" rows="1"  >
                             <input type="number" class="form-control form-control-sm form-group" placeholder="empathy" aria-label="empathy" aria-describedby="empathy">
                             <span class="input-group-text" id="empathy">%</span>
-                        </div> --}}
+                        </div>
 
+                    @endif
 
                     {{-- show all the comments --}}
                     {{-- @if ($post->comments->isNotEmpty())
@@ -140,10 +140,21 @@
 
                                 <form action="{{ route('comment.destroy', $comment->id) }}" method="post">
                                     @csrf
-                                    @method('DELETE') --}}
+                                    @method('DELETE')
+
+                                    <span class="text-uppercase text-muted xsmall">{{ date('M d, Y', strtotime($comment->created_at)) }}</span>
+
+                         @endforeach
+                         @endif --}}
 
                     {{-- comment for post --}}
                         <textarea name="postcomment" rows="1" placeholder="comment" class="form-control form-control-sm form-group mb-2"></textarea>
+          {{-- If you are not the owner of the post, you can delete comment on this post --}}
+                        {{-- @if (Auth::user()->id === $comment->user->id)
+                         &middot;
+                       <button type="submit" class="border-0 bg-transparent text-danger p-0 xsmall">Delete</button>
+
+                     @endif --}}
 
                     {{-- submit --}}
                         <button type="submit" class="btn btn-sm btn-gold form-group">Post</button>
