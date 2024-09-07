@@ -18,9 +18,10 @@ Route::group(['middleware' => 'auth'], function(){
     //Profile
     Route::get('/', [ProfileController::class,'index'])->name('users.profile.index');
     Route::get('/profile/{id}', [ProfileController::class,'specificProfile'])->name('users.profile.specificProfile');
-    // Route::get('/{id}/show', [ProfileController::class, 'show'])->name('users.profile.show');
+    Route::get('/profile/{id}/edit', [ProfileController::class, 'edit'])->name('users.profile.edit');
     Route::get('/profile/{id}/create', [ProfileController::class, 'create'])->name('users.profile.create');
-    Route::patch('/profile/update', [ProfileController::class, 'update'])->name('users.profile.update');
+    Route::patch('/profile/store', [ProfileController::class, 'update'])->name('users.profile.update');
+    Route::patch('/profile/update', [ProfileController::class, 'profileUpdate'])->name('users.profile.profileUpdate');
 
     //Post
     Route::get('/post/index', [PostController::class, 'index'])->name('users.posts.index');
@@ -29,9 +30,10 @@ Route::group(['middleware' => 'auth'], function(){
     Route::post('/post/store', [PostController::class, 'store'])->name('users.posts.store');
 
     # Community
-    Route::get('/community/index', [CommunityController::class,'index'])->name('community.index');
-    Route::get('/community/create',[CommunityController::class,'create'])->name('community.create');
-    Route::post('/community/store',[CommunityController::class,'store'])->name('community.store');
+    Route::get('/community/index', [CommunityController::class,'index'])->name('communities.index');
+    Route::get('/community/create',[CommunityController::class,'create'])->name('communities.create');
+    Route::post('/community/store',[CommunityController::class,'store'])->name('communities.store');
+    Route::get('/community/{id}/show',[CommunityController::class,'show'])->name('communities.show');
 
     # Event
     Route::get('/event/create', [EventController::class, 'create'])->name('event.create');

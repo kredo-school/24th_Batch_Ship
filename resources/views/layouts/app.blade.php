@@ -60,7 +60,7 @@
                                 <ul class="dropdown-menu">
                                     <li><h1 class="h6 text-center text-dark">Go to...</h1></li>
                                     <li><a href="{{ route('users.posts.index') }}" class="dropdown-item">Post</a></li>
-                                    <li><a href="{{ route('community.index') }}" class="dropdown-item">Community</a></li>
+                                    <li><a href="{{ route('communities.index') }}" class="dropdown-item">Community</a></li>
                                 </ul>
                             </li>
                             {{-- Create icon --}}
@@ -71,7 +71,7 @@
                                 <ul class="dropdown-menu">
                                     <li><h1 class="h6 text-center text-dark">Create...</h1></li>
                                     <li><a href="{{ route('users.posts.create') }}" class="dropdown-item">Post</a></li>
-                                    <li><a href="{{ route('community.create') }}" class="dropdown-item">Community</a></li>
+                                    <li><a href="{{ route('communities.create') }}" class="dropdown-item">Community</a></li>
                                 </ul>
                             </li>
                             {{-- Search icon (open modal)--}}
@@ -86,7 +86,7 @@
                                 </a>
                                 <ul class="dropdown-menu">
                                     <li>
-                                        <a href="#" class="dropdown-item"><i class="fa-solid fa-pen-to-square"></i> Edit Profile</a>
+                                        <a href="{{ route('users.profile.edit', Auth::user()->id) }}" class="dropdown-item"><i class="fa-solid fa-pen-to-square"></i> Edit Profile</a>
                                     </li>
                                     <li>
                                         <a href="#" class="dropdown-item"><i class="fa-solid fa-person-circle-question"></i> Support</a>
