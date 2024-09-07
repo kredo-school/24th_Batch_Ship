@@ -67,8 +67,8 @@ class ProfileController extends Controller
         ]);
 
         # 
-        $user     = $this->user->findOrFail(Auth::user()->id);
-        $user->introduction = $request->description;
+        $user     = $this->user->find(Auth::user()->id);
+        $user->introduction = $request->introduction;
 
         if($request->avatar){
             $user->avatar      = 'data:image/' . $request->avatar->extension() . ';base64,' . base64_encode(file_get_contents($request->avatar));
@@ -78,12 +78,12 @@ class ProfileController extends Controller
 
         # Save the categories to the category_user povit table
         foreach ($request->category as $category_id){
-            $category_user[] = ['category_id' => $category_id];
+            $category_user[] = ['category_id' => $category_id, 'user_id' => Auth::user()->id ];
         }
 
-        $this->user->categoryUser()->createMany($category_user);
+        $user->categoryUser()->createMany($category_user);
 
-        return redirect()->route('users.profile.store', Auth::user()->id);
+        return redirect()->route('users.profile.index');
     }
 }
 
