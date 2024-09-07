@@ -16,6 +16,7 @@
                     <div class="row">
                         <div class="col-2 px-0 avatar-show text-center">
                             <a href="{{ route('users.profile.specificProfile', $post->user->id) }}">
+
                                 @if ($post->user->avatar)
                                     <img src="{{ $post->user->avatar }}" alt="{{ $post->user->name }}"
                                         class="rounded-circle avatar-sm">
