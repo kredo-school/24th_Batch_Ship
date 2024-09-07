@@ -10,6 +10,9 @@ p {
     font-family: "Raleway", sans-serif;
 }
 /* Background Color */
+.bg-green {
+    background-color: #F5F5F5;
+}
 .bg-yellow {
     background-color: #FBF9EF;
 }
