@@ -5,16 +5,19 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Post;
+use App\Models\CategoryPost;
 use App\Models\Category;
 
 class PostController extends Controller
 {
     private $post;
+    private $categoryPost;
     private $category;
 
-    public function __construct(Post $post, Category $category)
+    public function __construct(Post $post, CategoryPost $categoryPost, Category $category)
     {
         $this->post = $post;
+        $this->categoryPost = $categoryPost;
         $this->category = $category;
     }
 
@@ -27,10 +30,29 @@ class PostController extends Controller
     }
 
     # index() - view the post index page
-    // public function index()
-    // {
-    //     return view('users.posts.index');
-    // }
+    public function index()
+
+    {
+        $all_posts = $this->getAllPosts();
+        return view('users.posts.index')
+            ->with('all_posts', $all_posts);
+        // return view('users.posts.index');
+    }
+
+    private function getAllPosts()
+    {
+        $all_posts = $this->post->latest()->get();
+
+
+        foreach($all_posts as $post){
+            // if($post->user->isFollowed() || $post->user->id === Auth::user()->id){
+            //     $all_posts[] = $post;
+            // }
+
+            }
+            return $all_posts;
+    }
+
 
     // # show() - view Show Post Page
     // public function show()
@@ -39,12 +61,12 @@ class PostController extends Controller
     // }
 
     # show() - view Show Post Page
-    //public function show($id)
-    //{
-    //    $post = $this->post->findOrFail($id);
+    public function show($id)
+    {
+       $post = $this->post->findOrFail($id);
 
-    //   return view('users.posts.show');
-    //}
+      return view('users.posts.show')->with('post', $post);
+    }
 
     // store() = save the post to DB
     public function store(Request $request)
@@ -61,16 +83,18 @@ class PostController extends Controller
         $this->post->description    = $request->description;
         $this->post->save();
 
+
         # Save the categories to the category_post povit table
         foreach ($request->category as $category_id){
             $category_post[] = ['category_id' => $category_id];
 
         }
 
-        $this->post->category()->createMany($category_post);
+        $this->post->categoryPost()->createMany($category_post);
 
         # Go back to homepage
-        return redirect()->route('posts.index');
+        return redirect()->route('users.posts.show', ['id' => $this->post->id]);
+        // return redirect()->route('users.posts.show');
     }
 
     // edit() - view Edit Post page
@@ -87,7 +111,7 @@ class PostController extends Controller
 
         # GET all the category IDs of this POST. Then save it in a ARRAY
         $selected_categories = [];
-        foreach($post->categoryP as $category){
+        foreach($post->category as $category){
             $selected_categories[] = $category->category_id;
         }
 

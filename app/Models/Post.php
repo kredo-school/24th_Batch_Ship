@@ -4,12 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
+// use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Auth;
 
 class Post extends Model
 {
-    use HasFactory, SoftDeletes;
+    // use HasFactory, SoftDeletes;
 
     # POST - USER
     # a post belongs to a user
@@ -23,7 +23,7 @@ class Post extends Model
     # To get the categories under a post
     public function categoryPost()
     {
-        return $this->hasMany(Category::class);
+        return $this->hasMany(CategoryPost::class);
     }
 
 //     # to get all the comments under a post

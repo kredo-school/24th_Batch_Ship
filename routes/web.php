@@ -26,6 +26,7 @@ Route::group(['middleware' => 'auth'], function(){
     Route::get('/post/index', [PostController::class, 'index'])->name('users.posts.index');
     Route::get('/post/{id}/show', [PostController::class, 'show'])->name('users.posts.show');
     Route::get('/post/create', [PostController::class, 'create'])->name('users.posts.create');
+    Route::post('/post/store', [PostController::class, 'store'])->name('users.posts.store');
 
     # Community
     Route::get('/community/index', [CommunityController::class,'index'])->name('community.index');

@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class CatgoryPost extends Model
+class CategoryPost extends Model
 {
     use HasFactory;
 
@@ -13,7 +13,7 @@ class CatgoryPost extends Model
 
     protected $fillable = ['category_id', 'post_id'];
 
-    public $timestamps = false;
+    public $timestamps = true;
 
     public function category()
     {

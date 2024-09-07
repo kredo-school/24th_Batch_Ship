@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="{{ asset('css/style_postshow.css') }}">
     <link rel="stylesheet" href="{{ asset('css/style_category.css') }}">
 
-    
+
 </head>
 
     <div class="bg-pink px-5 py-4">   {{-- Container  bg-pink div--}}
@@ -17,7 +17,7 @@
             Share what you like !
         </h3>
 
-        <form action="{{-- {{ route('post.store' )}} --}}" method="post" enctype="multipart/form-data">
+        <form action="{{ route('users.posts.store' )}}" method="post" enctype="multipart/form-data">
          @csrf
             {{-- Description  --}}
             <div class="row bg-white">   {{-- white background div --}}
@@ -58,7 +58,7 @@
                                    @foreach($all_categories as $category)
 
 
-                                    <input type="checkbox" name="category[]" id="{{ $category->name }}" name="{{ $category->id }}" autocomplete="off">
+                                    <input type="checkbox" name="category[]" id="{{ $category->name }}" name="{{ $category->id }}" autocomplete="off" value="{{ $category->id }}">
                                    <label for="{{ $category->name }}" class="form-check-label">{{ $category->name }}</label>
 
                                    @endforeach
