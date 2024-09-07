@@ -10,8 +10,10 @@
 </head>
 <div class="conteiner bg-blue">
   <div class="row p-3">
-    <form action="{{-- route('users.profile.index') --}}" method="post">
+    <form action="{{ route('users.profile.store') }}" method="post">
       @csrf
+      @method('PATCH')
+
       <div class="col-8 mx-auto">
 
         <div class="mb-3 text-center">
@@ -59,10 +61,14 @@
               <table>
                <tr>
                  <td>
-                     @foreach($all_categories as $category)
-                      <input type="checkbox" name="category[]" id="{{ $category->name }}" name="{{ $category->id }}" autocomplete="off">
+                    @foreach($all_categories as $category)
+                      <input type="checkbox" name="category[]" id="{{ $category->name }}" name="{{ $category->id }}" autocomplete="off" value="{{ $category->id }}">
                       <label for="{{ $category->name }}" class="form-check-label">{{ $category->name }}</label>
-                     @endforeach
+                    @endforeach
+                    {{-- Error message area --}}
+                    @error('category')
+                    <div class="text-danger small">{{ $message }}</div>
+                    @enderror
                  </td>
                 </tr>
               </table>
