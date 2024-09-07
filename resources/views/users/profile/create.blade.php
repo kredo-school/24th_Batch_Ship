@@ -17,8 +17,10 @@
       <div class="col-8 mx-auto">
 
         <div class="mb-3 text-center">
-          <h4>Create your profile!</h4>
-          {{ Auth::user()->id }}
+          <h4>Edit your profile!</h4>
+        </div>
+
+        <div class="mb-3 text-center">
           {{-- avatar & upload image --}}
           {{-- @if ($user->avatar) --}}
           {{-- <img src="{{ $user->avatar }}" alt="{{ $user->name }}" class="img-thumbnail rounded-circle d-block mx-auto avatar-lg"> --}}

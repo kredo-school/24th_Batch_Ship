@@ -86,7 +86,7 @@
                                 </a>
                                 <ul class="dropdown-menu">
                                     <li>
-                                        <a href="#" class="dropdown-item"><i class="fa-solid fa-pen-to-square"></i> Edit Profile</a>
+                                        <a href="{{ route('users.profile.edit', Auth::user()->id) }}" class="dropdown-item"><i class="fa-solid fa-pen-to-square"></i> Edit Profile</a>
                                     </li>
                                     <li>
                                         <a href="#" class="dropdown-item"><i class="fa-solid fa-person-circle-question"></i> Support</a>
