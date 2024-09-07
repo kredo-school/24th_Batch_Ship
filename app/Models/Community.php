@@ -11,5 +11,16 @@ class Community extends Model
 {
     use HasFactory , SoftDeletes;
 
-    
+    # to get the owner of the community
+
+    // public function user()
+    // {
+    //     return $this->belongsTo(User::class);
+    // }
+
+    # To get the categories under a community
+    public function categoryCommunity()
+    {
+        return $this->hasMany(categoryCommunity::class);
+    }
 }
