@@ -19,7 +19,7 @@ return new class extends Migration
             $table->date('date');
             $table->time('start_time');
             $table->time('end_time');
-            $table->string('location', 255);
+            $table->string('address', 255);
             $table->string('price', 255);
             $table->text('description');
             $table->longText('image');
@@ -27,7 +27,7 @@ return new class extends Migration
             $table->softDeletes();
 
             $table->foreign('host_id')->references('id')->on('users');
-            $table->foreign('community_id')->references('id')->on('communities')->onDelete('cascade');
+            // $table->foreign('community_id')->references('id')->on('communities')->onDelete('cascade');
         });
     }
 

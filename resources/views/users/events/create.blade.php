@@ -56,9 +56,9 @@
         </div>
 
         <div class="col-6">
-          <label for="location" class="form-label">Location</label>
-          <input type="text" name="location" id="location" value="{{ old('location') }}" class="form-control">
-          @error('location')
+          <label for="address" class="form-label">Location</label>
+          <input type="text" name="address" id="address" value="{{ old('address') }}" class="form-control">
+          @error('address')
             <div class="text-danger small">{{ $message }}</div> 
           @enderror
         </div>

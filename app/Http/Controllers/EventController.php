@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Event;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Models\Event;
+use Carbon\Carbon;
 
 class EventController extends Controller
 {
@@ -28,7 +29,7 @@ class EventController extends Controller
             'date'         => 'required|date',
             'start_time'   => 'required|date_format:H:i',
             'end_time'     => 'required|date_format:H:i|after:start_time',
-            'location'     => 'required|string|max:255',
+            'address'      => 'required|string|max:255',
             'price'        => 'required|string|max:255',
             'description'  => 'required|string',
             'image'        => 'required|mimes:jpeg,jpg,png,gif|max:1048'
@@ -40,18 +41,24 @@ class EventController extends Controller
        $this->event->date         = $request->date;
        $this->event->start_time   = $request->start_time;
        $this->event->end_time     = $request->end_time;
-       $this->event->location     = $request->location;
+       $this->event->address      = $request->address;
        $this->event->price        = $request->price;
        $this->event->description  = $request->description;
        $this->event->image        = 'data:image/' . $request->image->extension() . ';base64,' . base64_encode(file_get_contents($request->image));
        $this->event->save();
 
-       return redirect()->route('event.show');
+       return redirect()->route('event.show', $this->event->id);
     }
 
-    public function show()
+    public function show($id)
     {
-        return view('users.events.show');
+        $event = $this->event->findOrFail($id);
+
+        $date = Carbon::parse($event->date)->format('Y/m/d');
+        $startTime = Carbon::parse($event->start_time)->format('H:i');
+        $endTime = Carbon::parse($event->end_time)->format('H:i');
+
+        return view('users.events.show', compact('event', 'date', 'startTime', 'endTime'));
     }
 
     public function edit()
