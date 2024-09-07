@@ -61,8 +61,27 @@ class EventController extends Controller
         return view('users.events.show', compact('event', 'date', 'startTime', 'endTime'));
     }
 
-    public function edit()
+    public function edit($id)
     {
-        return view('users.events.edit');
+        $event = $this->event->findOrFail($id);
+
+        // # if the Auth user is NOT the host of the event, redirect to show page.
+        // if(Auth::user()->id != $event->user->id){
+        //     return redirect()->route('users.events.show');
+        // }
+
+        $date = Carbon::parse($event->date)->format('Y/m/d');
+        $startTime = Carbon::parse($event->start_time)->format('H:i');
+        $endTime = Carbon::parse($event->end_time)->format('H:i');
+
+        return view('users.events.edit', compact('event', 'date', 'startTime', 'endTime'));
+    }
+
+    public function destroy($id)
+    {
+        $event = $this->event->findOrFail($id);
+        $event->delete();
+
+        return redirect()->route('communities.index');
     }
 }

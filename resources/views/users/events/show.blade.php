@@ -28,7 +28,7 @@
                 <br>
                 {{-- Date --}}
                 <p class="d-inline me-4 mt-2">
-                    <i class="fa-regular fa-calendar"></i> {{ $date }} {{ $startTime }} - {{ $endTime }}
+                    <i class="fa-regular fa-calendar"></i> {{ $date }} {{ $startTime }} ~ {{ $endTime }}
                 </p>
                 {{-- Price --}}
                 <p class="d-inline mt-2">
@@ -108,11 +108,11 @@
                 {{-- Edit/Delete Button --}}
                 <div class="row mt-5 d-flex justify-content-end">
                     <div class="col text-end">
-                        <a href="#" class="btn bg-gold text-white py-1">
+                        <a href="{{ route('event.edit', $event->id) }}" class="btn bg-gold text-white py-1">
                             <i class="fa-solid fa-pen-to-square"></i>
                             Edit event
                         </a>
-                        <button type="button" class="btn bg-white text-danger py-1 ms-2" data-bs-toggle="modal" data-bs-target="#delete-event">
+                        <button type="button" class="btn bg-white text-danger py-1 ms-2" data-bs-toggle="modal" data-bs-target="#delete-event-{{ $event->id }}">
                             <i class="fa-solid fa-trash-can"></i> 
                             Delete event
                         </button>
