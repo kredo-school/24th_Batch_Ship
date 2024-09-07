@@ -61,8 +61,52 @@ class EventController extends Controller
         return view('users.events.show', compact('event', 'date', 'startTime', 'endTime'));
     }
 
-    public function edit()
+    public function edit($id)
     {
-        return view('users.events.edit');
+        $event = $this->event->findOrFail($id);
+
+        // # if the Auth user is NOT the host of the event, redirect to show page.
+        // if(Auth::user()->id != $event->user->id){
+        //     return redirect()->route('users.events.show');
+        // }
+
+        return view('users.events.edit', compact('event'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'title'        => 'required|string|max:255',
+            'date'         => 'required|date',
+            'start_time'   => 'required|date_format:H:i',
+            'end_time'     => 'required|date_format:H:i|after:start_time',
+            'address'      => 'required|string|max:255',
+            'price'        => 'required|string|max:255',
+            'description'  => 'required|string',
+            'image'        => 'mimes:jpeg,jpg,png,gif|max:1048'
+        ]);
+
+        $event = $this->event->findOrFail($id);
+        $event->title        = $request->title;
+        $event->date         = $request->date;
+        $event->start_time   = $request->start_time;
+        $event->end_time     = $request->end_time;
+        $event->address      = $request->address;
+        $event->price        = $request->price;
+        $event->description  = $request->description;
+        if($request->image){
+            $event->image = 'data:image/' . $request->image->extension() . ';base64,' . base64_encode(file_get_contents($request->image));
+        }
+        $event->save();
+
+        return redirect()->route('event.show', $id);
+    }
+
+    public function destroy($id)
+    {
+        $event = $this->event->findOrFail($id);
+        $event->delete();
+
+        return redirect()->route('communities.index');
     }
 }

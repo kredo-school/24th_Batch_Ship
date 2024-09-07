@@ -26,6 +26,11 @@ class Post extends Model
         return $this->hasMany(CategoryPost::class);
     }
 
+    # To get the categories with search result
+    public function categories()
+    {
+        return $this->belongsToMany(Category::class);
+    }
 //     # to get all the comments under a post
 //     public function comments()
 //     {

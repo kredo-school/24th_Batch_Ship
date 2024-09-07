@@ -15,7 +15,7 @@
           <select name="community_id" id="community-title" class="form-select" autofocus>
             <option value="">Select your community</option>
             {{-- @foreach belongsTo communities --}}
-            <option value="1"{{-- community_id --}}>Travel in Japan</option>
+            <option value="1"{{-- community_id --}} {{ old('community_id') == 1 ? 'selected' : '' }}{{-- old('community_id') == $community->id ? 'selected' : '' --}}>Travel in Japan</option>
           </select>
           @error('community_id')
             <div class="text-danger small">{{ $message }}</div> 
@@ -95,7 +95,7 @@
       <div class="container">
         <div class="row">
           <div class="col d-flex justify-content-between">
-            <a href="{{ route('community.index') }}" class="btn btn-gold text-white">Cancel</a>
+            <a href="{{ route('communities.index') }}" class="btn text-turquoise">Cancel</a>
             <button type="submit" class="btn btn-turquoise text-white">Save</button>
           </div>
         </div>
