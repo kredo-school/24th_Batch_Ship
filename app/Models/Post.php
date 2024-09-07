@@ -23,7 +23,7 @@ class Post extends Model
     # To get the categories under a post
     public function categoryPost()
     {
-        return $this->hasMany(Category::class);
+        return $this->hasMany(CategoryPost::class);
     }
 
 //     # to get all the comments under a post

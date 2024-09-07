@@ -106,7 +106,7 @@
                 <div class="col-5">
                     <div class="row position-center mx-0">
                         {{-- will use pagenation or scroll bar to see multiple image of post--}}
-                        <img src="{{ $post->image }}" alt="post id {{ $post->id }}" class="w-100">
+                        <img width="25" src="{{ $post->image }}" alt="post id {{ $post->id }}" class="img-postshow">
                         {{-- <img class="img-show" src="https://images.pexels.com/photos/27637374/pexels-photo-27637374.jpeg?auto=compress&cs=tinysrgb&w=1200&lazy=load" alt=""> --}}
                     </div>
                 </div>

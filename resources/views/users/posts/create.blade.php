@@ -58,7 +58,7 @@
                                    @foreach($all_categories as $category)
 
 
-                                    <input type="checkbox" name="category[]" id="{{ $category->name }}" name="{{ $category->id }}" autocomplete="off">
+                                    <input type="checkbox" name="category[]" id="{{ $category->name }}" name="{{ $category->id }}" autocomplete="off" value="{{ $category->id }}">
                                    <label for="{{ $category->name }}" class="form-check-label">{{ $category->name }}</label>
 
                                    @endforeach

@@ -5,16 +5,19 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Post;
+use App\Models\CategoryPost;
 use App\Models\Category;
 
 class PostController extends Controller
 {
     private $post;
+    private $categoryPost;
     private $category;
 
-    public function __construct(Post $post, Category $category)
+    public function __construct(Post $post, CategoryPost $categoryPost, Category $category)
     {
         $this->post = $post;
+        $this->categoryPost = $categoryPost;
         $this->category = $category;
     }
 
@@ -80,6 +83,7 @@ class PostController extends Controller
         $this->post->description    = $request->description;
         $this->post->save();
 
+
         # Save the categories to the category_post povit table
         foreach ($request->category as $category_id){
             $category_post[] = ['category_id' => $category_id];
@@ -89,7 +93,8 @@ class PostController extends Controller
         $this->post->categoryPost()->createMany($category_post);
 
         # Go back to homepage
-        return redirect()->route('users.posts.show');
+        return redirect()->route('users.posts.show', ['id' => $this->post->id]);
+        // return redirect()->route('users.posts.show');
     }
 
     // edit() - view Edit Post page

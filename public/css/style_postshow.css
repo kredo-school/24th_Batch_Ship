@@ -185,7 +185,7 @@ p {
 }
 
 .modal-with {
-    width:740px; 
+    width:740px;
     margin-left: -70px;
 }
 
@@ -226,4 +226,9 @@ p {
 
 .category input{
     display: none;
+}
+.img-postshow {
+    width: 500px !important;
+    height: 250px !important;
+    object-fit: cover;
 }
