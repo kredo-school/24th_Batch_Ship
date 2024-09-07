@@ -1,8 +1,8 @@
 @extends('layouts.app')
 
-@section('content')
-
 @section('title', 'Create Profile')
+
+@section('content')
 <head>
   @vite(['resources/sass/app.scss', 'resources/js/app.js'])
   <link rel="stylesheet" href="{{ asset('css/style_postshow.css') }}">
@@ -10,7 +10,7 @@
 </head>
 <div class="conteiner bg-blue">
   <div class="row p-3">
-    <form action="{{ route('users.profile.store') }}" method="post">
+    <form action="{{ route('users.profile.update') }}" method="post" enctype="multipart/form-data">
       @csrf
       @method('PATCH')
 
@@ -18,6 +18,7 @@
 
         <div class="mb-3 text-center">
           <h4>Create your profile!</h4>
+          {{ Auth::user()->id }}
           {{-- avatar & upload image --}}
           {{-- @if ($user->avatar) --}}
           {{-- <img src="{{ $user->avatar }}" alt="{{ $user->name }}" class="img-thumbnail rounded-circle d-block mx-auto avatar-lg"> --}}
@@ -46,7 +47,7 @@
           <p class="text-center fw-bold mb-0">
             <i class="fa-solid fa-caret-down"></i> Self-introduction
           </p>
-          <textarea class="border-0 p-2" name="self-intro" id="self-intro" cols="57" rows="5" class="p-2" placeholder="Feel free to write about your interest & hobbies :)"></textarea>
+          <textarea class="border-0 p-2" name="introduction" id="introduction" cols="57" rows="5" class="p-2" placeholder="Feel free to write about your interest & hobbies :)"></textarea>
         </div>
 
         {{-- select interest --}}
