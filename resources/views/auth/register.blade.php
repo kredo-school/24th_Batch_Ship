@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('title', 'Register')
+
 @section('content')
 <div class="container-fluid h-100">
     <div class="row justify-content-center border border-1">

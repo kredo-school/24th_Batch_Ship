@@ -20,7 +20,7 @@ Route::group(['middleware' => 'auth'], function(){
     Route::get('/profile/{id}', [ProfileController::class,'specificProfile'])->name('users.profile.specificProfile');
     // Route::get('/{id}/show', [ProfileController::class, 'show'])->name('users.profile.show');
     Route::get('/profile/{id}/create', [ProfileController::class, 'create'])->name('users.profile.create');
-    Route::patch('/profile/update', [ProfileController::class, 'update'])->name('users.profile.store');
+    Route::patch('/profile/update', [ProfileController::class, 'update'])->name('users.profile.update');
 
     //Post
     Route::get('/post/index', [PostController::class, 'index'])->name('users.posts.index');
