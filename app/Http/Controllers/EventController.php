@@ -23,6 +23,7 @@ class EventController extends Controller
 
     public function store(Request $request)
     {
+       # 1. VALIDATE ALL THE FORM DATA
        $request->validate([
             'community_id' => 'required',
             'title'        => 'required|string|max:255',
@@ -35,6 +36,7 @@ class EventController extends Controller
             'image'        => 'required|mimes:jpeg,jpg,png,gif|max:1048'
        ]);
 
+       # 2. Save the event
        $this->event->host_id      = Auth::user()->id;
        $this->event->community_id = $request->community_id;
        $this->event->title        = $request->title;
@@ -47,11 +49,13 @@ class EventController extends Controller
        $this->event->image        = 'data:image/' . $request->image->extension() . ';base64,' . base64_encode(file_get_contents($request->image));
        $this->event->save();
 
+       # 3. Redirect to Show Event page (to confirm the event)
        return redirect()->route('event.show', $this->event->id);
     }
 
     public function show($id)
     {
+        // $id - ID of the event
         $event = $this->event->findOrFail($id);
 
         $date = Carbon::parse($event->date)->format('Y/m/d');
@@ -65,16 +69,20 @@ class EventController extends Controller
     {
         $event = $this->event->findOrFail($id);
 
-        // # if the Auth user is NOT the host of the event, redirect to show page.
-        // if(Auth::user()->id != $event->user->id){
-        //     return redirect()->route('users.events.show');
-        // }
+        # if the Auth user is NOT the host of the event, redirect to show page.
+        if(Auth::user()->id != $event->host_id){
+            return redirect()->route('event.show', $id);
+        }
 
-        return view('users.events.edit', compact('event'));
+        $startTime = Carbon::parse($event->start_time)->format('H:i');
+        $endTime = Carbon::parse($event->end_time)->format('H:i');
+
+        return view('users.events.edit', compact('event', 'startTime', 'endTime'));
     }
 
     public function update(Request $request, $id)
     {
+        # 1. Validate the request
         $request->validate([
             'title'        => 'required|string|max:255',
             'date'         => 'required|date',
@@ -86,7 +94,9 @@ class EventController extends Controller
             'image'        => 'mimes:jpeg,jpg,png,gif|max:1048'
         ]);
 
+        # 2. Update the event
         $event = $this->event->findOrFail($id);
+
         $event->title        = $request->title;
         $event->date         = $request->date;
         $event->start_time   = $request->start_time;
@@ -94,11 +104,13 @@ class EventController extends Controller
         $event->address      = $request->address;
         $event->price        = $request->price;
         $event->description  = $request->description;
+        //  if there is a new image
         if($request->image){
             $event->image = 'data:image/' . $request->image->extension() . ';base64,' . base64_encode(file_get_contents($request->image));
         }
         $event->save();
 
+        # 3. Redirect to Show Event page (to confirm the update)
         return redirect()->route('event.show', $id);
     }
 
