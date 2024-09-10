@@ -57,7 +57,7 @@
                                 <a href="" class="nav-link dropdown-toggle text-white" role="button" data-bs-toggle="dropdown" area-expanded="false">
                                     <i class="fa-solid fa-ship"></i>
                                 </a>
-                                <ul class="dropdown-menu">
+                                <ul class="dropdown-menu dropdown-menu-end">
                                     <li><h1 class="h6 text-center text-dark">Go to...</h1></li>
                                     <li><a href="{{ route('users.posts.index') }}" class="dropdown-item">Post</a></li>
                                     <li><a href="{{ route('communities.index') }}" class="dropdown-item">Community</a></li>
@@ -68,7 +68,7 @@
                                 <a href="#" class="nav-link dropdown-toggle text-white" role="button" data-bs-toggle="dropdown" area-expanded="false">
                                     <i class="fa-solid fa-circle-plus"></i>
                                 </a>
-                                <ul class="dropdown-menu">
+                                <ul class="dropdown-menu dropdown-menu-end">
                                     <li><h1 class="h6 text-center text-dark">Create...</h1></li>
                                     <li><a href="{{ route('users.posts.create') }}" class="dropdown-item">Post</a></li>
                                     <li><a href="{{ route('communities.create') }}" class="dropdown-item">Community</a></li>
@@ -84,7 +84,7 @@
                                 <a href="#" class="nav-link dropdown-toggle text-white" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     <i class="fa-solid fa-ellipsis"></i>
                                 </a>
-                                <ul class="dropdown-menu">
+                                <ul class="dropdown-menu dropdown-menu-end">
                                     <li>
                                         <a href="{{ route('users.profile.edit', Auth::user()->id) }}" class="dropdown-item"><i class="fa-solid fa-pen-to-square"></i> Edit Profile</a>
                                     </li>
@@ -92,7 +92,7 @@
                                         <a href="#" class="dropdown-item"><i class="fa-solid fa-person-circle-question"></i> Support</a>
                                     </li>
                                     <li>
-                                        <a class="dropdown-item dropdown-item-end" href="{{ route('logout') }}"
+                                        <a class="dropdown-item" href="{{ route('logout') }}"
                                             onclick="event.preventDefault();
                                                             document.getElementById('logout-form').submit();">
                                             <i class="fa-solid fa-right-from-bracket"></i> {{ __('Logout') }}
