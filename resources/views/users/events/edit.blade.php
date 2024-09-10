@@ -13,7 +13,7 @@
       {{-- Title --}}
       <div class="col-6">
         <label for="event-title" class="form-label">Event title</label>
-        <input type="text" name="title" id="event-title" value="{{ $event->title }}" class="form-control">
+        <input type="text" name="title" id="event-title" value="{{ old('title', $event->title) }}" class="form-control">
         @error('title')
           <div class="text-danger small">{{ $message }}</div> 
         @enderror
@@ -31,7 +31,7 @@
         <div class="row mt-3 gx-5">
           <div class="col">
             <label for="date" class="form-label">Date</label>
-            <input type="date" name="date" id="date" value="{{ $event->date }}" class="form-control">
+            <input type="date" name="date" id="date" value="{{ old('date', $event->date) }}" class="form-control">
             @error('date')
               <div class="text-danger small">{{ $message }}</div> 
             @enderror
@@ -39,7 +39,7 @@
 
           <div class="col">
             <label for="start-time" class="form-label">Start time</label>
-            <input type="time" name="start_time" id="start-time" value="{{ $event->start_time }}" class="form-control">
+            <input type="time" name="start_time" id="start-time" value="{{ old('start_time', $startTime) }}" class="form-control">
             @error('start_time')
               <div class="text-danger small">{{ $message }}</div> 
             @enderror
@@ -47,7 +47,7 @@
 
           <div class="col">
             <label for="end-time" class="form-label">End time</label>
-            <input type="time" name="end_time" id="end-time" value="{{ $event->end_time }}" class="form-control">
+            <input type="time" name="end_time" id="end-time" value="{{ old('end_time', $endTime) }}" class="form-control">
             @error('end_time')
               <div class="text-danger small">{{ $message }}</div> 
             @enderror
@@ -57,7 +57,7 @@
         {{-- Price --}}
         <div class="mt-3">
           <label for="price" class="form-label">Price</label>
-          <input type="text" name="price" id="price" value="{{ $event->price }}" class="form-control">
+          <input type="text" name="price" id="price" value="{{ old('price', $event->price) }}" class="form-control">
           @error('price')
             <div class="text-danger small">{{ $message }}</div> 
           @enderror 
@@ -66,7 +66,7 @@
         {{-- Location --}}
         <div class="mt-3">
           <label for="address" class="form-label">Location</label>
-          <input type="text" name="address" id="address" value="{{ $event->address }}" class="form-control">
+          <input type="text" name="address" id="address" value="{{ old('address', $event->address) }}" class="form-control">
           @error('address')
             <div class="text-danger small">{{ $message }}</div> 
           @enderror
@@ -83,7 +83,7 @@
         {{-- Description --}}
         <div class="mt-5">
           <label for="description" class="form-label">Description</label>
-          <textarea name="description" id="description" cols="30" rows="18" class="form-control">{{ $event->description }}</textarea>
+          <textarea name="description" id="description" cols="30" rows="18" class="form-control">{{ old('description', $event->description) }}</textarea>
           @error('description')
             <div class="text-danger small">{{ $message }}</div> 
           @enderror
