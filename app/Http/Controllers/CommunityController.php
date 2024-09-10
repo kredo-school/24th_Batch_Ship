@@ -87,5 +87,59 @@ class CommunityController extends Controller
         $community = $this->community->findOrFail($id);
         return view('users.communities.show')->with('community', $community);
     }
+
+    # To open the Edit Post page
+    public function edit($id){
+
+        $community = $this->community->findOrFail($id);
+        $all_categories = $this->category->all();
+
+        # Get all category IDs of this community. Save in an array.
+        $selected_categories = [];
+        foreach ($community->categoryCommunity as $category_community) {
+            $selected_categories[] = $category_community->category_id;
+        }
+
+        return view('users.communities.edit')
+                ->with('community', $community)
+                ->with('all_categories', $all_categories)
+                ->with('selected_categories',$selected_categories);
+    }
+
+    public function update(Request $request, $id){
+
+        # 1. Validate all from data
+        $request->validate([
+            'category'    => 'required|array|between:1,3',
+            'description' => 'required|min:1|max:1500',
+            'image'       => 'required|mimes:jpeg,jpg,png,gif|max:1048',
+            'title'       => 'required|string|max:50'
+        ]);
+
+        # 2. Update the community
+        $community = $this->community->findOrFail($id);
+        $community->description = $request->description;
+        $community->title       = $request->title;
+
+        // If there is anew image....
+        if($request->image){
+            $community->image = 'data:image/' . $request->image->extension() . 
+                            ';base64,' . base64_encode(file_get_contents($request->image));
+        }
+
+        $community->save();
+
+        # 3. Delete all records from category_community related to this community
+        $community->categoryCommunity()->delete();
+
+        # 4. Save the new categories to category_community
+        foreach($request->category as $category_id){
+            $category_community[] = ['category_id' => $category_id];
+        }
+        $community->categoryCommunity()->createMany($category_community);
+
+        # 5. Redirect to Show Post page (to confirm the update)
+        return redirect()->route('communities.show',$id);
+    }
 }
 

@@ -34,6 +34,8 @@ Route::group(['middleware' => 'auth'], function(){
     Route::get('/community/create',[CommunityController::class,'create'])->name('communities.create');
     Route::post('/community/store',[CommunityController::class,'store'])->name('communities.store');
     Route::get('/community/{id}/show',[CommunityController::class,'show'])->name('communities.show');
+    Route::get('/community/{id}/edit', [CommunityController::class, 'edit'])->name('communities.edit');
+    Route::patch('/community/{id}/update', [CommunityController::class, 'update'])->name('communities.update');
 
     # Event
     Route::get('/event/create', [EventController::class, 'create'])->name('event.create');
