@@ -54,4 +54,11 @@ class User extends Authenticatable
     public function categoryUser(){
         return $this->hasMany(CategoryUser::class);
     }
+
+    # To get the categories with search result
+    public function categories()
+    {
+        return $this->belongsToMany(Category::class);
+    }
+    
 }

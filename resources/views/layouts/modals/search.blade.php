@@ -8,36 +8,38 @@
             </div>
 
             <div class="modal-body">
-                <form action="#" method="post" enctype="multipart/form-data">
+                <form action="{{ route('search') }}" method="get" enctype="multipart/form-data">
                     @csrf
 
-                    <input type="text" name="keyword" id="#" class="form-control" placeholder="Enter keyword..." >
+                    
+                    <input type="text" name="keyword" id="keyword" class="form-control" placeholder="Enter keyword..." >
 
-                    <select name="category" id="#" value="#" class="form-select form-select-sm mt-3 w-50">
+                    <select name="category" id="category" class="form-select form-select-sm mt-3 w-50">
                         <option disabled selected value>Select Category</option>
-                        {{-- foreach all_categories
-                            <option value="#">###</option>
-                        --}}
+                        {{-- @foreach ($categories as $category)
+                            <option value="{{ $category->id }}">{{ $category->name }}</option>
+                        @endforeach --}}
                     </select>
+                    
 
                     <div class="form-check form-check-inline mt-3">
-                        <input type="checkbox" name="content" id="#" value="#" class="form-check-input">
+                        <input type="checkbox" name="content" id="user" value="user" class="form-check-input">
                         <label for="user" class="form-check-label">User</label>
                     </div>
                     <div class="form-check form-check-inline mt-3">
-                        <input type="checkbox" name="content" id="#" value="#" class="form-check-input">
+                        <input type="checkbox" name="content" id="post" value="post" class="form-check-input">
                         <label for="post" class="form-check-label">Post</label>
                     </div>
                     <div class="form-check form-check-inline mt-3">
-                        <input type="checkbox" name="content" id="#" value="#" class="form-check-input">
+                        <input type="checkbox" name="content" id="community" value="community" class="form-check-input">
                         <label for="community" class="form-check-label">Community</label>
                     </div>
                     <div class="form-check form-check-inline mt-3">
-                        <input type="checkbox" name="content" id="#" value="#" class="form-check-input">
+                        <input type="checkbox" name="content" id="event" value="event" class="form-check-input">
                         <label for="event" class="form-check-label">Event</label>
                     </div>
                     <div class="form-check form-check-inline mt-3">
-                        <input type="checkbox" name="content" id="#" value="#" class="form-check-input">
+                        <input type="checkbox" name="content" id="all" value="all" class="form-check-input">
                         <label for="all" class="form-check-label">All</label>
                     </div>
 

@@ -1,4 +1,4 @@
-<div class="modal fade" id="delete-event">
+<div class="modal fade" id="delete-event-{{ $event->id }}">
     <div class="modal-dialog">
         <div class="modal-content border-danger">
             <div class="modal-header border-danger">
@@ -12,7 +12,7 @@
             </div>
 
             <div class="modal-footer border-0">
-                <form action="#" method="post" class="w-100">
+                <form action="{{ route('event.destroy', $event->id) }}" method="post" class="w-100">
                     @csrf
                     @method('DELETE')
 
