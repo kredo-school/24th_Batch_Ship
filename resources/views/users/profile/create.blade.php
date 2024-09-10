@@ -17,7 +17,7 @@
       <div class="col-8 mx-auto">
 
         <div class="mb-3 text-center">
-          <h4>Edit your profile!</h4>
+          <h4>Create your profile!</h4>
         </div>
 
         <div class="mb-3 text-center">
