@@ -63,7 +63,7 @@ class PostController extends Controller
     # show() - view Show Post Page
     public function show($id)
     {
-       $post = $this->post->findOrFail($id);
+       $post = $this->post->with('user')->findOrFail($id);
 
       return view('users.posts.show')->with('post', $post);
     }
