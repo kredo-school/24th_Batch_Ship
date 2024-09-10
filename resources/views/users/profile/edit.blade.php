@@ -100,7 +100,7 @@
             {{-- button --}}
             <div class="mb-3 text-center fw-bold">
             <button type="submit" class="btn w-50 btn-turquoise2">
-                CREATE !
+                SAVE IT !
             </button>          
             </div>
 
