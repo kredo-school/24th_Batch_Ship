@@ -8,6 +8,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\EventUserController;
 
 Auth::routes();
 
@@ -44,5 +45,9 @@ Route::group(['middleware' => 'auth'], function(){
     Route::get('/event/{id}/edit', [EventController::class, 'edit'])->name('event.edit');
     Route::patch('/event/{id}/update', [EventController::class, 'update'])->name('event.update');
     Route::delete('/event/{id}/destroy', [EventController::class, 'destroy'])->name('event.destroy');
+
+    # EventUser
+    Route::post('/event/{id}/join', [EventUserController::class, 'join'])->name('event.join');
+    Route::delete('/event/{id}/unjoin', [EventUserController::class, 'unjoin'])->name('event.unjoin');
 
 });
