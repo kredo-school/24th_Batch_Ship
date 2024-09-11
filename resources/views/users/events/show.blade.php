@@ -12,11 +12,20 @@
             </div>
             {{-- Join Button --}}
             <div class="col-2">
-                <form action="#" method="post">
-                    @csrf
+                @if ($event->isJoining())
+                    <form action="{{ route('event.unjoin', $event->id) }}" method="post">
+                        @csrf
+                        @method('DELETE')
+            
+                        <button type="submit" class="btn btn-lg text-turquoise float-end">Unjoin</button>
+                    </form>
+                @else
+                    <form action="{{ route('event.join', $event->id) }}" method="post">
+                        @csrf
 
-                    <button type="submit" class="btn btn-turquoise btn-lg text-white float-end">Join</button>
-                </form>
+                        <button type="submit" class="btn btn-turquoise btn-lg text-white float-end">Join</button>
+                    </form>
+              @endif
             </div>
         </div>
 
