@@ -3,7 +3,6 @@
 {{-- User's Own Event --}}
 <div class="d-flex justify-content-between align-items-center mx-4">
     <h3>Owner Event</h3>
-    <h4><a href="#" class="text-end">See more</a></h4>
 </div>
 
 <div class="bg-yellow mx-2">
@@ -30,7 +29,6 @@
 {{-- User's Joined Event --}}
 <div class="d-flex justify-content-between align-items-center mx-4 mt-2">
     <h3>Join Event</h3>
-    <h4><a href="#" class="text-end">See more</a></h4>
 </div>
 
 <div class="bg-yellow mx-2">
