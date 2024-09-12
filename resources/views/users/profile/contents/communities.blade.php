@@ -3,14 +3,13 @@
 {{-- User's Own Community --}}
 <div class="d-flex justify-content-between align-items-center mx-4">
     <h3>Own Community</h3>
-    <h4><a href="#" class="text-end">See more</a></h4>
 </div>
 
 <div class="bg-blue mx-2">
     <div class="row">
-        {{-- @foreach 4 own communities --}}
-        {{-- @foreach  --}}
-            {{-- @if ($user->id === $community->user_id)
+        {{-- Get 4 communities --}}
+        {{-- @foreach 
+            @if ($user->id === $community->owner_id)
                 <div class="col-3">
                     <div class="container bg-white m-3 p-0">
                         <a href="#" class="d-block">
@@ -24,17 +23,16 @@
                         </div>
                     </div>
                 </div>
-            @else --}}
+            @else
                 <h3 class="text-secondary text-center"> does not have own community yet.</h3>
-            {{-- @endif --}}
-        {{-- @endforeach --}}
+            @endif
+        @endforeach --}}
     </div>
 </div>
 
 {{-- User's Joined Community --}}
 <div class="d-flex justify-content-between align-items-center mx-4 mt-2">
     <h3>Joined Community</h3>
-    <h4><a href="#" class="text-end">See more</a></h4>
 </div>
 
 <div class="bg-blue mx-2">
