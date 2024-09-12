@@ -24,7 +24,7 @@ class Event extends Model
     # to get all attendees for the event
     public function attendees()
     {
-        return $this->hasMany(EventUser::class);
+        return $this->hasMany(EventUser::class, 'event_id');
     }
 
     # return TRUE if the Auth user is already joining the event
