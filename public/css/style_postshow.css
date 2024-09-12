@@ -204,6 +204,10 @@ p {
     display: none;
 }
 
+.category{
+    font-size: 1.2rem;
+}
+
 .category label
 {
     width: 100px;

@@ -53,13 +53,6 @@ class PostController extends Controller
             return $all_posts;
     }
 
-
-    // # show() - view Show Post Page
-    // public function show()
-    // {
-    //     return view('users.posts.show');
-    // }
-
     # show() - view Show Post Page
     public function show($id)
     {
@@ -104,22 +97,22 @@ class PostController extends Controller
 
         #IF the Auth user is not the owner of the POST, redirect to index
         if(Auth::user()->id != $post->user->id){
-            return redirect()->route('index');
+            return redirect()->route('users.posts.show', ['id' => $this->post->id]);
         }
 
         $all_categories = $this->category->all(); //retrieve all the categories
 
         # GET all the category IDs of this POST. Then save it in a ARRAY
         $selected_categories = [];
-        foreach($post->category as $category){
-            $selected_categories[] = $category->category_id;
+        foreach($post->categoryPost as $categoryPost){
+            $selected_categories[] = $categoryPost->category_id;
         }
 
-        // return view('users.posts.edit')
-        //         ->with('post', $post)
-        //         ->with('all_categories', $all_categories)
-        //         ->with('selected_categories', $selected_categories);
-    //}
+        return view('users.posts.edit')
+                ->with('post', $post)
+                ->with('all_categories', $all_categories)
+                ->with('selected_categories', $selected_categories);
+    }
 
     // public function update(Request $request, $id)
     // {
@@ -165,4 +158,4 @@ class PostController extends Controller
 
 
 
-}
+

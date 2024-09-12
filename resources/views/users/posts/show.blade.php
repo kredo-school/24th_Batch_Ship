@@ -4,7 +4,7 @@
 
 @section('content')
 <head>
-    @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+    {{-- @vite(['resources/sass/app.scss', 'resources/js/app.js']) --}}
     <link rel="stylesheet" href="{{ asset('css/style_postshow.css') }}">
 
 
@@ -46,42 +46,30 @@
                                     <div class="category">
 
                                             @foreach ($post->categoryPost as $category_post)
-                                          <span class="badge me-1 bg-turquoise text-white"name="category[]">
+                                          <span class="badge me-2 bg-turquoise text-white"name="category[]">
                                           {{ $category_post->category->name }}</span>
 
-                                               @endforeach
+                                             @endforeach
 
              　　　　　　　            </div>
                                 </div>
-
-                                 <div class="col-3 text-end pe-0 mt-4">
-                                    <p class="text-uppercase text-muted xsmall">{{ date('M d, Y', strtotime($post->created_at)) }}</p>
-                                </div>
-
                                 <div class="col text-end  mt-2">
                                     {{-- If you are the owner of the post, you can edit or delete this post --}}
 
-                                        <div class="">
                                           @if ($post->user->id === Auth::user()->id)
                                             {{-- edit --}}
-
-                                            <a href="#" class="post-edit btn edit-icon pe-0">
+                                            <a href="{{ route('users.posts.edit', $post->id) }}" class="post-edit btn edit-icon pe-0">
                                                 <i class="fa-regular fa-pen-to-square show-icon"></i>
                                             </a>
-
-                                            {{-- delete --}}
-
+                                           {{-- delete --}}
                                             <span class="btn post-delete show-icon ps-2" data-bs-toggle="modal" data-bs-target="#delete{{-- #delete-post-{{ $post->id }} --}}">
                                                 <i class="fa-regular fa-trash-can fw-bold"></i>
                                                 @include('users.posts.modals.delete')
                                             </span>
-
-
                                     @else
-
                                     @endif
+                                    <p class="text-uppercase text-muted text-end ">{{ date('M d, Y', strtotime($post->created_at)) }}</p>
 
-                                      </div>
                                 </div>
                             </div>
                         </div>
