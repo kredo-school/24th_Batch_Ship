@@ -61,4 +61,17 @@ class User extends Authenticatable
         return $this->belongsToMany(Category::class);
     }
     
+    # To get the posts of a user
+    public function posts(){
+        return $this->hasMany(Post::class)->latest();
+    }
+
+    # To get the user's own communities
+    public function communities(){
+        return $this->hasMany(Community::class)->latest();
+    }
+
+    public function events(){
+        return $this->hasMany(Event::class)->latest;
+    }
 }
