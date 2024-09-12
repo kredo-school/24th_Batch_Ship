@@ -11,22 +11,24 @@
                 <h1 class="h1">{{ $event->title }}</h1>
             </div>
             {{-- Join Button --}}
-            <div class="col-2">
-                @if ($event->isJoining())
-                    <form action="{{ route('event.unjoin', $event->id) }}" method="post">
-                        @csrf
-                        @method('DELETE')
-            
-                        <button type="submit" class="btn btn-lg text-turquoise float-end">Unjoin</button>
-                    </form>
-                @else
-                    <form action="{{ route('event.join', $event->id) }}" method="post">
-                        @csrf
+            @if (Auth::user()->id !== $event->host_id)
+                <div class="col-2">
+                    @if ($event->isJoining())
+                        <form action="{{ route('event.unjoin', $event->id) }}" method="post">
+                            @csrf
+                            @method('DELETE')
+                
+                            <button type="submit" class="btn btn-lg text-turquoise float-end">Unjoin</button>
+                        </form>
+                    @else
+                        <form action="{{ route('event.join', $event->id) }}" method="post">
+                            @csrf
 
-                        <button type="submit" class="btn btn-turquoise btn-lg text-white float-end">Join</button>
-                    </form>
-              @endif
-            </div>
+                            <button type="submit" class="btn btn-turquoise btn-lg text-white float-end">Join</button>
+                        </form>
+                     @endif
+                </div>  
+            @endif
         </div>
 
         <div class="row py-3">
@@ -78,25 +80,29 @@
                 {{-- Created by --}}
                 <div class="row mt-3">
                     <h1 class="h6">Created by</h1>
-                    <a href="#">
+                    <a href="{{ route('users.profile.specificProfile', $event->host_id) }}">
                         <i class="fa-solid fa-circle-user text-dark icon-sm"></i>
                     </a>
                 </div>
                 {{-- Attendees --}}
                 <div class="row mt-3">
                     <div class="col">
-                        <h1 class="h6">Attendees (12)</h1>
+                        <h1 class="h6">Attendees ({{ $event->attendees->count() }})</h1>
                     </div>
-                    <div class="col text-end">
-                        <a href="#" class="fw-bold text-dark text-decoration-none" data-bs-toggle="modal" data-bs-target="#attendees">see all</a>
-                        @include('users.events.modals.attendees-list')
-                    </div>
+                    @if ($event->attendees->count() >8)
+                        <div class="col text-end">
+                            <a href="#" class="fw-bold text-dark text-decoration-none" data-bs-toggle="modal" data-bs-target="#attendees">see all</a>
+                            @include('users.events.modals.attendees-list')
+                        </div>
+                    @endif
                 </div>
-                <div class="row mt-1 d-inline">
-                    <a href="#">
-                        <i class="fa-solid fa-circle-user text-dark icon-sm"></i>
-                    </a>
-                </div>
+                @foreach ($event->attendees->take(8) as $attendee)
+                    <div class="row mt-1 me-2 d-inline">
+                        <a href="{{ route('users.profile.specificProfile', $event->host_id) }}" class="text-decoration-none">
+                            <i class="fa-solid fa-circle-user text-dark icon-sm"></i>
+                        </a>
+                    </div>  
+                @endforeach
                 {{-- Review form --}}
                 <div class="row mt-3">
                     <div class="col-8">
