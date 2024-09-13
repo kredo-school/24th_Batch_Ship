@@ -23,9 +23,9 @@
             <div class="mb-3 text-center">
                 {{-- avatar & upload image --}}
                 @if ($user->avatar)
-                    <img src="{{ $user->avatar }}" alt="{{ $user->name }}" class="img-thumbnail rounded-circle d-block mx-auto avatar-lg mb-3">
+                    <img id="image-preview" src="{{ $user->avatar }}" alt="{{ $user->name }}" class="img-thumbnail rounded-circle d-block mx-auto avatar-lg mb-3">
                 @else
-                    <p class="display-1 mb-0"><i class="fa-solid fa-circle-user text-turquoise"></i></p>
+                    <p id="image-preview" class="display-1 mb-0"><i class="fa-solid fa-circle-user text-turquoise"></i></p>
                 @endif
 
                 <label class="mb-3">
@@ -103,12 +103,13 @@
                 SAVE IT !
             </button>          
             </div>
-
-    
         </div>
-
     </form>
   </div>
 </div>
 
+@endsection
+
+@section('scripts')
+    <script src="{{ asset('js/profile/form.js') }}"></script>
 @endsection
