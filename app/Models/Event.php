@@ -13,7 +13,7 @@ class Event extends Model
     
     public function user()
     {
-        return $this->belongsTo(User::class)/* ->withTrashed() */;
+        return $this->belongsTo(User::class);/* ->withTrashed() */
     }
 
     public function community()
@@ -24,7 +24,7 @@ class Event extends Model
     # to get all attendees for the event
     public function attendees()
     {
-        return $this->hasMany(EventUser::class, 'event_id');
+        return $this->hasMany(EventUser::class);
     }
 
     # return TRUE if the Auth user is already joining the event
