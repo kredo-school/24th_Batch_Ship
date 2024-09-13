@@ -21,7 +21,7 @@
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 </head>
 <body>
-    <div id="app">
+    <div id="app" class="cont">
         <nav class="navbar navbar-expand-md navbar-light bg-turquoise shadow-sm">
             <div class="container-fluid">
                 <a class="navbar-brand" href="{{ route('users.profile.index') }}">
@@ -128,5 +128,6 @@
             <p class="text-white text-center my-auto">&copy; 2024 SHIP, inc</p>
         </div>
     </div>
+    @yield('scripts')
 </body>
 </html>

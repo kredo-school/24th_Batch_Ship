@@ -6,6 +6,10 @@
 <head>
   @vite(['resources/sass/app.scss', 'resources/js/app.js'])
   <link rel="stylesheet" href="{{ asset('css/style_postshow.css') }}">
+
+  {{-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous"> --}}
+
+  {{-- <meta name="csrf-token" content="{{ csrf_token() }}"> --}}
   
 </head>
 <div class="conteiner bg-blue">
@@ -23,9 +27,10 @@
         <div class="mb-3 text-center">
           {{-- avatar & upload image --}}
           {{-- @if ($user->avatar) --}}
-          {{-- <img src="{{ $user->avatar }}" alt="{{ $user->name }}" class="img-thumbnail rounded-circle d-block mx-auto avatar-lg"> --}}
-          {{-- @else --}}
-          <p class="display-1 mb-0"><i class="fa-solid fa-circle-user text-turquoise"></i></p>
+            {{-- <img src="{{ $user->avatar }}" alt="{{ $user->name }}" class="img-thumbnail rounded-circle d-block mx-auto avatar-lg"> --}}
+            <img id="image-preview" src="https://cdn.dribbble.com/users/4438388/screenshots/15854247/media/0cd6be830e32f80192d496e50cfa9dbc.jpg?resize=1000x750&vertical=center" alt="preview image" class="img-thumbnail rounded-circle d-block mx-auto avatar-lg mb-2">
+           {{-- @else --}}
+            {{-- <p class="display-1 mb-0"><i class="fa-solid fa-circle-user text-turquoise"></i></p> --}}
           {{-- @endif --}}
 
           <label class="mb-3">
@@ -86,12 +91,37 @@
             CREATE !
           </button>          
         </div>
-
-  
       </div>
-
     </form>
   </div>
 </div>
 
+{{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+<script type="text/javascript">
+
+$(document).ready(function (e) {
+
+
+   $('#image').change(function(){
+
+    let reader = new FileReader();
+
+    reader.onload = (e) => {
+
+      $('#image-preview').attr('src', e.target.result);
+    }
+
+    reader.readAsDataURL(this.files[0]);
+
+   });
+
+});
+
+</script> --}}
+
+@endsection
+
+@section('scripts')
+    <script src="{{ asset('js/profile/form.js') }}"></script>
 @endsection
