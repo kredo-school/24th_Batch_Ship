@@ -25,7 +25,7 @@ class CommunityController extends Controller
 
     private function getAllCommunities()
     {
-        $all_communities = $this->community->latest()->get();
+        $all_communities = $this->community->with(['user','categoryCommunity'])->latest()->get();
 
 
         foreach($all_communities as $community){
