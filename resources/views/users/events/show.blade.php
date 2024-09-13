@@ -58,19 +58,21 @@
             <div class="col-4">
                 {{-- Community this event belongs to --}}
                 <div class="row">
-                    <a href="#" class="text-decoration-none">
+                    <a href="{{ route('communities.show', $event->community->id) }}" class="text-decoration-none">
                         <div class="card border-0 w-auto mx-auto bg-transparent">
-                            <img src="https://img.freepik.com/free-vector/hand-drawn-english-book-background_23-2149483336.jpg?size=626&ext=jpg" alt="#" class="card-img-top">
+                            <img src="{{ $event->community->image }}" alt="community ID {{ $event->community->id }}" class="card-img-top">
                             <div class="card-body">
                                 <div class="row">
-                                    <h5 class="h5 card-title">Community Title</h5>
+                                    <h5 class="h5 card-title">{{ $event->community->title }}</h5>
                                 </div>
                                 <div class="row">
                                     <div class="col">
-                                        <a href="#" class="badge bg-turquoise text-white text-decoration-none">Category #1</a>
+                                        {{-- @foreach ($all_categories as $category) --}}
+                                            <a href="#" class="badge bg-turquoise text-white text-decoration-none">Category #1{{-- {{ $category->name }} --}}</a>  
+                                        {{-- @endforeach --}}
                                     </div>
                                     <div class="col">
-                                        <p class="text-end">Created by <a href="#"><i class="fa-solid fa-circle-user text-dark icon-sm"></i></a></p>
+                                        <p class="text-end">Created by <a href="{{ route('users.profile.specificProfile', $event->community->owner_id) }}"><i class="fa-solid fa-circle-user text-dark icon-sm"></i></a></p>
                                     </div>
                                 </div>
                             </div>
@@ -96,13 +98,15 @@
                         </div>
                     @endif
                 </div>
-                @foreach ($event->attendees->take(8) as $attendee)
-                    <div class="row mt-1 me-2 d-inline">
-                        <a href="{{ route('users.profile.specificProfile', $event->host_id) }}" class="text-decoration-none">
-                            <i class="fa-solid fa-circle-user text-dark icon-sm"></i>
-                        </a>
-                    </div>  
-                @endforeach
+                @if (count($event->attendees) > 0)
+                    @foreach (collect($all_attendees)->take(8) as $attendee)
+                        <div class="row mt-1 me-2 d-inline">
+                            <a href="{{ route('users.profile.specificProfile', $attendee->user_id) }}" class="text-decoration-none">
+                                <i class="fa-solid fa-circle-user text-dark icon-sm"></i>
+                            </a>
+                        </div>
+                    @endforeach
+                @endif
                 {{-- Review form --}}
                 <div class="row mt-3">
                     <div class="col-8">
@@ -120,20 +124,23 @@
 
 
                 </div>
-                {{-- Edit/Delete Button --}}
-                <div class="row mt-5 d-flex justify-content-end">
-                    <div class="col text-end">
-                        <a href="{{ route('event.edit', $event->id) }}" class="btn bg-gold text-white py-1">
-                            <i class="fa-solid fa-pen-to-square"></i>
-                            Edit event
-                        </a>
-                        <button type="button" class="btn bg-white text-danger py-1 ms-2" data-bs-toggle="modal" data-bs-target="#delete-event-{{ $event->id }}">
-                            <i class="fa-solid fa-trash-can"></i> 
-                            Delete event
-                        </button>
+
+                @if (Auth::user()->id === $event->host_id)
+                   {{-- Edit/Delete Button --}}
+                    <div class="row mt-5 d-flex justify-content-end">
+                        <div class="col text-end">
+                            <a href="{{ route('event.edit', $event->id) }}" class="btn bg-gold text-white py-1">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                                Edit event
+                            </a>
+                            <button type="button" class="btn bg-white text-danger py-1 ms-2" data-bs-toggle="modal" data-bs-target="#delete-event-{{ $event->id }}">
+                                <i class="fa-solid fa-trash-can"></i> 
+                                Delete event
+                            </button>
+                        </div>
                     </div>
-                </div>
-                @include('users.events.modals.delete')
+                    @include('users.events.modals.delete') 
+                @endif
             </div>
         </div>
     </div>

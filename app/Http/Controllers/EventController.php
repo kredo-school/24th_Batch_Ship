@@ -68,7 +68,10 @@ class EventController extends Controller
         $startTime = Carbon::parse($event->start_time)->format('H:i');
         $endTime = Carbon::parse($event->end_time)->format('H:i');
 
-        return view('users.events.show', compact('event', 'date', 'startTime', 'endTime'));
+        // $all_categories = $event->community->categoryCommunity->all();
+        $all_attendees = collect($event->attendees);
+
+        return view('users.events.show', compact('event', 'date', 'startTime', 'endTime'/*, 'all_categories' */, 'all_attendees'));
     }
 
     public function edit($id)
@@ -122,8 +125,9 @@ class EventController extends Controller
     public function destroy($id)
     {
         $event = $this->event->findOrFail($id);
+        $community_id = $event->community->id;
         $event->delete();
 
-        return redirect()->route('communities.index');
+        return redirect()->route('communities.show', $community_id);
     }
 }
