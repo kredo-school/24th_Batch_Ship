@@ -112,3 +112,26 @@ p {
     position: relative;
 }
 
+/* Bottun hovar */
+.btn-turquoise:hover {
+    background-color: #EDFAFD;
+    color: #0D768B ;
+    border-color: rgb(216, 216, 216);
+} 
+
+.btn-turquoise2:hover {
+    background-color: white;
+    color: #0D768B ;
+    border-color: rgb(216, 216, 216);
+}
+
+.btn-gold-cancel:hover {
+    background-color: #FBF9EF;
+    color: #CFB53B;
+    border-color: rgb(216, 216, 216);
+}
+
+.btn-gold-delete:hover {
+    background-color: #CFB53B;
+    color: white;
+}
