@@ -23,4 +23,11 @@ class Community extends Model
     {
         return $this->hasMany(CategoryCommunity::class);
     }
+
+    # Post has many comments
+    # To get all the comments of a community
+    public function comments()
+    {
+        return $this->hasMany(BoardComment::class);
+    }
 }
