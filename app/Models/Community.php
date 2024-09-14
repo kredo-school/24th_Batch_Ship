@@ -21,6 +21,6 @@ class Community extends Model
     # To get the categories under a community
     public function categoryCommunity()
     {
-        return $this->hasMany(categoryCommunity::class);
+        return $this->hasMany(CategoryCommunity::class);
     }
 }
