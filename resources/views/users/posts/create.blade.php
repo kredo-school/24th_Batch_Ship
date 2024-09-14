@@ -5,8 +5,8 @@
 @section('content')
 <head>
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+    {{-- <link rel="stylesheet" href="{{ asset('css/style_postshow.css') }}"> --}}
     <link rel="stylesheet" href="{{ asset('css/style_postshow.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/style_category.css') }}">
 
 
 </head>
@@ -49,22 +49,15 @@
 
                 {{-- Category  --}}
                  <div class="col">  {{-- right side div--}}
-                     <p class=" text-center mt-3 ">▼ Select your Interests ! </p>
+                     <p class=" text-center mt-3 ">▼ Select your Interests ! (at least one)</p>
                        <div class="m-3 scroll-container ">
                           <div class="category">
-                            <table>
-                             <tr>
-                               <td>
                                    @foreach($all_categories as $category)
-
 
                                     <input type="checkbox" name="category[]" id="{{ $category->name }}" name="{{ $category->id }}" autocomplete="off" value="{{ $category->id }}">
                                    <label for="{{ $category->name }}" class="form-check-label">{{ $category->name }}</label>
 
                                    @endforeach
-                               </td>
-                            </tr>
-                          </table>
  　　　　　　　            </div>
                        </div>
 

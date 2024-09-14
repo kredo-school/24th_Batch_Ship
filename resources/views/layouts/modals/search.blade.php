@@ -11,7 +11,7 @@
                 <form action="{{ route('search') }}" method="get" enctype="multipart/form-data">
                     @csrf
 
-                    
+
                     <input type="text" name="keyword" id="keyword" class="form-control" placeholder="Enter keyword..." >
 
                     <select name="category" id="category" class="form-select form-select-sm mt-3 w-50">
@@ -20,7 +20,7 @@
                             <option value="{{ $category->id }}">{{ $category->name }}</option>
                         @endforeach --}}
                     </select>
-                    
+
 
                     <div class="form-check form-check-inline mt-3">
                         <input type="checkbox" name="content" id="user" value="user" class="form-check-input">
