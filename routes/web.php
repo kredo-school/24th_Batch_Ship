@@ -9,6 +9,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CommunityController;
 use App\Http\Controllers\EventUserController;
 use App\Http\Controllers\BoardCommentController;
+use App\Http\Controllers\CommunityUserController;
 
 Auth::routes();
 
@@ -44,6 +45,10 @@ Route::group(['middleware' => 'auth'], function(){
     // COMMENT
     Route::post('/comment/{post_id}/store', [BoardCommentController::class, 'store'])->name('boardcomment.store');
     Route::delete('/comment/{id}/destroy', [BoardCommentController::class, 'destroy'])->name('boardcomment.destroy');
+
+    # CommunityUser
+    Route::post('/community/{id}/join', [CommunityUserController::class, 'join'])->name('community.join');
+    Route::delete('/community/{id}/unjoin', [CommunityUserController::class, 'unjoin'])->name('community.unjoin');
 
     # Event
     Route::get('/event/create', [EventController::class, 'create'])->name('event.create');
