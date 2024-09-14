@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Category;
+use App\Models\Community;
+use App\Models\Event;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -12,9 +14,11 @@ class ProfileController extends Controller
     private $user;
     private $category;
 
-    public function __construct(User $user, Category $category){
+    public function __construct(User $user, Category $category, Community $community, Event $event){
         $this->user = $user;
         $this->category = $category;
+        $this->community = $community;
+        $this->event = $event;
     }
 
     public function index(){
@@ -27,7 +31,12 @@ class ProfileController extends Controller
 
     public function profileProcess($id){
         $user = $this->user->findOrFail($id);
-        return view('users.profile.index', compact('user'));
+        // $all_communities = $this->community->latest()->paginate(4);
+        // $all_events = $this->event->latest()->paginate(4);
+        $own_communities = $this->getOwnCommunity($id);
+        $own_events = $this->getOwnEvents($id);
+
+        return view('users.profile.index', compact('user', 'own_communities', 'own_events'));
     }
 
     # visit to create profile page
@@ -115,6 +124,34 @@ class ProfileController extends Controller
         $user->categoryUser()->createMany($category_user);
 
         return redirect()->route('users.profile.index');
+    }
+
+    # To get user's own communities
+    public function getOwnCommunity($id){
+        $user = $this->user->findOrFail($id);
+        $own_communities = [];
+        $all_communities = $this->community->latest()->get();
+
+        foreach ($all_communities as $community){
+            if($user->id === $community->owner_id){
+                $own_communities[] = $community;
+            }
+        }
+        return $own_communities;
+    }
+
+    # To get user's own events
+    public function getOwnEvents($id){
+        $user = $this->user->findOrFail($id);
+        $own_events = [];
+        $all_events = $this->event->latest()->get();
+
+        foreach($all_events as $event){
+            if($user->id === $event->host_id){
+                $own_events[] = $event;
+            }
+        }
+        return $own_events;
     }
 }
 
