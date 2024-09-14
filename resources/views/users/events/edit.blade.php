@@ -23,9 +23,9 @@
     <div class="row py-3">
       {{-- Left Side of Contents --}}
       <div class="col-8">
-        {{-- Cover Photo --}}
+        {{-- Display Cover Photo --}}
         <label for="image" class="form-label">Image</label>
-        <img src="{{ $event->image }}" alt="event id {{ $event->id }}" class="grid-img">
+        <img src="{{ $event->image }}" alt="{{ $event->title }}" class="grid-img" id="preview">
 
         {{-- Date --}}
         <div class="row mt-3 gx-5">
@@ -75,6 +75,7 @@
 
       <div class="col-4 mt-2">
         <br>
+        {{-- Update Cover Photo --}}
         <input type="file" name="image" id="image" class="form-control">
         @error('image')
           <div class="text-danger small">{{ $message }}</div> 
@@ -100,4 +101,8 @@
     </div>
   </div>
 </form>
+@endsection
+
+@section('scripts')
+  <script src="{{ asset('js/events/preview.js') }}"></script>
 @endsection
