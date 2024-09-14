@@ -32,6 +32,9 @@ Route::group(['middleware' => 'auth'], function(){
     Route::get('/post/{id}/show', [PostController::class, 'show'])->name('users.posts.show');
     Route::get('/post/create', [PostController::class, 'create'])->name('users.posts.create');
     Route::post('/post/store', [PostController::class, 'store'])->name('users.posts.store');
+    Route::get('/post/{id}/edit', [PostController::class, 'edit'])->name('users.posts.edit');
+    Route::patch('/post/{id}/update', [PostController::class, 'update'])->name('users.posts.update');
+    Route::delete('/post/{id}/destroy', [PostController::class, 'destroy'])->name('users.posts.destroy');
 
     # Community
     Route::get('/community/index', [CommunityController::class,'index'])->name('communities.index');

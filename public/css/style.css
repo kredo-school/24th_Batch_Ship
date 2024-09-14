@@ -110,5 +110,63 @@ p {
 
 .cont {
     position: relative;
+    padding-bottom: 60px;
+    box-sizing: border-box;
+    min-height: 100vh;
 }
 
+/* .wrap{
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    grid-template-columns: 100%;
+    min-height: 100vh;
+  } */
+
+/* Bottun hover */
+.btn-gold {
+    background-color: #CFB53B;
+    color: white;
+}
+
+.btn-gold:hover {
+    background-color: #FBF9EF;
+    color: #CFB53B;
+    border-color: rgb(216, 216, 216);
+}
+
+.btn-turquoise {
+    background-color: #0D768B;
+    color: white;
+}
+
+.btn-turquoise:hover {
+    background-color: #EDFAFD;
+    color: #0D768B ;
+    border-color: rgb(216, 216, 216);
+}
+
+.btn-turquoise2 {
+    background-color: #0D768B;
+    color: white;
+}
+
+.btn-turquoise2:hover {
+    background-color: white;
+    color: #0D768B ;
+    border-color: rgb(216, 216, 216);
+}
+
+.btn-gold-cancel:hover {
+    background-color: #FBF9EF;
+    color: #CFB53B;
+    border-color: rgb(216, 216, 216);
+}
+
+.btn-gold-delete:hover {
+    background-color: #CFB53B;
+    color: white;
+}
+
+.border-gray {
+    border-color: rgb(216, 216, 216);
+}

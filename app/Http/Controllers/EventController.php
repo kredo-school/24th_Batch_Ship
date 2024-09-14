@@ -64,14 +64,17 @@ class EventController extends Controller
         // $id - ID of the event
         $event = $this->event->findOrFail($id);
 
+        // For the left Side of Contents
         $date = Carbon::parse($event->date)->format('Y/m/d');
         $startTime = Carbon::parse($event->start_time)->format('H:i');
         $endTime = Carbon::parse($event->end_time)->format('H:i');
 
-        // $all_categories = $event->community->categoryCommunity->all();
+        // For the right Side of Contents
+        $all_categories = $event->community->categoryCommunity->all();
         $all_attendees = collect($event->attendees);
+        $currentDateTime = Carbon::now();
 
-        return view('users.events.show', compact('event', 'date', 'startTime', 'endTime'/*, 'all_categories' */, 'all_attendees'));
+        return view('users.events.show', compact('event', 'date', 'startTime', 'endTime', 'all_categories', 'all_attendees', 'currentDateTime'));
     }
 
     public function edit($id)

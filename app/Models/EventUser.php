@@ -15,7 +15,7 @@ class EventUser extends Model
     // set the value to false to tell Laravel to not insert the timestamps
     public $timestamps = false;
 
-    # To get the name of the user
+    # To get the user information
     public function user()
     {
         return $this->belongsTo(User::class);
