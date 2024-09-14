@@ -49,7 +49,7 @@
                 <p class="text-center fw-bold mb-1">
                     <i class="fa-solid fa-caret-down"></i> Username
                 </p>
-                <input type="text" name="username" id="" class="form-control w-50 mx-auto" placeholder="{{ old('username', $user->username) }}" autofocus>
+                <input type="text" name="username" id="" class="form-control w-50 mx-auto" value="{{ old('username', $user->username) }}" placeholder="" autofocus>
                 {{-- Error --}}
                 @error('username')
                     <p class="text-danger small">{{ $message }}</p>
@@ -61,7 +61,7 @@
                 <p class="text-center fw-bold mb-1">
                     <i class="fa-solid fa-caret-down"></i> Self-introduction
                 </p>
-                <textarea class="border-0 p-2" name="introduction" id="introduction" cols="57" rows="5" class="p-2" placeholder="{{ old('introduction', $user->introduction) }}"></textarea>
+                <textarea class="border-0 p-2" name="introduction" id="introduction" cols="57" rows="5" class="p-2" placeholder="">{{ old('introduction', $user->introduction) }}</textarea>
             </div>
 
             {{-- select interest --}}
