@@ -10,6 +10,9 @@ p {
     font-family: "Raleway", sans-serif;
 }
 /* Background Color */
+.bg-white {
+    background-color: #F5F5F5;
+}
 .bg-yellow {
     background-color: #FBF9EF;
 }
@@ -25,6 +28,8 @@ p {
 .bg-gold {
     background-color: #CFB53B;
 }
+
+/*Button  Color*/
 
 .btn-gold {
     background-color: #CFB53B;
@@ -62,6 +67,21 @@ p {
 .btn-category {
     background-color: #FCEFEE;
     color: black;
+}
+.btn-gold-cancel {
+    background-color: #CFB53B;
+    color: white;
+}
+
+.btn-gold-cancel:hover {
+    background-color: #FBF9EF;
+    color: #CFB53B;
+    border-color: rgb(216, 216, 216);
+}
+
+.btn-gold-delete:hover {
+    background-color: #CFB53B;
+    color: white;
 }
 
 /* Text Color */
@@ -150,9 +170,7 @@ p {
     color: #CFB53B;
 }
 
-.bg-white {
-    background-color: #F5F5F5;
-}
+
 
 .border-gray {
     border-color: rgb(216, 216, 216);
@@ -168,21 +186,7 @@ p {
     border-width: thick;
 }
 
-.btn-gold-cancel {
-    background-color: #CFB53B;
-    color: white;
-}
 
-.btn-gold-cancel:hover {
-    background-color: #FBF9EF;
-    color: #CFB53B;
-    border-color: rgb(216, 216, 216);
-}
-
-.btn-gold-delete:hover {
-    background-color: #CFB53B;
-    color: white;
-}
 
 .modal-with {
     width:740px;
@@ -204,9 +208,11 @@ p {
     display: none;
 }
 
-.category{
-    font-size: 1.2rem;
-}
+/*Category*/
+
+/* .category{
+    font-size: 1.1rem;
+} */
 
 .category label
 {
@@ -231,6 +237,12 @@ p {
 .category input{
     display: none;
 }
+
+.category-badge{
+    font-size: 1.1rem;
+}
+
+/* Post Show */
 .img-postshow {
     width: 500px !important;
     height: 300px !important;
@@ -253,6 +265,8 @@ p {
     margin-left: 1rem;
     object-fit: cover;
 }
+
+/* Enpathy range */
 #range{
     appearance:none;
     width:15%;
@@ -287,7 +301,7 @@ p {
         height:15px;
         border-radius:50%;
         background:#fff;
-        /* border:solid 2px#0e0d0d; */
+
     }
 
 

@@ -66,21 +66,24 @@ class PostController extends Controller
     {
         $request->validate([
             'description'   => 'required|min:1|max:1500',
-            'image'      => 'required|mimes:jpg,jpeg,png,gif|max:1048',
+            'image'      => 'nullable|mimes:jpg,jpeg,png,gif|max:1048',
             'category'      => 'required|array|between:1,3'
         ]);
 
         # Save the post
         $this->post->user_id        = Auth::user()->id;
-        $this->post->image          = 'data:image/' . $request->image->extension() . ';base64,' . base64_encode(file_get_contents($request->image));
         $this->post->description    = $request->description;
+        $this->post->timestamps = $request->timestamps;
         $this->post->save();
 
+        if($request->avatar){
+            $this->post->image = 'data:image/' . $request->image->extension() . ';base64,' . base64_encode(file_get_contents($request->image));
+        }
 
         # Save the categories to the category_post povit table
+
         foreach ($request->category as $category_id){
             $category_post[] = ['category_id' => $category_id];
-
         }
 
         $this->post->categoryPost()->createMany($category_post);
@@ -114,48 +117,52 @@ class PostController extends Controller
                 ->with('selected_categories', $selected_categories);
     }
 
-    // public function update(Request $request, $id)
-    // {
-    //     # 1. VALIDATE THE DATA FROM THE FORM
-    //     $request->validate([
-    //         'category'      => 'required|array|between:1,3',
-    //         'description'   => 'required|min:1|max:1000',
-    //         'image'         => 'mimes:jpg,jpeg,png,gif|max:1048'
-    //     ]);
 
-    //     # 2. UPDATE THE POST
-    //     $post                 = $this->post->findOrFail($id);
-    //     $post->description    = $request->description;
+    public function update(Request $request, $id)
+    {
+        #1. Validate the request
+        $request->validate([
+            'description'   => 'required|min:1|max:1500',
+            'image'      => 'required|mimes:jpg,jpeg,png,gif|max:1048',
+            'category'      => 'required|array|between:1,3'
+        ]);
 
-    //     #IF there is a new image
-    //     if($request->image){
-    //         $post->image      = 'data:image/' . $request->image->extension() . ';base64,' . base64_encode(file_get_contents($request->image));
-    //     }
+        # 2. Update the post
+        $post = $this->post->findOrFail($id);
+        $post->description = $request->description;
 
-    //    $post->save();
+        // if there is a new image
+        if($request->image){
+            $post->image = 'data:image/' . $request->image->extension() . ';base64,' . base64_encode(file_get_contents($request->image));
+        }
 
-    //    # 3. DELETE ALL RECORDS from the category_post table related to this POST
-    //    $post->categoryPost()->delete();
+        $post->save();
 
-    //    # 4. SAVE the new categories to the category_post table
-    //    foreach($request->category as $category_id){
-    //         $category_post[]  =  ['category_id' => $category_id];
-    //    }
-    //    $post->categoryPost()->createMany($category_post);
+        # 3. Delete all the records from category_post related to this post
+        $post->categoryPost()->delete();
 
-    //    # 5. REDIRECT to Shoe Post page
-    //    return redirect()->route('post.show', $id);
+        # 4. Save the categories to category_post table
+        foreach($request->category as $category_id){
+            $category_post[] = ['category_id' => $category_id];
+        }
+        $post->categoryPost()->createMany($category_post);
+
+        # 5. Redirect to Show Post page (to confirm the update)
+        return redirect()->route('users.posts.show', $id);
     }
 
-    // destroy() - delete the post
-    // public function destroy($id)
-    // {
-    //     $post = $this->post->findOrFail($id);
-    //     $post->forceDelete();
-
-    //     return redirect()->route('index');
-    // }
 
 
+    // delete the post
+    public function destroy($id)
+    {
+        $post = $this->post->findOrFail($id);
+        $post->forceDelete();
+
+        return redirect()->route('users.posts.index');
+    }
 
 
+
+
+    }

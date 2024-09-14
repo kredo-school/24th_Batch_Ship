@@ -29,6 +29,21 @@ class CategorySeeder extends Seeder
 
         $categories = [
             [
+                'name' =>'NONE',
+                'created_at' => NOW(),
+               'updated_at' => NOW()
+            ],
+            [
+                'name' =>'Tweet',
+                'created_at' => NOW(),
+               'updated_at' => NOW()
+            ],
+            [
+                'name' =>'Actor',
+                'created_at' => NOW(),
+               'updated_at' => NOW()
+            ],
+            [
                 'name' =>'Adventure',
                 'created_at' => NOW(),
                'updated_at' => NOW()
@@ -64,6 +79,11 @@ class CategorySeeder extends Seeder
                'updated_at' => NOW()
             ],
             [
+                'name' =>'Bar',
+                'created_at' => NOW(),
+               'updated_at' => NOW()
+            ],
+            [
                 'name' =>'Beauty',
                 'created_at' => NOW(),
                'updated_at' => NOW()
@@ -84,12 +104,22 @@ class CategorySeeder extends Seeder
                'updated_at' => NOW()
             ],
             [
+                'name' =>'Business',
+                'created_at' => NOW(),
+               'updated_at' => NOW()
+            ],
+            [
                 'name' =>'Car',
                 'created_at' => NOW(),
                'updated_at' => NOW()
             ],
             [
                 'name' =>'Cafe',
+                'created_at' => NOW(),
+               'updated_at' => NOW()
+            ],
+            [
+                'name' =>'Calture',
                 'created_at' => NOW(),
                'updated_at' => NOW()
             ],
@@ -120,6 +150,11 @@ class CategorySeeder extends Seeder
             ],
             [
                 'name' =>'Cosplay',
+                'created_at' => NOW(),
+               'updated_at' => NOW()
+            ],
+            [
+                'name' =>'Country',
                 'created_at' => NOW(),
                'updated_at' => NOW()
             ],
@@ -155,6 +190,11 @@ class CategorySeeder extends Seeder
             ],
             [
                 'name' =>'DIY',
+                'created_at' => NOW(),
+               'updated_at' => NOW()
+            ],
+            [
+                'name' =>'DJ',
                 'created_at' => NOW(),
                'updated_at' => NOW()
             ],
@@ -309,7 +349,37 @@ class CategorySeeder extends Seeder
                'updated_at' => NOW()
             ],
             [
+                'name' =>'Nature',
+                'created_at' => NOW(),
+               'updated_at' => NOW()
+            ],
+            [
+                'name' =>'Painting',
+                'created_at' => NOW(),
+               'updated_at' => NOW()
+            ],
+            [
+                'name' =>'Party',
+                'created_at' => NOW(),
+               'updated_at' => NOW()
+            ],
+            [
+                'name' =>'Rugby',
+                'created_at' => NOW(),
+               'updated_at' => NOW()
+            ],
+            [
                 'name' =>'Savings',
+                'created_at' => NOW(),
+               'updated_at' => NOW()
+            ],
+            [
+                'name' =>'Shisya',
+                'created_at' => NOW(),
+               'updated_at' => NOW()
+            ],
+            [
+                'name' =>'Shopping',
                 'created_at' => NOW(),
                'updated_at' => NOW()
             ],
@@ -345,6 +415,11 @@ class CategorySeeder extends Seeder
             ],
             [
                 'name' =>'Temple',
+                'created_at' => NOW(),
+               'updated_at' => NOW()
+            ],
+            [
+                'name' =>'Tennis',
                 'created_at' => NOW(),
                'updated_at' => NOW()
             ],

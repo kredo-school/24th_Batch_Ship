@@ -46,7 +46,7 @@
                                     <div class="category">
 
                                             @foreach ($post->categoryPost as $category_post)
-                                          <span class="badge me-2 bg-turquoise text-white"name="category[]">
+                                          <span class="badge category-badge me-2 bg-turquoise text-white"name="category[]">
                                           {{ $category_post->category->name }}</span>
 
                                              @endforeach
@@ -62,10 +62,11 @@
                                                 <i class="fa-regular fa-pen-to-square show-icon"></i>
                                             </a>
                                            {{-- delete --}}
-                                            <span class="btn post-delete show-icon ps-2" data-bs-toggle="modal" data-bs-target="#delete{{-- #delete-post-{{ $post->id }} --}}">
-                                                <i class="fa-regular fa-trash-can fw-bold"></i>
-                                                @include('users.posts.modals.delete')
-                                            </span>
+                                           <span class="btn post-delete show-icon ps-2" data-bs-toggle="modal" data-bs-target="#delete">
+                                            <i class="fa-regular fa-trash-can fw-bold"></i>
+                                            @include('users.posts.modals.delete')
+                                           </span>
+
                                     @else
                                     @endif
                                     <p class="text-uppercase text-muted text-end ">{{ date('M d, Y', strtotime($post->created_at)) }}</p>
@@ -79,8 +80,7 @@
 
                     {{-- Post content--}}
                     <div class="row py-5 px-3">
-                        {{-- <a href="{{ route('profile.show', $post->user->id) }}"
-                            class="text-decoration-none text-dark fw-bold">{{ $post->user->name }}</a> --}}
+
                         &nbsp;
                         <p class="d-inline fw-light">{{ $post->description }}</p>
 
@@ -90,9 +90,9 @@
                 {{-- Right side of the Post--}}
                 <div class="col-5">
                     <div class="row position-center mx-0">
-
+                      @if($post->image)
                         <img width="25" src="{{ $post->image }}" alt="post id {{ $post->id }}" class="img-postshow mb-4">
-
+                      @endif
                 </div>
             </div>
 
@@ -111,14 +111,6 @@
                             oninput="document.getElementById('output1').value=this.value">
 
                              <output id="output1" class="m-2">60</output><span>%</span>
-
-                            {{-- <datalist id="my-datalist">
-                                <option value="60">
-                                <option value="70">
-                                <option value="80">
-                                <option value="90">
-                                <option value="100">
-                              </datalist> --}}
 </div>
                         </div>
                     @endif
@@ -152,7 +144,7 @@
                      @endif --}}
 
                     {{-- submit --}}
-                        <button type="submit" class="btn btn-gold form-group mt-3">Post</button>
+                        <button type="submit" class="btn btn-gold form-group m-3 btn-lg">Post</button>
                 </form>
             </div>
 

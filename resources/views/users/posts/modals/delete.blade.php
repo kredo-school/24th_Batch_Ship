@@ -12,7 +12,7 @@
             </div>
 
             <div class="modal-footer border-0">
-                <form action="#" method="post" class="w-100">
+                <form action="{{ route('users.posts.destroy', $post->id) }}" method="post" class="w-100">
                     @csrf
                     @method('DELETE')
 
@@ -25,7 +25,7 @@
                         <div class="col">
                             <button type="submit" class="btn btn-gold-delete border border-gray bg-yellow post-delete w-75 btn-sm">
                                     <i class="fa-regular fa-trash-can fw-bold me-2"></i>
-                                    Delete      
+                                    Delete
                             </button>
                         </div>
                     </div>
