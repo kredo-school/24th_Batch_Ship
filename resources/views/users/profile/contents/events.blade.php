@@ -1,52 +1,136 @@
-<h2 class="mx-3 mt-4">Event</h2>
-
 {{-- User's Own Event --}}
-<div class="d-flex justify-content-between align-items-center mx-4">
-    <h3>Owner Event</h3>
-</div>
-
-<div class="bg-yellow mx-2">
-    <div class="row">
-        {{-- @foreach 4 own events --}}
-        <div class="col-3">
-            <div class="container bg-white m-3 p-0">
-                <a href="#" class="d-block">
-                    <img src="{{ asset('storage/2faac4315dbf39cf6e169f033cad1370_m 1.png') }}" class="w-100" style="height: auto;">
-                </a>
-
-                <div class="row mt-2 mx-auto">
-                    <div class="col d-flex align-items-center">
-                        <h5 class="mb-0 me-3"><a href="#" class="text-black fw-bold">Event title</a></h5>
-                        <a href="#" class="text-black">Community title</a>
-                    </div>
-                    <p class="text-end">Created by <a href="#" class="text-black ms-2"><i class="fa-solid fa-circle-user icon-md"></i></a></p>
-                </div>
-            </div>
-        </div>
+<div class="container-fluid bg-yellow p-3 mt-5">
+    <div class="row m-3">
+        @if (Auth::user()->id == $user->id)
+            <h2>My own event</h2>
+        @else
+            <h2>{{$user->username}}'s own event</h2>
+        @endif
     </div>
+
+    <div class="row row-eq-height">
+        {{-- Get 4 events --}}
+        @forelse ($own_events as $event)
+            <div class="col-sm-3 mb-3 mb-sm-0">
+                <a href="#" class="text-decoration-none text-black">
+                    <div class="card border-0 rounded h-100 d-flex flex-column mb-3">
+                        {{-- image --}}
+                        <div class="mb-2">
+                            <a href="{{ route('event.show', $event->id) }}">
+                                <img src="{{ $event->image }}" alt="Event ID {{ $event->id }}" class="fixed-size-img rounded card-img-top">
+                            </a>
+                        </div>
+                        <div class="card-body d-flex flex-column">
+                            <div class="row mb-2-2 ms-1">
+                                {{-- event title --}}
+                                <h3 class="col card-title">{{ $event->title }}</h3>
+                                {{-- owner --}}
+                                <p class="col card-text text-end">Organized by
+                                    <a href="{{ route('users.profile.specificProfile', $event->host_id )}}">
+                                        @if ($user->avatar)
+                                            <img src="{{ $user->avatar }}" alt="{{ $user->name }}" class="img-thumbnail rounded-circle avatar-sm">
+                                        @else
+                                            <i class="fa-solid fa-circle-user text-secondary icon-sm"></i>
+                                        @endif   
+                                    </a>
+                                </p>
+
+                                <div class="row card-text text-start mt-auto">
+                                    {{-- community title this event belongs to --}}
+                                    <a href="{{ route('communities.show', $event->community_id) }}" class="text-decoration-none text-secondary">{{ $event->community->title }}</a>
+                                    
+                                    {{-- date --}}
+                                    <p class="text-muted xsmall">{{ $event->date }} {{ $event->start_time }} ~ {{ $event->end_time }}</p>
+                                </div>
+                            </div>
+
+                            <div class="row card-text text-start ms-1 mt-auto">
+                                {{-- category --}}
+                                <div class="col">
+                                    {{-- @foreach ($community->categoryCommunity as $category_community)
+                                        <a href="#" class="badge me-1 bg-turquoise text-decoration-none">{{ $category_community->category->name }}</a>
+                                    @endforeach --}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        @empty
+            <h3 class="text-secondary text-center">No own event yet.</h3>
+        @endforelse
+    </div>
+
+    {{-- {{ $all_events->links() }} --}}
+
 </div>
+
 
 {{-- User's Joined Event --}}
-<div class="d-flex justify-content-between align-items-center mx-4 mt-2">
-    <h3>Join Event</h3>
-</div>
-
-<div class="bg-yellow mx-2">
-    <div class="row">
-        {{-- @foreach 4 joined events --}}
-        <div class="col-3">
-            <div class="container bg-white m-3 p-0">
-                <a href="#" class="d-block">
-                    <img src="{{ asset('storage/2faac4315dbf39cf6e169f033cad1370_m 1 (1).png') }}" class="w-100" style="height: auto;">
-                </a>
-                <div class="row mt-2 mx-auto">
-                    <div class="col d-flex align-items-center">
-                        <h5 class="mb-1 me-3"><a href="#" class="text-black fw-bold">Event title</a></h5>
-                        <a href="#" class="text-black align-self-center">Community title</a>
-                    </div>
-                    <p class="text-end">Created by <a href="#" class="text-black ms-2"><i class="fa-solid fa-circle-user icon-md"></i></a></p>
-                </div>
-            </div>
-        </div>
+<div class="div container-fluid bg-yellow p-3 mt-5">
+    <div class="row m-3">
+        @if (Auth::user()->id == $user->id)
+            <h2>My joined event</h2>
+        @else
+            <h2>{{$user->username}}'s joined event</h2>
+        @endif
     </div>
-</div> 
+
+    <div class="row row-eq-height">
+        {{-- Get 4 communities --}}
+        {{-- @if ($user->events->isNotEmpty()) --}}
+            {{-- @foreach ($user->events as $event) --}}
+                <div class="col-sm-3 mb-3 mb-sm-0">
+                    <a href="#" class="text-decoration-none text-black">
+                        <div class="card border-0 rounded h-100 d-flex flex-column mb-3">
+                            {{-- image --}}
+                            <div class="mb-2">
+                                <a href="#">
+                                    <img src="#" alt="Event ID " class="fixed-size-img rounded card-img-top">
+                                </a>
+                            </div>
+                            <div class="card-body d-flex flex-column">
+                                <div class="row mb-2-2 ms-1">
+                                    {{-- event title --}}
+                                    <h3 class="col card-title">event title</h3>
+                                    {{-- owner --}}
+                                    <p class="col card-text text-end">Organized by
+                                        <a href="#">
+                                            {{-- @if ($user->avatar)
+                                                <img src="{{ $user->avatar }}" alt="{{ $user->name }}" class="img-thumbnail rounded-circle avatar-sm">
+                                            @else --}}
+                                                <i class="fa-solid fa-circle-user text-secondary icon-sm"></i>
+                                            {{-- @endif    --}}
+                                        </a>
+                                    </p>
+
+                                    <div class="row card-text text-start mt-auto">
+                                        {{-- community title this event belongs to --}}
+                                        <a href="@" class="text-decoration-none text-secondary">community_title</a>
+                                        
+                                        {{-- date --}}
+                                        <p class="text-muted xsmall">date</p>
+                                    </div>
+                                </div>
+
+                                <div class="row card-text text-start ms-1 mt-auto">
+                                    {{-- category --}}
+                                    <div class="col">
+                                        {{-- @foreach ($community->categoryCommunity as $category_community)
+                                            <a href="#" class="badge me-1 bg-turquoise text-decoration-none">{{ $category_community->category->name }}</a>
+                                        @endforeach --}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            {{-- @endforeach --}}
+        {{-- @else --}}
+            <h3 class="text-secondary text-center">No joined event yet.</h3>
+        {{-- @endif --}}
+    </div>
+
+    {{-- {{ $all_events->links() }} --}}
+
+</div>
