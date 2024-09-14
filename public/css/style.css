@@ -113,11 +113,32 @@ p {
 }
 
 /* Bottun hover */
+.btn-gold {
+    background-color: #CFB53B;
+    color: white;
+}
+
+.btn-gold:hover {
+    background-color: #FBF9EF;
+    color: #CFB53B;
+    border-color: rgb(216, 216, 216);
+}
+
+.btn-turquoise {
+    background-color: #0D768B;
+    color: white;
+}
+
 .btn-turquoise:hover {
     background-color: #EDFAFD;
     color: #0D768B ;
     border-color: rgb(216, 216, 216);
-} 
+}
+
+.btn-turquoise2 {
+    background-color: #0D768B;
+    color: white;
+}
 
 .btn-turquoise2:hover {
     background-color: white;
@@ -134,4 +155,8 @@ p {
 .btn-gold-delete:hover {
     background-color: #CFB53B;
     color: white;
+}
+
+.border-gray {
+    border-color: rgb(216, 216, 216);
 }
