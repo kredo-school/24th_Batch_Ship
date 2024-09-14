@@ -26,12 +26,10 @@
 
         <div class="mb-3 text-center">
           {{-- avatar & upload image --}}
-          {{-- @if ($user->avatar) --}}
-            {{-- <img src="{{ $user->avatar }}" alt="{{ $user->name }}" class="img-thumbnail rounded-circle d-block mx-auto avatar-lg"> --}}
-            <img id="image-preview" src="https://cdn.dribbble.com/users/4438388/screenshots/15854247/media/0cd6be830e32f80192d496e50cfa9dbc.jpg?resize=1000x750&vertical=center" alt="preview image" class="img-thumbnail rounded-circle d-block mx-auto avatar-lg mb-2">
-           {{-- @else --}}
+            <img id="image-preview" src="/assets/image/avatar1.png" alt="preview image" class="img-thumbnail border rounded-circle d-block mx-auto avatar-lg mb-2">
+          
             {{-- <p class="display-1 mb-0"><i class="fa-solid fa-circle-user text-turquoise"></i></p> --}}
-          {{-- @endif --}}
+          
 
           <label class="mb-3">
             <span class="btn btn-sm btn-turquoise2">
