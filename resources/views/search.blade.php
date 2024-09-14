@@ -3,174 +3,225 @@
 @section('title', 'Search')
 
 @section('content')
+<div class="container-fluid">
+    <h1 class="fw-bold text-center">Your Key word is: "{{ $search }}"</h1>
 
-<link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    @if(isset($no_results_message))
+    <p class="text-danger text-center">{{ $no_results_message }}</p>
+    @endif   
 
-<div class="container-fluid search-bg">
-  <h1 class="fw-bold text-center">Your Key word is: "{{ $search }}"</h1>
-  
-  @if(isset($no_results_message))
-  <p class="text-danger text-center">{{ $no_results_message }}</p>
-  @endif   
-
-  {{-- User --}}
-  <div class="mt-5 bg-green p-3">
-    <div class="d-flex justify-content-between align-items-center mb-3">
-      <h2 class="mb-0">User</h2>
-      {{-- @if(!empty($result_users)) --}}
-      <p class="h5 text-decoration-underline text-primary mb-0">
-        <a href="#">see more</a>
-      </p>
-      {{-- @endif --}}
-    </div>
-    <div class="row">
-      {{-- @foreach($result_users as $user) --}}
-      <div class="col-md-4 mb-3">
-        <div class="card border-0">
-          <div class="card-body border border-2 p-2 mb-0">
-            <div class="d-flex align-items-center">
-              {{-- avatar & name --}}
-              {{-- <div class="me-2">{{ $user->avatar }}</div> --}}
-              {{-- <h6>{{ $user->username }}</h6> --}}
-              <i class="fa-solid fa-circle-user icon-sm me-2"></i>
-              <h6 class="mb-0">Username</h6>                        
-            </div>
-            {{-- introduction --}}
-            <p class="xsmall mb-2">
-              {{-- {{ $user->introduction }} --}}
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cumque a maxime libero accusantium placeat necessitatibus provident nemo earum ratione ad! Iste tempora consectetur.
-            </p>
-            {{-- interest(categories) --}}
-            <div>
-              {{-- @foreach($post->categories as $category) --}}
-              {{-- <span class="badge me-1 bg-turquoise text-white">{{ $category->name }}</span> --}}
-              <span class="badge me-1 bg-turquoise text-white">Category 1</span>
-              {{-- @endforeach --}}
-            </div>
-          </div>
+    {{-- User --}}
+    <div class="mt-5 bg-green p-3">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h2 class="mb-0">User</h2>
         </div>
-      </div>
-      {{-- @endforeach --}}
-    </div>
-  </div>
-  
-  {{-- Post --}}
-  <div class="mt-5 bg-pink p-3">
-    <div class="d-flex justify-content-between align-items-center mb-3">
-      <h2 class="mb-0">Post</h2>
-      {{-- @if(!empty($result_posts)) --}}
-      <p class="h5 text-decoration-underline text-primary mb-0">
-        <a href="#">see more</a>
-      </p>
-      {{-- @endif --}}
-    </div>
-    <div class="row">
-      {{-- @foreach($result_posts as $post) --}}
-      <div class="col-md-4 mb-3">
-        <div class="card border-0">
-          <div class="card-body p-0 pb-1 border border-2">
-            {{-- Post image --}}
-            <div class="mb-1">
-              {{-- <img class="w-100" src="{{ $post->image }}" alt=""> --}}
-              <img src="https://img.freepik.com/free-vector/flat-design-tweet-mockup_23-2149200431.jpg?size=338&ext=jpg&ga=GA1.1.2008272138.1724803200&semt=ais_hybrid" alt="" class="w-100 object-fit-cover">
+        <div class="row row-eq-height">
+            @foreach($result_users as $user)
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="card rounded border-0 h-100 d-flex flex-column">
+                    <div class="card-body d-flex flex-column" style="max-height: 200px; overflow-y: scroll;">
+                        {{-- avatar & name --}}
+                        <div class="d-flex align-items-center mb-1">
+                            @if($user->avatar)
+                            <a href="{{ route('users.profile.specificProfile', $user->id) }}" class="me-1">
+                                <img src="{{ $user->avatar }}" alt="avatar" class="rounded avatar-sm" style="border-radius:50%;">
+                            </a>
+                            @else
+                            <a href="{{ route('users.profile.specificProfile', $user->id) }}" class="me-1 text-decoration-none text-dark">
+                                <i class="fa-solid fa-circle-user icon-sm me-2"></i>
+                            </a>
+                            @endif
+                            @if($user->username)
+                            <h3 class="ms-1 mb-0">{{ $user->username }}</h3>
+                            @endif
+                        </div>
+                        {{-- introduction --}}
+                        <p class="mb-2">
+                            {{ $user->introduction }} 
+                        </p>
+                        {{-- interest(categories) --}}
+                        <div class="row card-text text-start ms-1 mt-auto">
+                            @if(isset($user->categories))
+                            @foreach($user->categories as $category)
+                            <a href="#" class="text-decoration-none">
+                                <span class="badge ms-1 bg-turquoise text-white">{{ $category->name }}</span>
+                            </a>
+                            @endforeach
+                            @endif
+                        </div>
+                    </div>
+                </div>
             </div>
-            {{-- avatar & name --}}
-            <div class="d-flex align-items-center p-2">
-              {{-- <div class="me-2">{{ $user->avatar }}</div> --}}
-              {{-- <h6>{{ $user->username }}</h6> --}}
-              <i class="fa-solid fa-circle-user icon-sm me-2"></i>
-              <h6 class="mb-0">Username</h6>                        
-            </div>
-            {{-- Post category --}}
-            <div>
-              {{-- @foreach($post->categories as $category) --}}
-              {{-- <span class="badge me-1 bg-turquoise text-white">{{ $category->name }}</span> --}}
-              <span class="badge m-2 bg-turquoise text-white">Category 1</span>
-              {{-- @endforeach --}}
-            </div>
-          </div>
+            @endforeach
         </div>
+        <div class="d-flex justify-content-center">
+          @if($result_users instanceof \Illuminate\Pagination\LengthAwarePaginator && $result_users->total() > 0)
+              {{ $result_users->links() }}
+          @else
+              <p>No users found.</p>
+          @endif
       </div>
-      {{-- @endforeach --}}
     </div>
-  </div>
 
-  {{-- Community --}}
-  <div class="mt-5 bg-blue p-3">
-    <div class="d-flex justify-content-between align-items-center mb-3">
-      <h2 class="mb-0">Community</h2>
-      {{-- @if(!empty($result_communities)) --}}
-      <p class="h5 text-decoration-underline text-primary mb-0">
-        <a href="#">see more</a>
-      </p>
-      {{-- @endif --}}
-    </div>
-    <div class="row">
-      {{-- @foreach($result_communities as $community) --}}
-      <div class="col-md-4 mb-3">
-        <div class="card border-0">
-          <div class="card-body p-0 border border-2">
-            {{-- Community cover image --}}
-            <div class="mb-">
-              {{-- <img src="{{ $community->image }}" alt=""> --}}
-              {{-- <h6>{{ $community->title }}</h6> --}}
-              <img src="https://images.pexels.com/photos/3408354/pexels-photo-3408354.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="" class="img-fluid">
-            </div>
-            {{-- Community title & owner --}}
-            <div class="card-body p-2 pb-1">
-              {{-- <h6>{{ $community->title }}</h6> --}}
-              <h6>Community Title</h6>
-              <div class="d-flex align-items-center justify-content-end">
-                <p class="m-0 pe-2">Created by Username</p>
-                <i class="fa-solid fa-circle-user icon-sm"></i>
-              {{-- <div class="me-2">{{ $user->avatar }}</div> --}}                
-              </div>                                         
-            </div>
-          </div>
+    {{-- Post --}}
+    <div class="mt-5 bg-pink p-3">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h2 class="mb-0">Post</h2>
         </div>
-      </div>
-      {{-- @endforeach --}}
-    </div>
-  </div>
-  
-  {{-- Event --}}
-  <div class="mt-5 bg-yellow p-3">
-    <div class="d-flex justify-content-between align-items-center mb-3">
-      <h2 class="mb-0">Event</h2>
-      {{-- @if(!empty($result_events)) --}}
-      <p class="h5 text-decoration-underline text-primary mb-0">
-        <a href="#">see more</a>
-      </p>
-      {{-- @endif --}}
-    </div>
-    <div class="row">
-      {{-- @foreach($result_events as $event) --}}
-      <div class="col-md-4 mb-3">
-        <div class="card border-0">
-          <div class="card-body p-0 border border-2">
-            {{-- Event image --}}
-            <div class="mb-2">
-              {{-- <img src="{{ $event->image }}" alt=""> --}}
-              {{-- <h6>{{ $event->title }}</h6> --}}
-              <img src="https://img.freepik.com/free-vector/hand-drawn-english-book-background_23-2149483336.jpg?size=626&ext=jpg" alt="" class="img-fluid">
+        <div class="row row-eq-height">
+            @foreach($result_posts as $post)
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="card rounded border-0 h-100 d-flex flex-column">
+                    {{-- Post image --}}
+                    <div class="mb-2">
+                        <img class="w-100 object-fit-fill" src="{{ $post->image }}" alt="">
+                    </div>
+                    <div class="card-body d-flex flex-column">
+                        <div class="row mb-2 ms-1">
+                            {{-- avatar & name --}}
+                            <h3 class="col card-title mb-0">{{ $post->user->username }}</h3>
+                            <div class="col card-text text-end">
+                                created by
+                                <a href="{{ route('users.profile.specificProfile', $post->user->id) }}" class="me-1 text-decoration-none">
+                                  @if($post->user->avatar)
+                                  <img src="{{ $post->user->avatar }}" alt="Avatar" class="rounded-circle avatar-sm">
+                                  @else
+                                  <i class="fa-solid fa-circle-user icon-sm me-2"></i>
+                                </a>
+                                @endif
+                            </div>                      
+                        </div>
+                        {{-- Post category --}}
+                        <div class="row card-text text-start ms-1 mt-auto">
+                            <div class="col">
+                                @foreach($post->categories as $category)
+                                <a href="#" class="text-decoration-none">
+                                    <span class="badge ms-1 bg-turquoise text-white">{{ $category->name }}</span>
+                                </a>
+                                @endforeach                
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            {{-- Event title & owner --}}
-            <div class="card-body p-2 pb-1">
-              {{-- <h6>{{ $event->title }}</h6> --}}
-              <h6>Event Title</h6>
-              <div class="d-flex align-items-center justify-content-end">
-                <p class="m-0 pe-2">Created by Username</p>
-              {{-- <p> created by {{ eventowner }}</p> --}}
-                <i class="fa-solid fa-circle-user icon-sm"></i>
-              {{-- <div class="me-2">{{ $user->avatar }}</div> --}}                
-              </div>                                         
-            </div>
-          </div>
+            @endforeach
         </div>
-      </div>
-      {{-- @endforeach --}}
+        {{-- Pagination for posts --}}
+        <div class="d-flex justify-content-center">
+            @if ($result_posts->isNotEmpty())
+            {{ $result_posts->links() }}
+            @endif
+        </div>
     </div>
-  </div>
 
-</div> {{-- end of container-fluid --}}
+    {{-- Community --}}
+    <div class="mt-5 bg-blue p-3">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h2 class="mb-0">Community</h2>
+        </div>
+        <div class="row row-eq-height">
+            @foreach($result_communities as $community)
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="card rounded border-0 h-100 d-flex flex-column">
+                    {{-- Community cover image --}}
+                    <div class="mb-2">
+                        <a href="{{ route('communities.show',$community->id) }}">
+                            <img src="{{ $community->image }}" alt="Community ID {{ $community->id }}" class="fixed-size-img rounded card-img-top">
+                        </a>
+                    </div>
+                    <div class="card-body d-flex flex-column">
+                        {{-- Community title & owner --}}
+                        <div class="row mb-2 ms-1">
+                            {{-- title --}}
+                            <h3 class="col card-title">{{ $community->title }}</h3>
+                            {{-- owner --}}
+                            <p class="col card-text text-end">
+                                created by
+                                <a href="{{ route('users.profile.specificProfile', $community->owner_id) }}">
+                                    @if ($community->user->avatar)
+                                    <img src="{{ $community->user->avatar }}" alt="#" class="rounded-circle avatar-sm">
+                                    @else
+                                    <i class="fa-solid fa-circle-user text-secondary icon-sm"></i>
+                                    @endif
+                                </a>
+                            </p>
+                        </div>
+                        {{-- category --}}
+                        <div class="row card-text text-start ms-1 mt-auto">
+                            <div class="col">
+                                @foreach ($community->categoryCommunity as $category_community)
+                                <a href="#" class="badge me-1 bg-turquoise text-decoration-none">{{ $category_community->category->name }}</a>
+                                @endforeach
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @endforeach
+        </div>
+        {{-- Pagination for communities --}}
+        <div class="d-flex justify-content-center">
+            @if ($result_communities->isNotEmpty())
+            {{ $result_communities->links() }}
+            @endif
+        </div>
+    </div>
+
+    {{-- Event --}}
+    <div class="mt-5 bg-yellow p-3">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h2 class="mb-0">Event</h2>
+        </div>
+        <div class="row row-eq-height">
+            @foreach($result_events as $event)
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="card rounded border-0 h-100 d-flex flex-column">
+                    <div class="card-body d-flex flex-column p-0">
+                        {{-- Event image --}}
+                        <div class="mb-2">
+                            <a href="{{ route('event.show', $event->id) }}">
+                                <img src="{{ $event->image }}" alt="Event ID {{ $event->id }}" class="fixed-size-img rounded card-img-top">
+                            </a>
+                        </div>
+                        {{-- Event title & owner --}}
+                        <div class="card-body d-flex flex-column">
+                            @if($event->host)
+                            <div class="row mb-2 ms-1">
+                                <div class="col card-title">
+                                    <h3>{{ $event->title }}</h3>
+                                    <p class="col card-text text-end">
+                                        created by
+                                        <a href="{{ route('users.profile.specificProfile', $event->host->id) }}">
+                                            @if ($event->host->avatar)
+                                            <img src="{{ $event->host->avatar }}" alt="#" class="rounded-circle avatar-sm">
+                                            @else
+                                            <i class="fa-solid fa-circle-user text-secondary icon-sm"></i>
+                                            @endif
+                                        </a>
+                                    </p>
+                                </div>
+                            </div>                                        
+                            @endif
+                        </div>
+                        {{-- category --}}
+                        <div class="row card-text text-start ms-1 mt-auto">
+                            <div class="col">
+                                @foreach ($event->categories as $category)
+                                <a href="#" class="badge me-1 bg-turquoise text-decoration-none">{{ $event->category->name }}</a>
+                                @endforeach
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @endforeach
+        </div>
+        {{-- Pagination for events --}}
+        <div class="d-flex justify-content-center">
+            @if ($result_events->isNotEmpty())
+            {{ $result_events->links() }}
+            @endif
+        </div>
+    </div>
+</div>
 @endsection

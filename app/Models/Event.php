@@ -32,4 +32,22 @@ class Event extends Model
     {
         return $this->attendees()->where('user_id', Auth::user()->id)->exists();
     }
+
+    # To get host info with search result
+    public function host()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    # To get categories with search result
+    public function events()
+    {
+        return $this->belongsToMany(Category::class);
+    }
+
+    // The categories that belong to the event.
+    public function categories()
+    {
+        return $this->belongsToMany(Category::class, 'category_event');
+    }
 }

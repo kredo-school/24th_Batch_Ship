@@ -9,12 +9,15 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\EventUserController;
+use App\Http\Controllers\SelectDataController;
 
 Auth::routes();
 
 Route::group(['middleware' => 'auth'], function(){
 
-    Route::get('/search', [HomeController::class, 'search'])->name('search');
+    // Route::post('/search', [HomeController::class, 'search'])->name('search');
+    Route::match(['get', 'post'], '/search', [HomeController::class, 'search'])->name('search');
+
 
     //Profile
     Route::get('/', [ProfileController::class,'index'])->name('users.profile.index');
@@ -49,5 +52,9 @@ Route::group(['middleware' => 'auth'], function(){
     # EventUser
     Route::post('/event/{id}/join', [EventUserController::class, 'join'])->name('event.join');
     Route::delete('/event/{id}/unjoin', [EventUserController::class, 'unjoin'])->name('event.unjoin');
+
+        
+    # API
+    Route::get('/api/select-data', [SelectDataController::class, 'getData']);
 
 });
