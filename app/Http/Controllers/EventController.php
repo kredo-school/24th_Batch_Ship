@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Event;
+use App\Models\Community;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
@@ -10,15 +11,20 @@ use Carbon\Carbon;
 class EventController extends Controller
 {
     private $event;
+    private $community;
 
-    public function __construct(Event $event)
+    public function __construct(Event $event, Community $community)
     {
         $this->event = $event;
+        $this->community = $community;
     }
 
     public function create()
     {
-        return view('users.events.create');
+       # needs to be updated after creating the User hasMany Communities relationship
+        $all_communities = $this->community->all();
+
+        return view('users.events.create', compact('all_communities'));
     }
 
     public function store(Request $request)
@@ -26,7 +32,7 @@ class EventController extends Controller
        # 1. VALIDATE ALL THE FORM DATA
        $request->validate([
             'community_id' => 'required',
-            'title'        => 'required|string|max:255',
+            'event_title'  => 'required|string|max:255',
             'date'         => 'required|date',
             'start_time'   => 'required|date_format:H:i',
             'end_time'     => 'required|date_format:H:i|after:start_time',
@@ -39,7 +45,7 @@ class EventController extends Controller
        # 2. Save the event
        $this->event->host_id      = Auth::user()->id;
        $this->event->community_id = $request->community_id;
-       $this->event->title        = $request->title;
+       $this->event->title        = $request->event_title;
        $this->event->date         = $request->date;
        $this->event->start_time   = $request->start_time;
        $this->event->end_time     = $request->end_time;
@@ -58,11 +64,17 @@ class EventController extends Controller
         // $id - ID of the event
         $event = $this->event->findOrFail($id);
 
+        // For the left Side of Contents
         $date = Carbon::parse($event->date)->format('Y/m/d');
         $startTime = Carbon::parse($event->start_time)->format('H:i');
         $endTime = Carbon::parse($event->end_time)->format('H:i');
 
-        return view('users.events.show', compact('event', 'date', 'startTime', 'endTime'));
+        // For the right Side of Contents
+        $all_categories = $event->community->categoryCommunity->all();
+        $all_attendees = collect($event->attendees);
+        $currentDateTime = Carbon::now();
+
+        return view('users.events.show', compact('event', 'date', 'startTime', 'endTime', 'all_categories', 'all_attendees', 'currentDateTime'));
     }
 
     public function edit($id)
@@ -96,7 +108,6 @@ class EventController extends Controller
 
         # 2. Update the event
         $event = $this->event->findOrFail($id);
-
         $event->title        = $request->title;
         $event->date         = $request->date;
         $event->start_time   = $request->start_time;
@@ -117,8 +128,9 @@ class EventController extends Controller
     public function destroy($id)
     {
         $event = $this->event->findOrFail($id);
+        $community_id = $event->community->id;
         $event->delete();
 
-        return redirect()->route('communities.index');
+        return redirect()->route('communities.show', $community_id);
     }
 }

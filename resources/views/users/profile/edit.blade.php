@@ -23,9 +23,9 @@
             <div class="mb-3 text-center">
                 {{-- avatar & upload image --}}
                 @if ($user->avatar)
-                    <img src="{{ $user->avatar }}" alt="{{ $user->name }}" class="img-thumbnail rounded-circle d-block mx-auto avatar-lg mb-3">
+                    <img id="image-preview" src="{{ $user->avatar }}" alt="{{ $user->name }}" class="img-thumbnail rounded-circle d-block mx-auto avatar-lg mb-3">
                 @else
-                    <p class="display-1 mb-0"><i class="fa-solid fa-circle-user text-turquoise"></i></p>
+                    <p id="image-preview" class="display-1 mb-0"><i class="fa-solid fa-circle-user text-turquoise"></i></p>
                 @endif
 
                 <label class="mb-3">
@@ -49,7 +49,7 @@
                 <p class="text-center fw-bold mb-1">
                     <i class="fa-solid fa-caret-down"></i> Username
                 </p>
-                <input type="text" name="username" id="" class="form-control w-50 mx-auto" placeholder="{{ old('username', $user->username) }}" autofocus>
+                <input type="text" name="username" id="" class="form-control w-50 mx-auto" value="{{ old('username', $user->username) }}" placeholder="" autofocus>
                 {{-- Error --}}
                 @error('username')
                     <p class="text-danger small">{{ $message }}</p>
@@ -61,7 +61,7 @@
                 <p class="text-center fw-bold mb-1">
                     <i class="fa-solid fa-caret-down"></i> Self-introduction
                 </p>
-                <textarea class="border-0 p-2" name="introduction" id="introduction" cols="57" rows="5" class="p-2" placeholder="{{ old('introduction', $user->introduction) }}"></textarea>
+                <textarea class="border-0 p-2" name="introduction" id="introduction" cols="57" rows="5" class="p-2" placeholder="">{{ old('introduction', $user->introduction) }}</textarea>
             </div>
 
             {{-- select interest --}}
@@ -103,12 +103,13 @@
                 SAVE IT !
             </button>          
             </div>
-
-    
         </div>
-
     </form>
   </div>
 </div>
 
+@endsection
+
+@section('scripts')
+    <script src="{{ asset('js/profile/form.js') }}"></script>
 @endsection

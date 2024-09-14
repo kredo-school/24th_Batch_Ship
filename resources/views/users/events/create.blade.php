@@ -14,8 +14,10 @@
           <label for="community-title" class="form-label">Community title</label>
           <select name="community_id" id="community-title" class="form-select" autofocus>
             <option value="">Select your community</option>
-            {{-- @foreach belongsTo communities --}}
-            <option value="1"{{-- community_id --}} {{ old('community_id') == 1 ? 'selected' : '' }}{{-- old('community_id') == $community->id ? 'selected' : '' --}}>Travel in Japan</option>
+            {{-- needs to be updated after creating the User hasMany Communities relationship --}}
+            @foreach ($all_communities as $community)
+              <option value="{{ $community->id }}" {{ old('community_id') == $community->id ? 'selected' : '' }}>{{ $community->title }}</option>
+            @endforeach
           </select>
           @error('community_id')
             <div class="text-danger small">{{ $message }}</div> 
@@ -24,7 +26,7 @@
 
         <div class="col">
           <label for="event-title" class="form-label">Event title</label>
-          <input type="text" name="title" id="event-title" value="{{ old('title') }}" class="form-control">
+          <input type="text" name="event_title" id="event-title" value="{{ old('event_title') }}" class="form-control">
           @error('title')
             <div class="text-danger small">{{ $message }}</div> 
           @enderror
@@ -75,7 +77,10 @@
 
         <div class="col">
           <label for="image" class="form-label">Image</label>
-          <input type="file" name="image" id="image" class="form-control">
+          <input type="file" name="image" id="image" class="form-control" aria-describedby="image-info">
+          <div id="image-info" class="form-text">
+            Acceptable formats: jpeg, jpg, png, gif only. Max file size is 1048kb.            
+          </div>
           @error('image')
             <div class="text-danger small">{{ $message }}</div> 
           @enderror

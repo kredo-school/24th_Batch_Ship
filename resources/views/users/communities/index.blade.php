@@ -2,6 +2,8 @@
 
 @section('title','community')
 @section('content')
+
+<link rel="stylesheet" href="{{asset('css/style-community-show.css')}}">
     
         <div class="container-fluid p-3 rounded" style="background-color: #EDFAFD;">
             <div>
@@ -18,50 +20,53 @@
                 </div>
             </div>
             
-            
-            <div class="d-flex justify-content-between">
-                <div class="row">
-                    <div class="col">
 
-                        {{-- gonna repeat --}}
-                        <div class="card border-0 rounded">
-                            @foreach ($all_communities as $community)
-                                
-                            
-                                <div class="card-body">
+            <div style="margin-top: 80px">
+                @if ($all_communities->isNotEmpty())
+                    <div class="row row-eq-height">
+                        @foreach ($all_communities as $community)
+                            <div class="col-lg-3 col-md-6 mb-4">
+                                <div class="card rounded border-0 h-100 d-flex flex-column">
                                     {{-- image --}}
-                                    <div>
-                                        <a href="{{route('communities.show',$community->id)}}"><img class="img-fluid rounded" src="https://cdn.pixabay.com/photo/2020/11/05/02/38/fairy-5714032_1280.jpg" alt=""></a>
+                                    <div class="mb-2">
+                                        <a href="{{ route('communities.show',$community->id) }}">
+                                            <img src="{{ $community->image }}" alt="Community ID {{ $community->id }}" class="fixed-size-img rounded card-img-top">
+                                        </a>
                                     </div>
-                                    {{-- community name & owner --}}
-                                    <div class="row">
-                                        <h3 class="col">{{ $community->title }}</h3> 
-                                        <p class="col text-end">created by <i class="fa-solid fa-circle-user"></i></p>
-                                    </div>
-                                    {{-- category --}}
-                                    <div class="row text-start">
-                                        <div class="col">
-                                            <span class="badge me-1 bg-turquoise text-white">Anime</span> 
-                                            <span class="badge me-1 bg-turquoise text-white">Culture</span> 
+                                    <div class="card-body d-flex flex-column">
+                                        {{-- community name & owner --}}
+                                        <div class="row mb-2 ms-1">
+                                            {{-- title --}}
+                                            <h3 class="col card-title">{{ $community->title }}</h3>
+                                            {{-- owner --}}
+                                            <p class="col card-text text-end">created by
+                                                <a href="{{ route('users.profile.specificProfile',$community->owner_id) }}">
+                                                    @if ($community->user->avatar)
+                                                        <img src="{{ $community->user->avatar }}" alt="#" class="rounded-circle avatar-sm">
+                                                    @else
+                                                        <i class="fa-solid fa-circle-user text-secondary icon-sm"></i>
+                                                    @endif
+                                                </a>
+                                            </p>
                                         </div>
-                                        
+                                        {{-- category --}}
+                                        <div class="row card-text text-start ms-1 mt-auto">
+                                            <div class="col">
+                                                @foreach ($community->categoryCommunity as $category_community)
+                                                    <a href="#" class="badge me-1 bg-turquoise text-decoration-none">{{ $category_community->category->name }}</a>
+                                                @endforeach
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                            @endforeach
-                        </div>
-
-                        
+                            </div>
+                            
+                        @endforeach
                     </div>
-
-                   
-                </div>
-                
-
-                
-
-
+                @else
+                    <h3 class="text-secondary text-center">No Posts Yet</h3>
+                @endif
             </div>
-            
 
         </div>
         

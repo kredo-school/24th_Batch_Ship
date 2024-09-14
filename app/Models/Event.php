@@ -11,9 +11,10 @@ class Event extends Model
 {
     use HasFactory, SoftDeletes;
     
-    public function user()
+    # to get event host information
+    public function host()
     {
-        return $this->belongsTo(User::class)/* ->withTrashed() */;
+        return $this->belongsTo(User::class, 'host_id');/* ->withTrashed() */
     }
 
     public function community()

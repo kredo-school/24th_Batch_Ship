@@ -13,14 +13,14 @@ class Community extends Model
 
     # to get the owner of the community
 
-    // public function user()
-    // {
-    //     return $this->belongsTo(User::class);
-    // }
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'owner_id');
+    }
 
     # To get the categories under a community
     public function categoryCommunity()
     {
-        return $this->hasMany(categoryCommunity::class);
+        return $this->hasMany(CategoryCommunity::class);
     }
 }
