@@ -15,10 +15,9 @@ Auth::routes();
 
 Route::group(['middleware' => 'auth'], function(){
 
-    // Route::post('/search', [HomeController::class, 'search'])->name('search');
-    Route::match(['get', 'post'], '/search', [HomeController::class, 'search'])->name('search');
+    Route::get('/search', [HomeController::class, 'search'])->name('search');
 
-
+    
     //Profile
     Route::get('/', [ProfileController::class,'index'])->name('users.profile.index');
     Route::get('/profile/{id}', [ProfileController::class,'specificProfile'])->name('users.profile.specificProfile');

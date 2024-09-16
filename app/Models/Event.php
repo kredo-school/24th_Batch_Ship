@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Event extends Model
 {
     use HasFactory, SoftDeletes;
+    protected $table = 'category_event';
     
     public function user()
     {
@@ -48,6 +49,12 @@ class Event extends Model
     // The categories that belong to the event.
     public function categories()
     {
-        return $this->belongsToMany(Category::class, 'category_event');
-    }
+        return $this->belongsToMany(Category::class, 'category_event', 'event_id', 'category_id');
+    }  
+
+   # To get the categories with event
+   public function categoryEvent()
+   {
+       return $this->hasMany(categoryEvent::class);
+   }
 }

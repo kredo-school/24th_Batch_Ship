@@ -9,7 +9,7 @@
 
             <div class="modal-body">
 
-                <form action="{{ route('search') }}" method="POST">
+                <form action="{{ route('search') }}" method="GET">
                     @csrf
                     
                     <input type="text" name="keyword" id="keyword" class="form-control" placeholder="Enter keyword..." >

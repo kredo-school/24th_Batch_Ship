@@ -20,7 +20,7 @@ class Community extends Model
     # To get the categories under a community
     public function categoryCommunity()
     {
-        return $this->hasMany(categoryCommunity::class, 'category_community', 'community_id', 'category_id');
+        return $this->hasMany(categoryCommunity::class);
     }
 
     # To get host avatar with search result

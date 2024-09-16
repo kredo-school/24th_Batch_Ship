@@ -28,8 +28,8 @@ class Category extends Model
     // events that belong to the category
     public function events()
     {
-        return $this->belongsToMany(Event::class, 'category_event');
-    }
+        return $this->belongsToMany(Event::class, 'category_event', 'category_id', 'event_id');
+    }  
     
 
 }
