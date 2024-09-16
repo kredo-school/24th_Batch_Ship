@@ -14,7 +14,7 @@
           <label for="community-title" class="form-label">Community title</label>
           <select name="community_id" id="community-title" class="form-select" autofocus>
             <option value="">Select your community</option>
-            {{-- needs to be updated after creating the User hasMany Communities relationship --}}
+            {{-- Get the owner communities and joining communities --}}
             @foreach ($all_communities as $community)
               <option value="{{ $community->id }}" {{ old('community_id') == $community->id ? 'selected' : '' }}>{{ $community->title }}</option>
             @endforeach
