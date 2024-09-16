@@ -49,7 +49,7 @@ class CommunityController extends Controller
 
         $all_categories = Category::latest()->get();
         return view('users.communities.create', compact('all_categories'));
-        
+
     }
 
     #To save a community
@@ -68,7 +68,7 @@ class CommunityController extends Controller
         $this->community->description    = $request->description;
         $this->community->image          = 'data:image/' . $request->image->extension() . ';base64,' . base64_encode(file_get_contents($request->image));
         $this->community->owner_id       = Auth::user()->id;
-        
+
         $this->community->save();
 
         # 3. Save the categories to the category_community table
@@ -123,7 +123,7 @@ class CommunityController extends Controller
 
         // If there is anew image....
         if($request->image){
-            $community->image = 'data:image/' . $request->image->extension() . 
+            $community->image = 'data:image/' . $request->image->extension() .
                             ';base64,' . base64_encode(file_get_contents($request->image));
         }
 

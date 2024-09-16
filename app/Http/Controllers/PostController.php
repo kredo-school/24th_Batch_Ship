@@ -74,12 +74,13 @@ class PostController extends Controller
         $this->post->user_id        = Auth::user()->id;
         $this->post->description    = $request->description;
         $this->post->timestamps = $request->timestamps;
-        $this->post->save();
 
-        if($request->avatar){
+
+        if($request->image){
             $this->post->image = 'data:image/' . $request->image->extension() . ';base64,' . base64_encode(file_get_contents($request->image));
         }
 
+        $this->post->save();
         # Save the categories to the category_post povit table
 
         foreach ($request->category as $category_id){

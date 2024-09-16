@@ -9,6 +9,9 @@ use Illuminate\Support\Facades\Auth;
 
 class Post extends Model
 {
+    protected $table = 'posts';
+    protected $fillable = ['description', 'image','user_id'];
+    public $timestamps = true;
     // use HasFactory, SoftDeletes;
 
     # POST - USER

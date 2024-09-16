@@ -11,8 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('category_post', function (Blueprint $table) {
-            $table->timestamps();
+        Schema::table('posts', function (Blueprint $table) {
+            $table->longText('image')->change();
 
         });
     }
@@ -22,6 +22,7 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::table('posts', function (Blueprint $table) { $table->string('image')->change(); });
 
     }
 };
