@@ -19,18 +19,18 @@
 
       {{-- bulletin board --}}
       <div class="container bg-white p-3">
-        <form action="#" method="post" enctype="multipart/form-data">
+        <form action="{{ route('boardcomment.store', $community->id) }}" method="post" enctype="multipart/form-data">
             @csrf
             {{-- input for comments --}}
             <div class="row">
               <div class="col-1"></div>
               <div class="col-10">
                 <div class="mb-2 input-group">
-                  <textarea name="comment_body" rows="1" class="form-control form-control-sm rounded shadow-sm" placeholder="write a comment"></textarea>
-                  @error('comment_body')
+                  <textarea name="comment_body{{ $community->id }}" rows="1" class="form-control form-control-sm rounded shadow-sm" placeholder="write a comment"></textarea>
+                  @error('comment_body' . $community->id)
                   <p class="mb-0 text-danger samll">{{ $message }}</p>
                   @enderror
-                  <input type="submit" value="send" class="btn bg-turquoise rounded text-white fw-bold mx-2 px-4 py-0">
+                  <button type="submit" value="send" class="btn btn-turquoise rounded fw-bold mx-2 px-4 py-0 w-25">Post</button>  
                 </div>              
               </div>
               <div class="col"></div>
@@ -39,14 +39,21 @@
               <div class="col-1"></div>
               <div class="col-7">
                 {{-- input to uploard img --}}
-                <input class="form-control form-control-sm" id="formFileSm" type="file">
+                <input type="file" class="form-control form-control-sm"  name="image" id="image" >
+                {{-- Error message area --}}
+                @error('image')
+                  <div class="text-danger small">{{ $message }}</div>
+                 @enderror
               </div>
-            </div>              
+            </div>        
         </form>
+            
+
+            
         <hr class="my-3">
         {{-- comments list--}}
         <div class="row bg-white p-2 m-0">
-        @include('users.communities.comments.list-item')          
+          @include('users.communities.comments.list-item')          
         </div>            
       </div>
      </div>
