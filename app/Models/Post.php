@@ -29,7 +29,7 @@ class Post extends Model
     # To get the categories with search result
     public function categories()
     {
-        return $this->belongsToMany(Category::class);
+        return $this->belongsToMany(Category::class, 'category_post', 'post_id', 'category_id');
     }
 //     # to get all the comments under a post
 //     public function comments()

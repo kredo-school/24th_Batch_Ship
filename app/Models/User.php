@@ -58,8 +58,9 @@ class User extends Authenticatable
     # To get the categories with search result
     public function categories()
     {
-        return $this->belongsToMany(Category::class);
+        return $this->belongsToMany(Category::class, 'category_user', 'user_id', 'category_id');
     }
+
     
     # To get the posts of a user
     public function posts(){
