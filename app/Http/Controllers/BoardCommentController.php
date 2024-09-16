@@ -9,11 +9,11 @@ use Illuminate\Support\Facades\Auth;
 
 class BoardCommentController extends Controller
 {
-    private $boardcomment;
+    private $comment;
 
-    public function __construct(BoardComment $boardcomment)
+    public function __construct(BoardComment $comment)
     {
-        $this->boardcomment = $boardcomment;
+        $this->comment = $comment;
     }
 
     public function store(Request $request, $community_id)
@@ -27,10 +27,11 @@ class BoardCommentController extends Controller
             'image'      => 'nullable|mimes:jpg,jpeg,png,gif|max:1048',
         ]);
 
-        $this->boardcomment->body    = $request->input('comment_body' . $community_id);
-        $this->boardcomment->user_id = Auth::user()->id;
-        $this->boardcomment->community_id = $community_id;
-        $this->boardcomment->save();
+        $this->comment->body    = $request->input('comment_body' . $community_id);
+        $this->comment->user_id = Auth::user()->id;
+        $this->comment->community_id = $community_id;
+        $this->comment->image          = 'data:image/' . $request->image->extension() . ';base64,' . base64_encode(file_get_contents($request->image));
+        $this->comment->save();
 
         return redirect()->back();
     }
