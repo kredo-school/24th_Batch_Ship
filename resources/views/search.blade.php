@@ -56,12 +56,12 @@
         </div>
         <div class="d-flex justify-content-center">
           @if($result_users instanceof \Illuminate\Pagination\LengthAwarePaginator && $result_users->total() > 0)
-              {{ $result_users->links() }}
+              {{ $result_users->appends(request()->query())->links('pagination::bootstrap-4') }}
           @else
               <p>No users found.</p>
           @endif
       </div>
-    </div>
+    </div>        
 
     {{-- Post --}}
     <div class="mt-5 bg-pink p-3">
@@ -108,10 +108,12 @@
         </div>
         {{-- Pagination for posts --}}
         <div class="d-flex justify-content-center">
-            @if ($result_posts->isNotEmpty())
-            {{ $result_posts->links() }}
-            @endif
-        </div>
+          @if($result_posts instanceof \Illuminate\Pagination\LengthAwarePaginator && $result_posts->total() > 0)
+              {{ $result_posts->appends(request()->query())->links('pagination::bootstrap-4') }}
+          @else
+              <p>No posts found.</p>
+          @endif
+      </div>
     </div>
 
     {{-- Community --}}
@@ -161,10 +163,12 @@
         </div>
         {{-- Pagination for communities --}}
         <div class="d-flex justify-content-center">
-            @if ($result_communities->isNotEmpty())
-            {{ $result_communities->links() }}
-            @endif
-        </div>
+          @if($result_communities instanceof \Illuminate\Pagination\LengthAwarePaginator && $result_communities->total() > 0)
+              {{ $result_communities->appends(request()->query())->links('pagination::bootstrap-4') }}
+          @else
+              <p>No posts found.</p>
+          @endif
+      </div>
     </div>
 
     {{-- Event --}}
@@ -206,8 +210,8 @@
                         {{-- category --}}
                         <div class="row card-text text-start ms-1 mt-auto">
                             <div class="col">
-                                @foreach ($event->categories as $category)
-                                <a href="#" class="badge me-1 bg-turquoise text-decoration-none">{{ $event->category->name }}</a>
+                                @foreach ($event->categoryEvent as $category)
+                                <a href="#" class="badge me-1 bg-turquoise text-decoration-none">{{ $event->categoryEvent->name }}</a>
                                 @endforeach
                             </div>
                         </div>
@@ -218,10 +222,12 @@
         </div>
         {{-- Pagination for events --}}
         <div class="d-flex justify-content-center">
-            @if ($result_events->isNotEmpty())
-            {{ $result_events->links() }}
-            @endif
-        </div>
+          @if($result_events instanceof \Illuminate\Pagination\LengthAwarePaginator && $result_events->total() > 0)
+              {{ $result_events->appends(request()->query())->links('pagination::bootstrap-4') }}
+          @else
+              <p>No posts found.</p>
+          @endif
+      </div>
     </div>
 </div>
 @endsection
