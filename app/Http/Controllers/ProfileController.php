@@ -31,12 +31,14 @@ class ProfileController extends Controller
 
     public function profileProcess($id){
         $user = $this->user->findOrFail($id);
+        $community = $this->community->findOrFail($id);
+        // $event = $this->event->findOrFail($id);
         // $all_communities = $this->community->latest()->paginate(4);
         // $all_events = $this->event->latest()->paginate(4);
         $own_communities = $this->getOwnCommunity($id);
         $own_events = $this->getOwnEvents($id);
 
-        return view('users.profile.index', compact('user', 'own_communities', 'own_events'));
+        return view('users.profile.index', compact('user', 'community', 'own_communities', 'own_events'));
     }
 
     # visit to create profile page

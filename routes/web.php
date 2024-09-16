@@ -1,14 +1,14 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
-
-use App\Http\Controllers\CommunityController;
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PostController;
-use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\CommunityController;
 use App\Http\Controllers\EventUserController;
+use App\Http\Controllers\BoardCommentController;
 
 Auth::routes();
 
@@ -41,6 +41,10 @@ Route::group(['middleware' => 'auth'], function(){
     Route::get('/community/{id}/edit', [CommunityController::class, 'edit'])->name('communities.edit');
     Route::patch('/community/{id}/update', [CommunityController::class, 'update'])->name('communities.update');
 
+    // COMMENT
+    Route::post('/comment/{post_id}/store', [BoardCommentController::class, 'store'])->name('boardcomment.store');
+    Route::delete('/comment/{id}/destroy', [BoardCommentController::class, 'destroy'])->name('boardcomment.destroy');
+
     # Event
     Route::get('/event/create', [EventController::class, 'create'])->name('event.create');
     Route::post('/event/store', [EventController::class, 'store'])->name('event.store');
@@ -52,5 +56,6 @@ Route::group(['middleware' => 'auth'], function(){
     # EventUser
     Route::post('/event/{id}/join', [EventUserController::class, 'join'])->name('event.join');
     Route::delete('/event/{id}/unjoin', [EventUserController::class, 'unjoin'])->name('event.unjoin');
+
 
 });
