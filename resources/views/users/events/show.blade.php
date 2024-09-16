@@ -35,7 +35,7 @@
             {{-- Left Side of Contents --}}
             <div class="col-8">
                 {{-- Cover Photo --}}
-                <img src="{{ $event->image }}" alt="event id {{ $event->id }}" class="grid-img" >
+                <img src="{{ $event->image }}" alt="{{ $event->title }}" class="grid-img" >
                 <br>
                 {{-- Date --}}
                 <p class="d-inline me-4 mt-2">
@@ -60,7 +60,7 @@
                 <div class="row">
                     <a href="{{ route('communities.show', $event->community->id) }}" class="text-decoration-none">
                         <div class="card border-0 w-auto mx-auto bg-transparent">
-                            <img src="{{ $event->community->image }}" alt="community ID {{ $event->community->id }}" class="card-img-top">
+                            <img src="{{ $event->community->image }}" alt="{{ $event->community->title }}" class="card-img-top">
                             <div class="card-body">
                                 <div class="row">
                                     <h5 class="h5 card-title">{{ $event->community->title }}</h5>

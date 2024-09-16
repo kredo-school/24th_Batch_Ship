@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('title', 'Show Community')
+
 @section('content')
 
 <div class="container-fluid">
@@ -8,10 +10,10 @@
     <div class="col-md-8 px-4">
       {{-- cover img & description --}}
       <div class="mt-3 text-center">
-        <img src="https://images.pexels.com/photos/3408354/pexels-photo-3408354.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" class="object-fit-cover border rounded w-100 h-25" alt="">
-        <h2 class=" my-2">Travel in Japan</h2>
+        <img src="{{ $community->image }}" class="object-fit-cover border rounded w-100 h-25" alt="{{ $community->title }}">
+        <h2 class=" my-2">{{ $community->title }}</h2>
         <p class="lh-sm">
-          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Aliquid repellat soluta corrupti quibusdam harum eveniet, nemo saepe quas incidunt accusamus eos distinctio culpa ullam. Molestiae qui sapiente quo veritatis? Incidunt harum soluta nulla dolore pariatur eum quidem voluptatibus distinctio dolorum magnam molestias commodi ad, laborum itaque eos blanditiis earum aliquid?
+          {{ $community->description }}
         </p>
       </div>
 
@@ -51,25 +53,69 @@
     </div>{{-- end of left side --}}
     
     {{-- right side --}}
-    {{-- join button --}}
     <div class="col-md-4">
-      <div class="mb-3 d-flex justify-content-end">
-        <a href="" class="btn bg-gold text-white m-3 px-4 py-0">JOIN</a>
-       </div>
+      @if (Auth::user()->id !== $community->owner_id)
+        {{-- join/unjoin button for users --}}
+        @if ($community->isJoining())
+          <form action="{{ route('community.unjoin', $community->id) }}" method="POST">
+            @csrf
+            @method('DELETE')
 
-        {{-- Event owner --}}
-        <div class="mb-3">
-          <h6>Created by</h6>
-          <i class="fa-solid fa-circle-user icon-sm"></i>        
-        </div>
+            <div class="mb-3 d-flex justify-content-end">
+              <button class="btn btn-gold text-white m-3 px-4 py-0">UNJOIN</button>
+            </div> 
+          </form> 
+          @else
+            <form action="{{ route('community.join', $community->id) }}" method="POST">
+              @csrf
+
+              <div class="mb-3 d-flex justify-content-end">
+                <button class="btn btn-gold text-white m-3 px-4 py-0">JOIN</button>
+              </div> 
+            </form>   
+          @endif
+      @else
+        {{-- edit button for community owner --}}
+        <div class="mb-3 d-flex justify-content-end">
+          <a href="{{ route('communities.edit', $community->id) }}" class="btn btn-gold m-3 px-4 py-0">EDIT</a>
+        </div>   
+      @endif
+
+      {{-- Community owner --}}
+      <div class="mb-3">
+        <h6>Created by</h6>
+        <a href="{{ route('users.profile.specificProfile', $community->owner_id) }}">
+          @if ($community->user->avatar)
+            <img src="{{ $community->user->avatar }}" alt="{{ $community->user->username }}" class="rounded-circle avatar-sm"> 
+          @else
+            <i class="fa-solid fa-circle-user icon-sm"></i>   
+          @endif    
+        </a>   
+      </div>
 
         {{-- Members --}}
-        {{-- @if ($community_members) --}}
         <div class="row mb-3">
           <div class="col">
-            <h6>Members(count)</h6>
-            {{-- {{ $community->users->count() }} ??????  --}}
+            {{-- Number of members --}}
+            <h6>Members({{ $community->members->count() }})</h6>
           </div>
+          {{-- Attendees list up to 10 --}}
+          @if (count($community->members) > 0)
+          <div class="d-flex">
+            @foreach (collect($all_members)->take(10) as $member)
+              <div class="me-2">
+                <a href="{{ route('users.profile.specificProfile', $member->user_id) }}" class="text-decoration-none">
+                  @if ($member->user->avatar)
+                    <img src="{{ $member->user->avatar }}" alt="{{ $member->user->username }}" class="rounded-circle avatar-sm">
+                  @else
+                    <i class="fa-solid fa-circle-user text-dark icon-sm"></i>
+                  @endif
+                </a> 
+              </div>
+            @endforeach
+          </div>
+              
+          @endif
           <div class="col-auto">
             <a href="{{-- route('community-members') --}}" class="text-decoration-none text-primary fw-bold" data-bs-toggle="modal" data-bs-target="#community_members{{-- #members{{ $post->id }} --}}">See all</a>
             @include('users.communities.modals.members-list')
@@ -94,15 +140,15 @@
         {{-- Category --}}
         <div class="mb-3 ">
           <h6>Category</h6>
-          {{-- @forelse $community->category as $community? --}}
-          <div class="badge border-0 bg-turquoise text-white px-2">
-            $community->category?
-          </div>    
+          @foreach ($all_categories as $category)
+            <div class="badge border-0 bg-turquoise text-white px-2">
+              {{ $category->category->name }}
+            </div>   
+          @endforeach
         </div>
-        {{-- @endforelse --}}
       
         {{-- Events --}}
-        <h6>Events(count)</h6>
+        <h6>Events({{ $community->events->count() }})</h6>
        @include('users.communities.events.list-item')
       {{-- {{ $community->users->count() }} ??????  --}}
 
