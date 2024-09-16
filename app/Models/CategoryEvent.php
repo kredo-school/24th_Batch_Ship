@@ -5,13 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class CategoryCommunity extends Model
+class CategoryEvent extends Model
 {
     use HasFactory;
 
-    protected $table = 'category_community';
+    protected $table = 'category_event';
 
-    protected $fillable = ['category_id', 'community_id'];
+    protected $fillable = ['category_id', 'event_id'];
 
     public $timestamps = true;
 
@@ -19,5 +19,4 @@ class CategoryCommunity extends Model
     {
         return $this->belongsTo(Category::class);
     }
-    
 }
