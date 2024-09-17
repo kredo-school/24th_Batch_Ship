@@ -10,6 +10,8 @@ class BoardComment extends Model
 {
     use HasFactory;
 
+    protected $table = 'board_comments';
+
     # To get the info of the owner of the comment
     public function user()
     {
