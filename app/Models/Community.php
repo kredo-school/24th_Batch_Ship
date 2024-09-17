@@ -12,6 +12,8 @@ class Community extends Model
 {
     use HasFactory , SoftDeletes;
 
+    protected $table = 'communities';
+
     # to get the owner of the community
     public function user()
     {
