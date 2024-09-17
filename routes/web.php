@@ -8,7 +8,9 @@ use App\Http\Controllers\EventController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CommunityController;
 use App\Http\Controllers\EventUserController;
-use App\Http\Controllers\BoardCommentController;
+// use App\Http\Controllers\BoardCommentController;
+use App\Http\Controllers\CommentController;
+use App\Http\Controllers\PercentageController;
 
 Auth::routes();
 
@@ -28,8 +30,8 @@ Route::group(['middleware' => 'auth'], function(){
     Route::get('/post/index', [PostController::class, 'index'])->name('users.posts.index');
     Route::get('/post/{id}/show', [PostController::class, 'show'])->name('users.posts.show');
     Route::get('/post/create', [PostController::class, 'create'])->name('users.posts.create');
-    Route::post('/post/store', [PostController::class, 'store'])->name('users.posts.store');
     Route::get('/post/{id}/edit', [PostController::class, 'edit'])->name('users.posts.edit');
+    Route::post('/post/store', [PostController::class, 'store'])->name('users.posts.store');
     Route::patch('/post/{id}/update', [PostController::class, 'update'])->name('users.posts.update');
     Route::delete('/post/{id}/destroy', [PostController::class, 'destroy'])->name('users.posts.destroy');
 
@@ -42,8 +44,15 @@ Route::group(['middleware' => 'auth'], function(){
     Route::patch('/community/{id}/update', [CommunityController::class, 'update'])->name('communities.update');
 
     // COMMENT
-    Route::post('/comment/{post_id}/store', [BoardCommentController::class, 'store'])->name('boardcomment.store');
-    Route::delete('/comment/{id}/destroy', [BoardCommentController::class, 'destroy'])->name('boardcomment.destroy');
+    Route::post('/comment/{post_id}/store', [CommentController::class, 'store'])->name('comment.store');
+    Route::delete('/comment/{post_id}/destroy', [CommentController::class, 'destroy'])->name('comment.destroy');
+    // Route::post('/comment/{post_id}/store', [BoardCommentController::class, 'store'])->name('boardcomment.store');
+    // Route::delete('/comment/{id}/destroy', [BoardCommentController::class, 'destroy'])->name('boardcomment.destroy');
+
+    //PERCENTAGE
+    Route::post('/percentage/{post_id}/store', [PercentageController::class,'store'])->name('like.store');
+
+
 
     # Event
     Route::get('/event/create', [EventController::class, 'create'])->name('event.create');

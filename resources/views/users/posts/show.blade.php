@@ -98,7 +98,7 @@
 
             <hr class="col-7 mt-5">
             <div class="row pt-6">
-                <form class="" action="" method="post">
+
       {{-- If you are not the owner of the post, you can put empathy on this post --}}
 
                     @if (!($post->user->id === Auth::user()->id))
@@ -114,38 +114,38 @@
 </div>
                         </div>
                     @endif
-
-        {{-- show all the comments --}}
-                    {{-- @if ($post->comments->isNotEmpty())
-                    <ul class="list-group mt-2">
-                        @foreach ($post->comments as $comment)
-                            <li class="list-group-item border-0 p-0 mb-2">
-                                <a href="{{ route('profile.show', $comment->user->id) }}"
-                                    class="text-decoration-none text-dark fw-bold">{{ $comment->user->name }}</a>
-                                &nbsp;
-                                <p class="d-inline fw-light">{{ $comment->body }}</p>
-
-                                <form action="{{ route('comment.destroy', $comment->id) }}" method="post">
-                                    @csrf
-                                    @method('DELETE')
-
-                                    <span class="text-uppercase text-muted xsmall">{{ date('M d, Y', strtotime($comment->created_at)) }}</span>
-
-                         @endforeach
-                         @endif --}}
-
-         {{-- comment for post --}}
+    {{-- comment for post --}}
+                  <form action="{{ route('comment.store', $post->id) }}" method="post">
                         <textarea name="postcomment" rows="2" placeholder="comment" class="form-control form-control-sm form-group mt-5"></textarea>
-          {{-- If you are not the owner of the post, you can delete comment on this post --}}
-                        {{-- @if (Auth::user()->id === $comment->user->id)
-                         &middot;
-                       <button type="submit" class="border-0 bg-transparent text-danger p-0 xsmall">Delete</button>
-
-                     @endif --}}
+         {{-- if the auth user is the owner of the coment, show a delete button. --}}
+         {{-- @if (Auth::user()->id === $comment->user->id)
+         &middot;
+         <button type="submit"
+             class="border-0 bg-transparent text-danger p-0 xsmall">Delete</button>
+     @endif --}}
 
                     {{-- submit --}}
                         <button type="submit" class="btn btn-gold form-group m-3 btn-lg">Post</button>
                 </form>
+                
+           {{-- show all the comments --}}
+           @if ($post->comments->isNotEmpty())
+           <ul class="list-group mt-2">
+               @foreach ($post->comments as $comment)
+                   <li class="list-group-item border-0 p-0 mb-2">
+                       <a href="{{ route('profile.show', $comment->user->id) }}"
+                           class="text-decoration-none text-dark fw-bold">{{ $comment->user->name }}</a>
+                       &nbsp;
+                       <p class="d-inline fw-light">{{ $comment->body }}</p>
+
+                       <form action="{{ route('comment.destroy', $comment->id) }}" method="post">
+                           @csrf
+                           @method('DELETE')
+
+                           <span
+                               class="text-uppercase text-muted xsmall">{{ date('M d, Y', strtotime($comment->created_at)) }}</span>
+
+
             </div>
 
             <div class="text-end">
