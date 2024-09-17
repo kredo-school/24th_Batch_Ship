@@ -1,4 +1,4 @@
-<div class="container-fruid">
+<div class="container">
   @if ($community->comments->isNotEmpty())
     <ul class="list-group">
       @foreach ($community->comments as $comment)
@@ -28,27 +28,34 @@
               {{ $comment->body }}
             </p>
               {{-- {{ $comment->image }} --}}
-            <img src="{{ $comment->image }}" class="w-25 h-50 object-fit-cover" alt="">      
+              @if ($comment->image)
+                <img src="{{ $comment->image }}" class="w-25 h-50 object-fit-cover" alt="">
+              @endif
           </div>
         
       
             {{-- created date --}}
             <div class="col p-0 text-center my-auto">
+              <form action="{{ route('boardcomment.destroy', $comment->id) }}" method="post">
+                @csrf
+                @method('DELETE')
                 <div class="xsmall pt-1">
                   <p class="text-muted fw-light mb-1">{{ date('M d, Y', strtotime($comment->created_at)) }}<br>{{ date('H:i', strtotime($comment->created_at)) }}</p> 
                   @if ($comment->user_id == Auth::user()->id)
                   &nbsp;
-                    {{-- edit button --}}
+
+                    {{-- edit button
                       <button class="bg-white border border-0 bg-transparent">
                         <i class="fa-regular fa-pen-to-square text-dark"></i>
-                      </button>
+                      </button> --}}
+
                     {{-- delete button  --}}
-                      <button class="bg-white border border-0 bg-transparent">
+                      <button type="submit" class="bg-white border border-0 bg-transparent">
                         <i class="fa-regular fa-trash-can"></i>
                       </button>
-                      {{-- include('users.community.comments.modals.delete?') --}}
                   @endif
-              </div>
+                </div>
+              </form>
             </div>
         </div>
       @endforeach

@@ -36,8 +36,11 @@ class BoardCommentController extends Controller
         $this->boardcomment->body    = $request->input('comment_body' . $community_id);
         $this->boardcomment->user_id = Auth::user()->id;
         $this->boardcomment->community_id = $community_id;
-        $this->boardcomment->image          = 'data:image/' . $request->image->extension() . ';base64,' . base64_encode(file_get_contents($request->image));
         $this->boardcomment->save();
+
+        if($request->image){
+            $this->boardcomment->image          = 'data:image/' . $request->image->extension() . ';base64,' . base64_encode(file_get_contents($request->image));
+        }
 
         return redirect()->back();
     }
@@ -45,9 +48,12 @@ class BoardCommentController extends Controller
     // destroy() - delete the comment
     public function destroy($id)
     {
-        $this->boardcomment->destroy($id);
+        $comment = $this->boardcomment->findOrFail($id);
 
-        return redirect()->back();
+        $comment->delete();
+
+        return redirect()->back()->with('success', 'Comment deleted successfully.');
     }
+
 }
 
