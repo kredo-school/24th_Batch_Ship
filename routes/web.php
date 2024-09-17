@@ -44,8 +44,8 @@ Route::group(['middleware' => 'auth'], function(){
     Route::get('/community/{id}/edit', [CommunityController::class, 'edit'])->name('communities.edit');
     Route::patch('/community/{id}/update', [CommunityController::class, 'update'])->name('communities.update');
 
-    // COMMENT
-    Route::post('/comment/{post_id}/store', [BoardCommentController::class, 'store'])->name('boardcomment.store');
+    # COMMENT
+    Route::post('/comment/{community_id}/store', [BoardCommentController::class, 'store'])->name('boardcomment.store');
     Route::delete('/comment/{id}/destroy', [BoardCommentController::class, 'destroy'])->name('boardcomment.destroy');
 
     # CommunityUser

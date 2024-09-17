@@ -20,4 +20,10 @@ class CommunityUser extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    # To get the community information
+    public function community()
+    {
+        return $this->belongsTo(Community::class);
+    }
 }

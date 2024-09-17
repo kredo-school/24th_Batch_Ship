@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Event;
 use App\Models\Community;
+use App\Models\CommunityUser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
@@ -12,17 +13,28 @@ class EventController extends Controller
 {
     private $event;
     private $community;
+    private $communityUser;
 
-    public function __construct(Event $event, Community $community)
+    public function __construct(Event $event, Community $community, CommunityUser $communityUser)
     {
         $this->event = $event;
         $this->community = $community;
+        $this->communityUser = $communityUser;
     }
 
     public function create()
     {
-       # needs to be updated after creating the User hasMany Communities relationship
-        $all_communities = $this->community->all();
+        $owner_communities = $this->community
+            ->where('owner_id', Auth::user()->id)
+            ->get();
+
+        $joining_communities = $this->communityUser
+            ->where('user_id', Auth::user()->id)
+            ->with('community')
+            ->get()
+            ->pluck('community');
+
+        $all_communities = $owner_communities->merge($joining_communities); // Get all related communities
 
         return view('users.events.create', compact('all_communities'));
     }
