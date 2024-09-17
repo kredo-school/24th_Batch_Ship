@@ -35,7 +35,7 @@
             {{-- Left Side of Contents --}}
             <div class="col-8">
                 {{-- Cover Photo --}}
-                <img src="{{ $event->image }}" alt="event id {{ $event->id }}" class="grid-img" >
+                <img src="{{ $event->image }}" alt="{{ $event->title }}" class="grid-img" >
                 <br>
                 {{-- Date --}}
                 <p class="d-inline me-4 mt-2">
@@ -60,19 +60,27 @@
                 <div class="row">
                     <a href="{{ route('communities.show', $event->community->id) }}" class="text-decoration-none">
                         <div class="card border-0 w-auto mx-auto bg-transparent">
-                            <img src="{{ $event->community->image }}" alt="community ID {{ $event->community->id }}" class="card-img-top">
+                            <img src="{{ $event->community->image }}" alt="{{ $event->community->title }}" class="card-img-top">
                             <div class="card-body">
                                 <div class="row">
                                     <h5 class="h5 card-title">{{ $event->community->title }}</h5>
                                 </div>
                                 <div class="row">
                                     <div class="col">
-                                        {{-- @foreach ($all_categories as $category) --}}
-                                            <a href="#" class="badge bg-turquoise text-white text-decoration-none">Category #1{{-- {{ $category->name }} --}}</a>  
-                                        {{-- @endforeach --}}
+                                        @foreach ($all_categories as $category)
+                                            <a href="#" class="badge bg-turquoise text-white text-decoration-none">{{ $category->category->name }}</a>
+                                        @endforeach
                                     </div>
                                     <div class="col">
-                                        <p class="text-end">Created by <a href="{{ route('users.profile.specificProfile', $event->community->owner_id) }}"><i class="fa-solid fa-circle-user text-dark icon-sm"></i></a></p>
+                                        <p class="text-end">Created by 
+                                            <a href="{{ route('users.profile.specificProfile', $event->community->owner_id) }}">
+                                                @if ($event->community->user->avatar)
+                                                    <img src="{{ $event->community->user->avatar }}" alt="{{ $event->community->user->username }}" class="rounded-circle avatar-sm">  
+                                                @else
+                                                    <i class="fa-solid fa-circle-user text-dark icon-sm"></i>  
+                                                @endif
+                                            </a>
+                                        </p>
                                     </div>
                                 </div>
                             </div>
@@ -83,50 +91,65 @@
                 <div class="row mt-3">
                     <h1 class="h6">Created by</h1>
                     <a href="{{ route('users.profile.specificProfile', $event->host_id) }}">
-                        <i class="fa-solid fa-circle-user text-dark icon-sm"></i>
+                        @if ($event->host->avatar)
+                            <img src="{{ $event->host->avatar }}" alt="{{ $event->host->username }}" class="rounded-circle avatar-sm">   
+                        @else
+                            <i class="fa-solid fa-circle-user text-dark icon-sm"></i>  
+                        @endif
                     </a>
                 </div>
+
                 {{-- Attendees --}}
                 <div class="row mt-3">
+                    {{-- Number of attendees --}}
                     <div class="col">
                         <h1 class="h6">Attendees ({{ $event->attendees->count() }})</h1>
                     </div>
-                    @if ($event->attendees->count() >8)
+                    {{-- More than 11 users, "see all" button will appear --}}
+                    @if ($event->attendees->count() >10)
                         <div class="col text-end">
-                            <a href="#" class="fw-bold text-dark text-decoration-none" data-bs-toggle="modal" data-bs-target="#attendees">see all</a>
+                            <a href="#" class="fw-bold text-decoration-none" data-bs-toggle="modal" data-bs-target="#attendees-{{ $event->id }}">see all</a>
                             @include('users.events.modals.attendees-list')
                         </div>
                     @endif
                 </div>
+                {{-- Attendees list up to 10 --}}
                 @if (count($event->attendees) > 0)
-                    @foreach (collect($all_attendees)->take(8) as $attendee)
-                        <div class="row mt-1 me-2 d-inline">
-                            <a href="{{ route('users.profile.specificProfile', $attendee->user_id) }}" class="text-decoration-none">
-                                <i class="fa-solid fa-circle-user text-dark icon-sm"></i>
-                            </a>
-                        </div>
-                    @endforeach
-                @endif
-                {{-- Review form --}}
-                <div class="row mt-3">
-                    <div class="col-8">
-
-                    <form action="#" method="post">
-                        @csrf
-                    <h1 class="h6">Review Event</h1>
-                        <div class="input-group d-line">
-                            <input type="number" name="interest%" id="" class="form-control bg-white border-0 text-end">
-                            <span class="input-group-text bg-white border-0">%</span>
-                            <button class="btn bg-turquoise text-white rounded fw-bold px-2 py-0">Send review <i class="fa-solid fa-face-grin-wide"></i> </button>      
-                          </div>
-                    </form>                        
+                    <div class="d-flex">
+                        @foreach (collect($all_attendees)->take(10) as $attendee)
+                            <div class="me-2">
+                                <a href="{{ route('users.profile.specificProfile', $attendee->user_id) }}" class="text-decoration-none">
+                                    @if ($attendee->user->avatar)
+                                        <img src="{{ $attendee->user->avatar }}" alt="{{ $attendee->user->username }}" class="rounded-circle avatar-sm">
+                                    @else
+                                        <i class="fa-solid fa-circle-user text-dark icon-sm"></i>
+                                    @endif
+                                </a> 
+                            </div>
+                        @endforeach
                     </div>
+                @endif
 
 
-                </div>
+                {{-- Review form will appear after the event --}}
+                @if ($currentDateTime->greaterThan($event->date . ' ' . $event->end_time))
+                    <div class="row mt-3">
+                        <div class="col-8">
+                            <form action="#" method="post">
+                                @csrf
+                                <h1 class="h6">Review Event</h1>
+                                <div class="input-group d-line">
+                                    <input type="number" name="interest%" id="" class="form-control bg-white border-0 text-end">
+                                    <span class="input-group-text bg-white border-0">%</span>
+                                    <button class="btn bg-turquoise text-white rounded fw-bold px-2 py-0">Send review <i class="fa-solid fa-face-grin-wide"></i> </button>      
+                                </div>
+                            </form>                        
+                        </div>
+                    </div>  
+                @endif
 
+                {{-- Edit/Delete Button --}}
                 @if (Auth::user()->id === $event->host_id)
-                   {{-- Edit/Delete Button --}}
                     <div class="row mt-5 d-flex justify-content-end">
                         <div class="col text-end">
                             <a href="{{ route('event.edit', $event->id) }}" class="btn bg-gold text-white py-1">

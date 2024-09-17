@@ -24,9 +24,10 @@ class Event extends Model
         'image'
     ];
     
-    public function user()
+    # to get event host information
+    public function host()
     {
-        return $this->belongsTo(User::class);/* ->withTrashed() */
+        return $this->belongsTo(User::class, 'host_id');/* ->withTrashed() */
     }
 
     public function community()
@@ -44,12 +45,6 @@ class Event extends Model
     public function isJoining()
     {
         return $this->attendees()->where('user_id', Auth::user()->id)->exists();
-    }
-
-    # To get host info with search result
-    public function host()
-    {
-        return $this->belongsTo(User::class,'host_id');
     }
 
     # To get categories with search result

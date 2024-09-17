@@ -21,3 +21,19 @@
 .category input{
     display: none;
 }
+
+.scroll-container
+{
+    overflow-y: auto;
+    height: 350px;
+}
+
+.btn-gold {
+    background-color: #CFB53B;
+    color: white;
+}
+
+.right-border
+{
+    border-right: 1px solid rgb(181, 179, 176);
+}
