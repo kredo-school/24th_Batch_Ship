@@ -11,6 +11,18 @@ class Event extends Model
 {
     use HasFactory, SoftDeletes;
     protected $table = 'category_event';
+    protected $fillable = [
+        'host_id',
+        'community_id',
+        'title',
+        'date',
+        'start_time',
+        'end_time',
+        'address',
+        'price',
+        'description',
+        'image'
+    ];
     
     public function user()
     {
@@ -37,7 +49,7 @@ class Event extends Model
     # To get host info with search result
     public function host()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class,'host_id');
     }
 
     # To get categories with search result
@@ -55,6 +67,6 @@ class Event extends Model
    # To get the categories with event
    public function categoryEvent()
    {
-       return $this->hasMany(categoryEvent::class);
+       return $this->hasMany(CategoryEvent::class, 'event_id');
    }
 }

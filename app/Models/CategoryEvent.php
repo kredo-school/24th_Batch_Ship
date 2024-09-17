@@ -11,12 +11,12 @@ class CategoryEvent extends Model
 
     protected $table = 'category_event';
 
-    protected $fillable = ['category_id', 'event_id'];
+    protected $fillable = ['category_id', 'event_id', 'deleted_at'];
 
     public $timestamps = true;
 
     public function category()
     {
-        return $this->belongsTo(Category::class);
+        return $this->belongsTo(Category::class, 'category_id');
     }
 }

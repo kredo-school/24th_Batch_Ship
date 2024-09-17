@@ -166,7 +166,7 @@
           @if($result_communities instanceof \Illuminate\Pagination\LengthAwarePaginator && $result_communities->total() > 0)
               {{ $result_communities->appends(request()->query())->links('pagination::bootstrap-4') }}
           @else
-              <p>No posts found.</p>
+              <p>No communities found.</p>
           @endif
       </div>
     </div>
@@ -191,8 +191,9 @@
                         <div class="card-body d-flex flex-column">
                             @if($event->host)
                             <div class="row mb-2 ms-1">
-                                <div class="col card-title">
-                                    <h3>{{ $event->title }}</h3>
+                            {{-- title --}}                                
+                                <h3 class="col card-title">{{ $event->title }}</h3>
+                            {{-- host --}}                                    
                                     <p class="col card-text text-end">
                                         created by
                                         <a href="{{ route('users.profile.specificProfile', $event->host->id) }}">
@@ -203,16 +204,15 @@
                                             @endif
                                         </a>
                                     </p>
-                                </div>
                             </div>                                        
                             @endif
                         </div>
                         {{-- category --}}
                         <div class="row card-text text-start ms-1 mt-auto">
                             <div class="col">
-                                @foreach ($event->categoryEvent as $category)
-                                <a href="#" class="badge me-1 bg-turquoise text-decoration-none">{{ $event->categoryEvent->name }}</a>
-                                @endforeach
+                                @foreach ($event->categoryEvent as $category_event)
+                                <a href="#" class="badge me-1 bg-turquoise text-decoration-none">{{ $category_event->category->name }}</a>
+                            @endforeach
                             </div>
                         </div>
                     </div>
@@ -225,7 +225,7 @@
           @if($result_events instanceof \Illuminate\Pagination\LengthAwarePaginator && $result_events->total() > 0)
               {{ $result_events->appends(request()->query())->links('pagination::bootstrap-4') }}
           @else
-              <p>No posts found.</p>
+              <p>No events found.</p>
           @endif
       </div>
     </div>

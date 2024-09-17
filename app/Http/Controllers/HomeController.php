@@ -29,17 +29,15 @@ class HomeController extends Controller
         $keyword = $request->input('keyword');
         $contentTypes = $request->input('content', []);
         $selectedCategory = $request->input('category');
-    
-
+        
         $result_users = collect([]);
         $result_posts = collect([]);
         $result_communities = collect([]);
         $result_events = collect([]);
-   
+        
         $categories = Category::all();
         $no_results_message = null;
         $categoryName = null;
-
     
         if (!empty($selectedCategory)) {
             $category = Category::find($selectedCategory);
@@ -77,7 +75,7 @@ class HomeController extends Controller
                     ->where('title', 'LIKE', '%' . $keyword . '%')
                     ->whereHas('categories', function ($query) use ($selectedCategory) {
                         if ($selectedCategory) {
-                            $query->where('category_id', $selectedCategory); // 
+                            $query->where('category_id', $selectedCategory); 
                         }
                     })
                     ->paginate(4); 
@@ -85,10 +83,10 @@ class HomeController extends Controller
     
             if (in_array('event', $contentTypes) || in_array('all', $contentTypes)) {
                 $result_events = $this->event->latest()
-                    ->where('title', 'LIKE', '%' . $keyword . '%') // title from events table
+                    ->where('title', 'LIKE', '%' . $keyword . '%')
                     ->whereHas('categories', function ($query) use ($selectedCategory) {
                         if ($selectedCategory) {
-                            $query->where('category_id', $selectedCategory); // 'category_id' from category_event table
+                            $query->where('category_id', $selectedCategory); 
                         }
                     })
                     ->paginate(4);        
@@ -134,22 +132,25 @@ class HomeController extends Controller
             if (in_array('community', $contentTypes) || in_array('all', $contentTypes)) {
                 $result_communities = $this->community->latest()
                     ->where('title', 'LIKE', '%' . $keyword . '%')
-                    ->paginate(4);
-            }
-    
-            if (in_array('event', $contentTypes) || in_array('all', $contentTypes)) {
-                $result_events = $this->event->latest()
-                    ->where('title', 'LIKE', '%' . $keyword . '%') // title from events table
                     ->whereHas('categories', function ($query) use ($selectedCategory) {
                         if ($selectedCategory) {
-                            $query->where('category_id', $selectedCategory); // 'category_id' from category_event table
+                            $query->where('category_id', $selectedCategory); 
                         }
                     })
                     ->paginate(4); 
             }
-                 
+    
+            if (in_array('event', $contentTypes) || in_array('all', $contentTypes)) {
+                $result_events = $this->event->latest()
+                    ->where('title', 'LIKE', '%' . $keyword . '%')
+                    ->whereHas('categories', function ($query) use ($selectedCategory) {
+                        if ($selectedCategory) {
+                            $query->where('category_id', $selectedCategory); 
+                        }
+                    })
+                    ->paginate(4); 
+            }
             
-               
             if (
                 $result_users->isEmpty() &&
                 $result_posts->isEmpty() &&
@@ -174,10 +175,8 @@ class HomeController extends Controller
             ->with('search', $keyword)
             ->with('no_results_message', $no_results_message ?? null)
             ->with('categories', $categories)
-            ->with('categoryCommunity.category')
-            ->with('categoryEvent.category')
             ->with('selectedCategory', $selectedCategory);
     }
-    
+       
 
 }
