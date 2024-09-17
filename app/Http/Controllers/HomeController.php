@@ -83,15 +83,15 @@ class HomeController extends Controller
     
             if (in_array('event', $contentTypes) || in_array('all', $contentTypes)) {
                 $result_events = $this->event->latest()
-                    ->where('title', 'LIKE', '%' . $keyword . '%')
+                    ->where('title', 'LIKE', '%' . $keyword . '%') 
                     ->whereHas('categories', function ($query) use ($selectedCategory) {
                         if ($selectedCategory) {
                             $query->where('category_id', $selectedCategory); 
                         }
                     })
-                    ->paginate(4);        
-            }
-    
+                    ->paginate(4);
+            }           
+                     
             if (
                 $result_users->isEmpty() &&
                 $result_posts->isEmpty() &&
@@ -142,14 +142,15 @@ class HomeController extends Controller
     
             if (in_array('event', $contentTypes) || in_array('all', $contentTypes)) {
                 $result_events = $this->event->latest()
-                    ->where('title', 'LIKE', '%' . $keyword . '%')
+                    ->where('title', 'LIKE', '%' . $keyword . '%') 
                     ->whereHas('categories', function ($query) use ($selectedCategory) {
                         if ($selectedCategory) {
-                            $query->where('category_id', $selectedCategory); 
+                            $query->where('categories.id', $selectedCategory); 
                         }
                     })
-                    ->paginate(4); 
+                    ->paginate(4);
             }
+            
             
             if (
                 $result_users->isEmpty() &&
