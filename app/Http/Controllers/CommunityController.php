@@ -85,7 +85,14 @@ class CommunityController extends Controller
     public function show($id){
 
         $community = $this->community->findOrFail($id);
-        return view('users.communities.show')->with('community', $community);
+
+        $all_members = $community->members->all();
+        $all_categories = $community->categoryCommunity->all();
+
+        return view('users.communities.show')
+            ->with('community', $community)
+            ->with('all_members', $all_members)
+            ->with('all_categories', $all_categories);
     }
 
     # To open the Edit Post page

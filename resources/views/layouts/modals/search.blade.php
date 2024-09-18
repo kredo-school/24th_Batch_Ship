@@ -8,38 +8,51 @@
             </div>
 
             <div class="modal-body">
-                <form action="{{ route('search') }}" method="get" enctype="multipart/form-data">
+
+                <form action="{{ route('search') }}" method="GET">
                     @csrf
-
-
+                    
                     <input type="text" name="keyword" id="keyword" class="form-control" placeholder="Enter keyword..." >
-
                     <select name="category" id="category" class="form-select form-select-sm mt-3 w-50">
                         <option disabled selected value>Select Category</option>
-                        {{-- @foreach ($categories as $category)
-                            <option value="{{ $category->id }}">{{ $category->name }}</option>
-                        @endforeach --}}
                     </select>
-
-
+                    
+                    <script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                        fetch('/api/select-data')
+                            .then(response => response.json())
+                            .then(data => {
+                                let select = document.getElementById('category');
+                                data.forEach(function(item) {
+                                    let option = document.createElement('option');
+                                    option.value = item.id;
+                                    option.text = item.name;
+                                    select.appendChild(option);
+                                });
+                            })
+                            .catch(error => console.error('Error fetching data:', error));
+                    });
+                    
+                    </script>
+                    
                     <div class="form-check form-check-inline mt-3">
-                        <input type="checkbox" name="content" id="user" value="user" class="form-check-input">
-                        <label for="user" class="form-check-label">User</label>
+                        <input type="checkbox" name="content[]" id="username" value="username" class="form-check-input">
+                        <label for="username" class="form-check-label">User</label>
                     </div>
                     <div class="form-check form-check-inline mt-3">
-                        <input type="checkbox" name="content" id="post" value="post" class="form-check-input">
+                        <input type="checkbox" name="content[]" id="post" value="post" class="form-check-input">
                         <label for="post" class="form-check-label">Post</label>
                     </div>
                     <div class="form-check form-check-inline mt-3">
-                        <input type="checkbox" name="content" id="community" value="community" class="form-check-input">
+                        <input type="checkbox" name="content[]" id="community" value="community" class="form-check-input">
                         <label for="community" class="form-check-label">Community</label>
                     </div>
                     <div class="form-check form-check-inline mt-3">
-                        <input type="checkbox" name="content" id="event" value="event" class="form-check-input">
+                        <input type="checkbox" name="content[]" id="event" value="event" class="form-check-input">
                         <label for="event" class="form-check-label">Event</label>
                     </div>
                     <div class="form-check form-check-inline mt-3">
-                        <input type="checkbox" name="content" id="all" value="all" class="form-check-input">
+                        <input type="checkbox" name="content[]" id="all" value="all" class="form-check-input">
                         <label for="all" class="form-check-label">All</label>
                     </div>
 
