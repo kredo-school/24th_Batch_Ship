@@ -1,46 +1,45 @@
 <div class="container">
   @if ($community->comments->isNotEmpty())
-    <ul class="list-group">
       @foreach ($community->comments as $comment)
-        <div class="row">
-              {{-- avatar & name  --}}
-            <div class="col d-flex flex-column p-0">
-                <div class="d-flex align-items-center mb-2">
-                  <a href="{{-- route('profile.show', $comment->user_id) --}}" class="text-decoration-none text-dark d-flex align-items-center">
-                      <span class="d-flex align-items-center">
-                        <a href="{{-- {{ route('users.profile.specificProfile', $comment->owner_id) }} --}}">
-                          @if ($comment->user->avatar)
-                            <img src="{{ $comment->user->avatar }}" alt="{{ $comment->user->username }}" class="rounded-circle avatar-sm"> 
-                          @else
-                            <i class="fa-solid fa-circle-user icon-sm"></i>   
-                          @endif    
-                        </a>  
-                          <h6 class="mb-0 ms-2">{{ $comment->user->name }}</h6>
-                      </span>
-                  </a>
+        <div class="row mb-4">
+            {{-- avatar & name  --}}
+            <div class="col-1 d-flex flex-column">
+              <div class="d-flex align-items-center mb-2 mx-auto p-0">
+                <a href="{{ route('users.profile.specificProfile', $comment->user->id ) }}" class="text-decoration-none text-dark d-flex align-items-center">
+                    <span class="d-flex align-items-center">
+                        @if ($comment->user->avatar)
+                          <img src="{{ $comment->user->avatar }}" alt="{{ $comment->user->username }}" class="rounded-circle avatar-md border border-gray"> 
+                        @else
+                          <i class="fa-solid fa-circle-user icon-sm"></i>   
+                        @endif    
+                    </span>
+                </a>
+              </div>
+            </div>
+
+            <div class="col-9 mt-2">
+              <div class="row">
+                <a class="text-decoration-none text-dark" href="{{ route('users.profile.specificProfile', $comment->user->id ) }}"><h6 class="">{{ $comment->user->username }}</h6></a>
+              </div>
+              <div class="row">
+                <div class="small fw-light lh-sm community-comment">
+                  {{ $comment->body }}
                 </div>
-          </div>
-      
-          {{-- comment --}}    
-          <div class="row">
-          <div class="col-10 ms-4">
-            <p class="small fw-light lh-sm">
-              {{ $comment->body }}
-            </p>
-              {{-- {{ $comment->image }} --}}
-              @if ($comment->image)
-                <img src="{{ $comment->image }}" class="w-25 h-50 object-fit-cover" alt="">
-              @endif
-          </div>
-        
-      
-            {{-- created date --}}
-            <div class="col p-0 text-center my-auto">
+              </div>
+              <div class="row mt-2">
+                @if ($comment->image)
+                  <img src="{{ $comment->image }}" class="w-25 h-50 object-fit-cover border border-gray" alt="">
+                @endif
+              </div>
+            </div>
+
+            <div class="col-2 p-0 text-center my-auto">
               <form action="{{ route('boardcomment.destroy', $comment->id) }}" method="post">
                 @csrf
                 @method('DELETE')
                 <div class="xsmall pt-1">
-                  <p class="text-muted fw-light mb-1">{{ date('M d, Y', strtotime($comment->created_at)) }}<br>{{ date('H:i', strtotime($comment->created_at)) }}</p> 
+                  {{-- created date --}}
+                  <p class="text-muted fw-light mb-1">{{ date('M d, Y', strtotime($comment->created_at)) }}{{ date('H:i', strtotime($comment->created_at)) }}</p> 
                   @if ($comment->user_id == Auth::user()->id)
                   &nbsp;
 
@@ -56,10 +55,9 @@
                   @endif
                 </div>
               </form>
-            </div>
+            </div>  
         </div>
-      @endforeach
-    </ul>    
+      @endforeach 
   @endif
   
 </div>

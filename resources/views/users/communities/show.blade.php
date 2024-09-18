@@ -10,15 +10,15 @@
       <div class="col-md-8 px-4">
         {{-- cover img & description --}}
         <div class="mt-3 text-center">
-          <img src="{{ $community->image }}" class="object-fit-cover border rounded w-100 h-25" alt="{{ $community->title }}">
-          <h2 class=" my-2">{{ $community->title }}</h2>
+          <img src="{{ $community->image }}" class="object-fit-cover border image-community rounded bg-white w-100" alt="{{ $community->title }}">
+          <h2 class="my-2">{{ $community->title }}</h2>
           <p class="lh-sm">
             {{ $community->description }}
           </p>
         </div>
 
           {{-- bulletin board --}}
-          <div class="container bg-white p-3">
+          <div class="container bg-white p-3 w-100">
             <form action="{{ route('boardcomment.store', $community->id) }}" method="post" enctype="multipart/form-data">
                 @csrf
                 {{-- input for comments --}}
@@ -49,12 +49,10 @@
             </form>
                 
             <hr class="my-3">
-            @include('users.communities.comments.list-item')
+
             {{-- comments list --}}
-            {{-- <div class="row bg-white p-2 m-0">
-                    @include('users.communities.comments.list-item')
-                </div>             
-            </div>--}}
+            @include('users.communities.comments.list-item')
+            
             </div>
       </div>{{-- end of left side --}}
     

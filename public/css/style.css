@@ -81,6 +81,13 @@ p {
     height: 9rem;
     object-fit: cover;
 }
+
+.image-community {
+    width: 800px;    /* 9 * 16px = 144px */
+    height: 300px;
+    object-fit: cover;
+}
+
 .image-lg {
     width: 9rem;    /* 9 * 16px = 144px */
     height: 9rem;
@@ -169,4 +176,8 @@ p {
 
 .border-gray {
     border-color: rgb(216, 216, 216);
+}
+
+.community-comment {
+    word-break: break-word;
 }
