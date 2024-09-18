@@ -12,6 +12,6 @@ class Comment extends Model
     # to get the info of the owner of the comment
     public function user()
     {
-        return $this->belongsTo(User::class)->withTrashed();
+        return $this->belongsTo(User::class);
     }
 }

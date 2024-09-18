@@ -50,7 +50,7 @@ Route::group(['middleware' => 'auth'], function(){
     // Route::delete('/comment/{id}/destroy', [BoardCommentController::class, 'destroy'])->name('boardcomment.destroy');
 
     //PERCENTAGE
-    Route::post('/percentage/{post_id}/store', [PercentageController::class,'store'])->name('like.store');
+    Route::post('/percentage/{post_id}/store', [PercentageController::class,'store'])->name('percentage.store');
 
 
 

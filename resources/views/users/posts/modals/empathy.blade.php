@@ -1,233 +1,73 @@
 {{-- Reacted --}}
-<div class="modal fade" id="see-all-reactions">
-  <div class="modal-dialog">
-    <div class="modal-content border-turquoise pe-1 modal-with">
-      <div class="modal-header text-center border-0 d-block">
+<div class="modal fade" id="see-all-reactions">  {{--modal div---}}
+  <div class="modal-dialog">                {{--modal dialog div---}}
+    <div class="modal-content border-turquoise pe-1 modal-with">  {{--modal content div---}}
+      <div class="modal-header text-center border-0 d-block">    {{--modal header div---}}
         <p class="mt-4 mb-0">
-          Sort by 
-          <button class="btn btn-turquoise mx-2" type="button" id="sort-compatibility">compatibility %</button>
+          Sort by
+          <button class="btn btn-turquoise mx-2" type="button" id="sort-enpathy">Enpathy %</button>
           or
           <button class="btn btn-turquoise mx-2" type="button" id="sort-date">date (newest list)</button>
-        </p> 
-      </div>
-      <div class="modal-body" style="max-height: 400px; overflow-y: scroll;"> 
-        {{-- @foreach all reactions --}}
+        </p>
+    </div>         {{--modal header end div---}}
+      <div class="modal-body" style="max-height: 400px; overflow-y: scroll;">    {{--modal body div---}}
         <hr>
-        <div class="row align-items-center">
+    <div class="row align-items-center">     {{--modal body start div---}}
           <div class="col-2">
             <p class="text-center me-1 mb-0">100%</p>
           </div>
-          <div class="col-3">
-            <a href="#" class="text-decoration-none text-black d-flex align-items-center">
-              <i class="fa-solid fa-circle-user icon-sm"></i>
-              <span class="fw-bold ms-1">Maria Konnno</span>
-            </a>
+ {{-- show all the comments --}}
+       @if ($post->comments->isNotEmpty())
+         <div class="col-3">
+           <ul class="list-group mt-2 text-start">
+             @foreach ($post->comments as $comment)
+              <li class="list-group-item border-0  mb-2">
+
+               @if ($comment->user->avatar)
+                  <a href="{{ route('users.profile.specificProfile', $comment->user->id) }}">
+                    <img src="{{ $comment->user->avatar }}" alt="" class="rounded-circle avatar-sm "></a>
+
+            @else
+                <a href="{{ route('users.profile.specificProfile', $comment->user->id) }}">
+                <i class="fas fa-circle-user text-secondary icon-sm " ></i></a>
+            @endif
+             </div>
+             <div class="col-5 text-start">
+             <a href="{{ route('users.profile.specificProfile', $comment->user->id) }}" class="text-decoration-none text-dark fw-bold">{{ $comment->user->name }}</a>
+             &nbsp;
+             <p class="d-inline fw-light">{{ $comment->body }}</p>
+
+             </div>
+             <div class="col-2 text-end">
+             <form action="{{ route('comment.destroy', $comment->id) }}" method="post">
+                 @csrf
+                 @method('DELETE')
+
+                 <span class="text-uppercase text-muted xsmall">{{ date('M d, Y', strtotime($comment->created_at)) }}</span>
+
+ {{-- if the auth user is the owner of the coment, show a delete button. --}}
+                 @if (Auth::user()->id === $comment->user->id)
+                     &middot;
+                     <button type="submit" class="border-0 bg-transparent text-danger p-0 xsmall">Delete</button>
+
+                 @endif
+
           </div>
-          <div class="col-5 text-start"> 
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aspernatur, sint?
-          </div>
-          <div class="col-2 text-end">
-            <p class="text-muted mb-0">Aug.18.2024</p>
-          </div>
-        </div>
-        {{-- next loop --}}
-        <hr>
-        <div class="row align-items-center">
-          <div class="col-2">
-            <p class="text-center me-2 mb-0">98%</p>
-          </div>
-          <div class="col-7">
-            <a href="#" class="text-decoration-none text-black d-flex align-items-center">
-              <i class="fa-solid fa-circle-user icon-sm"></i>
-              <span class="fw-bold ms-1">Yona Kim</span>
-            </a>
-          </div>
-          <div class="col-3 text-end">
-            <p class="text-muted mb-0">Aug.18.2024</p>
-          </div>
-        </div>
-        {{-- next loop --}}
-        <hr>
-        <div class="row align-items-center">
-          <div class="col-2">
-            <p class="text-center me-2 mb-0">95%</p>
-          </div>
-          <div class="col-7">
-            <a href="#" class="text-decoration-none text-black d-flex align-items-center">
-              <i class="fa-solid fa-circle-user icon-sm"></i>
-              <span class="fw-bold ms-1">Bob Williams</span>
-            </a>
-          </div>
-          <div class="col-3 text-end">
-            <p class="text-muted mb-0">Aug.18.2024</p>
-          </div>
-        </div>
-        {{-- next loop --}}
-        <hr>
-        <div class="row align-items-center">
-          <div class="col-2">
-            <p class="text-center me-2 mb-0">94%</p>
-          </div>
-          <div class="col-7">
-            <a href="#" class="text-decoration-none text-black d-flex align-items-center">
-              <i class="fa-solid fa-circle-user icon-sm"></i>
-              <span class="fw-bold ms-1">Kevin Cruse</span>
-            </a>
-          </div>
-          <div class="col-3 text-end">
-            <p class="text-muted mb-0">Aug.17.2024</p>
-          </div>
-        </div>
-        {{-- next loop --}}
-        <hr>
-        <div class="row align-items-center">
-          <div class="col-2">
-            <p class="text-center me-2 mb-0">91%</p>
-          </div>
-          <div class="col-7">
-            <a href="#" class="text-decoration-none text-black d-flex align-items-center">
-              <i class="fa-solid fa-circle-user icon-sm"></i>
-              <span class="fw-bold ms-1">Arnold White</span>
-            </a>
-          </div>
-          <div class="col-3 text-end">
-            <p class="text-muted mb-0">Aug.17.2024</p>
-          </div>
-        </div>
-        {{-- next loop --}}
-        <hr>
-        <div class="row align-items-center">
-          <div class="col-2">
-            <p class="text-center me-2 mb-0">91%</p>
-          </div>
-          <div class="col-7">
-            <a href="#" class="text-decoration-none text-black d-flex align-items-center">
-              <i class="fa-solid fa-circle-user icon-sm"></i>
-              <span class="fw-bold ms-1">Jack Brown</span>
-            </a>
-          </div>
-          <div class="col-3 text-end">
-            <p class="text-muted mb-0">Aug.18.2024</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+
+              <hr>
+              @endforeach
+               </form>
+         </li>
+
+   </ul>
+
+@endif
+</div>
 </div>
 
-{{-- Reacting --}}
-<div class="modal fade" id="reacting-profile">
-  <div class="modal-dialog">
-    <div class="modal-content pe-1">
-      <div class="modal-header text-center border-0 d-block">
-        <h1 class="h5 modal-title">
-          Someone I feel good compatibility with
-        </h1>
-        <p class="mt-4 mb-0">
-          Sort by 
-          <button class="btn btn-turquoise text-white mx-2" type="button" id="sort-compatibility">compatibility %</button>
-          or
-          <button class="btn btn-turquoise text-white mx-2" type="button" id="sort-date">date (newest list)</button>
-        </p> 
-      </div>
-      <div class="modal-body" style="max-height: 400px; overflow-y: scroll;"> 
-        {{-- @foreach all reactions --}}
-        <hr>
-        <div class="row align-items-center">
-          <div class="col-2">
-            <p class="text-center me-2 mb-0">90%</p>
-          </div>
-          <div class="col-7">
-            <a href="#" class="text-decoration-none text-black d-flex align-items-center">
-              <i class="fa-solid fa-circle-user icon-sm"></i>
-              <span class="fw-bold ms-1">Jack Brown</span>
-            </a>
-          </div>
-          <div class="col-3 text-end">
-            <p class="text-muted mb-0">Aug.18.2024</p>
-          </div>
-        </div>
-        {{-- next loop --}}
-        <hr>
-        <div class="row align-items-center">
-          <div class="col-2">
-            <p class="text-center me-2 mb-0">100%</p>
-          </div>
-          <div class="col-7">
-            <a href="#" class="text-decoration-none text-black d-flex align-items-center">
-              <i class="fa-solid fa-circle-user icon-sm"></i>
-              <span class="fw-bold ms-1">Fredy Mercury</span>
-            </a>
-          </div>
-          <div class="col-3 text-end">
-            <p class="text-muted mb-0">Aug.18.2024</p>
-          </div>
-        </div>
-        {{-- next loop --}}
-        <hr>
-        <div class="row align-items-center">
-          <div class="col-2">
-            <p class="text-center me-2 mb-0">78%</p>
-          </div>
-          <div class="col-7">
-            <a href="#" class="text-decoration-none text-black d-flex align-items-center">
-              <i class="fa-solid fa-circle-user icon-sm"></i>
-              <span class="fw-bold ms-1">David Waston</span>
-            </a>
-          </div>
-          <div class="col-3 text-end">
-            <p class="text-muted mb-0">Aug.18.2024</p>
-          </div>
-        </div>
-        {{-- next loop --}}
-        <hr>
-        <div class="row align-items-center">
-          <div class="col-2">
-            <p class="text-center me-2 mb-0">98%</p>
-          </div>
-          <div class="col-7">
-            <a href="#" class="text-decoration-none text-black d-flex align-items-center">
-              <i class="fa-solid fa-circle-user icon-sm"></i>
-              <span class="fw-bold ms-1">June Lopez</span>
-            </a>
-          </div>
-          <div class="col-3 text-end">
-            <p class="text-muted mb-0">Aug.17.2024</p>
-          </div>
-        </div>
-        {{-- next loop --}}
-        <hr>
-        <div class="row align-items-center">
-          <div class="col-2">
-            <p class="text-center me-2 mb-0">93%</p>
-          </div>
-          <div class="col-7">
-            <a href="#" class="text-decoration-none text-black d-flex align-items-center">
-              <i class="fa-solid fa-circle-user icon-sm"></i>
-              <span class="fw-bold ms-1">Chery Jones</span>
-            </a>
-          </div>
-          <div class="col-3 text-end">
-            <p class="text-muted mb-0">Aug.17.2024</p>
-          </div>
-        </div>
-        {{-- next loop --}}
-        <hr>
-        <div class="row align-items-center">
-          <div class="col-2">
-            <p class="text-center me-2 mb-0">89%</p>
-          </div>
-          <div class="col-7">
-            <a href="#" class="text-decoration-none text-black d-flex align-items-center">
-              <i class="fa-solid fa-circle-user icon-sm"></i>
-              <span class="fw-bold ms-1">Bob Williams</span>
-            </a>
-          </div>
-          <div class="col-3 text-end">
-            <p class="text-muted mb-0">Aug.16.2024</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+</div>   {{--modal body start div---}}
+     </div>{{--modal body end div---}}
+
+    </div>    {{--modal content end div---}}
+  </div>    {{--modal dialog end div---}}
+</div>  {{--modal end div---}}

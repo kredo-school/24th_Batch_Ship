@@ -33,7 +33,7 @@ class CommentController extends Controller
         $this->comment->save();
 
         # 3. Redirect back to the page
-        return redirect()->back();
+         return redirect()->back();
     }
 
     public function destroy($id)

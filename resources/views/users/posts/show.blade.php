@@ -12,7 +12,7 @@
     <div class="card border-0 bg-pink">
         <div class="card-body">
             <div class="row">
-                {{-- Left side of the Post--}}
+   {{-- Left side of the Post--}}
                 <div class="col-7">
                     <div class="row ">
                    <div class="col-2 px-0">
@@ -36,7 +36,7 @@
                         <div class="col my-auto">
                             <div class="row mt-1">
                                 <div class="col  profile-name">
-                                    {{-- Name of user who posted this post--}}
+     {{-- Name of user who posted this post--}}
                                     <a href="{{ route('users.profile.specificProfile', $post->user->id) }}"
                                         class="text-decoration-none text-dark mx-2"><span class="p-3">{{ $post->user->first_name }}</span><span class="p-3">{{ $post->user->last_name }}</span></a>
                                 </div>
@@ -54,7 +54,7 @@
              　　　　　　　            </div>
                                 </div>
                                 <div class="col text-end  mt-2">
-                                    {{-- If you are the owner of the post, you can edit or delete this post --}}
+             {{-- If you are the owner of the post, you can edit or delete this post --}}
 
                                           @if ($post->user->id === Auth::user()->id)
                                             {{-- edit --}}
@@ -98,9 +98,9 @@
 
             <hr class="col-7 mt-5">
             <div class="row pt-6">
-
-      {{-- If you are not the owner of the post, you can put empathy on this post --}}
-
+{{-- If you are not the owner of the post, you can put empathy on this post --}}
+                 <form action="{{ route('percentage.store', $post->id) }}" method="post">
+                    @csrf
                     @if (!($post->user->id === Auth::user()->id))
 
                         <div class="form-group mb-2 mx-3">
@@ -111,45 +111,26 @@
                             oninput="document.getElementById('output1').value=this.value">
 
                              <output id="output1" class="m-2">60</output><span>%</span>
-</div>
-                        </div>
+
+                            <button type="submit" class="btn btn-gold form-group m-3 btn-lg">Send Enpathy</button>
+                        </div> </div>
                     @endif
-    {{-- comment for post --}}
-                  <form action="{{ route('comment.store', $post->id) }}" method="post">
-                        <textarea name="postcomment" rows="2" placeholder="comment" class="form-control form-control-sm form-group mt-5"></textarea>
-         {{-- if the auth user is the owner of the coment, show a delete button. --}}
-         {{-- @if (Auth::user()->id === $comment->user->id)
-         &middot;
-         <button type="submit"
-             class="border-0 bg-transparent text-danger p-0 xsmall">Delete</button>
-     @endif --}}
 
-                    {{-- submit --}}
-                        <button type="submit" class="btn btn-gold form-group m-3 btn-lg">Post</button>
+                 </form>
+
+ {{-- comment for post --}}
+                       <form action="{{ route('comment.store', $post->id) }}" method="post">
+                       @csrf
+                       <textarea name="comment_body{{ $post->id }}" rows="1" class="form-control form-control-sm"
+                        placeholder="Add a comment...">{{ old('comment_body' . $post->id) }}</textarea>
+
+
+                        <button type="submit" class="btn btn-gold form-group m-3 btn-lg">Send Comment</button>
                 </form>
-                
-           {{-- show all the comments --}}
-           @if ($post->comments->isNotEmpty())
-           <ul class="list-group mt-2">
-               @foreach ($post->comments as $comment)
-                   <li class="list-group-item border-0 p-0 mb-2">
-                       <a href="{{ route('profile.show', $comment->user->id) }}"
-                           class="text-decoration-none text-dark fw-bold">{{ $comment->user->name }}</a>
-                       &nbsp;
-                       <p class="d-inline fw-light">{{ $comment->body }}</p>
-
-                       <form action="{{ route('comment.destroy', $comment->id) }}" method="post">
-                           @csrf
-                           @method('DELETE')
-
-                           <span
-                               class="text-uppercase text-muted xsmall">{{ date('M d, Y', strtotime($comment->created_at)) }}</span>
-
-
             </div>
 
             <div class="text-end">
-                {{-- you can see all reaction witch post owner get here --}}
+ {{-- you can see all reaction witch post owner get here --}}
                 <button class="shadow-none p-0 border-0 text-turquoise bg-pink" data-bs-toggle="modal" data-bs-target="#see-all-reactions{{-- #delete-post-{{ $post->id }} --}}">
                     {{-- use modal to show all reaction --}}
                     see all reactions
