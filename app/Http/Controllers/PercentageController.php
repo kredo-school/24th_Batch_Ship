@@ -10,17 +10,27 @@ class PercentageController extends Controller
 {
     private $percentage;
 
-    public function __construct(Percentage $percentage)
+
+    public function __construct(Percentage $percentage )
     {
         $this->percentage = $percentage;
     }
 
-    public function store($post_id)
+    public function store($post_id,  Request $request)
     {
-        $this->percentage->user_id = Auth::user()->id;
-        $this->percentage->post_id = $post_id; 
-        $this->percentage->save();
+        request()->validate([
+            'percentage' => 'required|numeric|between:60,100',
+        ]);
 
+        Percentage::create([
+            'percentage' => $request->input('percentage'),
+            'user_id' => Auth::user()->id,
+            'post_id' => $post_id,
+
+
+
+        ]);
+    
         return redirect()->back();
     }
 

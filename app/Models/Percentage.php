@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Percentage extends Model
 {
     use HasFactory;
-    
-    public $timestamps = false;
+
+    public $timestamps = true;
+    protected $fillable = [ 'user_id', 'post_id', 'percentage' ];
 }

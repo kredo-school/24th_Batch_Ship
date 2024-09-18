@@ -107,7 +107,7 @@
 
                             <label for="enpathy">Enpathy:</label>
                             <div class="range-slider ">
-                            <input type="range" id="range" value="60" min="60" max="100" step="1" list="my-datalist" class="bg-turquoise"
+                            <input type="range" id="percentage" name="percentage" value="60" min="60" max="100" step="1" list="my-datalist" class="bg-turquoise"
                             oninput="document.getElementById('output1').value=this.value">
 
                              <output id="output1" class="m-2">60</output><span>%</span>

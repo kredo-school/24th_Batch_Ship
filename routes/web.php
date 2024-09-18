@@ -8,15 +8,15 @@ use App\Http\Controllers\EventController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CommunityController;
 use App\Http\Controllers\EventUserController;
-<<<<<<< HEAD
-// use App\Http\Controllers\BoardCommentController;
+
+
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\PercentageController;
-=======
+
 use App\Http\Controllers\SelectDataController;
 use App\Http\Controllers\BoardCommentController;
 use App\Http\Controllers\CommunityUserController;
->>>>>>> daf5b4aff4a40a1ac5202349e41b92d81789eb5d
+
 
 Auth::routes();
 
@@ -50,20 +50,20 @@ Route::group(['middleware' => 'auth'], function(){
     Route::get('/community/{id}/edit', [CommunityController::class, 'edit'])->name('communities.edit');
     Route::patch('/community/{id}/update', [CommunityController::class, 'update'])->name('communities.update');
 
-<<<<<<< HEAD
+
     // COMMENT
     Route::post('/comment/{post_id}/store', [CommentController::class, 'store'])->name('comment.store');
     Route::delete('/comment/{post_id}/destroy', [CommentController::class, 'destroy'])->name('comment.destroy');
-    
+
     //PERCENTAGE
     Route::post('/percentage/{post_id}/store', [PercentageController::class,'store'])->name('percentage.store');
 
 
-=======
+
     # COMMENT
     Route::post('/comment/{community_id}/store', [BoardCommentController::class, 'store'])->name('boardcomment.store');
     Route::delete('/comment/{id}/destroy', [BoardCommentController::class, 'destroy'])->name('boardcomment.destroy');
->>>>>>> daf5b4aff4a40a1ac5202349e41b92d81789eb5d
+
 
     # CommunityUser
     Route::post('/community/{id}/join', [CommunityUserController::class, 'join'])->name('community.join');

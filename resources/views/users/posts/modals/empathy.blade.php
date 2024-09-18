@@ -14,6 +14,14 @@
         <hr>
     <div class="row align-items-center">     {{--modal body start div---}}
           <div class="col-2">
+            @if ($post->percentages->isNotEmpty())
+            @foreach ($post->percentages as $percentage)
+
+            <p class="text-center me-1 mb-0">{{ $percentage }}</p>
+
+
+            @endforeach
+ @endif
             <p class="text-center me-1 mb-0">100%</p>
           </div>
  {{-- show all the comments --}}
