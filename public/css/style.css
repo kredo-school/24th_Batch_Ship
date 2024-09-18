@@ -110,17 +110,17 @@ p {
 
 .cont {
     position: relative;
-    padding-bottom: 60px;
+    /* padding-bottom: 60px; */
     box-sizing: border-box;
     min-height: 100vh;
 }
 
-/* .wrap{
+.wrap{
     display: grid;
     grid-template-rows: auto 1fr auto;
     grid-template-columns: 100%;
     min-height: 100vh;
-  } */
+  }
 
 /* Bottun hover */
 .btn-gold {

@@ -12,6 +12,8 @@ class Community extends Model
 {
     use HasFactory , SoftDeletes;
 
+    protected $table = 'communities';
+
     # to get the owner of the community
     public function user()
     {
@@ -32,7 +34,7 @@ class Community extends Model
 
     public function categories()
     {
-        return $this->belongsToMany(Category::class);
+        return $this->belongsToMany(Category::class, 'category_community');
     }
 
     # Post has many comments
