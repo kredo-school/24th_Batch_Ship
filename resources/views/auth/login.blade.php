@@ -7,10 +7,8 @@
         {{-- left side --}}
      <div class="col-md bg-turquoise d-flex justify-content-center align-items-center">
         <div class="logo text-center">
-            <img src="assets/image/logo.png" class="w-50" alt="">
-
+            <img src="/assets/image/SHIPlogo_blue.png" class="w-50" alt="">
             <h1 class="text-white display-4 fw-bold">SHIP</h1>
-
         </div>
      </div>
 
@@ -41,7 +39,7 @@
                     @enderror
             </div>
             <div class="my-3 pt-5">
-                <button type="submit" class="btn bg-turquoise text-white w-100">
+                <button type="submit" class="btn btn-turquoise border-gray w-100">
                         {{ __('Login') }}
                 </button>
             </div>

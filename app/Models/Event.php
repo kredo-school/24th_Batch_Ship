@@ -10,10 +10,25 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Event extends Model
 {
     use HasFactory, SoftDeletes;
-    
-    public function user()
+
+    protected $table = 'events';
+
+    protected $fillable = [
+        'host_id',
+        'community_id',
+        'title',
+        'date',
+        'start_time',
+        'end_time',
+        'address',
+        'price',
+        'description',
+        'image'
+    ];
+
+    public function host()
     {
-        return $this->belongsTo(User::class);/* ->withTrashed() */
+        return $this->belongsTo(User::class, 'host_id');
     }
 
     public function community()
@@ -21,15 +36,18 @@ class Event extends Model
         return $this->belongsTo(Community::class);
     }
 
-    # to get all attendees for the event
     public function attendees()
     {
         return $this->hasMany(EventUser::class);
     }
 
-    # return TRUE if the Auth user is already joining the event
     public function isJoining()
     {
         return $this->attendees()->where('user_id', Auth::user()->id)->exists();
+    }
+
+    public function categories()
+    {
+        return $this->belongsToMany(Category::class, 'category_event', 'event_id', 'category_id');
     }
 }

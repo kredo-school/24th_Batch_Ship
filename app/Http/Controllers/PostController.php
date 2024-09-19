@@ -54,11 +54,10 @@ class PostController extends Controller
             return $all_posts;
     }
 
-
     # show() - view Show Post Page
     public function show($id)
     {
-       $post = $this->post->findOrFail($id);
+       $post = $this->post->with('user')->findOrFail($id);
 
       return view('users.posts.show')->with('post', $post);
     }
@@ -77,13 +76,17 @@ class PostController extends Controller
         if($request->image){
         $this->post->image          = 'data:image/' . $request->image->extension() . ';base64,' . base64_encode(file_get_contents($request->image));}
         $this->post->description    = $request->description;
+        $this->post->timestamps = $request->timestamps;
         $this->post->save();
 
+        if($request->avatar){
+            $this->post->image = 'data:image/' . $request->image->extension() . ';base64,' . base64_encode(file_get_contents($request->image));
+        }
 
         # Save the categories to the category_post povit table
+
         foreach ($request->category as $category_id){
             $category_post[] = ['category_id' => $category_id];
-
         }
 
         $this->post->categoryPost()->createMany($category_post);
@@ -100,7 +103,7 @@ class PostController extends Controller
 
         #IF the Auth user is not the owner of the POST, redirect to index
         if(Auth::user()->id != $post->user->id){
-            return redirect()->route('index');
+            return redirect()->route('users.posts.show', ['id' => $this->post->id]);
         }
 
         $all_categories = $this->category->all(); //retrieve all the categories
@@ -161,4 +164,16 @@ class PostController extends Controller
 
 
 
-}
+    // delete the post
+    public function destroy($id)
+    {
+        $post = $this->post->findOrFail($id);
+        $post->forceDelete();
+
+        return redirect()->route('users.posts.index');
+    }
+
+
+
+
+    }

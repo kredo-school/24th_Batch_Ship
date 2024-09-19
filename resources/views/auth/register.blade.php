@@ -8,7 +8,10 @@
 
     {{-- left side --}}
      <div class="col-md bg-turquoise d-flex justify-content-center align-items-center">
-        <div class="logo">logo</div>
+        <div class="logo text-center">
+            <img src="/assets/image/SHIPlogo_blue.png" class="w-50" alt="">
+            <h1 class="text-white display-4 fw-bold">SHIP</h1>
+        </div>
      </div>
 
      {{-- right side --}}

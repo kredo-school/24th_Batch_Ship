@@ -53,8 +53,8 @@
                                         <div class="row card-text text-start ms-1 mt-auto">
                                             <div class="col">
                                                 @foreach ($community->categoryCommunity as $category_community)
-                                                    <a href="#" class="badge me-1 bg-turquoise text-decoration-none">{{ $category_community->category->name }}</a>
-                                                @endforeach
+                                                <a href="#" class="badge me-1 bg-turquoise text-decoration-none">{{ $category_community->category->name }}</a>
+                                            @endforeach
                                             </div>
                                         </div>
                                     </div>

@@ -21,12 +21,12 @@
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 </head>
-<body>
+<body class="cont">
     <div id="app" class="cont">
         <nav class="navbar navbar-expand-md navbar-light bg-turquoise shadow-sm">
             <div class="container-fluid">
                 <a class="navbar-brand" href="{{ route('users.profile.index') }}">
-                    <img src="" alt="" width="30" height="24">
+                    <img src="/assets/image/SHIPlogo_blue.png" alt="" width="40" height="30">
                 </a>
                 <a href="{{ route('users.profile.index') }}" class="nav-link me-auto mb-2 mb-lg-0 text-white"><h1 class="h5 mb-0">{{ config('app.name', 'SHIP') }}</h1></a>
 
