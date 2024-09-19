@@ -232,3 +232,21 @@ p {
     height: 250px !important;
     object-fit: cover;
 }
+
+.masonry {
+    display: flex;
+    flex-wrap: wrap;
+    margin-left: -15px; /* マージン調整 */
+}
+
+ .masonry-item {
+    margin-bottom: 30px;
+    padding-left: 15px; /* マージン調整 */
+    width: 100%; /* アイテムの幅 */
+} 
+
+.fixed-size-img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+} 
