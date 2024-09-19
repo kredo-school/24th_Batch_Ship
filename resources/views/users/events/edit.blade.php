@@ -36,7 +36,7 @@
               <div class="text-danger small">{{ $message }}</div> 
             @enderror
           </div>
-
+        {{-- start time --}}
           <div class="col">
             <label for="start-time" class="form-label">Start time</label>
             <input type="time" name="start_time" id="start-time" value="{{ old('start_time', $startTime) }}" class="form-control">
@@ -44,7 +44,7 @@
               <div class="text-danger small">{{ $message }}</div> 
             @enderror
           </div>
-
+        {{-- end time --}}
           <div class="col">
             <label for="end-time" class="form-label">End time</label>
             <input type="time" name="end_time" id="end-time" value="{{ old('end_time', $endTime) }}" class="form-control">
@@ -57,21 +57,29 @@
         {{-- Price --}}
         <div class="mt-3">
           <label for="price" class="form-label">Price</label>
-          <input type="text" name="price" id="price" value="{{ old('price', $event->price) }}" class="form-control">
+          <input type="text" name="price" id="price" value="{{ old('price') }}" class="form-control" placeholder="e.g. Host : JPY 500.00  Guest : Free...">
           @error('price')
             <div class="text-danger small">{{ $message }}</div> 
-          @enderror 
+          @enderror
         </div>
 
         {{-- Location --}}
         <div class="mt-3">
           <label for="address" class="form-label">Location</label>
-          <input type="text" name="address" id="address" value="{{ old('address', $event->address) }}" class="form-control">
+          <input type="text" name="address" id="autocomplete" value="{{ old('address', $event->address) }}" class="form-control">
           @error('address')
             <div class="text-danger small">{{ $message }}</div> 
           @enderror
+
+          <input type="hidden" name="latitude" id="latitude">
+          <input type="hidden" name="longitude" id="longitude">
+
         </div>
+
+
       </div>
+
+      {{-- rith side of contents --}}
 
       <div class="col-4 mt-2">
         <br>
@@ -104,5 +112,10 @@
 @endsection
 
 @section('scripts')
-  <script src="{{ asset('js/events/preview.js') }}"></script>
+<!-- Google Maps API -->
+<script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap" async defer></script>
+
+<!-- JavaScript -->
+<script src="{{ asset('js/events/google-map.js') }}"></script>
+
 @endsection

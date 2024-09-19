@@ -46,9 +46,20 @@
                     <i class="fa-solid fa-money-check-dollar"></i> {{ $event->price }}
                 </p>
                 {{-- Location --}}
-                <p class="mt-2">
+                {{-- <p class="mt-2">
                     <i class="fa-solid fa-location-dot"></i> <a href="#">location</a> <span class="text-secondary">{{ $event->address }}</span>
+                </p> --}}
+
+                <p class="mt-2">
+                    <i class="fa-solid fa-location-dot"></i> 
+                    <a href="#" onclick="showMap(); return false;">location</a> 
+                    <span class="text-secondary">{{ $event->address }}</span>
                 </p>
+                    {{-- to show up the map of location in this page --}}
+                <div id="map" style="display:none; margin-top:20px;">
+                    <iframe id="mapFrame" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" src=""></iframe>
+                </div>
+                
                 {{-- Description --}}
                 <h1 class="h4">Event Description</h1>
                 <p>{{ $event->description }}</p>
@@ -167,4 +178,12 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section('scripts')
+<!-- Google Maps API -->
+<script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap" async defer></script>
+
+<!-- JavaScript -->
+<script src="{{ asset('js/events/show-map.js') }}"></script>
 @endsection
