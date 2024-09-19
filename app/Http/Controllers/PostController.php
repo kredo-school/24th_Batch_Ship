@@ -150,17 +150,17 @@ class PostController extends Controller
        $post->categoryPost()->createMany($category_post);
 
        # 5. REDIRECT to Shoe Post page
-       return redirect()->route('post.show', $id);
+       return redirect()->route('users.posts.show', $id);
     }
 
-    //destroy() - delete the post
-    public function destroy($id)
-    {
-        $post = $this->post->findOrFail($id);
-        $post->forceDelete();
+    // //destroy() - delete the post
+    // public function destroy($id)
+    // {
+    //     $post = $this->post->findOrFail($id);
+    //     $post->forceDelete();
 
-        return redirect()->route('index');
-    }
+    //     return redirect()->route('index');
+    // }
 
 
 
