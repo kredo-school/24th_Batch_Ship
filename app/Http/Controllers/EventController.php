@@ -29,35 +29,40 @@ class EventController extends Controller
 
     public function store(Request $request)
     {
-       # 1. VALIDATE ALL THE FORM DATA
-       $request->validate([
+        # 1. Validate the form data
+        $request->validate([
             'community_id' => 'required',
             'event_title'  => 'required|string|max:255',
             'date'         => 'required|date',
             'start_time'   => 'required|date_format:H:i',
             'end_time'     => 'required|date_format:H:i|after:start_time',
             'address'      => 'required|string|max:255',
+            'latitude'     => 'required|numeric', // for location map
+            'longitude'    => 'required|numeric', // for location map
             'price'        => 'required|string|max:255',
             'description'  => 'required|string',
             'image'        => 'required|mimes:jpeg,jpg,png,gif|max:1048'
-       ]);
-
-       # 2. Save the event
-       $this->event->host_id      = Auth::user()->id;
-       $this->event->community_id = $request->community_id;
-       $this->event->title        = $request->event_title;
-       $this->event->date         = $request->date;
-       $this->event->start_time   = $request->start_time;
-       $this->event->end_time     = $request->end_time;
-       $this->event->address      = $request->address;
-       $this->event->price        = $request->price;
-       $this->event->description  = $request->description;
-       $this->event->image        = 'data:image/' . $request->image->extension() . ';base64,' . base64_encode(file_get_contents($request->image));
-       $this->event->save();
-
-       # 3. Redirect to Show Event page (to confirm the event)
-       return redirect()->route('event.show', $this->event->id);
+        ]);
+    
+        # 2. Save the event
+        $this->event->host_id      = Auth::user()->id;
+        $this->event->community_id = $request->community_id;
+        $this->event->title        = $request->event_title;
+        $this->event->date         = $request->date;
+        $this->event->start_time   = $request->start_time;
+        $this->event->end_time     = $request->end_time;
+        $this->event->address      = $request->address;
+        $this->event->latitude     = $request->latitude; // for location map
+        $this->event->longitude    = $request->longitude; // for location map
+        $this->event->price        = $request->price;
+        $this->event->description  = $request->description;
+        $this->event->image        = 'data:image/' . $request->image->extension() . ';base64,' . base64_encode(file_get_contents($request->image));
+        $this->event->save();
+    
+        # 3. Redirect to Show Event page
+        return redirect()->route('event.show', $this->event->id);
     }
+    
 
     public function show($id)
     {
@@ -133,4 +138,6 @@ class EventController extends Controller
 
         return redirect()->route('communities.show', $community_id);
     }
+
+    
 }
