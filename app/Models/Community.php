@@ -61,4 +61,10 @@ class Community extends Model
     {
         return $this->hasMany(Event::class);
     }
+
+    # return TRUE if the Auth user has already created an event
+    public function eventHost()
+    {
+        return $this->events()->where('host_id', Auth::user()->id)->exists();
+    }
 }

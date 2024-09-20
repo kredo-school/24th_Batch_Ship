@@ -22,21 +22,24 @@ class EventController extends Controller
         $this->communityUser = $communityUser;
     }
 
-    public function create()
+    public function create($id)
     {
-        $owner_communities = $this->community
-            ->where('owner_id', Auth::user()->id)
-            ->get();
+        // $id - ID of the community want to create new event for
+        $community = $this->community->findOrFail($id);
 
-        $joining_communities = $this->communityUser
-            ->where('user_id', Auth::user()->id)
-            ->with('community')
-            ->get()
-            ->pluck('community');
+        return view('users.events.create', compact('community'));
 
-        $all_communities = $owner_communities->merge($joining_communities); // Get all related communities
+        // $owner_communities = $this->community
+        //     ->where('owner_id', Auth::user()->id)
+        //     ->get();
 
-        return view('users.events.create', compact('all_communities'));
+        // $joining_communities = $this->communityUser
+        //     ->where('user_id', Auth::user()->id)
+        //     ->with('community')
+        //     ->get()
+        //     ->pluck('community');
+
+        // $all_communities = $owner_communities->merge($joining_communities); // Get all related communities
     }
 
     public function store(Request $request)
