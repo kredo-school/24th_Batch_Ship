@@ -51,9 +51,11 @@
             <hr class="my-3">
 
             {{-- comments list --}}
-            @include('users.communities.comments.list-item')
-            
+            <div class="overflow-scroll boardheight">
+              @include('users.communities.comments.list-item')
             </div>
+            
+          </div>
       </div>{{-- end of left side --}}
     
       {{-- right side --}}
