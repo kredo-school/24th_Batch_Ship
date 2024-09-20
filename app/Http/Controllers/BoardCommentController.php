@@ -36,11 +36,12 @@ class BoardCommentController extends Controller
         $this->boardcomment->body    = $request->input('comment_body' . $community_id);
         $this->boardcomment->user_id = Auth::user()->id;
         $this->boardcomment->community_id = $community_id;
-        $this->boardcomment->save();
 
         if($request->image){
             $this->boardcomment->image          = 'data:image/' . $request->image->extension() . ';base64,' . base64_encode(file_get_contents($request->image));
         }
+
+        $this->boardcomment->save();
 
         return redirect()->back();
     }
