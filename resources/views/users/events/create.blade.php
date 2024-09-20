@@ -10,23 +10,31 @@
       @csrf
 
       <div class="row m-3 gx-5">
+
+        {{-- community title --}}
         <div class="col">
           <label for="community-title" class="form-label">Community title</label>
-          <select name="community_id" id="community-title" class="form-select" autofocus>
-            <option value="">Select your community</option>
+          {{-- Community title to be displayed --}}
+          <input type="text" id="community-title" value="{{ $community->title }}" class="form-control" readonly>
+          {{-- ID to send to server --}}
+          <input type="hidden" name="community_id" value="{{ $community->id }}">
+
+          {{-- <select name="community_id" id="community-title" class="form-select" autofocus>
+            <option value="">Select your community</option> --}}
             {{-- Get the owner communities and joining communities --}}
-            @foreach ($all_communities as $community)
+            {{-- @foreach ($all_communities as $community)
               <option value="{{ $community->id }}" {{ old('community_id') == $community->id ? 'selected' : '' }}>{{ $community->title }}</option>
-            @endforeach
-          </select>
+            @endforeach --}}
+          {{-- </select>
           @error('community_id')
             <div class="text-danger small">{{ $message }}</div> 
-          @enderror
+          @enderror --}}
         </div>
 
+        {{-- event title --}}
         <div class="col">
           <label for="event-title" class="form-label">Event title</label>
-          <input type="text" name="event_title" id="event-title" value="{{ old('event_title') }}" class="form-control">
+          <input type="text" name="event_title" id="event-title" value="{{ old('event_title') }}" class="form-control" autofocus>
           @error('title')
             <div class="text-danger small">{{ $message }}</div> 
           @enderror
@@ -34,6 +42,8 @@
       </div>
 
       <div class="row m-3 gx-5">
+
+        {{-- date --}}
         <div class="col">
           <label for="date" class="form-label">Date</label>
           <input type="date" name="date" id="date" value="{{ old('date') }}" class="form-control">
@@ -42,6 +52,7 @@
           @enderror
         </div>
 
+        {{-- start time --}}
         <div class="col">
           <label for="start-time" class="form-label">Start time</label>
           <input type="time" name="start_time" id="start-time" value="{{ old('start_time') }}" class="form-control">
@@ -49,6 +60,8 @@
             <div class="text-danger small">{{ $message }}</div> 
           @enderror
         </div>
+
+        {{-- end time --}}
         <div class="col">
           <label for="end-time" class="form-label">End time</label>
           <input type="time" name="end_time" id="end-time" value="{{ old('end_time') }}" class="form-control">
@@ -57,15 +70,21 @@
           @enderror
         </div>
 
+        {{-- location --}}
         <div class="col-6">
           <label for="address" class="form-label">Location</label>
-          <input type="text" name="address" id="address" value="{{ old('address') }}" class="form-control">
+          <input type="text" name="address" id="autocomplete" class="form-control" value="{{ old('address') }}">
           @error('address')
-            <div class="text-danger small">{{ $message }}</div> 
+              <div class="text-danger small">{{ $message }}</div>
           @enderror
         </div>
-      </div>
+      
+            <input type="hidden" name="latitude" id="latitude">
+            <input type="hidden" name="longitude" id="longitude">
 
+      </div>
+      
+      {{-- price --}}
       <div class="row m-3 gx-5">
         <div class="col">
           <label for="price" class="form-label">Price</label>
@@ -88,6 +107,8 @@
       </div>
 
       <div class="row m-3 gx-5">
+
+        {{-- description --}}
         <div class="col">
           <label for="description" class="form-label">Description</label>
           <textarea name="description" id="description" cols="30" rows="10" class="form-control">{{ old('description') }}</textarea>
@@ -97,10 +118,11 @@
         @enderror
       </div>
 
+      {{-- button --}}
       <div class="container">
         <div class="row">
           <div class="col d-flex justify-content-between">
-            <a href="{{ route('communities.index') }}" class="btn text-turquoise">Cancel</a>
+            <a href="{{ route('communities.show', $community->id) }}" class="btn text-turquoise">Cancel</a>
             <button type="submit" class="btn btn-turquoise text-white">Save</button>
           </div>
         </div>
@@ -108,4 +130,12 @@
     </form>
   </div>
 </body>
+@endsection
+
+@section('scripts')
+<!-- Google Maps API -->
+<script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap" async defer></script>
+
+<!-- JavaScript -->
+<script src="{{ asset('js/events/google-map.js') }}"></script>
 @endsection
