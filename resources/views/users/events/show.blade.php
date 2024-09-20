@@ -58,7 +58,7 @@
             <div class="col-4">
                 {{-- Community this event belongs to --}}
                 <div class="row">
-                    <a href="{{ route('communities.show', $event->community->id) }}" class="text-decoration-none">
+                    <a href="{{ route('communities.show', $event->community->id) }}" class="text-decoration-none text-black">
                         <div class="card border-0 w-auto mx-auto bg-transparent">
                             <img src="{{ $event->community->image }}" alt="{{ $event->community->title }}" class="card-img-top">
                             <div class="card-body">

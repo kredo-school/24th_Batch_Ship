@@ -99,7 +99,7 @@
             <hr class="col-7 mt-5">
             <div class="row pt-6">
 {{-- If you are not the owner of the post, you can put empathy on this post --}}
-                 <form action="{{ route('percentage.store', $post->id) }}" method="post">
+                   <form action="{{ route('comment.store', $post->id) }}" method="post">
                     @csrf
                     @if (!($post->user->id === Auth::user()->id))
 
@@ -112,20 +112,15 @@
 
                              <output id="output1" class="m-2">60</output><span>%</span>
 
-                            <button type="submit" class="btn btn-gold form-group m-3 btn-lg">Send Enpathy</button>
-                        </div> </div>
+                         </div>
                     @endif
 
-                 </form>
-
  {{-- comment for post --}}
-                       <form action="{{ route('comment.store', $post->id) }}" method="post">
-                       @csrf
-                       <textarea name="comment_body{{ $post->id }}" rows="1" class="form-control form-control-sm"
-                        placeholder="Add a comment...">{{ old('comment_body' . $post->id) }}</textarea>
+                       <textarea name="comment" id="{{ $post->id }}" rows="1" class="form-control form-control-sm"
+                        placeholder="Add a comment...">{{ old('comment' . $post->id) }}</textarea>
 
 
-                        <button type="submit" class="btn btn-gold form-group m-3 btn-lg">Send Comment</button>
+                        <button type="submit" class="btn btn-gold form-group m-3 btn-lg">Send </button>
                 </form>
             </div>
 

@@ -14,21 +14,21 @@
         <hr>
     <div class="row align-items-center">     {{--modal body start div---}}
           <div class="col-2">
-            @if ($post->percentages->isNotEmpty())
+            {{-- @if ($post->percentages->isNotEmpty())
             @foreach ($post->percentages as $percentage)
 
             <p class="text-center me-1 mb-0">{{ $percentage }}</p>
 
 
             @endforeach
- @endif
+ @endif --}}
             <p class="text-center me-1 mb-0">100%</p>
           </div>
  {{-- show all the comments --}}
-       @if ($post->comments->isNotEmpty())
+       @if ($post->post_comments->comment->isNotEmpty())
          <div class="col-3">
            <ul class="list-group mt-2 text-start">
-             @foreach ($post->comments as $comment)
+             @foreach ($post->post_comments->comment as $comment)
               <li class="list-group-item border-0  mb-2">
 
                @if ($comment->user->avatar)
@@ -51,7 +51,7 @@
                  @csrf
                  @method('DELETE')
 
-                 <span class="text-uppercase text-muted xsmall">{{ date('M d, Y', strtotime($comment->created_at)) }}</span>
+                 <span class="text-uppercase text-muted xsmall">{{ date('M d, Y', strtotime($comment->created_at)) }}</span> --}}
 
  {{-- if the auth user is the owner of the coment, show a delete button. --}}
                  @if (Auth::user()->id === $comment->user->id)
@@ -69,7 +69,7 @@
 
    </ul>
 
-@endif
+ @endif
 </div>
 </div>
 

@@ -10,12 +10,14 @@ use App\Http\Controllers\CommunityController;
 use App\Http\Controllers\EventUserController;
 
 
-use App\Http\Controllers\CommentController;
-use App\Http\Controllers\PercentageController;
+// use App\Http\Controllers\CommentController;
+// use App\Http\Controllers\PercentageController;
+use App\Http\Controllers\PostCommentController;
 
 use App\Http\Controllers\SelectDataController;
 use App\Http\Controllers\BoardCommentController;
 use App\Http\Controllers\CommunityUserController;
+use App\Http\Controllers\ChatController;
 
 
 Auth::routes();
@@ -51,13 +53,9 @@ Route::group(['middleware' => 'auth'], function(){
     Route::patch('/community/{id}/update', [CommunityController::class, 'update'])->name('communities.update');
 
 
-    // COMMENT
-    Route::post('/comment/{post_id}/store', [CommentController::class, 'store'])->name('comment.store');
-    Route::delete('/comment/{post_id}/destroy', [CommentController::class, 'destroy'])->name('comment.destroy');
-
-    //PERCENTAGE
-    Route::post('/percentage/{post_id}/store', [PercentageController::class,'store'])->name('percentage.store');
-
+    // Post Percentage and Comment
+    Route::post('/comment/{post_id}/store', [PostCommentController::class, 'store'])->name('comment.store');
+    Route::delete('/comment/{post_id}/destroy', [PostCommentController::class, 'destroy'])->name('comment.destroy');
 
 
     # COMMENT
@@ -83,5 +81,8 @@ Route::group(['middleware' => 'auth'], function(){
 
     # API
     Route::get('/api/select-data', [SelectDataController::class, 'getData']);
+
+    # Chat
+    Route::get('/chat', [ChatController::class, 'index'])->name('chat.index');
 
 });
