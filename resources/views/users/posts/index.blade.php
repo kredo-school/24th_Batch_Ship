@@ -3,227 +3,46 @@
 @section('title', 'Post:index')
 
 @section('content')
-    <div class="row" style="">
-        <div class="col p-1">
 
-            <div class="col-8">
- {{-- Frame of 1 Post & It's going to be repeat--}}
-                        <div class="card w-100 mb-1 bg-pink">
-                            <div class="card-body">
-                                {{-- post text --}}
-                                <div class="mb-3">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nesciunt natus dolorum odit laudantium, vel expedita, commodi quidem veniam velit vitae sunt itaque fugit maxime! Eum ea iste necessitatibus inventore a!
-                                </div>
-
-                                {{-- post image --}}
-                                <div >
-                                <img class="w-100" src="https://thumb.photo-ac.com/88/889961b60e2ae3a3360b18ef2229df6a_t.jpeg" alt="">
-                                </div>
-
-                                {{-- post category --}}
-                                <div class="row text-start">
-                                    <div class="col">
-                                        <span class="badge me-1 bg-turquoise text-white">Anime</span>
-                                        <span class="badge me-1 bg-turquoise text-white">Food</span>
+    <div class="container">
+        @if ($all_posts->isNotEmpty())
+            <div id="masonry-grid" class="row g-2 align-items-start masonry" data-masonry='{"percentPosition": true }'>
+                @foreach ($all_posts as $post)
+                    <div class="col-lg-3 col-md-6 mb-2 masonry-item">
+                        <a href="{{ route('users.posts.show',$post->id)}}" class="text-decoration-none">
+                            <div class="card shadow rounded border-0 bg-pink d-flex flex-column">
+                                <div class="card-body d-flex flex-column">
+                                    {{-- post description --}}
+                                    <div class="mb-3 card-text large-text text-dark">{{ Str::limit($post->description, 100) }}</div>
+                                    {{-- post image --}}
+                                    @if(!empty($post->image))
+                                        <div><img src="{{ $post->image }}" alt="Post ID {{ $post->id }}" class="fixed-size-img rounded"></div>
+                                    @endif
+                                    {{-- post category --}}
+                                    <div class="row card-text text-start ms-1 mt-auto">
+                                        <div class="col">
+                                            @foreach ($post->categoryPost as $category_post)
+                                                <a href="#" class="badge me-1 bg-turquoise text-decoration-none">{{ $category_post->category->name }}</a>
+                                            @endforeach
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-
-                        {{-- Just a example of other Post--}}
-                        <div class="card w-100 mb-1 bg-pink">
-                            <div class="card-body">
-                                {{-- post text --}}
-                                <div class="mb-3">
-                                </div>
-
-                                {{-- post image --}}
-                                <div >
-                                <img class="w-100" src="https://thumb.photo-ac.com/88/889961b60e2ae3a3360b18ef2229df6a_t.jpeg" alt="">
-                                </div>
-
-                                {{-- post category --}}
-                                <div class="row">
-                                    <div class="col text-end">
-                                        <span class="badge me-1 bg-turquoise text-white">Anime</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                         {{-- Just a example of other Post--}}
-                         <div class="card w-100 mb-1 bg-pink">
-                            <div class="card-body">
-                                {{-- post text --}}
-                                <div class="mb-3">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nesciunt natus dolorum odit laudantium, vel expedita, commodi quidem veniam velit vitae sunt itaque fugit maxime! Eum ea iste necessitatibus inventore a!
-                                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Similique, voluptatem debitis ex deleniti sed sunt corrupti labore molestiae illo omnis dolore eos vero. Ad, nihil incidunt esse non quibusdam vero!
-                                Iste harum perspiciatis doloremque corporis nemo, commodi, non hic cumque eos eius asperiores! Minus totam placeat assumenda suscipit consectetur deleniti aliquid? Consectetur fugiat eveniet dolores ab iste, nisi dolorem culpa?
-                                Praesentium dicta laborum consequatur inventore hic veniam laboriosam perspiciatis libero corrupti aut minima, pariatur ea itaque omnis illum officiis obcaecati exercitationem voluptate voluptatem harum. Sed rerum unde repellendus minima enim!
-                                Sit ea inventore provident delectus alias odit consequuntur consectetur pariatur hic, ut iusto quod nulla deleniti vitae omnis quaerat, voluptatum quidem, amet aliquam officiis illum distinctio nihil? Laudantium, ratione voluptas!
-                                </div>
-
-                                {{-- post image --}}
-                                <div >
-                                <img class="w-100" src="" alt="">
-                                </div>
-
-                                {{-- post category --}}
-                                <div class="row">
-                                    <div class="col text-end">
-                                        <span class="badge me-1 bg-turquoise text-white">Anime</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        {{-- Just a example of other Post--}}
-                        <div class="card w-100 mb-1 bg-pink">
-                            <div class="card-body">
-                                {{-- post text --}}
-                                <div class="mb-3">Lorem, ipsum dolor sit amet consectetur adipisicing elit. </div>
-
-                                {{-- post image --}}
-                                <div >
-                                <img class="w-100" src="" alt="">
-                                </div>
-
-                                {{-- post category --}}
-                                <div class="row">
-                                    <div class="col text-end">
-                                        <span class="badge " style="background-color: #0D768B; text-color: white;">Anime</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-        </div>
-        <div class="col p-1">
-            <div class="card w-100 mb-1 bg-pink">
-                <div class="card-body">
-                    {{-- post text --}}
-                    <div class="mb-3">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nesciunt natus dolorum odit laudantium, vel expedita, commodi quidem veniam velit vitae sunt itaque fugit maxime! Eum ea iste necessitatibus inventore a!Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+                        </a>
                     </div>
-
-                    {{-- post image --}}
-                    <div >
-                    <img class="w-100" src="https://thumb.photo-ac.com/88/889961b60e2ae3a3360b18ef2229df6a_t.jpeg" alt="">
-                    </div>
-
-                    {{-- post category --}}
-                    <div class="row text-start">
-                        <div class="col">
-                            <span class="badge me-1 bg-turquoise text-white">Anime</span>
-                            <span class="badge me-1 bg-turquoise text-white">Food</span>
-                        </div>
-                    </div>
-                </div>
+                @endforeach
             </div>
-
-            <div class="card w-100 mb-1 bg-pink">
-                <div class="card-body">
-                    {{-- post text --}}
-                    <div class="mb-3">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nesciunt natus dolorum odit laudantium, vel expedita, commodi quidem veniam velit vitae sunt itaque fugit maxime! Eum ea iste necessitatibus inventore a!Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                    </div>
-
-                    {{-- post image --}}
-                    <div >
-                    <img class="w-100" src="https://thumb.photo-ac.com/88/889961b60e2ae3a3360b18ef2229df6a_t.jpeg" alt="">
-                    </div>
-
-                    {{-- post category --}}
-                    <div class="row text-start">
-                        <div class="col">
-                            <span class="badge me-1 bg-turquoise text-white">Anime</span>
-                            <span class="badge me-1 bg-turquoise text-white">Food</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-        <div class="col  p-1">
-            <div class="card w-100 mb-1 bg-pink">
-                <div class="card-body">
-                    {{-- post text --}}
-                    <div class="mb-3">
-                    </div>
-
-                    {{-- post image --}}
-                    <div >
-                    <img class="w-100" src="https://thumb.photo-ac.com/88/889961b60e2ae3a3360b18ef2229df6a_t.jpeg" alt="">
-                    </div>
-
-                    {{-- post category --}}
-                    <div class="row text-start">
-                        <div class="col">
-                            <span class="badge me-1 bg-turquoise text-white">Anime</span>
-                            <span class="badge me-1 bg-turquoise text-white">Food</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="card w-100 mb-1 bg-pink">
-                <div class="card-body">
-                    {{-- post text --}}
-                    <div class="mb-3">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nesciunt natus dolorum odit laudantium, vel expedita, commodi quidem veniam velit vitae sunt itaque fugit maxime! Eum ea iste necessitatibus inventore a!Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                    </div>
-
-                    {{-- post image --}}
-                    <div >
-                    <img class="w-100" src="https://thumb.photo-ac.com/88/889961b60e2ae3a3360b18ef2229df6a_t.jpeg" alt="">
-                    </div>
-
-                    {{-- post category --}}
-                    <div class="row text-start">
-                        <div class="col">
-                            <span class="badge me-1 bg-turquoise text-white">Anime</span>
-                            <span class="badge me-1 bg-turquoise text-white">Food</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col  p-1">
-            <div class="card w-100 mb-1 bg-pink">
-                <div class="card-body">
-                    {{-- post text --}}
-                    <div class="mb-3">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nesciunt natus dolorum odit laudantium, vel expedita, commodi quidem veniam velit vitae sunt itaque fugit maxime! Eum ea iste necessitatibus inventore a!Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                    </div>
-
-                    {{-- post image --}}
-                    <div >
-                    <img class="w-100" src="https://thumb.photo-ac.com/88/889961b60e2ae3a3360b18ef2229df6a_t.jpeg" alt="">
-                    </div>
-
-                    {{-- post category --}}
-                    <div class="row text-start">
-                        <div class="col">
-                            <span class="badge me-1 bg-turquoise text-white">Anime</span>
-                            <span class="badge me-1 bg-turquoise text-white">Food</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col  p-1">
-            <div class="card w-100 mb-1 bg-pink">
-                <div class="card-body">
-                    {{-- post text --}}
-                    <div class="mb-3">Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-
-                    {{-- post image --}}
-                    <div >
-                    <img class="w-100" src="https://thumb.photo-ac.com/88/889961b60e2ae3a3360b18ef2229df6a_t.jpeg" alt="">
-                    </div>
-
-                    {{-- post category --}}
-                    <div class="row text-start">
-                        <div class="col">
-                            <span class="badge me-1 bg-turquoise text-white">Anime</span>
-                            <span class="badge me-1 bg-turquoise text-white">Food</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        @else
+            <h3 class="text-secondary text-center">No Posts Yet</h3>
+        @endif
     </div>
+
+@endsection
+
+@section('styles')
+<link rel="stylesheet" href="{{asset('css/style_postshow.css')}}">
+@endsection
+
+@section('scripts')
+<script src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" async></script>
 @endsection
