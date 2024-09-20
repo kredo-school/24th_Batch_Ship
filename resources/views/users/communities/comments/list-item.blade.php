@@ -4,7 +4,7 @@
         <div class="row mb-4">
             {{-- avatar & name  --}}
             <div class="col-1 d-flex flex-column">
-              <div class="d-flex align-items-center mb-2 mx-auto p-0">
+              <div class="d-flex align-items-center mx-auto">
                 <a href="{{ route('users.profile.specificProfile', $comment->user->id ) }}" class="text-decoration-none text-dark d-flex align-items-center">
                     <span class="d-flex align-items-center">
                         @if ($comment->user->avatar)
@@ -17,7 +17,9 @@
               </div>
             </div>
 
-            <div class="col-9 mt-2">
+            {{-- <div class="col-1 m-0 p-0"></div> --}}
+
+            <div class="col-8 mt-2">
               <div class="row">
                 <a class="text-decoration-none text-dark" href="{{ route('users.profile.specificProfile', $comment->user->id ) }}"><h6 class="">{{ $comment->user->username }}</h6></a>
               </div>
@@ -33,7 +35,7 @@
               </div>
             </div>
 
-            <div class="col-2 p-0 text-center my-auto">
+            <div class="col-2 p-0 text-center my-auto mx-0">
               <form action="{{ route('boardcomment.destroy', $comment->id) }}" method="post">
                 @csrf
                 @method('DELETE')
