@@ -41,7 +41,7 @@ class Community extends Model
     # To get all the comments of a community
     public function comments()
     {
-        return $this->hasMany(BoardComment::class);
+         return $this->hasMany(BoardComment::class)->latest();
     }
 
     # To get all members of the community

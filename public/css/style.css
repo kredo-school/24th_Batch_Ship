@@ -181,3 +181,7 @@ p {
 .community-comment {
     word-break: break-word;
 }
+
+.boardheight {
+    max-height: 800px;
+}
