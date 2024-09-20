@@ -1,7 +1,3 @@
-function initMap() {
-  initialize();
-}
-
 // Wait until the entire DOM is fully loaded before running the initialize function
 document.addEventListener('DOMContentLoaded', function() {
   initMap();
