@@ -10,15 +10,15 @@
       <div class="col-md-8 px-4">
         {{-- cover img & description --}}
         <div class="mt-3 text-center">
-          <img src="{{ $community->image }}" class="object-fit-cover border rounded w-100 h-25" alt="{{ $community->title }}">
-          <h2 class=" my-2">{{ $community->title }}</h2>
+          <img src="{{ $community->image }}" class="object-fit-cover border image-community rounded bg-white w-100" alt="{{ $community->title }}">
+          <h2 class="my-2">{{ $community->title }}</h2>
           <p class="lh-sm">
             {{ $community->description }}
           </p>
         </div>
 
           {{-- bulletin board --}}
-          <div class="container bg-white p-3">
+          <div class="container bg-white p-3 w-100">
             <form action="{{ route('boardcomment.store', $community->id) }}" method="post" enctype="multipart/form-data">
                 @csrf
                 {{-- input for comments --}}
@@ -49,41 +49,51 @@
             </form>
                 
             <hr class="my-3">
-            @include('users.communities.comments.list-item')
+
             {{-- comments list --}}
-            {{-- <div class="row bg-white p-2 m-0">
-                    @include('users.communities.comments.list-item')
-                </div>             
-            </div>--}}
+            @include('users.communities.comments.list-item')
+            
             </div>
       </div>{{-- end of left side --}}
     
       {{-- right side --}}
       <div class="col-md-4">
+        {{-- Distinguish by user[JOIN/UNJOIN] or community owner[EDIT] --}}
         @if (Auth::user()->id !== $community->owner_id)
-          {{-- join/unjoin button for users --}}
+          {{-- JOIN/UNJOIN button for user --}}
           @if ($community->isJoining())
-            <form action="{{ route('community.unjoin', $community->id) }}" method="POST">
+            {{-- UNJOIN --}}
+            <form action="{{ $community->eventHost() ? '#' : route('community.unjoin', $community->id) }}" method="POST">
               @csrf
-              @method('DELETE')
+              @if (!$community->eventHost())
+                @method('DELETE')
+              @endif
 
               <div class="mb-3 d-flex justify-content-end">
-                <button class="btn btn-gold m-3">UNJOIN</button>
-              </div> 
-            </form> 
+                <button class="btn btn-gold m-3" 
+                  {!! $community->eventHost() ? 'type="button" data-bs-toggle="modal" data-bs-target="#unjoin-warning-' . $community->id . '"' : '' !!}>
+                  UNJOIN
+                </button>
+              </div>
+            </form>
+            @if ($community->eventHost())
+              {{-- WARNING for event host --}}
+              @include('users.communities.modals.unjoin-warning')
+            @endif
           @else
+           {{-- JOIN --}}
             <form action="{{ route('community.join', $community->id) }}" method="POST">
               @csrf
 
               <div class="mb-3 d-flex justify-content-end">
                 <button class="btn btn-gold m-3">JOIN</button>
               </div> 
-            </form>   
+            </form>    
           @endif
         @else
-          {{-- edit button for community owner --}}
+          {{-- EDIT button for community owner --}}
           <div class="mb-3 d-flex justify-content-end">
-            <a href="{{ route('communities.edit', $community->id) }}" class="btn btn-gold m-3 px-4 py-0">EDIT</a>
+            <a href="{{ route('communities.edit', $community->id) }}" class="btn btn-gold m-3">EDIT</a>
           </div>   
         @endif
 
@@ -155,9 +165,11 @@
         {{-- Events --}}
         <div class="mb-3 d-flex justify-content-between align-items-center">
           <h6 class="align-items-center">Events({{ $community->events->count() }})</h6>
-          <a href="{{ route('event.create') }}" class="btn btn-gold me-4">
-            NEW <i class="fa-solid fa-plus"></i>
-          </a>
+          @if (Auth::user()->id === $community->owner_id || $community->isJoining())
+            <a href="{{ route('event.create', $community->id) }}" class="btn btn-gold me-4">
+              NEW <i class="fa-solid fa-plus"></i>
+            </a>  
+          @endif
         </div>
         @include('users.communities.events.list-item')
 

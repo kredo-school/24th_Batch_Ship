@@ -6,6 +6,8 @@ use App\Models\User;
 use App\Models\Category;
 use App\Models\Community;
 use App\Models\Event;
+use App\Models\CommunityUser;
+use App\Models\EventUser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -14,11 +16,11 @@ class ProfileController extends Controller
     private $user;
     private $category;
 
-    public function __construct(User $user, Category $category, Community $community, Event $event){
+    public function __construct(User $user, Category $category, Community $community){
         $this->user = $user;
         $this->category = $category;
         $this->community = $community;
-        $this->event = $event;
+        // $this->event = $event;
     }
 
     public function index(){
@@ -31,14 +33,12 @@ class ProfileController extends Controller
 
     public function profileProcess($id){
         $user = $this->user->findOrFail($id);
-        $community = $this->community->findOrFail($id);
-        // $event = $this->event->findOrFail($id);
-        // $all_communities = $this->community->latest()->paginate(4);
-        // $all_events = $this->event->latest()->paginate(4);
-        $own_communities = $this->getOwnCommunity($id);
-        $own_events = $this->getOwnEvents($id);
+        $own_communities = Community::where('owner_id', $id)->paginate(4, ["*"], 'own_communities');
+        $join_communities = CommunityUser::where('user_id', $id)->paginate(4, ["*"], 'join_communities');
+        $own_events = Event::where('host_id', $id)->paginate(4, ["*"], 'own_events');
+        $join_events = EventUser::where('user_id', $id)->paginate(4, ["*"], 'join_events');
 
-        return view('users.profile.index', compact('user', 'community', 'own_communities', 'own_events'));
+        return view('users.profile.index', compact('user', 'own_communities', 'join_communities', 'own_events', 'join_events'));
     }
 
     # visit to create profile page
@@ -129,31 +129,31 @@ class ProfileController extends Controller
     }
 
     # To get user's own communities
-    public function getOwnCommunity($id){
-        $user = $this->user->findOrFail($id);
-        $own_communities = [];
-        $all_communities = $this->community->latest()->get();
+    // public function getOwnCommunity($id){
+    //     $user = $this->user->findOrFail($id);
+    //     $own_communities = [];
+    //     $all_communities = $this->community->latest()->get();
 
-        foreach ($all_communities as $community){
-            if($user->id === $community->owner_id){
-                $own_communities[] = $community;
-            }
-        }
-        return $own_communities;
-    }
+    //     foreach ($all_communities as $community){
+    //         if($user->id === $community->owner_id){
+    //             $own_communities[] = $community;
+    //         }
+    //     }
+    //     return $own_communities;
+    // }
 
     # To get user's own events
-    public function getOwnEvents($id){
-        $user = $this->user->findOrFail($id);
-        $own_events = [];
-        $all_events = $this->event->latest()->get();
+    // public function getOwnEvents($id){
+    //     $user = $this->user->findOrFail($id);
+    //     $own_events = [];
+    //     $all_events = $this->event->latest()->get();
 
-        foreach($all_events as $event){
-            if($user->id === $event->host_id){
-                $own_events[] = $event;
-            }
-        }
-        return $own_events;
-    }
+    //     foreach($all_events as $event){
+    //         if($user->id === $event->host_id){
+    //             $own_events[] = $event;
+    //         }
+    //     }
+    //     return $own_events;
+    // }
 }
 
