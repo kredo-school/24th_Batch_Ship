@@ -33,6 +33,7 @@
                       <button type="submit" value="send" class="btn btn-turquoise rounded fw-bold mx-2 px-4 py-0 w-25">Post</button>  
                     </div>              
                   </div>
+                  <div class="col"></div>
                 </div>
                 <div class="row">
                   <div class="col-1"></div>
