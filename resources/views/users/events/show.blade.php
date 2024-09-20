@@ -46,20 +46,15 @@
                     <i class="fa-solid fa-money-check-dollar"></i> {{ $event->price }}
                 </p>
                 {{-- Location --}}
-                {{-- <p class="mt-2">
-                    <i class="fa-solid fa-location-dot"></i> <a href="#">location</a> <span class="text-secondary">{{ $event->address }}</span>
-                </p> --}}
-
-                <p class="mt-2">
+                <p class="mt-2" data-address="{{ $encodedAddress }}">
                     <i class="fa-solid fa-location-dot"></i> 
-                    <a href="#" onclick="showMap(); return false;">location</a> 
+                    <a href="#" onclick="showMap(); return false;" class=" text-decoration-none text-dark">location</a>
                     <span class="text-secondary">{{ $event->address }}</span>
+                     {{-- to show up the map of location in this page --}}
+                    <iframe id="mapFrame" class="w-100" frameborder="0" 
+                    src="https://www.google.com/maps/embed/v1/place?key=AIzaSyBgnnNXBIrWe7BxLsZufXeD9kxHb91U7Bk&q={{ urlencode($event->address) }}"></iframe>
                 </p>
-                    {{-- to show up the map of location in this page --}}
-                <div id="map" style="display:none; margin-top:20px;">
-                    <iframe id="mapFrame" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" src=""></iframe>
-                </div>
-                
+
                 {{-- Description --}}
                 <h1 class="h4">Event Description</h1>
                 <p>{{ $event->description }}</p>
@@ -182,8 +177,8 @@
 
 @section('scripts')
 <!-- Google Maps API -->
-<script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap" async defer></script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBgnnNXBIrWe7BxLsZufXeD9kxHb91U7Bk&libraries=places&callback=initMap"></script>
 
 <!-- JavaScript -->
-<script src="{{ asset('js/events/show-map.js') }}"></script>
+<script src="{{ asset('js/events/google-map.js') }}"></script>
 @endsection
