@@ -94,7 +94,11 @@ class EventController extends Controller
         $all_attendees = collect($event->attendees);
         $currentDateTime = Carbon::now();
 
-        return view('users.events.show', compact('event', 'date', 'startTime', 'endTime', 'all_categories', 'all_attendees', 'currentDateTime'));
+        // For location map
+        $encodedAddress = urlencode($event->address);
+
+        return view('users.events.show', compact('event', 'date', 'startTime', 'endTime', 'all_categories', 'all_attendees', 'currentDateTime','encodedAddress'));
+
     }
 
     public function edit($id)
