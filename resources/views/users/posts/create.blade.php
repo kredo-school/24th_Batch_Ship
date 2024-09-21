@@ -19,10 +19,13 @@
          @csrf
             {{-- Description  --}}
             <div class="row bg-white">   {{-- white background div --}}
-
                 <div class="col-7 mt-4 right-border "> {{-- left side div--}}
                     {{-- description of post --}}
                     <textarea name="description" id="description" rows="10" class="form-control " placeholder="Tell us what you got !">{{ old('description') }}</textarea>
+                    {{-- Error message area --}}
+                    @error('description')
+                        <div class="text-danger small">{{ $message }}</div>
+                    @enderror
 
                     {{-- Image  --}}
                     <div class="row">
@@ -34,14 +37,16 @@
                               The acceptable formats are jpeg, jpg, png, and gif only.<br>
                               Max file size is 1048kB.
                             </div>
+                            {{-- Error --}}
+                            @error('image')
+                            <p class="text-danger small">{{ $message }}</p>
+                            @enderror
                         </div>
                         {{-- PostButton  --}}
                         <div class="col">
                             <button type="submit" class="btn btn-gold mt-5 mx-5 w-50">Post</button>
                         </div>
-
                    </div>
-
             </div> {{-- end of left side div--}}
 
 
@@ -49,14 +54,16 @@
                  <div class="col">  {{-- right side div--}}
                      <p class=" text-center mt-3 ">▼ Select your Interests ! (at least one)</p>
                        <div class="m-3 scroll-container ">
-                          <div class="category">
-                                   @foreach($all_categories as $category)
-
+                            <div class="category">
+                                @foreach($all_categories as $category)
                                     <input type="checkbox" name="category[]" id="{{ $category->name }}" name="{{ $category->id }}" autocomplete="off" value="{{ $category->id }}">
-                                   <label for="{{ $category->name }}" class="form-check-label">{{ $category->name }}</label>
-
-                                   @endforeach
- 　　　　　　　            </div>
+                                    <label for="{{ $category->name }}" class="form-check-label">{{ $category->name }}</label>
+                                @endforeach
+                                {{-- Error message area --}}
+                                @error('category')
+                                    <div class="text-danger small">{{ $message }}</div>
+                                @enderror
+                            </div>
                        </div>
 
                 </div> {{-- end of right side div--}}
