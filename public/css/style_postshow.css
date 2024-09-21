@@ -259,13 +259,13 @@ p {
     margin-bottom: 30px;
     padding-left: 15px; /* マージン調整 */
     width: 100%; /* アイテムの幅 */
-} 
+}
 
 .fixed-size-img {
     width: 100%;
     height: auto;
     object-fit: cover;
-} 
+}
 .avatar-profile
 {
     width: 8rem;
@@ -285,32 +285,38 @@ p {
 }
 
 /* Enpathy range */
-#percentage {
+
+   #percentage {
     appearance:none;
+    background-color: #FCEFEE;
     width:15%;
     height:20px;
 }
 
     #percentage::-webkit-slider-runnable-track {
         height:20px;
-        background:linear-gradient(90deg,#fff,#ea49a2);
+        background:linear-gradient(90deg,#fff,#f78279);
+        /* background:linear-gradient(90deg,#fff,#ea49a2); */
         border-radius:8px;
-    }
+     }
 
     #percentage::-webkit-slider-thumb {
         appearance:none;
         width:20px;
         height:20px;
         border-radius:50%;
-        background:#e51e8b;
+        /* background:#f88ac7; */
+        background:#f78279;
         transform:scale(1.5);
         cursor:pointer;
-        border: solid 1px #ea49a2;
+        border: solid 1px #f78279;
+        /* border:solid 1px #f88ac7; */
     }
 
     #percentage::-moz-range-track {
         height:20px;
-        background:linear-gradient(90deg,#fff,#ea49a2);
+        /* background:linear-gradient(90deg,#fff,#ea49a2); */
+
         border-radius:5px;
     }
 
@@ -318,7 +324,7 @@ p {
         width:15px;
         height:15px;
         border-radius:50%;
-        background:#fff;
+        /* background:#fff; */
 
     }
 

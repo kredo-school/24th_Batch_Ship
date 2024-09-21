@@ -4,8 +4,6 @@
 
 @section('content')
 <head>
-    @vite(['resources/sass/app.scss', 'resources/js/app.js'])
-    {{-- <link rel="stylesheet" href="{{ asset('css/style_postshow.css') }}"> --}}
     <link rel="stylesheet" href="{{ asset('css/style_postshow.css') }}">
 
 

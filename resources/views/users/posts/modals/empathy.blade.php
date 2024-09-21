@@ -14,19 +14,19 @@
         <hr>
     <div class="row align-items-center">     {{--modal body start div---}}
           <div class="col-2">
-            {{-- @if ($post->percentages->isNotEmpty())
-            @foreach ($post->percentages as $percentage)
+            @if ($post->post_comments->percentage->isNotEmpty())
+            @foreach ($post->post_comments->percentage as $percentage)
 
             <p class="text-center me-1 mb-0">{{ $percentage }}</p>
 
 
             @endforeach
- @endif --}}
-            <p class="text-center me-1 mb-0">100%</p>
+ @endif
+            {{-- <p class="text-center me-1 mb-0">100%</p> --}}
           </div>
  {{-- show all the comments --}}
-       @if ($post->post_comments->comment->isNotEmpty())
-         <div class="col-3">
+       {{-- @if ($post->post_comments->comment->isNotEmpty()) --}}
+         {{-- <div class="col-3">
            <ul class="list-group mt-2 text-start">
              @foreach ($post->post_comments->comment as $comment)
               <li class="list-group-item border-0  mb-2">
@@ -51,25 +51,25 @@
                  @csrf
                  @method('DELETE')
 
-                 <span class="text-uppercase text-muted xsmall">{{ date('M d, Y', strtotime($comment->created_at)) }}</span> --}}
+                 <span class="text-uppercase text-muted xsmall">{{ date('M d, Y', strtotime($comment->created_at)) }}</span>  --}}
 
  {{-- if the auth user is the owner of the coment, show a delete button. --}}
-                 @if (Auth::user()->id === $comment->user->id)
+                 {{-- @if (Auth::user()->id === $comment->user->id)
                      &middot;
                      <button type="submit" class="border-0 bg-transparent text-danger p-0 xsmall">Delete</button>
 
-                 @endif
+                 @endif --}}
 
           </div>
 
               <hr>
-              @endforeach
+              {{-- @endforeach --}}
                </form>
          </li>
 
    </ul>
 
- @endif
+
 </div>
 </div>
 

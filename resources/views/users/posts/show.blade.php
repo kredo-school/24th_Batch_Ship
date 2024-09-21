@@ -4,8 +4,8 @@
 
 @section('content')
 <head>
-    {{-- @vite(['resources/sass/app.scss', 'resources/js/app.js']) --}}
     <link rel="stylesheet" href="{{ asset('css/style_postshow.css') }}">
+
 
 
 </head>
@@ -120,7 +120,7 @@
                         placeholder="Add a comment...">{{ old('comment' . $post->id) }}</textarea>
 
 
-                        <button type="submit" class="btn btn-gold form-group m-3 btn-lg">Send </button>
+                        <button type="submit" class="btn btn-gold form-group mt-3 ml-1 btn-lg">Send </button>
                 </form>
             </div>
 
