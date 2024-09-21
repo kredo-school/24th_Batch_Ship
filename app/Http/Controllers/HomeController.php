@@ -29,6 +29,17 @@ class HomeController extends Controller
         $keyword = $request->input('keyword');
         $contentTypes = $request->input('content', []);
         $selectedCategory = $request->input('category');
+
+        $categoryId = $request->input('category');
+
+        // カテゴリー名を取得
+        $selectedCategoryName = null;
+        if ($categoryId) {
+            $category = Category::find($categoryId);
+            if ($category) {
+                $selectedCategoryName = $category->name; // カテゴリー名を取得
+            }
+        }
         
         $result_users = collect([]);
         $result_posts = collect([]);
@@ -82,15 +93,16 @@ class HomeController extends Controller
             }
     
             if (in_array('event', $contentTypes) || in_array('all', $contentTypes)) {
-                $result_events = $this->event->latest()
+                $result_events = $this->event->orderBy('date', 'asc') 
                     ->where('title', 'LIKE', '%' . $keyword . '%') 
                     ->whereHas('categories', function ($query) use ($selectedCategory) {
                         if ($selectedCategory) {
                             $query->where('category_id', $selectedCategory); 
                         }
                     })
-                    ->paginate(4);
-            }           
+                    ->paginate(4);               
+            }
+                    
                      
             if (
                 $result_users->isEmpty() &&
@@ -141,15 +153,16 @@ class HomeController extends Controller
             }
     
             if (in_array('event', $contentTypes) || in_array('all', $contentTypes)) {
-                $result_events = $this->event->latest()
+                $result_events = $this->event->orderBy('date', 'asc') 
                     ->where('title', 'LIKE', '%' . $keyword . '%') 
                     ->whereHas('categories', function ($query) use ($selectedCategory) {
                         if ($selectedCategory) {
-                            $query->where('categories.id', $selectedCategory); 
+                            $query->where('category_id', $selectedCategory); 
                         }
                     })
-                    ->paginate(4);
+                    ->paginate(4);               
             }
+            
             
             
             if (
@@ -176,8 +189,10 @@ class HomeController extends Controller
             ->with('search', $keyword)
             ->with('no_results_message', $no_results_message ?? null)
             ->with('categories', $categories)
-            ->with('selectedCategory', $selectedCategory);
-    }
+            ->with('selectedCategory', $selectedCategory)
+            ->with('selectedCategoryName', $selectedCategoryName);
+
+        }
        
 
 }

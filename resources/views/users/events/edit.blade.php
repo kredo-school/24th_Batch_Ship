@@ -57,7 +57,7 @@
         {{-- Price --}}
         <div class="mt-3">
           <label for="price" class="form-label">Price</label>
-          <input type="text" name="price" id="price" value="{{ old('price') }}" class="form-control" placeholder="e.g. Host : JPY 500.00  Guest : Free...">
+          <input type="text" name="price" id="price" value="{{ old('price', $event->price) }}" class="form-control">
           @error('price')
             <div class="text-danger small">{{ $message }}</div> 
           @enderror
@@ -113,9 +113,8 @@
 
 @section('scripts')
 <!-- Google Maps API -->
-<script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap" async defer></script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBgnnNXBIrWe7BxLsZufXeD9kxHb91U7Bk&libraries=places&callback=initMap"></script>
 
 <!-- JavaScript -->
 <script src="{{ asset('js/events/google-map.js') }}"></script>
-
 @endsection

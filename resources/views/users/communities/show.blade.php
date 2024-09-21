@@ -51,44 +51,38 @@
             <hr class="my-3">
 
             {{-- comments list --}}
-            @include('users.communities.comments.list-item')
-            
+            <div class="overflow-scroll boardheight">
+              @include('users.communities.comments.list-item')
             </div>
+            
+          </div>
       </div>{{-- end of left side --}}
     
       {{-- right side --}}
       <div class="col-md-4">
-        {{-- Distinguish by user[JOIN/UNJOIN] or community owner[EDIT] --}}
+        {{-- Show JOIN/UNJOIN button for user, or EDIT button for community owner --}}
         @if (Auth::user()->id !== $community->owner_id)
-          {{-- JOIN/UNJOIN button for user --}}
-          @if ($community->isJoining())
-            {{-- UNJOIN --}}
-            <form action="{{ $community->eventHost() ? '#' : route('community.unjoin', $community->id) }}" method="POST">
-              @csrf
-              @if (!$community->eventHost())
-                @method('DELETE')
-              @endif
-
-              <div class="mb-3 d-flex justify-content-end">
-                <button class="btn btn-gold m-3" 
-                  {!! $community->eventHost() ? 'type="button" data-bs-toggle="modal" data-bs-target="#unjoin-warning-' . $community->id . '"' : '' !!}>
-                  UNJOIN
-                </button>
-              </div>
-            </form>
-            @if ($community->eventHost())
-              {{-- WARNING for event host --}}
-              @include('users.communities.modals.unjoin-warning')
+          {{-- 1. Check if the user is joining or unjoining  2. If joining, check if the user is the upcoming event host --}}
+          <form action="{{ $community->isJoining() ? ($community->upcomingEventHost() ? '#' : route('community.unjoin', $community->id)) : route('community.join', $community->id) }}" method="POST">
+            @csrf
+            {{-- If the user is joining but not the upcoming event host, allow UNJOIN --}}
+            @if ($community->isJoining() && !$community->upcomingEventHost())
+              @method('DELETE')
             @endif
-          @else
-           {{-- JOIN --}}
-            <form action="{{ route('community.join', $community->id) }}" method="POST">
-              @csrf
 
-              <div class="mb-3 d-flex justify-content-end">
-                <button class="btn btn-gold m-3">JOIN</button>
-              </div> 
-            </form>    
+            <div class="mb-3 d-flex justify-content-end">
+              <button class="btn btn-gold m-3" 
+                {{-- Warning for upcoming event host: they cannot unjoin community without deleting all upcoming events --}}
+                {!! $community->isJoining() && $community->upcomingEventHost() ? 'type="button" data-bs-toggle="modal" data-bs-target="#unjoin-warning-' . $community->id . '"' : '' !!}>
+                {{-- JOIN/UNJOIN button for user --}}
+                {{ $community->isJoining() ? 'UNJOIN' : 'JOIN' }}
+              </button>
+            </div>
+          </form>
+
+          {{-- Warning modal for upcoming event host --}}
+          @if ($community->isJoining() && $community->upcomingEventHost())
+            @include('users.communities.modals.unjoin-warning')
           @endif
         @else
           {{-- EDIT button for community owner --}}

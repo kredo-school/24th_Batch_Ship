@@ -1,6 +1,6 @@
 <div class="container-fluid">
   <div class="row">
-    @foreach ($community->events as $event)
+    @foreach ($community->events()->get() as $event)
       <div class="col-md-6">
         <div class="card m-2 p-0 bg-transparent border-0 rounded-top">
           <div class="card-body m-0 p-0 border-0 bg-white">

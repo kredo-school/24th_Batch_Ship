@@ -68,7 +68,7 @@ Route::group(['middleware' => 'auth'], function(){
     Route::delete('/community/{id}/unjoin', [CommunityUserController::class, 'unjoin'])->name('community.unjoin');
 
     # Event
-    Route::get('/event/{communitiy_id}/create', [EventController::class, 'create'])->name('event.create');
+    Route::get('/event/{community_id}/create', [EventController::class, 'create'])->name('event.create');
     Route::post('/event/store', [EventController::class, 'store'])->name('event.store');
     Route::get('/event/{id}/show', [EventController::class, 'show'])->name('event.show');
     Route::get('/event/{id}/edit', [EventController::class, 'edit'])->name('event.edit');

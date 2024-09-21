@@ -46,6 +46,7 @@ class Event extends Model
         return $this->attendees()->where('user_id', Auth::user()->id)->exists();
     }
 
+    // events with category
     public function categories()
     {
         return $this->belongsToMany(Category::class, 'category_event', 'event_id', 'category_id');

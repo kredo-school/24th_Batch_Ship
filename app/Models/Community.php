@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\SoftDeletes;
-
+use Illuminate\Support\Facades\DB;
 
 class Community extends Model
 {
@@ -41,7 +41,7 @@ class Community extends Model
     # To get all the comments of a community
     public function comments()
     {
-        return $this->hasMany(BoardComment::class);
+         return $this->hasMany(BoardComment::class)->latest();
     }
 
     # To get all members of the community
@@ -59,12 +59,16 @@ class Community extends Model
     # Community has many events
     public function events()
     {
-        return $this->hasMany(Event::class);
+        return $this->hasMany(Event::class)->orderBy('date')->orderBy('start_time');
     }
 
-    # return TRUE if the Auth user has already created an event
-    public function eventHost()
+    public function upcomingEventHost()
     {
-        return $this->events()->where('host_id', Auth::user()->id)->exists();
-    }
+        $currentDateTime = now(); // Get the current date and time
+
+        return $this->hasMany(Event::class)
+            ->where(DB::raw('CONCAT(date, " ", start_time)'), '>', $currentDateTime) // Exclude previous events
+            ->where('host_id', Auth::user()->id)
+            ->exists(); // Check if there are any upcoming events hosted by the user
+        }
 }

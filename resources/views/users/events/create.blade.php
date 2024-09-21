@@ -134,7 +134,7 @@
 
 @section('scripts')
 <!-- Google Maps API -->
-<script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap" async defer></script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBgnnNXBIrWe7BxLsZufXeD9kxHb91U7Bk&libraries=places&callback=initMap"></script>
 
 <!-- JavaScript -->
 <script src="{{ asset('js/events/google-map.js') }}"></script>
