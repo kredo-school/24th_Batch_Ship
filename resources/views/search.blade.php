@@ -10,21 +10,18 @@
             <h3 class="fw-bold text-end">with category: </h3>
         </div>
         <div class="col">
-            <h1 class="fw-bold">{{ $search }}
+            <h1 class="fw-bold">
                 @if($search)
-                "{{ $search }}"
+                {{ $search }}
             @else
-            <p class="text-warning m-0">
-                -
-            </p>
+                ""
             @endif</h1>  
             <h3 class="fw-bold">
                 @if($selectedCategoryName)
-                {{ $selectedCategoryName }}
+                "{{ $selectedCategoryName }}"
             @else
-                <p class="text-warning m-0">
-                    No category selected
-                </p>
+                <p class=""></p>
+                "No category selected"
             @endif
             </h3>
         </div>
