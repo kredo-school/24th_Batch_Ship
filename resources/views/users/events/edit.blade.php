@@ -57,7 +57,7 @@
         {{-- Price --}}
         <div class="mt-3">
           <label for="price" class="form-label">Price</label>
-          <input type="text" name="price" id="price" value="{{ old('price') }}" class="form-control" placeholder="e.g. Host : JPY 500.00  Guest : Free...">
+          <input type="text" name="price" id="price" value="{{ old('price', $event->price) }}" class="form-control">
           @error('price')
             <div class="text-danger small">{{ $message }}</div> 
           @enderror
