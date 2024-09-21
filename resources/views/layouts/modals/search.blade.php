@@ -15,6 +15,7 @@
                     <input type="text" name="keyword" id="keyword" class="form-control" placeholder="Enter keyword..." >
                     <select name="category" id="category" class="form-select form-select-sm mt-3 w-50">
                         <option disabled selected value>Select Category</option>
+                        <option value="">none</option>
                     </select>
                     
                     <script>
