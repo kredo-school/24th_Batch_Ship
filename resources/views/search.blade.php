@@ -10,9 +10,9 @@
             <h3 class="fw-bold text-end">with category: </h3>
         </div>
         <div class="col">
-            <h1 class="fw-bold">{{ $search }}
+            <h1 class="fw-bold">
                 @if($search)
-                "{{ $search }}"
+                {{ $search }}
             @else
             <p class="text-warning m-0">
                 -
