@@ -21,10 +21,7 @@
           <div class="mb-3 text-center">
             {{-- avatar & upload image --}}
               <img id="image-preview" src="/assets/image/avatar1.png" alt="preview image" class="img-thumbnail border rounded-circle d-block mx-auto avatar-lg mb-2">
-            
-              {{-- <p class="display-1 mb-0"><i class="fa-solid fa-circle-user text-turquoise"></i></p> --}}
-            
-  
+
             <label class="mb-3">
               <span class="btn btn-sm btn-turquoise2">
                   Choose your avatar
@@ -47,6 +44,10 @@
               <i class="fa-solid fa-caret-down"></i> Self-introduction
             </p>
             <textarea class="border-0 p-2" name="introduction" id="introduction" cols="57" rows="5" class="p-2" placeholder="Feel free to write about your interest & hobbies :)"></textarea>
+            {{-- Error message area --}}
+            @error('introduction')
+              <div class="text-danger small">{{ $message }}</div>
+            @enderror
           </div>
   
           {{-- select interest --}}
@@ -92,3 +93,4 @@
 @section('scripts')
     <script src="{{ asset('js/profile/form.js') }}"></script>
 @endsection
+
