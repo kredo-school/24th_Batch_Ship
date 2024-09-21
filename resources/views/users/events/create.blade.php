@@ -18,17 +18,6 @@
           <input type="text" id="community-title" value="{{ $community->title }}" class="form-control" readonly>
           {{-- ID to send to server --}}
           <input type="hidden" name="community_id" value="{{ $community->id }}">
-
-          {{-- <select name="community_id" id="community-title" class="form-select" autofocus>
-            <option value="">Select your community</option> --}}
-            {{-- Get the owner communities and joining communities --}}
-            {{-- @foreach ($all_communities as $community)
-              <option value="{{ $community->id }}" {{ old('community_id') == $community->id ? 'selected' : '' }}>{{ $community->title }}</option>
-            @endforeach --}}
-          {{-- </select>
-          @error('community_id')
-            <div class="text-danger small">{{ $message }}</div> 
-          @enderror --}}
         </div>
 
         {{-- event title --}}
