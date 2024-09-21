@@ -1,11 +1,11 @@
-<div class="container">
+<div class="container-fluid">
   @if ($community->comments->isNotEmpty())
       @foreach ($community->comments as $comment)
         <div class="row mb-4">
             {{-- avatar & name  --}}
-            <div class="col-1 d-flex flex-column">
-              <div class="d-flex align-items-center mb-2 mx-auto p-0">
-                <a href="{{ route('users.profile.specificProfile', $comment->user->id ) }}" class="text-decoration-none text-dark d-flex align-items-center">
+            <div class="col-1 d-flex flex-column align-items-center">
+              <div class="mb-2 mx-auto p-0">
+                <a href="{{ route('users.profile.specificProfile', $comment->user->id ) }}" class="text-decoration-none text-dark">
                     <span class="d-flex align-items-center">
                         @if ($comment->user->avatar)
                           <img src="{{ $comment->user->avatar }}" alt="{{ $comment->user->username }}" class="rounded-circle avatar-md border border-gray"> 
@@ -17,7 +17,7 @@
               </div>
             </div>
 
-            <div class="col-9 mt-2">
+            <div class="col-9 px-5 mt-2">
               <div class="row">
                   <a class="text-decoration-none text-dark" href="{{ route('users.profile.specificProfile', $comment->user->id ) }}"><h6 class="">{{ $comment->user->username }}</h6></a>
               </div>
