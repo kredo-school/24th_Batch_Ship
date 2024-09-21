@@ -64,8 +64,8 @@
                     </label>
                     
                                     {{-- gonna repeat --}}
-                    <div class="rounded bg-white overflow-scroll" style="max-height:150px;" >
-                        <div class="m-3 scroll-container ">
+                    <div class="rounded bg-white scroll-container" style="max-height:150px;" >
+                        <div class="m-3">
                             <div class="category">
                                 <table>
                                     <tr>
