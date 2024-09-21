@@ -82,5 +82,19 @@ class User extends Authenticatable
     {
         return $this->hasMany(CategoryUser::class); 
     }
+  
+    # To get chat messages of user
+    public function messages(){
+        return $this->hasMany(ChatMessage::class)->latest();
+    }
 
+    #To get sent messages of user
+    public function sentMessages(){
+        return $this->hasMany(Chat::class, 'sender_id');
+    }
+
+    #To get received messages of user
+    public function receivedMessages(){
+        return $this->hasMany(Chat::class, 'recipient_id');
+    }
 }
