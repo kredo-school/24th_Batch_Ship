@@ -4,7 +4,31 @@
 
 @section('content')
 <div class="container-fluid">
-    <h1 class="fw-bold text-center">Your Key word is: "{{ $search }}"</h1>
+    <div class="row">
+        <div class="col">
+            <h1 class="fw-bold text-end">Your Key word is: </h1>
+            <h3 class="fw-bold text-end">with category: </h3>
+        </div>
+        <div class="col">
+            <h1 class="fw-bold">{{ $search }}
+                @if($search)
+                "{{ $search }}"
+            @else
+            <p class="text-warning m-0">
+                -
+            </p>
+            @endif</h1>  
+            <h3 class="fw-bold">
+                @if($selectedCategoryName)
+                {{ $selectedCategoryName }}
+            @else
+                <p class="text-warning m-0">
+                    No category selected
+                </p>
+            @endif
+            </h3>
+        </div>
+    </div>
 
     @if(isset($no_results_message))
     <p class="text-danger text-center">{{ $no_results_message }}</p>
@@ -193,6 +217,7 @@
                             <div class="row mb-2 ms-1">
                             {{-- title --}}                                
                                 <h3 class="col card-title">{{ $event->title }}</h3>
+                                <p class="">Date: {{ $event->date }}</p>
                             {{-- host --}}                                    
                                     <p class="col card-text text-end">
                                         created by
@@ -210,9 +235,11 @@
                         {{-- category --}}
                         <div class="row card-text text-start ms-1 mt-auto">
                             <div class="col">
-                                @foreach ($event->categoryEvent as $category_event)
-                                <a href="#" class="badge me-1 bg-turquoise text-decoration-none">{{ $category_event->category->name }}</a>
-                            @endforeach
+                                @if($event->categories->isNotEmpty())
+                                    @foreach ($event->categories as $category_event)
+                                        <a href="#" class="badge me-1 bg-turquoise text-decoration-none">{{ $category_event->name }}</a>
+                                    @endforeach
+                                @endif
                             </div>
                         </div>
                     </div>
