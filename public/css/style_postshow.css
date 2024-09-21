@@ -293,10 +293,11 @@ p {
     height:20px;
 }
 
+/* Thumb: Chrome, Safari, Opera, Edge Chromium */
     #percentage::-webkit-slider-runnable-track {
+        appearance: none;
         height:20px;
-        background:linear-gradient(90deg,#fff,#f78279);
-        /* background:linear-gradient(90deg,#fff,#ea49a2); */
+        background:linear-gradient(90deg,#fff,#f9776e);
         border-radius:8px;
      }
 
@@ -305,26 +306,31 @@ p {
         width:20px;
         height:20px;
         border-radius:50%;
-        /* background:#f88ac7; */
-        background:#f78279;
+        background:#f9776e;
         transform:scale(1.5);
         cursor:pointer;
-        border: solid 1px #f78279;
-        /* border:solid 1px #f88ac7; */
+        border: solid 1px #f9776e;
+        background-image: url("assets/image/heart.png");
+
     }
 
+/* Track: Firefox */
     #percentage::-moz-range-track {
+        appearance: none;
         height:20px;
-        /* background:linear-gradient(90deg,#fff,#ea49a2); */
-
-        border-radius:5px;
+        background:linear-gradient(90deg,#fff,#f9776e);
+        border-radius:8px;
     }
 
+/* Thumb: Firefox */
     #percentage::-moz-range-thumb {
-        width:15px;
-        height:15px;
+        width:20px;
+        height:20px;
         border-radius:50%;
-        /* background:#fff; */
+        background:#f9776e;
+        transform:scale(1.5);
+        cursor:pointer;
+        border: solid 1px #f9776e;
 
     }
 
