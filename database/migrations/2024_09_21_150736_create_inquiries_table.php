@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('inquiries', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->string('title', 255);
-            $table->text('inquiry');
+            $table->string('subject', 255);
+            $table->text('message');
             $table->timestamps();
             $table->softDeletes();
 
