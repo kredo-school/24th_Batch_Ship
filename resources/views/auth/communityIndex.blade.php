@@ -24,7 +24,7 @@
             <div id="masonry-grid" class="row g-2 align-items-start masonry" data-masonry='{"percentPosition": true}'>
                 @foreach ($relatedCommunities as $community)
                     <div class="col-lg-3 col-md-6 mb-2 masonry-item">
-                        <a href="{{ route('users.communities.show', $community->id) }}" class="text-decoration-none">
+                        <a href="{{ route('communities.show', $community->id) }}" class="text-decoration-none">
                             <div class="card shadow rounded border-0 bg-pink d-flex flex-column">
                                 <div class="card-body d-flex flex-column">
                                     {{-- post description --}}
@@ -40,9 +40,13 @@
                                     {{-- post category --}}
                                     <div class="row card-text text-start ms-1 mt-auto">
                                         <div class="col">
-                                            @foreach ($community->categoryCommunity as $category_community)
-                                                <a href="#" class="badge me-1 bg-turquoise text-decoration-none">{{ $category_community->category->name }}</a>
-                                            @endforeach
+                                            @if ($community->categoryCommunity)
+                                                @foreach ($community->categoryCommunity as $category_community)
+                                                    <a href="{{ route('users.categories.show', $category_community->category_id) }}" class="badge me-1 bg-turquoise text-decoration-none">{{ $category_community->category->name }}</a>
+                                                @endforeach
+                                            @else
+                                                <span class="badge bg-turquoise mt-1">Uncategorized</span>
+                                            @endif
                                         </div>
                                     </div>
                                 </div>

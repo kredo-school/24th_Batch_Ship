@@ -81,9 +81,14 @@
                                 </div>
                                 <div class="row">
                                     <div class="col">
-                                        @foreach ($all_categories as $category)
-                                            <a href="#" class="badge bg-turquoise text-white text-decoration-none">{{ $category->category->name }}</a>
+                                        @if ($event->categoryEvent)
+                                        @foreach ($event->categoryEvent as $category_event)
+                                            <a href="{{ route('users.categories.show', $category_event->category_id) }}" class="badge me-1 bg-turquoise text-decoration-none">{{ $category_event->category->name }}</a>
                                         @endforeach
+                                    @else
+                                        <span class="badge bg-turquoise mt-1">Uncategorized</span>
+                                    @endif
+                                    
                                     </div>
                                     <div class="col">
                                         <p class="text-end">Created by 

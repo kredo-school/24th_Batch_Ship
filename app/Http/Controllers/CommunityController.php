@@ -22,7 +22,7 @@ class CommunityController extends Controller
         return view('users.communities.index')
             ->with('all_communities', $all_communities);
     }
-
+    
     # Go to Community for auth user
     public function authCommunityIndex()
     {

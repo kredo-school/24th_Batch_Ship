@@ -27,6 +27,34 @@ class ProfileController extends Controller
         return $this->profileProcess(Auth::user()->id);
     }
 
+    # Go to Post for auth user
+    public function authPostIndex()
+    {
+        $user = Auth::user();
+        
+        // categories with auth user
+        $categoryUsers = $user->CategoryUser;
+
+        // to get all categories for posts
+        $relatedPosts = collect();
+
+        foreach ($categoryUsers as $categoryUser) {
+            $category = $categoryUser->category;
+
+            if ($category) {
+                // relatedPosts
+                $posts = $category->relatedPosts;
+
+                // when a new post comes, it increases
+                if ($posts->isNotEmpty()) {
+                    $relatedPosts = $relatedPosts->merge($posts);
+                }
+            }
+        }
+
+        return view('auth.postIndex', compact('user', 'relatedPosts'));
+    }
+
     public function specificProfile($id){
         return $this->profileProcess($id);
     }
