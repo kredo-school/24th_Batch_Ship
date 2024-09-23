@@ -16,8 +16,14 @@ class Category extends Model
 
     public function users()
     {
-        return $this->belongsToMany(User::class, 'category_user');
+        return $this->belongsToMany(User::class,'category_user', 'category_id', 'user_id');
     }
+
+    public function posts()
+    {
+        return $this->belongsToMany(Post::class, 'category_post', 'category_id', 'post_id');
+    }
+    
 
     // the communities that belong to the category
     public function communities()
@@ -52,13 +58,6 @@ class Category extends Model
     {
         return $this->hasMany(Event::class);
     }
-
-    # for auth post index
-    public function posts()
-    {
-        return $this->belongsToMany(Post::class, 'category_post', 'category_id', 'post_id');
-    }
-    
 
 
 }

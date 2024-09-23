@@ -25,7 +25,7 @@
                                 <div class="row">
                                     <div class="col">
                                         @forelse ($post->categoryPost as $category_post)
-                                            <a href="#" class="badge bg-turquoise text-decoration-none me-1 mt-2">
+                                            <a href="{{ route('users.categories.show', $category_post->category_id) }}" class="badge bg-turquoise text-decoration-none me-1 mt-2">
                                                 {{ $category_post->category->name }}
                                             </a>
                                         @empty

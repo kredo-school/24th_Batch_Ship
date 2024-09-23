@@ -46,12 +46,12 @@
                                     <div class="category">
 
                                             @foreach ($post->categoryPost as $category_post)
-                                          <span class="badge category-badge me-2 bg-turquoise text-white"name="category[]">
-                                          {{ $category_post->category->name }}</span>
-
+                                            <a href="{{ route('users.categories.show', $category_user->category_id) }}" class="badge category-badge me-2 bg-turquoise text-white"name="category[]">
+                                                {{ $category_post->category->name }}
+                                            </a>
                                              @endforeach
 
-             　　　　　　　            </div>
+                                    </div>
                                 </div>
                                 <div class="col text-end  mt-2">
                                     {{-- If you are the owner of the post, you can edit or delete this post --}}
