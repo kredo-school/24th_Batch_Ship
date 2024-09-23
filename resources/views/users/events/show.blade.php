@@ -18,15 +18,23 @@
                             @csrf
                             @method('DELETE')
                 
-                            <button type="submit" class="btn btn-lg text-turquoise float-end">Unjoin</button>
+                            <button type="submit" class="btn btn-turquoise float-end">UNJOIN</button>
                         </form>
                     @else
-                        <form action="{{ route('event.join', $event->id) }}" method="post">
-                            @csrf
-
-                            <button type="submit" class="btn btn-turquoise btn-lg text-white float-end">Join</button>
-                        </form>
-                     @endif
+                        @if ($event->community->members->contains('user_id', Auth::user()->id))
+                            <form action="{{ route('event.join', $event->id) }}" method="post">
+                                @csrf
+                                
+                                <button type="submit" class="btn btn-turquoise float-end">JOIN</button>
+                            </form>
+                        @else
+                            {{-- Warning modal for NON community member --}}
+                            <button type="button" class="btn btn-turquoise float-end" data-bs-toggle="modal" data-bs-target="#join-warning-{{ $event->id }}">
+                                JOIN
+                            </button>
+                            @include('users.events.modals.join-warning')
+                        @endif
+                    @endif
                 </div>  
             @endif
         </div>

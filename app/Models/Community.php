@@ -62,13 +62,14 @@ class Community extends Model
         return $this->hasMany(Event::class)->orderBy('date')->orderBy('start_time');
     }
 
-    public function upcomingEventHost()
+    public function activeEventHost()
     {
         $currentDateTime = now(); // Get the current date and time
 
         return $this->hasMany(Event::class)
-            ->where(DB::raw('CONCAT(date, " ", start_time)'), '>', $currentDateTime) // Exclude previous events
+            // Check if the event end time is after the current time
+            ->where(DB::raw('CONCAT(date, " ", end_time)'), '>', $currentDateTime) 
             ->where('host_id', Auth::user()->id)
-            ->exists(); // Check if there are any upcoming events hosted by the user
+            ->exists(); // Check if there are any active events hosted by the user
         }
 }

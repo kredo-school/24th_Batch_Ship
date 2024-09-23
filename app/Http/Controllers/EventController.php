@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Event;
 use App\Models\Community;
-use App\Models\CommunityUser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
@@ -13,13 +12,11 @@ class EventController extends Controller
 {
     private $event;
     private $community;
-    private $communityUser;
 
-    public function __construct(Event $event, Community $community, CommunityUser $communityUser)
+    public function __construct(Event $event, Community $community)
     {
         $this->event = $event;
         $this->community = $community;
-        $this->communityUser = $communityUser;
     }
 
     public function create($id)
@@ -27,19 +24,12 @@ class EventController extends Controller
         // $id - ID of the community want to create new event for
         $community = $this->community->findOrFail($id);
 
+        # if the Auth user is NOT the owner or member of the community, redirect to community show page.
+        if(Auth::user()->id != $community->owner_id && !$community->members->contains('user_id', Auth::user()->id)){
+            return redirect()->route('communities.show', $id);
+        }
+
         return view('users.events.create', compact('community'));
-
-        // $owner_communities = $this->community
-        //     ->where('owner_id', Auth::user()->id)
-        //     ->get();
-
-        // $joining_communities = $this->communityUser
-        //     ->where('user_id', Auth::user()->id)
-        //     ->with('community')
-        //     ->get()
-        //     ->pluck('community');
-
-        // $all_communities = $owner_communities->merge($joining_communities); // Get all related communities
     }
 
     public function store(Request $request)
@@ -98,7 +88,6 @@ class EventController extends Controller
         $encodedAddress = urlencode($event->address);
 
         return view('users.events.show', compact('event', 'date', 'startTime', 'endTime', 'all_categories', 'all_attendees', 'currentDateTime','encodedAddress'));
-
     }
 
     public function edit($id)
@@ -157,6 +146,4 @@ class EventController extends Controller
 
         return redirect()->route('communities.show', $community_id);
     }
-
-    
 }

@@ -20,7 +20,7 @@
                     @if ($event->host->avatar)
                       <img src="{{ $event->host->avatar }}" alt="{{ $event->host->username }}" class="rounded-circle avatar-sm"> 
                     @else
-                      <i class="fa-solid fa-circle-user icon"></i>
+                      <i class="fa-solid fa-circle-user icon icon-sm text-black"></i>
                     @endif
                   </a> 
                 </p>
