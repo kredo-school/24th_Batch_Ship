@@ -14,17 +14,14 @@
                 @if($search)
                 {{ $search }}
             @else
-            <p class="text-warning m-0">
-                -
-            </p>
+                ""
             @endif</h1>  
             <h3 class="fw-bold">
                 @if($selectedCategoryName)
-                {{ $selectedCategoryName }}
+                "{{ $selectedCategoryName }}"
             @else
-                <p class="text-warning m-0">
-                    No category selected
-                </p>
+                <p class=""></p>
+                "No category selected"
             @endif
             </h3>
         </div>

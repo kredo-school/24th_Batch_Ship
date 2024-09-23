@@ -36,6 +36,29 @@ class Category extends Model
     {
         return $this->belongsToMany(Event::class); 
     }
+
+    // relation with posts, communities, events for auth user
+    public function relatedPosts()
+    {
+        return $this->hasMany(Post::class);
+    }
+
+    public function relatedCommunities()
+    {
+        return $this->hasMany(Community::class);
+    }
+
+    public function relatedEvents()
+    {
+        return $this->hasMany(Event::class);
+    }
+
+    # for auth post index
+    public function posts()
+    {
+        return $this->belongsToMany(Post::class, 'category_post', 'category_id', 'post_id');
+    }
     
+
 
 }
