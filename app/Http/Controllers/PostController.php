@@ -40,6 +40,35 @@ class PostController extends Controller
         
     }
 
+    # Go to Post for auth user
+    public function authPostIndex()
+    {
+        $user = Auth::user();
+        
+        // categories with auth user
+        $categoryUsers = $user->CategoryUser;
+    
+        // to get all categories for posts
+        $relatedPosts = collect();
+    
+        foreach ($categoryUsers as $categoryUser) {
+            $category = $categoryUser->category;
+    
+            if ($category) {
+                // relatedPosts
+                $posts = $category->relatedPosts;
+    
+                // when new posts has posted, it increases
+                if ($posts->isNotEmpty()) {
+                    $relatedPosts = $relatedPosts->merge($posts);
+                }
+            }
+        }
+    
+        return view('auth.postIndex', compact('user', 'relatedPosts'));
+    }    
+      
+    
     private function getAllPosts()
     {
         $all_posts = $this->post->latest()->get();
