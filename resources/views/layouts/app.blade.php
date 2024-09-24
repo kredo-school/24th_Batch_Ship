@@ -22,7 +22,7 @@
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 </head>
 <body class="cont">
-    <div id="app" class="cont">
+    <div id="app" class="container-main">
         <nav class="navbar navbar-expand-md navbar-light bg-turquoise shadow-sm">
             <div class="container-fluid">
                 <a class="navbar-brand" href="{{ route('users.profile.index') }}">
@@ -60,8 +60,8 @@
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end">
                                     <li><h1 class="h6 text-center text-dark">Go to...</h1></li>
-                                    <li><a href="{{ route('auth.postIndex') }}" class="dropdown-item">Post</a></li>
-                                    <li><a href="{{ route('auth.communityIndex') }}" class="dropdown-item">Community</a></li>
+                                    <li><a href="{{ route('users.posts.index') }}" class="dropdown-item">Post</a></li>
+                                    <li><a href="{{ route('communities.index') }}" class="dropdown-item">Community</a></li>
                                 </ul>
                             </li>
                             {{-- Create icon --}}
@@ -90,7 +90,7 @@
                                         <a href="{{ route('users.profile.edit', Auth::user()->id) }}" class="dropdown-item"><i class="fa-solid fa-pen-to-square"></i> Edit Profile</a>
                                     </li>
                                     <li>
-                                        <a href="{{ route('inquiry.create') }}" class="dropdown-item"><i class="fa-solid fa-person-circle-question"></i> Support</a>
+                                        <a href="#" class="dropdown-item"><i class="fa-solid fa-person-circle-question"></i> Support</a>
                                     </li>
                                     <li>
                                         <a class="dropdown-item" href="{{ route('logout') }}"
@@ -111,7 +111,7 @@
             </div>
         </nav>
 
-        <main class="py-5">
+        <main class="py-5 content-main">
             <div class="container-fluid">
                 <div class="row justify-content-center">
                     {{-- Admin Menu(optional) --}}

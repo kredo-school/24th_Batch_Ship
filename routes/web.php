@@ -12,8 +12,6 @@ use App\Http\Controllers\SelectDataController;
 use App\Http\Controllers\BoardCommentController;
 use App\Http\Controllers\CommunityUserController;
 use App\Http\Controllers\ChatController;
-use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\InquiryController;
 
 Auth::routes();
 
@@ -47,8 +45,9 @@ Route::group(['middleware' => 'auth'], function(){
     Route::get('/community/{id}/edit', [CommunityController::class, 'edit'])->name('communities.edit');
     Route::patch('/community/{id}/update', [CommunityController::class, 'update'])->name('communities.update');
 
-    # COMMENT
+    # BOARDCOMMENT
     Route::post('/comment/{community_id}/store', [BoardCommentController::class, 'store'])->name('boardcomment.store');
+    Route::patch('/comment/{id}/update', [BoardCommentController::class, 'update'])->name('boardcomment.update');
     Route::delete('/comment/{id}/destroy', [BoardCommentController::class, 'destroy'])->name('boardcomment.destroy');
 
     # CommunityUser
@@ -72,18 +71,5 @@ Route::group(['middleware' => 'auth'], function(){
 
     # Chat
     Route::get('/chat', [ChatController::class, 'index'])->name('chat.index');
-
-    # Inquiry
-    Route::get('/inquiry/create', [InquiryController::class, 'create'])->name('inquiry.create');
-    Route::post('/inquiry/store', [InquiryController::class, 'store'])->name('inquiry.store');
-    Route::get('/inquiry/{id}/submitted', [InquiryController::class, 'submitted'])->name('inquiry.submitted');
-
-    # Auth
-    Route::get('/auth/post/index', [PostController::class, 'authPostIndex'])->name('auth.postIndex');
-    Route::get('/auth/community/index', [CommunityController::class, 'authCommunityIndex'])->name('auth.communityIndex');
-
-    # Category Action
-    Route::get('/categories/{id}', [CategoryController::class, 'show'])->name('users.categories.show');
-
 
 });
