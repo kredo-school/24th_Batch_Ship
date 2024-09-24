@@ -69,6 +69,6 @@ Route::group(['middleware' => 'auth'], function(){
     Route::get('/api/select-data', [SelectDataController::class, 'getData']);
 
     # Chat
-    Route::get('/chat', [ChatController::class, 'index'])->name('chat.index');
-
+    Route::get('/chat/{id}', [ChatController::class, 'index'])->name('chat.index');
+    Route::post('/chat/store', [ChatController::class, 'store'])->name('chat.store');
 });
