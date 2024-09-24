@@ -82,6 +82,7 @@ Route::group(['middleware' => 'auth'], function(){
 
     # Category Action
     Route::get('/categories/{id}', [CategoryController::class, 'show'])->name('users.categories.show');
+    
 
 
 });
