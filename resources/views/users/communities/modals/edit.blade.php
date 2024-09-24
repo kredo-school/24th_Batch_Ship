@@ -7,14 +7,18 @@
                 </div>
             </div>
 
-            <form action="{{ route('boardcomment.update', $comment->id) }}" method="post" class="w-100">
+            <form action="{{ route('boardcomment.update', $comment->id) }}" method="post" class="w-100" enctype="multipart/form-data">
                 @csrf
                 @method('PATCH')
+
                 <div class="modal-body">
                     <p class="text-center fw-bold mb-1">
                         Would you like to edit your comment?
                     </p>
-                    <textarea class="border-0 p-2" name="introduction" id="introduction" cols="57" rows="5" class="p-2" placeholder="">{{ old('body', $comment->body) }}</textarea>
+                    <textarea name="body" id="body" cols="57" rows="5" class="border-0 p-2">{{ old('body', $comment->body) }}</textarea>
+                      @error('body')
+                      <p class="mb-0 text-danger samll">{{ $message }}</p>
+                      @enderror
                 </div>
 
                 <div class="modal-footer border-0">
