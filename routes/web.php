@@ -13,6 +13,7 @@ use App\Http\Controllers\BoardCommentController;
 use App\Http\Controllers\CommunityUserController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\InquiryController;
 
 Auth::routes();
 
@@ -75,6 +76,8 @@ Route::group(['middleware' => 'auth'], function(){
 
     # Inquiry
     Route::get('/inquiry/create', [InquiryController::class, 'create'])->name('inquiry.create');
+    Route::post('/inquiry/store', [InquiryController::class, 'store'])->name('inquiry.store');
+    Route::get('/inquiry/{id}/submitted', [InquiryController::class, 'submitted'])->name('inquiry.submitted');
 
     # Auth
     Route::get('/auth/post/index', [PostController::class, 'authPostIndex'])->name('auth.postIndex');
