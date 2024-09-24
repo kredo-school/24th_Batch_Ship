@@ -2,6 +2,33 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 /* Font - Raleway */
 @import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap');
+
+/* html,body {
+    height: 100%;
+} */
+
+html, body {
+    height: 100%;
+    margin: 0;
+}
+.container-main {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+.content-main {
+    flex: 1;
+}
+.footer {
+    /* position: relative; */
+    /* bottom: 0; */
+    width: 100%;
+    text-align: center;
+    padding: 10px 0;
+    position: static !important;
+    bottom: auto;
+}
+
 /* Font */
 h1,h2,h3,h4,h5,h6 {
     font-family: "Poppins", sans-serif;
@@ -109,25 +136,24 @@ p {
     display: none;
 }
 /* Footer */
-.footer {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-}
-
-.cont {
+/* .footer {
     position: relative;
-    /* padding-bottom: 60px; */
+    bottom: 0 !important;
+    width: 100%;
+} */
+
+/* .cont {
+    position: relative;
     box-sizing: border-box;
     min-height: 100vh;
-}
+} */
 
-.wrap{
+/* .wrap{
     display: grid;
     grid-template-rows: auto 1fr auto;
     grid-template-columns: 100%;
     min-height: 100vh;
-  }
+  } */
 
 /* Bottun hover */
 .btn-gold {

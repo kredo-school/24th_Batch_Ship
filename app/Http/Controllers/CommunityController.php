@@ -22,6 +22,34 @@ class CommunityController extends Controller
         return view('users.communities.index')
             ->with('all_communities', $all_communities);
     }
+    
+    # Go to Community for auth user
+    public function authCommunityIndex()
+    {
+        $user = Auth::user();
+        
+        // categories with auth user's community
+        $categoryUsers = $user->communityUser;
+    
+        // to get all categories for posts
+        $relatedCommunities = collect();
+    
+        foreach ($categoryUsers as $categoryUser) {
+            $category = $categoryUser->category;
+    
+            if ($category) {
+                // related Communities
+                $communities = $category->relatedCommunities;
+    
+                // when new posts has posted, it increases
+                if ($communities->isNotEmpty()) {
+                    $relatedCommunities = $relatedCommunities->merge($communities);
+                }
+            }
+        }
+    
+        return view('auth.communityIndex', compact('user', 'relatedCommunities'));
+    }   
 
     private function getAllCommunities()
     {

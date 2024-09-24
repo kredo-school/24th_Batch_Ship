@@ -22,7 +22,7 @@
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 </head>
 <body class="cont">
-    <div id="app" class="cont">
+    <div id="app" class="container-main">
         <nav class="navbar navbar-expand-md navbar-light bg-turquoise shadow-sm">
             <div class="container-fluid">
                 <a class="navbar-brand" href="{{ route('users.profile.index') }}">
@@ -111,7 +111,7 @@
             </div>
         </nav>
 
-        <main class="py-5">
+        <main class="py-5 content-main">
             <div class="container-fluid">
                 <div class="row justify-content-center">
                     {{-- Admin Menu(optional) --}}

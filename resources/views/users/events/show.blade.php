@@ -13,20 +13,33 @@
             {{-- Join Button --}}
             @if (Auth::user()->id !== $event->host_id)
                 <div class="col-2">
+                    {{-- Check if the user is already joining the event --}}
                     @if ($event->isJoining())
                         <form action="{{ route('event.unjoin', $event->id) }}" method="post">
                             @csrf
                             @method('DELETE')
                 
-                            <button type="submit" class="btn btn-lg text-turquoise float-end">Unjoin</button>
+                            <button type="submit" class="btn btn-turquoise float-end">UNJOIN</button>
                         </form>
                     @else
-                        <form action="{{ route('event.join', $event->id) }}" method="post">
-                            @csrf
-
-                            <button type="submit" class="btn btn-turquoise btn-lg text-white float-end">Join</button>
-                        </form>
-                     @endif
+                        {{-- Check if the user is the community owner or a community member --}}
+                        @if (
+                            $event->community->owner_id === Auth::user()->id ||
+                            $event->community->members->contains('user_id', Auth::user()->id)
+                        )
+                            <form action="{{ route('event.join', $event->id) }}" method="post">
+                                @csrf
+                                
+                                <button type="submit" class="btn btn-turquoise float-end">JOIN</button>
+                            </form>
+                        @else
+                            {{-- Warning modal for NON community member --}}
+                            <button type="button" class="btn btn-turquoise float-end" data-bs-toggle="modal" data-bs-target="#join-warning-{{ $event->id }}">
+                                JOIN
+                            </button>
+                            @include('users.events.modals.join-warning')
+                        @endif
+                    @endif
                 </div>  
             @endif
         </div>
@@ -73,9 +86,14 @@
                                 </div>
                                 <div class="row">
                                     <div class="col">
-                                        @foreach ($all_categories as $category)
-                                            <a href="#" class="badge bg-turquoise text-white text-decoration-none">{{ $category->category->name }}</a>
+                                        @if ($event->categoryEvent)
+                                        @foreach ($event->categoryEvent as $category_event)
+                                            <a href="{{ route('users.categories.show', $category_event->category_id) }}" class="badge me-1 bg-turquoise text-decoration-none">{{ $category_event->category->name }}</a>
                                         @endforeach
+                                    @else
+                                        <span class="badge bg-turquoise mt-1">Uncategorized</span>
+                                    @endif
+                                    
                                     </div>
                                     <div class="col">
                                         <p class="text-end">Created by 

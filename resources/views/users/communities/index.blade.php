@@ -52,9 +52,13 @@
                                         {{-- category --}}
                                         <div class="row card-text text-start ms-1 mt-auto">
                                             <div class="col">
-                                                @foreach ($community->categoryCommunity as $category_community)
-                                                <a href="#" class="badge me-1 bg-turquoise text-decoration-none">{{ $category_community->category->name }}</a>
-                                            @endforeach
+                                                @if ($community->categories)
+                                                @foreach ($community->categories as $category)
+                                                <a href="{{ route('users.categories.show', $category->id) }}" class="badge me-1 bg-turquoise text-decoration-none">{{ $category->name }}</a>
+                                                @endforeach
+                                              @else
+                                                  <span class="badge bg-turquoise mt-1">Uncategorized</span>
+                                              @endif
                                             </div>
                                         </div>
                                     </div>

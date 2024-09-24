@@ -32,12 +32,12 @@ class HomeController extends Controller
 
         $categoryId = $request->input('category');
 
-        // カテゴリー名を取得
+        // to get selected category for search view 
         $selectedCategoryName = null;
         if ($categoryId) {
             $category = Category::find($categoryId);
             if ($category) {
-                $selectedCategoryName = $category->name; // カテゴリー名を取得
+                $selectedCategoryName = $category->name; 
             }
         }
         

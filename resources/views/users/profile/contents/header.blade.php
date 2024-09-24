@@ -62,14 +62,14 @@
             <div class="row">
                 <div class="col">
                     {{-- display all selected categories --}}
-                    @forelse ($user->CategoryUser as $category_user)
-                        <a href="#" class="badge bg-turquoise text-decoration-none me-1 mt-2">
+                    @forelse ($user->categoryUser as $category_user)
+                        <a href="{{ route('users.categories.show', $category_user->category_id) }}" class="badge bg-turquoise text-decoration-none me-1 mt-2">
                             {{ $category_user->category->name }}
                         </a>
                     @empty
                         <a href="#" class="badge bg-dark text-decoration-none mt-1">Uncategorized</a>
                     @endforelse
-                </div>
+                </div>                
             </div>
         </div>
     </div>
