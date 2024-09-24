@@ -25,14 +25,16 @@
                                     <div data-mdb-perfect-scrollbar-init="true" style="position: relative; height: 400px;">
                                         <ul class="list-unstyled mb-0">
                                             <li class="p-2 border-bottom">
-                                                <a href="#" class="d-flex justify-content-between text-decoration-none">
+                                                <a href="{{ route('users.profile.specificProfile', $user->id) }}" class="d-flex justify-content-between text-decoration-none">
                                                     <div class="d-flex flex-row">
-                                                        <div class="div">
-                                                            {{-- <img src="#" alt="#" class="d-flex align-self-center me-3" width="60"> --}}
-                                                            <i class="fa-solid fa-circle-user text-secondary d-flex align-self-center me-3" width="60"></i>
-                                                        </div>
+                                                        @if ($user->avatar)
+                                                            <img src="{{ $user->avatar }}" alt="{{ $user->name }}" class="d-flex align-self-center me-3 rounded-circle avatar-sm">
+                                                        @else
+                                                            <i class="fa-solid fa-circle-user text-secondary d-flex align-self-center me-3 icon-sm"></i>
+                                                        @endif
+                                        
                                                         <div class="pt-1">
-                                                            <p class="fw-bold mb-0">UserName</p>
+                                                            <p class="fw-bold mb-0">{{ $user->username}}</p>
                                                             <p class="small text-muted">Message</p>
                                                         </div>
                                                     </div>
@@ -74,12 +76,24 @@
 
                                 {{-- input message  --}}
                                 <div class="text-muted d-flex justify-content-start align-items-center pe-3 pt-3 mt-2">
-                                    {{-- <img src="#" alt="#" style="width: 40px: height: 100%;"> --}}
-                                    <i class="fa-solid fa-circle-user text-secondary d-flex align-self-center me-3" width="60"></i>
-                                    <input type="text" name="chattext" id="chattext" class="form-control form-control-lg" placeholder="Type message.">
-                                    <a href="#" class="ms-2 text-muted"><i class="fas fa-paperclip"></i></a>
-                                    <a href="#" class="ms-3 text-muted"><i class="fas fa-smile"></i></a>
-                                    <a href="#" class="ms-3"><i class="fas fa-paper-plane"></i></a>
+
+                                    <a href="{{ route('users.profile.specificProfile', $user->id) }}" class="d-flex justify-content-between text-decoration-none">
+                                        @if ($user->avatar)
+                                            <img src="{{ $user->avatar }}" alt="{{ $user->name }}" class="d-flex align-self-center me-3 rounded-circle avatar-sm" width="60">
+                                        @else
+                                            <i class="fa-solid fa-circle-user text-secondary d-flex align-self-center me-3 icon-sm" width="60"></i>
+                                        @endif
+                                    </a>
+
+                                    <form action="#" method="post">
+                                        @csrf
+
+                                        <input type="text" name="text" id="text" class="form-control form-control-lg" placeholder="Type message.">
+                                        <a href="#" class="ms-2 text-muted"><i class="fas fa-paperclip"></i></a>
+                                        <a href="#" class="ms-3 text-muted"><i class="fas fa-smile"></i></a>
+                                        <button type="submit" class="btn btn-outline-none text-secondary ms-3"><i class="fas fa-paper-plane"></i></button>
+                                        {{-- <a href="#" class="ms-3"><i class="fas fa-paper-plane"></i></a> --}}
+                                    </form>
                                 </div>
                             </div>
                         </div>

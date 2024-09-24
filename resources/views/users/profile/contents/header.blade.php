@@ -47,6 +47,9 @@
                             </div>
                         </form>
                     </div>
+                    <div class="col">
+                        <a href="{{ route('chat.index', $user->id) }}" class="btn btn-outline-secondary">Message</a>
+                    </div>    
                 @endif
             </div>
 
