@@ -22,15 +22,10 @@
 
                                     <img src="{{ $post->user->avatar }}" alt=""
                                         class="rounded-circle avatar-profile "></a>
-
                             @else
-
                             <a href="{{ route('users.profile.specificProfile', $post->user->id) }}">
                             <i class="fas fa-circle-user text-secondary icon " ></i></a>
-
                             @endif
-
-
                             </div>
 
                         <div class="col my-auto">

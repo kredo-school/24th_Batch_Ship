@@ -14,14 +14,13 @@
                 @if($search)
                 {{ $search }}
             @else
-                ""
+            <span class="text-warning">-</span>
             @endif</h1>  
             <h3 class="fw-bold">
                 @if($selectedCategoryName)
                 "{{ $selectedCategoryName }}"
             @else
-                <p class=""></p>
-                "No category selected"
+                <span class="text-warning">No category selected</span>
             @endif
             </h3>
         </div>
@@ -64,7 +63,7 @@
                         <div class="row card-text text-start ms-1 mt-auto">
                             @if(isset($user->categories))
                             @foreach($user->categories as $category)
-                            <a href="#" class="text-decoration-none">
+                            <a href="{{ route('users.categories.show', $category->id) }}" class="text-decoration-none">
                                 <span class="badge ms-1 bg-turquoise text-white">{{ $category->name }}</span>
                             </a>
                             @endforeach
@@ -116,7 +115,7 @@
                         <div class="row card-text text-start ms-1 mt-auto">
                             <div class="col">
                                 @foreach($post->categories as $category)
-                                <a href="#" class="text-decoration-none">
+                                <a href="{{ route('users.categories.show', $category->id) }}" class="text-decoration-none">
                                     <span class="badge ms-1 bg-turquoise text-white">{{ $category->name }}</span>
                                 </a>
                                 @endforeach                
@@ -172,8 +171,8 @@
                         {{-- category --}}
                         <div class="row card-text text-start ms-1 mt-auto">
                             <div class="col">
-                                @foreach ($community->categoryCommunity as $category_community)
-                                <a href="#" class="badge me-1 bg-turquoise text-decoration-none">{{ $category_community->category->name }}</a>
+                                @foreach ($community->categories as $category)
+                                <a href="{{ route('users.categories.show', $category->id) }}" class="badge me-1 bg-turquoise text-decoration-none">{{ $category->name }}</a>
                                 @endforeach
                             </div>
                         </div>
@@ -233,8 +232,8 @@
                         <div class="row card-text text-start ms-1 mt-auto">
                             <div class="col">
                                 @if($event->categories->isNotEmpty())
-                                    @foreach ($event->categories as $category_event)
-                                        <a href="#" class="badge me-1 bg-turquoise text-decoration-none">{{ $category_event->name }}</a>
+                                    @foreach ($event->categories as $category)
+                                        <a href="{{ route('users.categories.show', $category->id) }}" class="badge me-1 bg-turquoise text-decoration-none">{{ $category->name }}</a>
                                     @endforeach
                                 @endif
                             </div>

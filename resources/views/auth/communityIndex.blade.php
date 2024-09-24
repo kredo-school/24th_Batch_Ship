@@ -6,19 +6,17 @@
     <div class="container">
         <h1 class="fw-bold my-2 text-center">Communities with your interests</h1>
          {{-- display all selected categories --}}
-        <div class="row">
+        <div class="row mb-3">
             <div class="col text-center">
-                @forelse ($user->CategoryUser as $category_user)
-                    <a href="#" class="badge bg-turquoise text-decoration-none me-1 mt-2">
-                        {{ $category_user->category->name }}
+                @forelse ($user->categories as $category)
+                    <a href="{{ route('users.categories.show', $category->id) }}" class="badge bg-turquoise text-decoration-none me-1 mt-2">
+                        {{ $category->name }}
                     </a>
                 @empty
                     <a href="#" class="badge bg-dark text-decoration-none mt-1">Uncategorized</a>
                 @endforelse
             </div>
         </div>
-
-        <hr>
 
         @if ($relatedCommunities && $relatedCommunities->isNotEmpty())
             <div id="masonry-grid" class="row g-2 align-items-start masonry" data-masonry='{"percentPosition": true}'>

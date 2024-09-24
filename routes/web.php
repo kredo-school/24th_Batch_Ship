@@ -72,4 +72,13 @@ Route::group(['middleware' => 'auth'], function(){
     # Chat
     Route::get('/chat', [ChatController::class, 'index'])->name('chat.index');
 
-});
+    # Inquiry
+    Route::get('/inquiry/create', [InquiryController::class, 'create'])->name('inquiry.create');
+
+    # Auth
+    Route::get('/auth/post/index', [PostController::class, 'authPostIndex'])->name('auth.postIndex');
+    Route::get('/auth/community/index', [CommunityController::class, 'authCommunityIndex'])->name('auth.communityIndex');
+
+    # Category Action
+    Route::get('/categories/{id}', [CategoryController::class, 'show'])->name('users.categories.show');
+    

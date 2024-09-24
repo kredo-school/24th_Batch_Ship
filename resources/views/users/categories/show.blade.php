@@ -6,16 +6,12 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col">
-            <h1 class="fw-bold text-end">All index for category: </h1>
+            <h1 class="fw-bold text-end">Category index:</h1>
         </div>
-        <div class="col">
-            <h1 class="fw-bold">
-                @if($category->name)
+        <div class="col p-0">
+            <button class="fs-2 px-3 bg-turquoise fw-bold text-white rounded border-0">
                 {{ $category->name }}
-                @else
-                <p class="text-warning m-0">No category selected</p>
-                @endif
-            </h1>
+            </button>
         </div>
     </div>
 
@@ -54,7 +50,7 @@
                             {{-- interest(categories) --}}
                             <div class="row card-text text-start ms-1 mt-auto">
                                 @foreach($user->categories as $category)
-                                <a href="#" class="text-decoration-none">
+                                <a href="{{ route('users.categories.show', $category->id) }}" class="text-decoration-none">
                                     <span class="badge ms-1 bg-turquoise text-white">{{ $category->name }}</span>
                                 </a>
                                 @endforeach
@@ -105,7 +101,7 @@
                             <div class="row card-text text-start ms-1 mt-auto">
                                 <div class="col">
                                     @foreach($post->categories as $category)
-                                    <a href="#" class="text-decoration-none">
+                                    <a href="{{ route('users.categories.show', $category->id) }}" class="text-decoration-none">
                                         <span class="badge ms-1 bg-turquoise text-white">{{ $category->name }}</span>
                                     </a>
                                     @endforeach                
@@ -159,13 +155,9 @@
                             {{-- category --}}
                             <div class="row card-text text-start ms-1 mt-auto">
                                 <div class="col">
-                                    @if ($community->categoryCommunity)
-                                        @foreach ($community->categoryCommunity as $category_community)
-                                            <a href="{{ route('users.categories.show', $category_community->category_id) }}" class="badge me-1 bg-turquoise text-decoration-none">{{ $category_community->category->name }}</a>
-                                        @endforeach
-                                    @else
-                                        <span class="badge bg-turquoise mt-1">Uncategorized</span>
-                                    @endif
+                                    @foreach ($community->categories as $category)
+                                    <a href="{{ route('users.categories.show', $category->id) }}" class="badge me-1 bg-turquoise text-decoration-none">{{ $category->name }}</a>
+                                    @endforeach
                                 </div>
                             </div>
                         </div>
@@ -210,7 +202,7 @@
                             <div class="row card-text text-start ms-1 mt-auto">
                                 <div class="col">
                                     @foreach ($event->categories as $category)
-                                    <a href="#" class="badge me-1 bg-turquoise text-decoration-none">{{ $category->name }}</a>
+                                    <a href="{{ route('users.categories.show', $category->id) }}" class="badge me-1 bg-turquoise text-decoration-none">{{ $category->name }}</a>
                                     @endforeach
                                 </div>
                             </div>
