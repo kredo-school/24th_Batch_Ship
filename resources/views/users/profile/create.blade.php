@@ -1,12 +1,12 @@
 @extends('layouts.app')
 
 @section('title', 'Create Profile')
+@section('styles')
+  <link rel="stylesheet" href="{{ asset('css/style_postshow.css') }}">
+@endsection
 
 @section('content')
-  <head>
-    <link rel="stylesheet" href="{{ asset('css/style_postshow.css') }}">
-  </head>
-  <div class="conteiner bg-blue">
+  <div class="container-fluid bg-blue">
     <div class="row p-3">
       <form action="{{ route('users.profile.update') }}" method="post" enctype="multipart/form-data">
         @csrf

@@ -10,7 +10,7 @@
                         @if ($comment->user->avatar)
                           <img src="{{ $comment->user->avatar }}" alt="{{ $comment->user->username }}" class="rounded-circle avatar-md border border-gray"> 
                         @else
-                          <i class="fa-solid fa-circle-user icon-sm"></i>   
+                          <i class="fa-solid fa-circle-user icon-md"></i>   
                         @endif    
                     </span>
                 </a>
@@ -34,27 +34,26 @@
             </div>
 
             <div class="col-2 p-0 text-center my-auto">
-              <form action="{{ route('boardcomment.destroy', $comment->id) }}" method="post">
-                @csrf
-                @method('DELETE')
                 <div class="xsmall pt-1">
                   {{-- created date --}}
                   <p class="text-muted fw-light mb-1">{{ date('M-d-Y', strtotime($comment->created_at)) }}  {{ date('H:i', strtotime($comment->created_at)) }}</p> 
                   @if ($comment->user_id == Auth::user()->id)
                   &nbsp;
 
-                    {{-- edit button
-                      <button class="bg-white border border-0 bg-transparent">
-                        <i class="fa-regular fa-pen-to-square text-dark"></i>
-                      </button> --}}
-
                     {{-- delete button  --}}
-                      <button type="submit" class="bg-white border border-0 bg-transparent">
-                        <i class="fa-regular fa-trash-can"></i>
-                      </button>
+                    <button type="submit" class="bg-white border border-0 bg-transparent" data-bs-toggle="modal" data-bs-target="#delete-comment-{{ $comment->id }}">
+                      <i class="fa-regular fa-trash-can"></i>
+                    </button>
+                    @include('users.communities.modals.delete')
+
+                    {{-- edit button --}}
+                    <button class="bg-white border border-0 bg-transparent" data-bs-toggle="modal" data-bs-target="#edit-comment-{{ $comment->id }}">
+                      <i class="fa-regular fa-pen-to-square text-dark"></i>
+                    </button>
+                    @include('users.communities.modals.edit')
+                  
                   @endif
                 </div>
-              </form>
             </div>  
         </div>
       @endforeach 
