@@ -53,7 +53,7 @@ class BoardCommentController extends Controller
 
         $comment->delete();
 
-        return redirect()->route('communities.show', $id)->with('success', 'Comment deleted successfully.');
+        return redirect()->back()->with('success', 'Comment deleted successfully.');
     }
 
     // update() - edit the comment
@@ -66,12 +66,13 @@ class BoardCommentController extends Controller
             'body' . $id . '.max' => 'The comment must not have more than 200 characters.'
         ]);
 
-        $boardcomment = $this->boardcomment->findOrFail($id);
-        $boardcomment->body = $request->input('body' . $id);
+        $comment = $this->boardcomment->findOrFail($id);
+        // $comment->body = $request->input('body' . $id);
+        $comment->body = $request->body;
 
-        $boardcomment->save();
+        $comment->save();
 
-        return redirect()->route('communities.show', $id);
+        return redirect()->back()->with('success', 'Comment edited successfully.');
     }
 }
 
