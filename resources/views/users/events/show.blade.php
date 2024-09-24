@@ -13,6 +13,7 @@
             {{-- Join Button --}}
             @if (Auth::user()->id !== $event->host_id)
                 <div class="col-2">
+                    {{-- Check if the user is already joining the event --}}
                     @if ($event->isJoining())
                         <form action="{{ route('event.unjoin', $event->id) }}" method="post">
                             @csrf
@@ -21,7 +22,11 @@
                             <button type="submit" class="btn btn-turquoise float-end">UNJOIN</button>
                         </form>
                     @else
-                        @if ($event->community->members->contains('user_id', Auth::user()->id))
+                        {{-- Check if the user is the community owner or a community member --}}
+                        @if (
+                            $event->community->owner_id === Auth::user()->id ||
+                            $event->community->members->contains('user_id', Auth::user()->id)
+                        )
                             <form action="{{ route('event.join', $event->id) }}" method="post">
                                 @csrf
                                 

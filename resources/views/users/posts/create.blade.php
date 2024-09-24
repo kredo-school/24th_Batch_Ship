@@ -1,16 +1,11 @@
 @extends('layouts.app')
 
 @section('title', 'Create Post')
+@section('styles')
+    <link rel="stylesheet" href="{{ asset('css/style_postshow.css') }}">
+@endsection
 
 @section('content')
-<head>
-    @vite(['resources/sass/app.scss', 'resources/js/app.js'])
-    {{-- <link rel="stylesheet" href="{{ asset('css/style_postshow.css') }}"> --}}
-    <link rel="stylesheet" href="{{ asset('css/style_postshow.css') }}">
-
-
-</head>
-
     <div class="bg-pink px-5 py-4">   {{-- Container  bg-pink div--}}
 
         <h3 class="d-block fw-bold text-center mb-4">
