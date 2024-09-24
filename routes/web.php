@@ -12,6 +12,7 @@ use App\Http\Controllers\SelectDataController;
 use App\Http\Controllers\BoardCommentController;
 use App\Http\Controllers\CommunityUserController;
 use App\Http\Controllers\ChatController;
+use App\Http\Controllers\CategoryController;
 
 Auth::routes();
 
@@ -81,4 +82,5 @@ Route::group(['middleware' => 'auth'], function(){
 
     # Category Action
     Route::get('/categories/{id}', [CategoryController::class, 'show'])->name('users.categories.show');
-    
+
+});
