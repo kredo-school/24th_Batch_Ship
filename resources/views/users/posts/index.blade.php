@@ -19,7 +19,7 @@
                                         <div><img src="{{ $post->image }}" alt="Post ID {{ $post->id }}" class="fixed-size-img rounded"></div>
                                     @endif
                                     {{-- post category --}}
-                                    <div class="row card-text text-start ms-1 mt-auto">
+                                    <div class="row card-text text-start mt-2">
                                         <div class="col">
                                             @foreach ($post->categories as $category)
                                                 <a href="{{ route('users.categories.show', $category->id) }}" class="badge me-1 bg-turquoise text-decoration-none">{{ $category->name }}</a>

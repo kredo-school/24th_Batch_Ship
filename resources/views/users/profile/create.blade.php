@@ -6,7 +6,7 @@
 @endsection
 
 @section('content')
-  <div class="container-fluid bg-blue">
+  <div class="container bg-blue">
     <div class="row p-3">
       <form action="{{ route('users.profile.update') }}" method="post" enctype="multipart/form-data">
         @csrf
@@ -93,4 +93,3 @@
 @section('scripts')
     <script src="{{ asset('js/profile/form.js') }}"></script>
 @endsection
-
