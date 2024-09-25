@@ -80,9 +80,11 @@ class ProfileController extends Controller
     public function update(Request $request)
     {
         $request->validate([
-            'category'      => 'required|array',
-            'avatar'        => 'mimes:jpg,jpeg,gif,png|max:1048',
-            'introduction'  => 'required|min:1|max:1000'
+            'category' => 'required|array',
+            'avatar' => 'mimes:jpg,jpeg,gif,png|max:1048',
+            'introduction' => 'required|min:1|max:1000',
+        ], [
+            'introduction.max' => 'The introduction must be at least 1000 characters.',
         ]);
 
         $user     = $this->user->find(Auth::user()->id);

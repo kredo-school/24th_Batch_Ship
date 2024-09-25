@@ -212,3 +212,9 @@ p {
 .boardheight {
     max-height: 800px;
 }
+
+.img-boardcomment {
+    width: 300px !important;
+    height: 250px !important;
+    object-fit: cover;
+}

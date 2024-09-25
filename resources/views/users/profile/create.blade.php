@@ -66,10 +66,6 @@
                         <input type="checkbox" name="category[]" id="{{ $category->name }}" name="{{ $category->id }}" autocomplete="off" value="{{ $category->id }}">
                         <label for="{{ $category->name }}" class="form-check-label">{{ $category->name }}</label>
                       @endforeach
-                      {{-- Error message area --}}
-                      @error('category')
-                      <div class="text-danger small">{{ $message }}</div>
-                      @enderror
                    </td>
                   </tr>
                 </table>
