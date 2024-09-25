@@ -46,18 +46,19 @@ class Category extends Model
     // relation with posts, communities, events for auth user
     public function relatedPosts()
     {
-        return $this->hasMany(Post::class);
-    }
+        return $this->belongsToMany(Post::class, 'category_post', 'category_id', 'post_id');
+    }    
 
     public function relatedCommunities()
     {
-        return $this->hasMany(Community::class);
+        return $this->belongsToMany(Community::class, 'category_community', 'category_id', 'community_id');
     }
-
+    
     public function relatedEvents()
     {
-        return $this->hasMany(Event::class);
+        return $this->belongsToMany(Event::class, 'category_event', 'category_id', 'event_id');
     }
+    
 
 
 }

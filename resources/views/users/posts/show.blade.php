@@ -34,14 +34,15 @@
                         </div>
                         <div class="row">
                             <div class="col-5 m-3">
-                                <div class="category">
-                                     @foreach ($post->categoryPost as $category_post)
-                                        <a href="{{ route('users.categories.show', $category_user->category_id) }}" class="badge category-badge me-2 bg-turquoise text-white"name="category[]">
-                                            {{ $category_post->category->name }}
-                                        </a>
-                                    @endforeach
-                                </div>
-                            </div>
+                              <div class="category">
+                                @foreach ($post->categoryPost as $category_post)
+                                  <a href="{{ route('users.categories.show', $category_post->category_id) }}" class="badge bg-turquoise text-decoration-none me-1 mt-2">
+                                    {{ $category_post->category->name }}
+                                  </a>
+                                @endforeach
+                               </div>
+                             </div>
+                         </div>
                             <div class="col text-end  mt-2">
                             {{-- If you are the owner of the post, you can edit or delete this post --}}
                                 @if ($post->user->id === Auth::user()->id)
