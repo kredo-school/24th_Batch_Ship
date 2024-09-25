@@ -36,7 +36,7 @@
                             <div class="col-5 m-3">
                                 <div class="category">
                                      @foreach ($post->categoryPost as $category_post)
-                                        <a href="{{-- {{ route('users.categories.show', $category_user->category_id) }} --}}" class="badge category-badge me-2 bg-turquoise text-white"name="category[]">
+                                        <a href="{{ route('users.categories.show', $category_user->category_id) }}" class="badge category-badge me-2 bg-turquoise text-white"name="category[]">
                                             {{ $category_post->category->name }}
                                         </a>
                                     @endforeach
