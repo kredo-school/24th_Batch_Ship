@@ -76,7 +76,7 @@ Route::group(['middleware' => 'auth'], function(){
     # Inquiry
     Route::get('/inquiry/create', [InquiryController::class, 'create'])->name('inquiry.create');
 
-    # Auth
+    # for Go to Post, Go to Community for auth user
     Route::get('/auth/post/index', [PostController::class, 'authPostIndex'])->name('auth.postIndex');
     Route::get('/auth/community/index', [CommunityController::class, 'authCommunityIndex'])->name('auth.communityIndex');
 

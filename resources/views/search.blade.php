@@ -5,20 +5,22 @@
 @section('content')
 <div class="container-fluid">
     <div class="row">
-        <div class="col">
+        <div class="col p-0">
             <h1 class="fw-bold text-end">Your Key word is: </h1>
-            <h3 class="fw-bold text-end">with category: </h3>
+            <h3 class="fw-bold text-end mb-0">with category: </h3>
         </div>
-        <div class="col">
+        <div class="col m-0">
             <h1 class="fw-bold">
                 @if($search)
                 {{ $search }}
             @else
             <span class="text-warning">-</span>
             @endif</h1>  
-            <h3 class="fw-bold">
+            <h3 class="">
                 @if($selectedCategoryName)
-                "{{ $selectedCategoryName }}"
+                <button class="fs-4 px-3 py-1 bg-turquoise text-white rounded border-0">
+                    {{ $selectedCategoryName }}
+                </button>
             @else
                 <span class="text-warning">No category selected</span>
             @endif

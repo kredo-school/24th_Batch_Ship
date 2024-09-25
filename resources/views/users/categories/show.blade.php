@@ -9,7 +9,7 @@
             <h1 class="fw-bold text-end">Category index:</h1>
         </div>
         <div class="col p-0">
-            <button class="fs-2 px-3 bg-turquoise fw-bold text-white rounded border-0">
+            <button class="btn btn-lg fs-4 px-3 py-1 bg-turquoise text-white rounded border-0">
                 {{ $category->name }}
             </button>
         </div>
@@ -201,9 +201,11 @@
                             {{-- category --}}
                             <div class="row card-text text-start ms-1 mt-auto">
                                 <div class="col">
+                                    @if($event->categories->isNotEmpty())
                                     @foreach ($event->categories as $category)
-                                    <a href="{{ route('users.categories.show', $category->id) }}" class="badge me-1 bg-turquoise text-decoration-none">{{ $category->name }}</a>
+                                        <a href="{{ route('users.categories.show', $category->id) }}" class="badge me-1 bg-turquoise text-decoration-none">{{ $category->name }}</a>
                                     @endforeach
+                                @endif
                                 </div>
                             </div>
                         </div>

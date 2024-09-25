@@ -21,9 +21,11 @@
                                     {{-- post category --}}
                                     <div class="row card-text text-start ms-1 mt-auto">
                                         <div class="col">
-                                            @foreach ($post->categories as $category)
-                                                <a href="{{ route('users.categories.show', $category->id) }}" class="badge me-1 bg-turquoise text-decoration-none">{{ $category->name }}</a>
-                                            @endforeach
+                                            @foreach ($post->categoryPost as $category_post)
+                                            <a href="{{ route('users.categories.show', $category_post->category_id) }}" class="badge bg-turquoise text-decoration-none me-1 mt-2">
+                                                {{ $category_post->category->name }}
+                                            </a>
+                                        @endforeach
                                         </div>
                                     </div>
                                 </div>
