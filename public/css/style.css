@@ -172,7 +172,8 @@ p {
     color: white;
 }
 
-.btn-turquoise:hover {
+.btn-turquoise:hover,
+.list-group-item.active {
     background-color: #EDFAFD;
     color: #0D768B ;
     border-color: rgb(216, 216, 216);
