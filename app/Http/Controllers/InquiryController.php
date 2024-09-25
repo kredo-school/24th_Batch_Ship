@@ -17,7 +17,7 @@ class InquiryController extends Controller
 
     public function create()
     {
-        return view('users.inquiries.create');
+        return view('users.support.create');
     }
 
     public function store(Request $request)
@@ -43,6 +43,6 @@ class InquiryController extends Controller
         // $id - ID of the inquiry
         $inquiry = $this->inquiry->findOrFail($id);
 
-        return view('users.inquiries.submitted', compact('inquiry'));
+        return view('users.support.submitted', compact('inquiry'));
     }
 }

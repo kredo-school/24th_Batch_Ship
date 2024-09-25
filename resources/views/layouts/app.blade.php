@@ -128,8 +128,8 @@
                     {{-- Admin Menu(optional) --}}
                     {{-- put admin menu positioned side by side --}}
                     @if (request()->is('admin/*'))
-                        <div class="col-auto d-flex justify-content-start mb-3">
-                            <div class="list-group d-flex w-100">
+                        <div class="col-auto">
+                            <div class="list-group">
                                 <a href="{{ route('admin.support') }}" class="list-group-item btn-turquoise flex-fill {{ request()->is('admin/support') ? 'active' : '' }}">
                                     SUPPORT
                                 </a>
