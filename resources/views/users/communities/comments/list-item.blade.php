@@ -28,7 +28,7 @@
               </div>
               <div class="row mt-2">
                 @if ($comment->image)
-                  <img src="{{ $comment->image }}" class="w-25 h-50 object-fit-cover border border-gray" alt="">
+                  <img src="{{ $comment->image }}" class="img-boardcomment" alt="">
                 @endif
               </div>
             </div>
