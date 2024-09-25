@@ -3,9 +3,9 @@
 @section('title', 'Create Event')
     
 @section('content')
-<body class="bg-yellow">
+<div class="bg-yellow p-5">
   <h1>Create new event</h1>
-  <div class="container my-3 p-3" style="background-color: #F5F5F5">
+  <div class="container bg-green my-3 p-3">
     <form action="{{ route('event.store') }}" method="post" enctype="multipart/form-data">
       @csrf
 
@@ -118,7 +118,7 @@
       </div>
     </form>
   </div>
-</body>
+</div>
 @endsection
 
 @section('scripts')
