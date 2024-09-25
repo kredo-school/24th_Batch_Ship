@@ -86,11 +86,22 @@
                                     <i class="fa-solid fa-ellipsis"></i>
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end">
+                                    {{-- ADMIN CONTROLS --}}
+                                    @can('admin')
+                                        <li>
+                                            <a href="{{ route('admin.support') }}" class="dropdown-item text-turquoise">
+                                                <i class="fas fa-user-gear"></i> Admin
+                                            </a>    
+                                        </li>
+                                        
+                                        <hr class="dropdown-divider">
+                                    @endcan
+
                                     <li>
                                         <a href="{{ route('users.profile.edit', Auth::user()->id) }}" class="dropdown-item"><i class="fa-solid fa-pen-to-square"></i> Edit Profile</a>
                                     </li>
                                     <li>
-                                        <a href="#" class="dropdown-item"><i class="fa-solid fa-person-circle-question"></i> Support</a>
+                                        <a href="{{ route('inquiry.create') }}" class="dropdown-item"><i class="fa-solid fa-person-circle-question"></i> Support</a>
                                     </li>
                                     <li>
                                         <a class="dropdown-item" href="{{ route('logout') }}"
@@ -115,12 +126,43 @@
             <div class="container-fluid">
                 <div class="row justify-content-center">
                     {{-- Admin Menu(optional) --}}
-                    {{-- put admin manu positioned side by side --}}
+                    {{-- put admin menu positioned side by side --}}
+                    @if (request()->is('admin/*'))
+                        <div class="col-auto d-flex justify-content-start mb-3">
+                            <div class="list-group d-flex w-100">
+                                <a href="{{ route('admin.support') }}" class="list-group-item btn-turquoise flex-fill {{ request()->is('admin/support') ? 'active' : '' }}">
+                                    SUPPORT
+                                </a>
+
+                                <a href="#" class="list-group-item btn-turquoise flex-fill {{ request()->is('admin/categories') ? 'active' : '' }}">
+                                    CATEGORIES
+                                </a>
+
+                                <a href="#" class="list-group-item btn-turquoise flex-fill {{ request()->is('admin/users') ? 'active' : '' }}">
+                                    USERS
+                                </a>
+
+                                <a href="#" class="list-group-item btn-turquoise flex-fill {{ request()->is('admin/posts') ? 'active' : '' }}">
+                                    POSTS
+                                </a>
+
+                                <a href="#" class="list-group-item btn-turquoise flex-fill {{ request()->is('admin/communities') ? 'active' : '' }}">
+                                    COMMUNITIES
+                                </a>
+                            </div>
+                        </div>  
+                    @endif
 
                     {{-- Main Content --}}
-                    <div class="col-11">
-                        @yield('content')
-                    </div>
+                    @if (request()->is('admin/*'))
+                        <div class="col-9">
+                            @yield('content')
+                        </div>  
+                    @else
+                        <div class="col-11">
+                            @yield('content')
+                        </div>
+                    @endif
                 </div>
             </div>
         </main>
