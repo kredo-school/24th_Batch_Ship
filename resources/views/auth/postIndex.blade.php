@@ -8,15 +8,16 @@
          {{-- display all selected categories --}}
         <div class="row mb-3">
             <div class="col text-center">
-                @forelse ($user->CategoryPost as $category_post)
-                    <a href="{{ route('users.categories.show', $category_post->$category->id) }}" class="badge bg-turquoise text-decoration-none me-1 mt-2">
-                        {{ $category_post->category->name }} 
-                    </a>
-                @empty
-                    <a href="#" class="badge bg-dark text-decoration-none mt-1">Uncategorized</a>
-                @endforelse
+                @foreach ($user->categoryUser as $category_user)
+                <a href="{{ route('users.categories.show', $category_user->category_id) }}" class="btn fs-4 px-3 py-1 bg-turquoise text-white rounded border-0">
+                    {{ $category_user->category->name }}
+                </a>
+            @endforeach
+
             </div>
         </div>
+
+        <hr>
 
         @if ($relatedPosts && $relatedPosts->isNotEmpty())
             <div id="masonry-grid" class="row g-2 align-items-start masonry" data-masonry='{"percentPosition": true}'>
@@ -38,8 +39,8 @@
                                     {{-- post category --}}
                                     <div class="row card-text text-start ms-1 mt-auto">
                                         <div class="col">
-                                            @foreach ($post->categories as $category)
-                                                <a href="{{ route('users.categories.show', $category->id) }}" class="badge me-1 bg-turquoise text-decoration-none">{{ $category->name }}</a>
+                                            @foreach ($post->categoryPost as $category_post)
+                                                <a href="{{ route('users.categories.show', $category_post->category_id) }}" class="badge me-1 bg-turquoise text-decoration-none">{{ $category_post->category->name }}</a>
                                             @endforeach
                                         </div>
                                     </div>

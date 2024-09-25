@@ -84,7 +84,7 @@ Route::group(['middleware' => 'auth'], function(){
     Route::post('/inquiry/store', [InquiryController::class, 'store'])->name('inquiry.store');
     Route::get('/inquiry/{id}/submitted', [InquiryController::class, 'submitted'])->name('inquiry.submitted');
 
-    # Auth
+    # for Go to Post, Go to Community for auth user
     Route::get('/auth/post/index', [PostController::class, 'authPostIndex'])->name('auth.postIndex');
     Route::get('/auth/community/index', [CommunityController::class, 'authCommunityIndex'])->name('auth.communityIndex');
 

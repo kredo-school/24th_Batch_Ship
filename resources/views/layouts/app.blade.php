@@ -60,8 +60,8 @@
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end">
                                     <li><h1 class="h6 text-center text-dark">Go to...</h1></li>
-                                    <li><a href="{{ route('users.posts.index') }}" class="dropdown-item">Post</a></li>
-                                    <li><a href="{{ route('communities.index') }}" class="dropdown-item">Community</a></li>
+                                    <li><a href="{{ route('auth.postIndex') }}" class="dropdown-item">Post</a></li>
+                                    <li><a href="{{ route('auth.communityIndex') }}" class="dropdown-item">Community</a></li>
                                 </ul>
                             </li>
                             {{-- Create icon --}}
