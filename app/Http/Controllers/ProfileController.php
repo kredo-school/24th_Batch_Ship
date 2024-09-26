@@ -27,6 +27,34 @@ class ProfileController extends Controller
         return $this->profileProcess(Auth::user()->id);
     }
 
+    # Go to Post for auth user
+    public function authPostIndex()
+    {
+        $user = Auth::user();
+        
+        // categories with auth user
+        $categoryUsers = $user->CategoryUser;
+
+        // to get all categories for posts
+        $relatedPosts = collect();
+
+        foreach ($categoryUsers as $categoryUser) {
+            $category = $categoryUser->category;
+
+            if ($category) {
+                // relatedPosts
+                $posts = $category->relatedPosts;
+
+                // when a new post comes, it increases
+                if ($posts->isNotEmpty()) {
+                    $relatedPosts = $relatedPosts->merge($posts);
+                }
+            }
+        }
+
+        return view('auth.postIndex', compact('user', 'relatedPosts'));
+    }
+
     public function specificProfile($id){
         return $this->profileProcess($id);
     }
@@ -52,9 +80,11 @@ class ProfileController extends Controller
     public function update(Request $request)
     {
         $request->validate([
-            'category'      => 'required|array',
-            'avatar'        => 'mimes:jpg,jpeg,gif,png|max:1048',
-            'introduction'  => 'required|min:1|max:1000'
+            'category' => 'required|array',
+            'avatar' => 'mimes:jpg,jpeg,gif,png|max:1048',
+            'introduction' => 'required|min:1|max:1000',
+        ], [
+            'introduction.max' => 'The introduction must be at least 1000 characters.',
         ]);
 
         $user     = $this->user->find(Auth::user()->id);
@@ -104,6 +134,8 @@ class ProfileController extends Controller
             'avatar'        => 'mimes:jpg,jpeg,gif,png|max:1048',
             'introduction'  => 'min:1|max:1000',
             'username' => 'min:1|max:255'
+        ], [
+            'introduction.max' => 'The introduction must be at least 1000 characters.',
         ]);
 
         $user     = $this->user->find(Auth::user()->id);

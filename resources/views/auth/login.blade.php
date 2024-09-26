@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container-fluid h-100">
+<div class="container h-100">
     <div class="row justify-content-center border border-1 h-100">
 
         {{-- left side --}}
@@ -13,7 +13,7 @@
      </div>
 
         {{-- right side --}}
-     <div class="col-md w-100 py-3">
+     <div class="col-md w-100 py-3 pb-10">
         <form method="POST" action="{{ route('login') }}">
             @csrf
             <h3 class="fw-bold mt-3 text-center py-3" style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);">Welcome back to SHIP!</h1>

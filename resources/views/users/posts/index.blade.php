@@ -19,11 +19,13 @@
                                         <div><img src="{{ $post->image }}" alt="Post ID {{ $post->id }}" class="fixed-size-img rounded"></div>
                                     @endif
                                     {{-- post category --}}
-                                    <div class="row card-text text-start ms-1 mt-auto">
+                                    <div class="row card-text text-start mt-2">
                                         <div class="col">
                                             @foreach ($post->categoryPost as $category_post)
-                                                <a href="#" class="badge me-1 bg-turquoise text-decoration-none">{{ $category_post->category->name }}</a>
-                                            @endforeach
+                                            <a href="{{ route('users.categories.show', $category_post->category_id) }}" class="badge bg-turquoise text-decoration-none me-1 mt-2">
+                                                {{ $category_post->category->name }}
+                                            </a>
+                                        @endforeach
                                         </div>
                                     </div>
                                 </div>

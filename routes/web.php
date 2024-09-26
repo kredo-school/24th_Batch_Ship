@@ -18,6 +18,10 @@ use App\Http\Controllers\SelectDataController;
 use App\Http\Controllers\BoardCommentController;
 use App\Http\Controllers\CommunityUserController;
 use App\Http\Controllers\ChatController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\InquiryController;
+
+use App\Http\Controllers\Admin\InquiriesController;
 
 
 Auth::routes();
@@ -62,7 +66,9 @@ Route::group(['middleware' => 'auth'], function(){
 
 
     # COMMENT
+    # BOARDCOMMENT
     Route::post('/comment/{community_id}/store', [BoardCommentController::class, 'store'])->name('boardcomment.store');
+    Route::patch('/comment/{id}/update', [BoardCommentController::class, 'update'])->name('boardcomment.update');
     Route::delete('/comment/{id}/destroy', [BoardCommentController::class, 'destroy'])->name('boardcomment.destroy');
 
 
@@ -87,5 +93,24 @@ Route::group(['middleware' => 'auth'], function(){
 
     # Chat
     Route::get('/chat', [ChatController::class, 'index'])->name('chat.index');
+    Route::post('/profile/{id}/chat', [ChatController::class, 'createChat'])->name('chat.create');
+    Route::post('/chat/store', [ChatController::class, 'store'])->name('chat.store');
 
+    # Support
+    Route::get('/inquiry/create', [InquiryController::class, 'create'])->name('inquiry.create');
+    Route::post('/inquiry/store', [InquiryController::class, 'store'])->name('inquiry.store');
+    Route::get('/inquiry/{id}/submitted', [InquiryController::class, 'submitted'])->name('inquiry.submitted');
+
+    # for Go to Post, Go to Community for auth user
+    Route::get('/auth/post/index', [PostController::class, 'authPostIndex'])->name('auth.postIndex');
+    Route::get('/auth/community/index', [CommunityController::class, 'authCommunityIndex'])->name('auth.communityIndex');
+
+    # Category Action
+    Route::get('/categories/{id}', [CategoryController::class, 'show'])->name('users.categories.show');
+
+    # Admin
+    Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => 'admin'], function(){
+        # Support
+        Route::get('/support', [InquiriesController::class,'index'])->name('support');
+    });
 });

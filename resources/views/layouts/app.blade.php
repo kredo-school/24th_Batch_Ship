@@ -22,7 +22,7 @@
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 </head>
 <body class="cont">
-    <div id="app" class="cont">
+    <div id="app" class="container-main">
         <nav class="navbar navbar-expand-md navbar-light bg-turquoise shadow-sm">
             <div class="container-fluid">
                 <a class="navbar-brand" href="{{ route('users.profile.index') }}">
@@ -60,8 +60,8 @@
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end">
                                     <li><h1 class="h6 text-center text-dark">Go to...</h1></li>
-                                    <li><a href="{{ route('users.posts.index') }}" class="dropdown-item">Post</a></li>
-                                    <li><a href="{{ route('communities.index') }}" class="dropdown-item">Community</a></li>
+                                    <li><a href="{{ route('auth.postIndex') }}" class="dropdown-item">Post</a></li>
+                                    <li><a href="{{ route('auth.communityIndex') }}" class="dropdown-item">Community</a></li>
                                 </ul>
                             </li>
                             {{-- Create icon --}}
@@ -86,11 +86,22 @@
                                     <i class="fa-solid fa-ellipsis"></i>
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end">
+                                    {{-- ADMIN CONTROLS --}}
+                                    @can('admin')
+                                        <li>
+                                            <a href="{{ route('admin.support') }}" class="dropdown-item text-turquoise">
+                                                <i class="fas fa-user-gear"></i> Admin
+                                            </a>    
+                                        </li>
+                                        
+                                        <hr class="dropdown-divider">
+                                    @endcan
+
                                     <li>
                                         <a href="{{ route('users.profile.edit', Auth::user()->id) }}" class="dropdown-item"><i class="fa-solid fa-pen-to-square"></i> Edit Profile</a>
                                     </li>
                                     <li>
-                                        <a href="#" class="dropdown-item"><i class="fa-solid fa-person-circle-question"></i> Support</a>
+                                        <a href="{{ route('inquiry.create') }}" class="dropdown-item"><i class="fa-solid fa-person-circle-question"></i> Support</a>
                                     </li>
                                     <li>
                                         <a class="dropdown-item" href="{{ route('logout') }}"
@@ -111,16 +122,47 @@
             </div>
         </nav>
 
-        <main class="py-5">
+        <main class="py-5 content-main">
             <div class="container-fluid">
                 <div class="row justify-content-center">
                     {{-- Admin Menu(optional) --}}
-                    {{-- put admin manu positioned side by side --}}
+                    {{-- put admin menu positioned side by side --}}
+                    @if (request()->is('admin/*'))
+                        <div class="col-auto">
+                            <div class="list-group">
+                                <a href="{{ route('admin.support') }}" class="list-group-item btn-turquoise flex-fill {{ request()->is('admin/support') ? 'active' : '' }}">
+                                    SUPPORT
+                                </a>
+
+                                <a href="#" class="list-group-item btn-turquoise flex-fill {{ request()->is('admin/categories') ? 'active' : '' }}">
+                                    CATEGORIES
+                                </a>
+
+                                <a href="#" class="list-group-item btn-turquoise flex-fill {{ request()->is('admin/users') ? 'active' : '' }}">
+                                    USERS
+                                </a>
+
+                                <a href="#" class="list-group-item btn-turquoise flex-fill {{ request()->is('admin/posts') ? 'active' : '' }}">
+                                    POSTS
+                                </a>
+
+                                <a href="#" class="list-group-item btn-turquoise flex-fill {{ request()->is('admin/communities') ? 'active' : '' }}">
+                                    COMMUNITIES
+                                </a>
+                            </div>
+                        </div>  
+                    @endif
 
                     {{-- Main Content --}}
-                    <div class="col-11">
-                        @yield('content')
-                    </div>
+                    @if (request()->is('admin/*'))
+                        <div class="col-9">
+                            @yield('content')
+                        </div>  
+                    @else
+                        <div class="col-11">
+                            @yield('content')
+                        </div>
+                    @endif
                 </div>
             </div>
         </main>

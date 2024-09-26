@@ -1,12 +1,12 @@
 @extends('layouts.app')
 
 @section('title', 'Create Profile')
+@section('styles')
+  <link rel="stylesheet" href="{{ asset('css/style_postshow.css') }}">
+@endsection
 
 @section('content')
-  <head>
-    <link rel="stylesheet" href="{{ asset('css/style_postshow.css') }}">
-  </head>
-  <div class="conteiner bg-blue">
+  <div class="container bg-blue">
     <div class="row p-3">
       <form action="{{ route('users.profile.update') }}" method="post" enctype="multipart/form-data">
         @csrf
@@ -55,6 +55,10 @@
             <p class="text-center fw-bold mb-0">
               <i class="fa-solid fa-caret-down"></i> Select your interests
             </p>
+            {{-- Error message area --}}
+            @error('category')
+              <div class="text-danger small text-center">{{ $message }}</div>
+            @enderror
   
             {{-- category foreach? --}}
             <div class="border bg-white w-100 scroll-container">
@@ -66,10 +70,6 @@
                         <input type="checkbox" name="category[]" id="{{ $category->name }}" name="{{ $category->id }}" autocomplete="off" value="{{ $category->id }}">
                         <label for="{{ $category->name }}" class="form-check-label">{{ $category->name }}</label>
                       @endforeach
-                      {{-- Error message area --}}
-                      @error('category')
-                      <div class="text-danger small">{{ $message }}</div>
-                      @enderror
                    </td>
                   </tr>
                 </table>
@@ -93,4 +93,3 @@
 @section('scripts')
     <script src="{{ asset('js/profile/form.js') }}"></script>
 @endsection
-

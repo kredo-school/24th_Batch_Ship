@@ -56,5 +56,23 @@ class BoardCommentController extends Controller
         return redirect()->back()->with('success', 'Comment deleted successfully.');
     }
 
+    // update() - edit the comment
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'body' => 'required|max:200'
+        ], [
+            'body' . $id . '.required' => 'You cannot submit an empty comment.',
+            'body' . $id . '.max' => 'The comment must not have more than 200 characters.'
+        ]);
+
+        $comment = $this->boardcomment->findOrFail($id);
+        // $comment->body = $request->input('body' . $id);
+        $comment->body = $request->body;
+
+        $comment->save();
+
+        return redirect()->back()->with('success', 'Comment edited successfully.');
+    }
 }
 

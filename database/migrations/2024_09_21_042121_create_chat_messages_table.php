@@ -14,11 +14,13 @@ return new class extends Migration
         Schema::create('chat_messages', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('chat_id');
             $table->text('text');
-            $table->dateTime('read_at');
+            $table->dateTime('read_at')->nullable();
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('chat_id')->references('id')->on('chats');
         });
     }
 

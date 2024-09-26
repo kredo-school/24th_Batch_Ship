@@ -5,26 +5,24 @@
 @section('content')
 <div class="container-fluid">
     <div class="row">
-        <div class="col">
+        <div class="col p-0">
             <h1 class="fw-bold text-end">Your Key word is: </h1>
-            <h3 class="fw-bold text-end">with category: </h3>
+            <h3 class="fw-bold text-end mb-0">with category: </h3>
         </div>
-        <div class="col">
+        <div class="col m-0">
             <h1 class="fw-bold">
                 @if($search)
                 {{ $search }}
             @else
-            <p class="text-warning m-0">
-                -
-            </p>
+            <span class="text-warning">-</span>
             @endif</h1>  
-            <h3 class="fw-bold">
+            <h3 class="">
                 @if($selectedCategoryName)
-                {{ $selectedCategoryName }}
+                <button class="fs-4 px-3 py-1 bg-turquoise text-white rounded border-0">
+                    {{ $selectedCategoryName }}
+                </button>
             @else
-                <p class="text-warning m-0">
-                    No category selected
-                </p>
+                <span class="text-warning">No category selected</span>
             @endif
             </h3>
         </div>
@@ -67,7 +65,7 @@
                         <div class="row card-text text-start ms-1 mt-auto">
                             @if(isset($user->categories))
                             @foreach($user->categories as $category)
-                            <a href="#" class="text-decoration-none">
+                            <a href="{{ route('users.categories.show', $category->id) }}" class="text-decoration-none">
                                 <span class="badge ms-1 bg-turquoise text-white">{{ $category->name }}</span>
                             </a>
                             @endforeach
@@ -119,7 +117,7 @@
                         <div class="row card-text text-start ms-1 mt-auto">
                             <div class="col">
                                 @foreach($post->categories as $category)
-                                <a href="#" class="text-decoration-none">
+                                <a href="{{ route('users.categories.show', $category->id) }}" class="text-decoration-none">
                                     <span class="badge ms-1 bg-turquoise text-white">{{ $category->name }}</span>
                                 </a>
                                 @endforeach                
@@ -175,8 +173,8 @@
                         {{-- category --}}
                         <div class="row card-text text-start ms-1 mt-auto">
                             <div class="col">
-                                @foreach ($community->categoryCommunity as $category_community)
-                                <a href="#" class="badge me-1 bg-turquoise text-decoration-none">{{ $category_community->category->name }}</a>
+                                @foreach ($community->categories as $category)
+                                <a href="{{ route('users.categories.show', $category->id) }}" class="badge me-1 bg-turquoise text-decoration-none">{{ $category->name }}</a>
                                 @endforeach
                             </div>
                         </div>
@@ -236,8 +234,8 @@
                         <div class="row card-text text-start ms-1 mt-auto">
                             <div class="col">
                                 @if($event->categories->isNotEmpty())
-                                    @foreach ($event->categories as $category_event)
-                                        <a href="#" class="badge me-1 bg-turquoise text-decoration-none">{{ $category_event->name }}</a>
+                                    @foreach ($event->categories as $category)
+                                        <a href="{{ route('users.categories.show', $category->id) }}" class="badge me-1 bg-turquoise text-decoration-none">{{ $category->name }}</a>
                                     @endforeach
                                 @endif
                             </div>

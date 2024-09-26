@@ -37,6 +37,13 @@ class Post extends Model
     {
         return $this->belongsToMany(Category::class, 'category_post', 'post_id', 'category_id');
     }
+    
+    
+//     # to get all the comments under a post
+//     public function comments()
+//     {
+//         return $this->hasMany(Comment::class);
+//     }
 
      # to get all the comments under a post
      public function comments()

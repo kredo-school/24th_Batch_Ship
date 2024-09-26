@@ -47,10 +47,15 @@
                             <div class="row card-text text-start ms-1 mt-auto">
                                 {{-- category --}}
                                 <div class="col">
-                                    {{-- @foreach ($event->categoryEvent as $category_event)
-                                        <a href="#" class="badge me-1 bg-turquoise text-decoration-none">{{ $category_event->category->name }}</a>
-                                    @endforeach --}}
+                                    @if ($event->categoryEvent)
+                                        @foreach ($event->categoryEvent as $category_event)
+                                            <a href="{{ route('users.categories.show', $category_event->category_id) }}" class="badge me-1 bg-turquoise text-decoration-none">{{ $category_event->category->name }}</a>
+                                        @endforeach
+                                    @else
+                                        <span class="badge bg-turquoise mt-1">Uncategorized</span>
+                                    @endif
                                 </div>
+                                
                             </div>
                         </div>
                     </div>

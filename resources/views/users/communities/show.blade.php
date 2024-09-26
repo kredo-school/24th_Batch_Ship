@@ -62,26 +62,26 @@
       <div class="col-md-4">
         {{-- Show JOIN/UNJOIN button for user, or EDIT button for community owner --}}
         @if (Auth::user()->id !== $community->owner_id)
-          {{-- 1. Check if the user is joining or unjoining  2. If joining, check if the user is the upcoming event host --}}
-          <form action="{{ $community->isJoining() ? ($community->upcomingEventHost() ? '#' : route('community.unjoin', $community->id)) : route('community.join', $community->id) }}" method="POST">
+          {{-- 1. Check if the user is joining or unjoining  2. If joining, check if the user is the active event host --}}
+          <form action="{{ $community->isJoining() ? ($community->activeEventHost() ? '#' : route('community.unjoin', $community->id)) : route('community.join', $community->id) }}" method="POST">
             @csrf
-            {{-- If the user is joining but not the upcoming event host, allow UNJOIN --}}
-            @if ($community->isJoining() && !$community->upcomingEventHost())
+            {{-- If the user is joining but not the active event host, allow UNJOIN --}}
+            @if ($community->isJoining() && !$community->activeEventHost())
               @method('DELETE')
             @endif
 
             <div class="mb-3 d-flex justify-content-end">
               <button class="btn btn-gold m-3" 
-                {{-- Warning for upcoming event host: they cannot unjoin community without deleting all upcoming events --}}
-                {!! $community->isJoining() && $community->upcomingEventHost() ? 'type="button" data-bs-toggle="modal" data-bs-target="#unjoin-warning-' . $community->id . '"' : '' !!}>
+                {{-- Warning for event host: they cannot unjoin community without deleting all active events --}}
+                {!! $community->isJoining() && $community->activeEventHost() ? 'type="button" data-bs-toggle="modal" data-bs-target="#unjoin-warning-' . $community->id . '"' : '' !!}>
                 {{-- JOIN/UNJOIN button for user --}}
                 {{ $community->isJoining() ? 'UNJOIN' : 'JOIN' }}
               </button>
             </div>
           </form>
 
-          {{-- Warning modal for upcoming event host --}}
-          @if ($community->isJoining() && $community->upcomingEventHost())
+          {{-- Warning modal for active event host --}}
+          @if ($community->isJoining() && $community->activeEventHost())
             @include('users.communities.modals.unjoin-warning')
           @endif
         @else
@@ -149,11 +149,15 @@
         {{-- Category --}}
         <div class="mb-3 ">
           <h6>Category</h6>
-          @foreach ($all_categories as $category)
-            <div class="badge border-0 bg-turquoise text-white px-2">
-              {{ $category->category->name }}
-            </div>   
-          @endforeach
+            <div class="col">
+              @if ($community->categories)
+                @foreach ($community->categories as $category)
+                <a href="{{ route('users.categories.show', $category->id) }}" class="badge me-1 bg-turquoise text-decoration-none">{{ $category->name }}</a>
+                @endforeach
+              @else
+                  <span class="badge bg-turquoise mt-1">Uncategorized</span>
+              @endif
+          </div>
         </div>
       
         {{-- Events --}}
