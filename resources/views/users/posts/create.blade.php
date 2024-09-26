@@ -48,16 +48,16 @@
                 {{-- Category  --}}
                 <div class="col">  {{-- right side div--}}
                     <p class="text-center mt-3 ">▼ Select your Interests ! (at least one)</p>
-                    <div class="m-3 scroll-container ">
+                        {{-- Error message area --}}
+                            @error('category')
+                                <div class="text-danger small text-center">{{ $message }}</div>
+                            @enderror
+                    <div class="m-3 scroll-container text-center mx-0">
                         <div class="category">
                             @foreach($all_categories as $category)
                                 <input type="checkbox" name="category[]" id="{{ $category->name }}" name="{{ $category->id }}" autocomplete="off" value="{{ $category->id }}">
                                 <label for="{{ $category->name }}" class="form-check-label">{{ $category->name }}</label>
                             @endforeach
-                            {{-- Error message area --}}
-                            @error('category')
-                                <div class="text-danger small">{{ $message }}</div>
-                            @enderror
                         </div>
                     </div>
                 </div> {{-- end of right side div--}}

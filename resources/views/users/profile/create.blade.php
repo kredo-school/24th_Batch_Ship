@@ -55,6 +55,10 @@
             <p class="text-center fw-bold mb-0">
               <i class="fa-solid fa-caret-down"></i> Select your interests
             </p>
+            {{-- Error message area --}}
+            @error('category')
+              <div class="text-danger small text-center">{{ $message }}</div>
+            @enderror
   
             {{-- category foreach? --}}
             <div class="border bg-white w-100 scroll-container">
