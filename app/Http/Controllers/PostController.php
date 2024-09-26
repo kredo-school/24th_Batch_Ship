@@ -8,6 +8,7 @@ use Illuminate\Support\Str;
 use App\Models\Post;
 use App\Models\CategoryPost;
 use App\Models\Category;
+use App\Models\PostComment;
 
 class PostController extends Controller
 {
@@ -37,7 +38,7 @@ class PostController extends Controller
         $all_posts = $this->getAllPosts();
         return view('users.posts.index')
             ->with('all_posts', $all_posts);
-        
+
     }
 
     # Go to Post for auth user
@@ -87,8 +88,12 @@ class PostController extends Controller
     public function show($id)
     {
        $post = $this->post->with('user')->findOrFail($id);
+       $postComments=PostComment::with('user')->with('post')->where('post_id', $id)->get();
 
-      return view('users.posts.show')->with('post', $post);
+
+
+
+      return view('users.posts.show')->with('post', $post)->with('comments' , $postComments);
     }
 
     // store() = save the post to DB
@@ -109,12 +114,16 @@ class PostController extends Controller
         $this->post->image          = 'data:image/' . $request->image->extension() . ';base64,' . base64_encode(file_get_contents($request->image));}
         $this->post->description    = $request->description;
         $this->post->timestamps = $request->timestamps;
-        $this->post->save();
 
+
+        if($request->image){
+            $this->post->image = 'data:image/' . $request->image->extension() . ';base64,' . base64_encode(file_get_contents($request->image));
+        }
         // if($request->avatar){
         //     $this->post->image = 'data:image/' . $request->image->extension() . ';base64,' . base64_encode(file_get_contents($request->image));
         // }
 
+        $this->post->save();
         # Save the categories to the category_post povit table
 
         foreach ($request->category as $category_id){
@@ -185,6 +194,7 @@ class PostController extends Controller
        return redirect()->route('post.show', $id);
     }
 
+    
 
 
     // delete the post
