@@ -23,7 +23,10 @@
 
           {{-- Inquiry subject to message --}}
           <div class="col-8">
-            <p class="mb-0">{{ $inquiry->subject }}</p>
+            <p class="mb-0" data-bs-toggle="modal" data-bs-target="#inquiry-message-{{ $inquiry->id }}">
+              {{ $inquiry->subject }}
+            </p>
+            @include('admin.support.modal.message')
           </div>
 
           {{-- date --}}
@@ -32,10 +35,10 @@
           </div>
         </div>
       @empty
-        <h3 class="text-secondary text-center">No Inquiries Yet.</h3>
+        <h3 class="bg-green text-secondary text-center py-3">No Inquiries Yet.</h3>
       @endforelse
       
-      <div class="row justify-content-center mt-4">
+      <div class="mt-4">
         {{ $all_inquiries->links() }}
       </div>
     </div>

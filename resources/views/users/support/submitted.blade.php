@@ -24,9 +24,11 @@
     </div>
 
     <div class="row pt-5">
-      <a href="{{ route('users.profile.index') }}" class="btn">
-        <i class="fa-regular fa-rectangle-xmark"></i> Close
-      </a> 
+      <div class="col text-center">
+        <a href="{{ route('users.profile.index') }}" class="btn">
+          <i class="fa-regular fa-rectangle-xmark"></i> Close
+        </a> 
+      </div>
     </div>   
   </div>
 </div>
