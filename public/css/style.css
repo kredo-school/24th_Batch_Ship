@@ -218,3 +218,8 @@ p {
     height: 250px !important;
     object-fit: cover;
 }
+
+/* Paginate */
+.pagination {
+    justify-content: center;
+  }

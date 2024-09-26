@@ -78,7 +78,7 @@ Route::group(['middleware' => 'auth'], function(){
     Route::post('/profile/{id}/chat', [ChatController::class, 'createChat'])->name('chat.create');
     Route::post('/chat/store', [ChatController::class, 'store'])->name('chat.store');
 
-    # Inquiry
+    # Support
     Route::get('/inquiry/create', [InquiryController::class, 'create'])->name('inquiry.create');
     Route::post('/inquiry/store', [InquiryController::class, 'store'])->name('inquiry.store');
     Route::get('/inquiry/{id}/submitted', [InquiryController::class, 'submitted'])->name('inquiry.submitted');
