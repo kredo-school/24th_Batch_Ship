@@ -1,14 +1,11 @@
 @extends('layouts.app')
 
 @section('title', 'Post:show')
+@section('styles')
+    <link rel="stylesheet" href="{{ asset('css/style_postshow.css') }}">
+@endsection
 
 @section('content')
-<head>
-    {{-- @vite(['resources/sass/app.scss', 'resources/js/app.js']) --}}
-    <link rel="stylesheet" href="{{ asset('css/style_postshow.css') }}">
-
-
-</head>
     <div class="card border-0 bg-pink">
         <div class="card-body">
             <div class="row">
@@ -16,69 +13,62 @@
                 <div class="col-7">
                     <div class="row ">
                    <div class="col-2 px-0">
-                            @if ($post->user->avatar)
-
+                        @if ($post->user->avatar)
                             <a href="{{ route('users.profile.specificProfile', $post->user->id) }}">
-
-                                    <img src="{{ $post->user->avatar }}" alt=""
-                                        class="rounded-circle avatar-profile "></a>
-                            @else
+                                <img src="{{ $post->user->avatar }}" alt=""class="rounded-circle avatar-profile ">
+                            </a>
+                        @else
                             <a href="{{ route('users.profile.specificProfile', $post->user->id) }}">
                             <i class="fas fa-circle-user text-secondary icon " ></i></a>
-                            @endif
-                            </div>
+                        @endif
+                    </div>
 
-                        <div class="col my-auto">
-                            <div class="row mt-1">
-                                <div class="col  profile-name">
-                                    {{-- Name of user who posted this post--}}
-                                    <a href="{{ route('users.profile.specificProfile', $post->user->id) }}"
-                                        class="text-decoration-none text-dark mx-2"><span class="p-3">{{ $post->user->first_name }}</span><span class="p-3">{{ $post->user->last_name }}</span></a>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-5 m-3">
-                                    <div class="category">
-
-                                            @foreach ($post->categoryPost as $category_post)
-                                            <a href="{{ route('users.categories.show', $category_user->category_id) }}" class="badge category-badge me-2 bg-turquoise text-white"name="category[]">
-                                                {{ $category_post->category->name }}
-                                            </a>
-                                             @endforeach
-
-                                    </div>
-                                </div>
-                                <div class="col text-end  mt-2">
-                                    {{-- If you are the owner of the post, you can edit or delete this post --}}
-
-                                          @if ($post->user->id === Auth::user()->id)
-                                            {{-- edit --}}
-                                            <a href="{{ route('users.posts.edit', $post->id) }}" class="post-edit btn edit-icon pe-0">
-                                                <i class="fa-regular fa-pen-to-square show-icon"></i>
-                                            </a>
-                                           {{-- delete --}}
-                                           <span class="btn post-delete show-icon ps-2" data-bs-toggle="modal" data-bs-target="#delete">
-                                            <i class="fa-regular fa-trash-can fw-bold"></i>
-                                            @include('users.posts.modals.delete')
-                                           </span>
-
-                                    @else
-                                    @endif
-                                    <p class="text-uppercase text-muted text-end ">{{ date('M d, Y', strtotime($post->created_at)) }}</p>
-
-                                </div>
+                    <div class="col my-auto">
+                        <div class="row mt-1">
+                            <div class="col  profile-name">
+                                {{-- Name of user who posted this post--}}
+                                <a href="{{ route('users.profile.specificProfile', $post->user->id) }}" class="text-decoration-none text-dark mx-2">
+                                    <span class="p-3">{{ $post->user->first_name }}</span><span class="p-3">{{ $post->user->last_name }}</span>
+                                </a>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-5 m-3">
+                              <div class="category">
+                                @foreach ($post->categoryPost as $category_post)
+                                  <a href="{{ route('users.categories.show', $category_post->category_id) }}" class="badge bg-turquoise text-decoration-none me-1 mt-2">
+                                    {{ $category_post->category->name }}
+                                  </a>
+                                @endforeach
+                               </div>
+                             </div>
+                         </div>
+                            <div class="col text-end  mt-2">
+                            {{-- If you are the owner of the post, you can edit or delete this post --}}
+                                @if ($post->user->id === Auth::user()->id)
+                                    {{-- edit --}}
+                                     <a href="{{ route('users.posts.edit', $post->id) }}" class="post-edit btn edit-icon pe-0">
+                                        <i class="fa-regular fa-pen-to-square show-icon"></i>
+                                    </a>
+                                    {{-- delete --}}
+                                    <span class="btn post-delete show-icon ps-2" data-bs-toggle="modal" data-bs-target="#delete">
+                                        <i class="fa-regular fa-trash-can fw-bold"></i>
+                                        @include('users.posts.modals.delete')
+                                    </span>
+                                @else
+                                @endif
+                                    <p class="text-uppercase text-muted text-end ">{{ date('M d, Y', strtotime($post->created_at)) }}</p>
+                            </div>
+                        </div>
+                    </div>
 
                     </div>
                     <hr class="my-0">
 
                     {{-- Post content--}}
                     <div class="row py-5 px-3">
-
                         &nbsp;
                         <p class="d-inline fw-light">{{ $post->description }}</p>
-
                     </div>
                 </div>
 
@@ -94,19 +84,14 @@
             <hr class="col-7 mt-5">
             <div class="row pt-6">
                 <form class="" action="" method="post">
-      {{-- If you are not the owner of the post, you can put empathy on this post --}}
-
+                    {{-- If you are not the owner of the post, you can put empathy on this post --}}
                     @if (!($post->user->id === Auth::user()->id))
-
                         <div class="form-group mb-2 mx-3">
-
                             <label for="enpathy">Enpathy:</label>
                             <div class="range-slider ">
-                            <input type="range" id="range" value="60" min="60" max="100" step="1" list="my-datalist" class="bg-turquoise"
-                            oninput="document.getElementById('output1').value=this.value">
-
-                             <output id="output1" class="m-2">60</output><span>%</span>
-</div>
+                                <input type="range" id="range" value="60" min="60" max="100" step="1" list="my-datalist" class="bg-turquoise" oninput="document.getElementById('output1').value=this.value">
+                                <output id="output1" class="m-2">60</output><span>%</span>
+                            </div>
                         </div>
                     @endif
 

@@ -89,6 +89,8 @@ class CommunityController extends Controller
             'description' => 'required|min:1|max:1500',
             'image'       => 'required|mimes:jpeg,jpg,png,gif|max:1048',
             'title'       => 'required|string|max:50'
+        ], [
+            'description.max' => 'The description must be at least 1500 characters.',
         ]);
 
         # 2. Save the community
@@ -149,6 +151,8 @@ class CommunityController extends Controller
             'description' => 'required|min:1|max:1500',
             'image'       => 'required|mimes:jpeg,jpg,png,gif|max:1048',
             'title'       => 'required|string|max:50'
+        ], [
+            'description.max' => 'The description must be at least 1500 characters.',
         ]);
 
         # 2. Update the community

@@ -15,6 +15,8 @@ use App\Http\Controllers\ChatController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\InquiryController;
 
+use App\Http\Controllers\Admin\InquiriesController;
+
 Auth::routes();
 
 Route::group(['middleware' => 'auth'], function(){
@@ -81,11 +83,16 @@ Route::group(['middleware' => 'auth'], function(){
     Route::post('/inquiry/store', [InquiryController::class, 'store'])->name('inquiry.store');
     Route::get('/inquiry/{id}/submitted', [InquiryController::class, 'submitted'])->name('inquiry.submitted');
 
-    # Auth
+    # for Go to Post, Go to Community for auth user
     Route::get('/auth/post/index', [PostController::class, 'authPostIndex'])->name('auth.postIndex');
     Route::get('/auth/community/index', [CommunityController::class, 'authCommunityIndex'])->name('auth.communityIndex');
 
     # Category Action
     Route::get('/categories/{id}', [CategoryController::class, 'show'])->name('users.categories.show');
 
+    # Admin
+    Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => 'admin'], function(){
+        # Support
+        Route::get('/support', [InquiriesController::class,'index'])->name('support');
+    });
 });

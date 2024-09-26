@@ -95,9 +95,12 @@ class PostController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'description'   => 'max:1500',
-            'image'      => 'mimes:jpg,jpeg,png,gif|max:1048',
-            'category'      => 'required|array|between:1,3'
+            'description'   => 'max:1500|required_if:image,null',
+            'image'      => 'mimes:jpg,jpeg,png,gif|max:1048|required_if:description,null',
+            'category'      => 'required|array|between:1,3' 
+        ], [
+            'description.max' => 'The description must be at least 1500 characters.',
+            'category.between' => 'You must select at least one interest',
         ]);
 
         # Save the post
@@ -108,9 +111,9 @@ class PostController extends Controller
         $this->post->timestamps = $request->timestamps;
         $this->post->save();
 
-        if($request->avatar){
-            $this->post->image = 'data:image/' . $request->image->extension() . ';base64,' . base64_encode(file_get_contents($request->image));
-        }
+        // if($request->avatar){
+        //     $this->post->image = 'data:image/' . $request->image->extension() . ';base64,' . base64_encode(file_get_contents($request->image));
+        // }
 
         # Save the categories to the category_post povit table
 

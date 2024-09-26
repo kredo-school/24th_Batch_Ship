@@ -15,32 +15,35 @@
     <form action="{{route('communities.store')}}" method="POST" enctype="multipart/form-data">
         @csrf
 
-        <div class="container-fluid p-4 rounded bg-blue">
+        <div class="container p-4 rounded bg-blue">
             <h1 class="mb-4">Create New Community</h1>
         
-            <div class="container-fluid px-5 py-3 rounded" style="background-color: #f5f5f5;">
+            <div class="container px-5 py-3 rounded" style="background-color: #f5f5f5;">
                 <div class="row mb-3">
-                                    {{-- Community Title --}}
+                    {{-- Community Title --}}
         
                     <label for="title" class="form-label d-block fw-bold">Community Title</label>
                     <input type="text" name="title" id="title" class="form-control">
+                    {{-- Error --}}
+                    @error('title')
+                        <div class="text-danger small">{{ $message}}</div>
+                    @enderror
                 </div>
                 
         
                 <div class="row mb-3">
-                                    {{-- Description --}}
+                    {{-- Description --}}
         
                     <label for="description" class="form-label d-block fw-bold">Description</label>
                     <textarea name="description" id="description" cols="30" rows="3" class="form-control" >{{ old('description')}}</textarea>
                     {{-- Error --}}
                     @error('description')
                         <div class="text-danger small">{{ $message}}</div>
-                        
                     @enderror
                 </div>
         
                 <div class="row mb-3">
-                                    {{-- Cover photo --}}
+                    {{-- Cover photo --}}
         
                     <label for="image" class="form-label d-block fw-bold">Cover Photo</label>
                     <input type="file" name="image" id="image" class="form-control" aria-describedby="image-info">
@@ -57,14 +60,17 @@
                 </div>
         
                 <div>
-                                    {{-- Category --}}
+                    {{-- Category --}}
         
                     <label for="category" class="form-label d-block fw-bold">
                         Category <span class="fw-normal">(up to 3)</span>
                     </label>
+                    {{-- Error --}}
+                    @error('category')
+                        <div class="text-danger small">{{ $message}}</div>
+                    @enderror
                     
-                                    {{-- gonna repeat --}}
-                    <div class="rounded bg-white scroll-container" style="max-height:150px;" >
+                    <div class="rounded bg-white scroll-container">
                         <div class="m-3">
                             <div class="category">
                                 <table>
@@ -82,13 +88,6 @@
                             </div>
                         </div>
                     </div>
-                    
-        
-                    {{-- Error --}}
-                    @error('category')
-                        <div class="text-danger small">{{ $message}}</div>
-                        
-                    @enderror
                 </div>
             </div>
         
