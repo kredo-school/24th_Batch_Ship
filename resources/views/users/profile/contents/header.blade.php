@@ -29,8 +29,8 @@
                 </div>
                 @include('users.profile.modal.compatibility')
 
-                {{-- form for compatibility --}}
                 @if (Auth::user()->id !== $user->id)
+                    {{-- form for compatibility --}}
                     <div class="col-auto">
                         <form action="#" method="post" class="row row-cols-lg-auto g-3 align-items-center">
                             @csrf
@@ -47,8 +47,15 @@
                             </div>
                         </form>
                     </div>
+
+                    {{-- from for message --}}
                     <div class="col">
-                        <a href="{{ route('chat.index', $user->id) }}" class="btn btn-outline-secondary">Message</a>
+                        <form action="{{ route('chat.create', $user->id) }}" method="post" class="row row-cols lg auto g-3 align-items-center">
+                            @csrf
+                            
+                            <button type="submit" class="btn btn-outline-secondary">Message</button>
+                            {{-- <a href="{{ route('chat.index') }}" class="btn btn-outline-secondary">Message</a> --}}
+                        </form>
                     </div>    
                 @endif
             </div>

@@ -72,10 +72,9 @@ Route::group(['middleware' => 'auth'], function(){
     Route::get('/api/select-data', [SelectDataController::class, 'getData']);
 
     # Chat
-    Route::get('/chat/{id}', [ChatController::class, 'index'])->name('chat.index');
-    Route::post('/chat/store', [ChatController::class, 'store'])->name('chat.store');
-
     Route::get('/chat', [ChatController::class, 'index'])->name('chat.index');
+    Route::post('/profile/{id}/chat', [ChatController::class, 'createChat'])->name('chat.create');
+    Route::post('/chat/store', [ChatController::class, 'store'])->name('chat.store');
 
     # Inquiry
     Route::get('/inquiry/create', [InquiryController::class, 'create'])->name('inquiry.create');
