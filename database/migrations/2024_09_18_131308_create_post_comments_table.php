@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('post_id');
-            $table->integer('percentage');
+            $table->integer('percentage')->nullable();
             $table->text('comment');
             $table->timestamps();
 

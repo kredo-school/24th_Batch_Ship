@@ -25,6 +25,7 @@ class PostCommentController extends Controller
         $this->postcomment = $postcomment;
         $this->post = $post;
         $this->user = $user;
+
     }
 
     public function store(Request $request, $post_id)
@@ -32,7 +33,7 @@ class PostCommentController extends Controller
 
         #1. Validate the request
         $request->validate([
-            'percentage' => 'required|integer|min:60|max:100',
+            'percentage' => 'sometimes|integer|min:60|max:100',
             'comment' => 'required|string|max:150',
         ]);
 
@@ -48,6 +49,23 @@ class PostCommentController extends Controller
         # 3. Redirect back to the page
          return redirect()->back();
     }
+
+    public function show(Post $post)
+{
+    $sort = request('sort');
+
+    if ($sort === 'percentage') {
+        $comments = $post->comments()->orderBy('percentage', 'desc')->get();
+    } elseif ($sort === 'date') {
+        $comments = $post->comments()->orderBy('created_at', 'desc')->get();
+    } else {
+        $comments = $post->comments; // デフォルトのソート
+    }
+
+
+    return view('users.posts.modals.empathy' , compact('comments', 'post'));
+ }
+
 
     public function destroy($id)
     {

@@ -41,13 +41,18 @@ class Post extends Model
      # to get all the comments under a post
      public function comments()
      {
-         return $this->hasMany(Comment::class);
+         return $this->hasMany(PostComment::class);
      }
 
-     # to get all the likes of a post
      public function percentage()
      {
-         return $this->hasMany(Percentage::class);
+         return $this->hasMany(PostComment::class);
+        //  ->where('post_id', $this->id);
      }
+     # to get all the likes of a post
+    //  public function percentage()
+    //  {
+    //      return $this->hasMany(Percentage::class);
+    //  }
 
 }

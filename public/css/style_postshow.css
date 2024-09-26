@@ -208,6 +208,7 @@ p {
     display: none;
 }
 
+
 /*Category*/
 
 /* .category{
@@ -246,7 +247,7 @@ p {
 .img-postshow {
     width: 500px !important;
     height: 300px !important;
-    object-fit: cover;
+    padding-left: 0;
 }
 
 .masonry {

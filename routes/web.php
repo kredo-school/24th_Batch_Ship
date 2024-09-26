@@ -44,6 +44,7 @@ Route::group(['middleware' => 'auth'], function(){
     Route::patch('/post/{id}/update', [PostController::class, 'update'])->name('users.posts.update');
     Route::delete('/post/{id}/destroy', [PostController::class, 'destroy'])->name('users.posts.destroy');
 
+
     # Community
     Route::get('/community/index', [CommunityController::class,'index'])->name('communities.index');
     Route::get('/community/create',[CommunityController::class,'create'])->name('communities.create');
@@ -55,7 +56,9 @@ Route::group(['middleware' => 'auth'], function(){
 
     // Post Percentage and Comment
     Route::post('/comment/{post_id}/store', [PostCommentController::class, 'store'])->name('comment.store');
+    Route::get('/comments/show/{post}', [PostCommentController::class, 'show'])->name('comments.show');
     Route::delete('/comment/{post_id}/destroy', [PostCommentController::class, 'destroy'])->name('comment.destroy');
+
 
 
     # COMMENT

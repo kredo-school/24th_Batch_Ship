@@ -8,6 +8,7 @@ use Illuminate\Support\Str;
 use App\Models\Post;
 use App\Models\CategoryPost;
 use App\Models\Category;
+use App\Models\PostComment;
 
 class PostController extends Controller
 {
@@ -37,7 +38,7 @@ class PostController extends Controller
         $all_posts = $this->getAllPosts();
         return view('users.posts.index')
             ->with('all_posts', $all_posts);
-        
+
     }
 
     private function getAllPosts()
@@ -58,8 +59,12 @@ class PostController extends Controller
     public function show($id)
     {
        $post = $this->post->with('user')->findOrFail($id);
+       $postComments=PostComment::with('user')->with('post')->where('post_id', $id)->get();
 
-      return view('users.posts.show')->with('post', $post);
+
+
+
+      return view('users.posts.show')->with('post', $post)->with('comments' , $postComments);
     }
 
     // store() = save the post to DB
@@ -154,6 +159,7 @@ class PostController extends Controller
        return redirect()->route('post.show', $id);
     }
 
+    
 
 
     // delete the post

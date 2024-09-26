@@ -1,82 +1,106 @@
-{{-- Reacted --}}
-<div class="modal fade" id="see-all-reactions">  {{--modal div---}}
-  <div class="modal-dialog">                {{--modal dialog div---}}
-    <div class="modal-content border-turquoise pe-1 modal-with">  {{--modal content div---}}
-      <div class="modal-header text-center border-0 d-block">    {{--modal header div---}}
-        <p class="mt-4 mb-0">
-          Sort by
-          <button class="btn btn-turquoise mx-2" type="button" id="sort-enpathy">Enpathy %</button>
-          or
-          <button class="btn btn-turquoise mx-2" type="button" id="sort-date">date (newest list)</button>
-        </p>
-    </div>         {{--modal header end div---}}
-      <div class="modal-body" style="max-height: 400px; overflow-y: scroll;">    {{--modal body div---}}
-        <hr>
-    <div class="row align-items-center">     {{--modal body start div---}}
-          <div class="col-2">
-            @if ($postcomment->percentage->isNotEmpty())
-            @foreach ($postcomment->percentage as $percentage)
-
-            <p class="text-center me-1 mb-0">{{ $percentage }}</p>
-
-
-
-            @endforeach
- @endif
-            {{-- <p class="text-center me-1 mb-0">100%</p> --}}
-          </div>
- {{-- show all the comments --}}
-       {{-- @if ($post->post_comments->comment->isNotEmpty()) --}}
-         {{-- <div class="col-3">
-           <ul class="list-group mt-2 text-start">
-             @foreach ($post->post_comments->comment as $comment)
-              <li class="list-group-item border-0  mb-2">
-
-               @if ($comment->user->avatar)
-                  <a href="{{ route('users.profile.specificProfile', $comment->user->id) }}">
-                    <img src="{{ $comment->user->avatar }}" alt="" class="rounded-circle avatar-sm "></a>
-
-            @else
-                <a href="{{ route('users.profile.specificProfile', $comment->user->id) }}">
-                <i class="fas fa-circle-user text-secondary icon-sm " ></i></a>
-            @endif
-             </div>
-             <div class="col-5 text-start">
-             <a href="{{ route('users.profile.specificProfile', $comment->user->id) }}" class="text-decoration-none text-dark fw-bold">{{ $comment->user->name }}</a>
-             &nbsp;
-             <p class="d-inline fw-light">{{ $comment->body }}</p>
-
-             </div>
-             <div class="col-2 text-end">
-             <form action="{{ route('comment.destroy', $comment->id) }}" method="post">
-                 @csrf
-                 @method('DELETE')
-
-                 <span class="text-uppercase text-muted xsmall">{{ date('M d, Y', strtotime($comment->created_at)) }}</span>  --}}
-
- {{-- if the auth user is the owner of the coment, show a delete button. --}}
-                 {{-- @if (Auth::user()->id === $comment->user->id)
-                     &middot;
-                     <button type="submit" class="border-0 bg-transparent text-danger p-0 xsmall">Delete</button>
-
-                 @endif --}}
-
-          </div>
-
-              <hr>
-              {{-- @endforeach --}}
-               </form>
-         </li>
-
-   </ul>
-
-
-</div>
+<div class="modal fade" id="see-all-reactions">
+    <div class="modal-dialog">
+        <div class="modal-content border-turquoise pe-1 modal-with">
+            <div class="modal-header text-center border-0 d-block">
+                <p class="mt-4 mb-0">
+                    Sort by
+                    <button class="btn btn-turquoise mx-2" type="button" id="sort-enpathy">Enpathy %</button>
+                    or
+                    <button class="btn btn-turquoise mx-2" type="button" id="sort-date">date (newest list)</button>
+                </p>
+            </div>
+            <hr>
+            <div class="modal-body" style="max-height: 400px; overflow-y: scroll;" id="comments-container">
+                @if ($comments->isNotEmpty())
+                    @foreach ($comments as $postcomment)
+                        <div class="comment-item" data-percentage="{{ $postcomment->percentage }}" data-date="{{ $postcomment->created_at }}">
+                            <div class="row align-items-center">
+                                <div class="col-1 text-start">
+                                    @if ($postcomment->user_id !== $post->user_id)
+                                        {{ $postcomment->percentage }}<span>%</span>
+                                    @endif
+                                </div>
+                                <div class="col-2 text-start">
+                                    @if ($postcomment->user->avatar)
+                                        <a href="{{ route('users.profile.specificProfile', $postcomment->user_id) }}">
+                                            <img src="{{ $postcomment->user->avatar }}" alt="" class="rounded-circle avatar-sm">
+                                        </a>
+                                    @else
+                                        <a href="{{ route('users.profile.specificProfile', $postcomment->user_id) }}">
+                                            <i class="fas fa-circle-user text-secondary icon-sm"></i>
+                                        </a>
+                                    @endif
+                                    <a href="{{ route('users.profile.specificProfile', $postcomment->user_id) }}" class="text-decoration-none text-dark fw-bold mx-2">{{ $postcomment->user->username }}</a>
+                                </div>
+                                <div class="col-6 text-start">
+                                    <p class="d-inline fw-light">{{ $postcomment->comment }}</p>
+                                </div>
+                                <div class="col-1 text-end">
+                                    @if (Auth::user()->id === $postcomment->user_id)
+                                        <form action="{{ route('comment.destroy', $postcomment->id) }}" method="post">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="border-0 bg-transparent text-danger p-0 xsmall">Delete</button>
+                                        </form>
+                                    @endif
+                                </div>
+                                <div class="col">
+                                    <span class="text-uppercase text-muted xsmall text-end">{{ date('M d, Y', strtotime($postcomment->created_at)) }}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                    @endforeach
+                @else
+                    <p class="text-center">No comments yet.</p>
+                @endif
+            </div>
+        </div>
+    </div>
 </div>
 
-</div>   {{--modal body start div---}}
-     </div>{{--modal body end div---}}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        function sortComments(sortType) {
+            const commentsContainer = document.getElementById('comments-container');
+            const comments = Array.from(commentsContainer.querySelectorAll('.comment-item'));
 
-    </div>    {{--modal content end div---}}
-  </div>    {{--modal dialog end div---}}
-</div>  {{--modal end div---}}
+            console.log('Before sorting:', comments.map(comment => ({
+                percentage: comment.dataset.percentage,
+                date: comment.dataset.date
+            })));
+
+            comments.sort((a, b) => {
+                if (sortType === 'percentage') {
+                    return parseInt(b.dataset.percentage) - parseInt(a.dataset.percentage);
+                } else if (sortType === 'date') {
+                    return new Date(b.dataset.date) - new Date(a.dataset.date);
+                }
+                return 0;
+            });
+
+            console.log('After sorting:', comments.map(comment => ({
+                percentage: comment.dataset.percentage,
+                date: comment.dataset.date
+            })));
+
+            commentsContainer.innerHTML = '';
+
+            comments.forEach(comment => {
+                commentsContainer.appendChild(comment);
+                const hr = document.createElement('hr');
+                commentsContainer.appendChild(hr);
+            });
+
+            console.log('After appending:', commentsContainer.innerHTML);
+        }
+
+        document.getElementById('sort-enpathy').addEventListener('click', function() {
+            sortComments('percentage');
+        });
+
+        document.getElementById('sort-date').addEventListener('click', function() {
+            sortComments('date');
+        });
+    });
+</script>

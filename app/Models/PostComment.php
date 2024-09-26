@@ -9,11 +9,11 @@ class PostComment extends Model
 {
     use HasFactory;
     public $timestamps = true;
-    // public function user()
-    // {
-    //     return $this->belongsTo(User::class);
-    // }
-     protected $fillable = [ 'user_id', 'post_id', 'percentage', 'comment_body' ];
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+     protected $fillable = [ 'user_id', 'post_id', 'percentage', 'comment' ];
 
 
      public function post()
@@ -21,4 +21,9 @@ class PostComment extends Model
         return $this->belongsTo(Post::class);
     }
 
+    public function getPercentage()
+    {
+        return $this->belongsTo(PostComment::class);
+
+    }
 }
