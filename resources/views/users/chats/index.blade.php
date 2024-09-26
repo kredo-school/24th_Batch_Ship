@@ -24,29 +24,55 @@
                                     {{-- user list --}}
                                     <div data-mdb-perfect-scrollbar-init="true" style="position: relative; height: 400px;">
                                         <ul class="list-unstyled mb-0">
-                                            <li class="p-2 border-bottom">
-                                                <a href="{{ route('users.profile.specificProfile', $user->id) }}" class="d-flex justify-content-between text-decoration-none">
-                                                    <div class="d-flex flex-row">
-                                                        @if ($user->avatar)
-                                                            <img src="{{ $user->avatar }}" alt="{{ $user->name }}" class="d-flex align-self-center me-3 rounded-circle avatar-sm">
-                                                        @else
-                                                            <i class="fa-solid fa-circle-user text-secondary d-flex align-self-center me-3 icon-sm"></i>
-                                                        @endif
-                                        
-                                                        <div class="pt-1">
-                                                            <p class="fw-bold mb-0">{{ $user->username}}</p>
-                                                            <p class="small text-muted">Message</p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="pt-1">
-                                                        <p class="small text-muted mb-1">Time</p>
-                                                        <span class="badge bg-danger rounded-pill float-end">1</span>
-                                                    </div>
-                                                </a>
-                                            </li>
+                                            @forelse ($all_chats as $chat)
+                                                <li class="p-2 border-bottom">
+                                                    @if ($chat->sender == Auth::user())
+                                                        {{-- when Auth user is a sender --}}
+                                                        <a href="#" class="d-flex justify-content-between text-decoration-none">
+                                                            <div class="d-flex flex-row">
+                                                                @if ($chat->recipient->avatar)
+                                                                    <img src="{{ $chat->recipient->avatar }}" alt="{{ $chat->recipient->name }}" class="d-flex align-self-center me-3 rounded-circle avatar-sm">
+                                                                @else
+                                                                    <i class="fa-solid fa-circle-user text-secondary d-flex align-self-center me-3 icon-sm"></i>
+                                                                @endif
+
+                                                                <div class="pt-1">
+                                                                    <p class="fw-bold mb-0">{{ $chat->recipient->username}}</p>
+                                                                    <p class="small text-muted">Message</p>
+                                                                </div>
+                                                            </div>
+                                                            <div class="pt-1">
+                                                                <p class="small text-muted mb-1">Time</p>
+                                                                <span class="badge bg-danger rounded-pill float-end">1</span>
+                                                            </div>
+                                                        </a>
+                                                    @else
+                                                        {{-- when auth user is a recipient --}}
+                                                        <a href="#" class="d-flex justify-content-between text-decoration-none">
+                                                            <div class="d-flex flex-row">
+                                                                @if ($chat->sender->avatar)
+                                                                    <img src="{{ $chat->sender->avatar }}" alt="{{ $chat->sender->name }}" class="d-flex align-self-center me-3 rounded-circle avatar-sm">
+                                                                @else
+                                                                    <i class="fa-solid fa-circle-user text-secondary d-flex align-self-center me-3 icon-sm"></i>
+                                                                @endif
+                                                
+                                                                <div class="pt-1">
+                                                                    <p class="fw-bold mb-0">{{ $chat->sender->username}}</p>
+                                                                    <p class="small text-muted">Message</p>
+                                                                </div>
+                                                            </div>
+                                                            <div class="pt-1">
+                                                                <p class="small text-muted mb-1">Time</p>
+                                                                <span class="badge bg-danger rounded-pill float-end">1</span>
+                                                            </div>
+                                                        </a>
+                                                    @endif
+                                                </li>
+                                            @empty
+                                                <h3 class="text-secondary text-center"> No chats yet.</h3>
+                                            @endforelse
                                         </ul>
                                     </div>
-
                                 </div>
                             </div>
 
@@ -77,12 +103,12 @@
                                 {{-- input message  --}}
                                 <div class="text-muted d-flex justify-content-start align-items-center pe-3 pt-3 mt-2">
 
-                                    <a href="{{ route('users.profile.specificProfile', $user->id) }}" class="d-flex justify-content-between text-decoration-none">
-                                        @if ($user->avatar)
+                                    <a href="#" class="d-flex justify-content-between text-decoration-none">
+                                        {{-- @if ($user->avatar)
                                             <img src="{{ $user->avatar }}" alt="{{ $user->name }}" class="d-flex align-self-center me-3 rounded-circle avatar-sm" width="60">
                                         @else
                                             <i class="fa-solid fa-circle-user text-secondary d-flex align-self-center me-3 icon-sm" width="60"></i>
-                                        @endif
+                                        @endif --}}
                                     </a>
 
                                     <form action="#" method="post">
