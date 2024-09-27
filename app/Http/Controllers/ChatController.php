@@ -20,21 +20,42 @@ class ChatController extends Controller
         $this->user = $user;
     }
 
-    public function index(){
-        # get all chats
+    public function index($profile_id){
+        # GET ALL CHATS
         $all_chats = Chat::where('sender_id', Auth::id())
                         ->orWhere('recipient_id', Auth::id())
                         ->get();
+        
+        # GET ALL MESSAGES
+        $sender_id = Auth::id();
+        $recipient_id = $profile_id;
 
-        return view('users.chats.index', compact('all_chats'));
+        // identify chat
+        $chats = Chat::where(function($query) use ($sender_id, $recipient_id) {
+            $query->where('sender_id', $sender_id)
+                  ->where('recipient_id', $recipient_id)
+                  ->with('messages');
+        })
+        ->orWhere(function($query) use ($sender_id, $recipient_id) {
+            $query->where('sender_id', $recipient_id)
+                  ->where('recipient_id', $sender_id)
+                  ->with('messages');
+        })
+        ->get();
+
+        $all_messages = $chats->flatMap(function($chat){
+            return $chat->messages;
+        });
+
+        return view('users.chats.index', compact('all_chats', 'profile_id', 'all_messages'));
     }
 
-    //  create new chat
-    public function createChat(Request $request, $id){
+    # STORE MESSAGES
+    public function store(Request $request, $profile_id){
         $sender_id = Auth::id();
-        $recipient_id = $id;
+        $recipient_id = $profile_id;
 
-        # check if a chat already exists
+        // identify chat
         $chat = Chat::where(function($query) use ($sender_id, $recipient_id) {
             $query->where('sender_id', $sender_id)
                   ->where('recipient_id', $recipient_id);
@@ -45,37 +66,52 @@ class ChatController extends Controller
         })
         ->first();
 
+        // check if a chat already exists
         if ($chat) {
             // Conversation exists
-            return redirect()->route('chat.index', ['chat' => $chat->id]);
+            $request->validate(
+                [   // RULES
+                    'text' => 'required|max:150'
+                ],
+                [   // ERROE MESSAGES
+                    'required' => 'You cannot send an empty message.',
+                    'max' => 'The message must not have more than 150 characters.'
+                ]
+            );
+
+            $this->chatmessage->text = $request->text;
+            $this->chatmessage->user_id = Auth::user()->id;
+            $this->chatmessage->chat_id = $chat->id;
+            $this->chatmessage->save();
+            // return redirect()->route('chat.index', ['chat' => $chat->id]);
 
         } else {
             // No conversation exists yet
             $this->chat->sender_id = Auth::user()->id;
-            $this->chat->recipient_id = $id;
+            $this->chat->recipient_id = $profile_id;
             $this->chat->save();
-            return redirect()->route('chat.index', ['chat' => $chat->id]);
+
+            $request->validate(
+                [   // RULES
+                    'text' => 'required|max:150'
+                ],
+                [   // ERROE MESSAGES
+                    'required' => 'You cannot send an empty message.',
+                    'max' => 'The message must not have more than 150 characters.'
+                ]
+            );
+
+            $this->chatmessage->text = $request->text;
+            $this->chatmessage->user_id = Auth::user()->id;
+            $this->chatmessage->chat_id = $this->chat->id;
+            $this->chatmessage->save();
+            // return redirect()->route('chat.index');
         }
-    }
-
-    # store each messages
-    public function store(Request $request){
-
-        $request->validate(
-            [
-                'text' => 'required|max:150'
-            ]
-            // [
-            //     'required' => 'You cannot send an empty message.',
-            //     'max' => 'The message must not have more than 150 characters.'
-            // ]
-        );
-
-        $this->chatmessage->text = $request->text;
-        $this->chatmessage->user_id = Auth::user()->id;
-        // $this->chatmessage->chat_id = $chat_id;
-        $this->chatmessage->save();
 
         return redirect()->back();
+    }
+
+    public function identifyChat(){
+
     }
 }

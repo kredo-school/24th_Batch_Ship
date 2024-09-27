@@ -28,7 +28,7 @@
                                                 <li class="p-2 border-bottom">
                                                     @if ($chat->sender == Auth::user())
                                                         {{-- when Auth user is a sender --}}
-                                                        <a href="#" class="d-flex justify-content-between text-decoration-none">
+                                                        <a href="{{ route('chat.index', $chat->recipient->id) }}" class="d-flex justify-content-between text-decoration-none">
                                                             <div class="d-flex flex-row">
                                                                 @if ($chat->recipient->avatar)
                                                                     <img src="{{ $chat->recipient->avatar }}" alt="{{ $chat->recipient->name }}" class="d-flex align-self-center me-3 rounded-circle avatar-sm">
@@ -48,7 +48,7 @@
                                                         </a>
                                                     @else
                                                         {{-- when auth user is a recipient --}}
-                                                        <a href="#" class="d-flex justify-content-between text-decoration-none">
+                                                        <a href="{{ route('chat.index', $chat->sender->id) }}" class="d-flex justify-content-between text-decoration-none">
                                                             <div class="d-flex flex-row">
                                                                 @if ($chat->sender->avatar)
                                                                     <img src="{{ $chat->sender->avatar }}" alt="{{ $chat->sender->name }}" class="d-flex align-self-center me-3 rounded-circle avatar-sm">
@@ -80,24 +80,33 @@
                             <div class="col-md-6 col-lg-7 col-xl-8">
                                 <div class="pt-3 pe-3" data-mdb-perfect-scrollbar-init="true" style="position: relative; height: 400px;">
                                     {{-- recieved message --}}
-                                    <div class="d-flex flex-row justify-content-start">
-                                        {{-- <img src="#" alt="#" style="width: 45px; height: 100%;"> --}}
-                                        <i class="fa-solid fa-circle-user text-secondary d-flex align-self-center me-3" width="60"></i>
-                                        <div class="div">
-                                            <p class="small p-2 ms-3 mb-1 text-white rounded-3 bg-secondary">text</p>
-                                            <p class="small ms-3 mb-3 rounded-3 text-muted float-end">12:00 PM | Sep 20</p>
-                                        </div>
-                                    </div>
-
-                                    {{-- sent message --}}
-                                    <div class="d-flex flex-row justify-content-end">
-                                        <div class="div">
-                                            <p class="small p-2 me-3 mb-1 text-white rounded-3 bg-primary">text</p>
-                                            <p class="small me-3 mb-3 rounded-3 text-muted ">13:00 PM | Sep 20</p>
-                                        </div>
-                                        {{-- <img src="#" alt="#" style="width: 45px; height: 100%;"> --}}
-                                        <i class="fa-solid fa-circle-user text-secondary d-flex align-self-center me-3" width="60"></i>
-                                    </div>
+                                    @foreach ($all_messages as $chat_messages)
+                                        @if ($chat_messages->user_id == Auth::user()->id)
+                                            <div class="d-flex flex-row justify-content-end">
+                                                @if ($chat_messages->user->avatar)
+                                                    <img src="{{ $chat_messages->user->avatar }}" alt="{{ $chat_messages->user->name }}" class="d-flex align-self-center me-3 rounded-circle avatar-sm">
+                                                @else
+                                                    <i class="fa-solid fa-circle-user text-secondary d-flex align-self-center me-3 icon-sm"></i>
+                                                @endif
+                                                <div class="div">
+                                                    <p class="small p-2 ms-3 mb-1 text-white rounded-3 bg-success">{{ $chat_messages->text }}</p>
+                                                    <p class="small ms-3 mb-3 rounded-3 text-muted float-end">{{ $chat_messages->created_at }}</p>
+                                                </div>
+                                            </div>
+                                        @else
+                                            <div class="d-flex flex-row justify-content-start">
+                                                @if ($chat_messages->user->avatar)
+                                                    <img src="{{ $chat_messages->user->avatar }}" alt="{{ $chat_messages->user->name }}" class="d-flex align-self-center me-3 rounded-circle avatar-sm">
+                                                @else
+                                                    <i class="fa-solid fa-circle-user text-secondary d-flex align-self-center me-3 icon-sm"></i>
+                                                @endif
+                                                <div class="div">
+                                                    <p class="small p-2 ms-3 mb-1 text-white rounded-3 bg-secondary">{{ $chat_messages->text }}</p>
+                                                    <p class="small ms-3 mb-3 rounded-3 text-muted float-end">{{ $chat_messages->created_at }}</p>
+                                                </div>
+                                            </div>
+                                        @endif
+                                    @endforeach
                                 </div>
 
                                 {{-- input message  --}}
@@ -111,7 +120,7 @@
                                         @endif --}}
                                     </a>
 
-                                    <form action="#" method="post">
+                                    <form action="{{ route('chat.store', $profile_id) }}" method="post">
                                         @csrf
 
                                         <input type="text" name="text" id="text" class="form-control form-control-lg" placeholder="Type message.">
