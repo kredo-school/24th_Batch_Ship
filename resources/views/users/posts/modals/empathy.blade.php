@@ -1,3 +1,5 @@
+<body>
+
 <div class="modal fade" id="see-all-reactions">
     <div class="modal-dialog">
         <div class="modal-content border-turquoise pe-1 modal-with">
@@ -59,48 +61,67 @@
     </div>
 </div>
 
+
+<script src="your-script.js" defer></script>
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        function sortComments(sortType) {
-            const commentsContainer = document.getElementById('comments-container');
-            const comments = Array.from(commentsContainer.querySelectorAll('.comment-item'));
+ document.addEventListener('DOMContentLoaded', function() {
+    function sortComments(sortType) {
+        const commentsContainer = document.getElementById('comments-container');
+        const comments = Array.from(commentsContainer.querySelectorAll('.comment-item'));
 
-            console.log('Before sorting:', comments.map(comment => ({
-                percentage: comment.dataset.percentage,
-                date: comment.dataset.date
-            })));
+        // 空のpercentageを持つコメントを除外
+        const validComments = comments.filter(comment => {
+            const percentage = comment.dataset.percentage;
+            return percentage !== '' && percentage !== null; // nullまたは空のものを除外
+        });
 
-            comments.sort((a, b) => {
-                if (sortType === 'percentage') {
-                    return parseInt(b.dataset.percentage) - parseInt(a.dataset.percentage);
-                } else if (sortType === 'date') {
-                    return new Date(b.dataset.date) - new Date(a.dataset.date);
-                }
-                return 0;
-            });
+        console.log('Before sorting:', validComments.map(comment => ({
+            percentage: comment.dataset.percentage,
+            date: comment.dataset.date
+        })));
 
-            console.log('After sorting:', comments.map(comment => ({
-                percentage: comment.dataset.percentage,
-                date: comment.dataset.date
-            })));
+        validComments.sort((a, b) => {
+            if (sortType === 'percentage') {
+                return parseInt(b.dataset.percentage) - parseInt(a.dataset.percentage);
+            } else if (sortType === 'date') {
+                return new Date(b.dataset.date) - new Date(a.dataset.date);
+            }
+            return 0;
+        });
 
-            commentsContainer.innerHTML = '';
+        console.log('After sorting:', validComments.map(comment => ({
+            percentage: comment.dataset.percentage,
+            date: comment.dataset.date
+        })));
 
-            comments.forEach(comment => {
-                commentsContainer.appendChild(comment);
+        commentsContainer.innerHTML = ''; // コンテナを空にする
+
+        validComments.forEach(comment => {
+            commentsContainer.appendChild(comment.cloneNode(true)); // コメントを複製して追加
+            const hr = document.createElement('hr');
+            commentsContainer.appendChild(hr);
+        });
+
+        // 元のコメントを再追加する
+        comments.forEach(comment => {
+            if (!validComments.includes(comment)) {
+                commentsContainer.appendChild(comment.cloneNode(true));
                 const hr = document.createElement('hr');
                 commentsContainer.appendChild(hr);
-            });
-
-            console.log('After appending:', commentsContainer.innerHTML);
-        }
-
-        document.getElementById('sort-enpathy').addEventListener('click', function() {
-            sortComments('percentage');
+            }
         });
+    }
 
-        document.getElementById('sort-date').addEventListener('click', function() {
-            sortComments('date');
-        });
+    document.getElementById('sort-enpathy').addEventListener('click', function() {
+        console.log('Enpathy % button clicked');
+        sortComments('percentage');
     });
+
+    document.getElementById('sort-date').addEventListener('click', function() {
+        console.log('Date button clicked');
+        sortComments('date');
+    });
+});
+
 </script>
+</body>
