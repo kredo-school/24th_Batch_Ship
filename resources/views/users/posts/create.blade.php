@@ -6,15 +6,14 @@
 @endsection
 
 @section('content')
-<<<<<<< HEAD
+
+
 <head>
     <link rel="stylesheet" href="{{ asset('css/style_postshow.css') }}">
 
 
 </head>
 
-=======
->>>>>>> 7b4f2451cb7172aa13c003ca3aca4c28af72e843
     <div class="bg-pink px-5 py-4">   {{-- Container  bg-pink div--}}
         <h3 class="d-block fw-bold text-center mb-4">
             Share what you like !
