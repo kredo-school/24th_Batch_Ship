@@ -212,6 +212,7 @@ p {
     display: none !important;
 }
 
+
 /*Category*/
 
 /* .category{
@@ -250,7 +251,7 @@ p {
 .img-postshow {
     width: 500px !important;
     height: 300px !important;
-    object-fit: cover;
+    padding-left: 0;
 }
 
 .masonry {
@@ -263,13 +264,13 @@ p {
     margin-bottom: 30px;
     padding-left: 15px; /* マージン調整 */
     width: 100%; /* アイテムの幅 */
-} 
+}
 
 .fixed-size-img {
     width: 100%;
     height: auto;
     object-fit: cover;
-} 
+}
 .avatar-profile
 {
     width: 8rem;
@@ -289,40 +290,52 @@ p {
 }
 
 /* Enpathy range */
-#range{
+
+   #percentage {
     appearance:none;
+    background-color: #FCEFEE;
     width:15%;
     height:20px;
 }
 
-    #range::-webkit-slider-runnable-track {
+/* Thumb: Chrome, Safari, Opera, Edge Chromium */
+    #percentage::-webkit-slider-runnable-track {
+        appearance: none;
         height:20px;
-        background:linear-gradient(90deg,#fff,#ea49a2);
+        background:linear-gradient(90deg,#fff,#f9776e);
         border-radius:8px;
-    }
+     }
 
-    #range::-webkit-slider-thumb {
+    #percentage::-webkit-slider-thumb {
         appearance:none;
         width:20px;
         height:20px;
         border-radius:50%;
-        background:#e51e8b;
+        background:#f9776e;
         transform:scale(1.5);
         cursor:pointer;
-        border: solid 1px #ea49a2;
+        border: solid 1px #f9776e;
+        background-image: url("assets/image/heart.png");
+
     }
 
-    #range::-moz-range-track {
+/* Track: Firefox */
+    #percentage::-moz-range-track {
+        appearance: none;
         height:20px;
-        background:linear-gradient(90deg,#fff,#ea49a2);
-        border-radius:5px;
+        background:linear-gradient(90deg,#fff,#f9776e);
+        border-radius:8px;
     }
 
-    #range::-moz-range-thumb {
-        width:15px;
-        height:15px;
+/* Thumb: Firefox */
+    #percentage::-moz-range-thumb {
+        width:20px;
+        height:20px;
         border-radius:50%;
-        background:#fff;
+        background:#f9776e;
+        transform:scale(1.5);
+        cursor:pointer;
+        border: solid 1px #f9776e;
 
     }
 
