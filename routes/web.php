@@ -94,5 +94,7 @@ Route::group(['middleware' => 'auth'], function(){
     Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => 'admin'], function(){
         # Support
         Route::get('/support', [InquiriesController::class,'index'])->name('support');
+        # Categories
+        Route::get('/categories', [CategoriesController::class,'index'])->name('categories');
     });
 });

@@ -134,7 +134,7 @@
                                     SUPPORT
                                 </a>
 
-                                <a href="#" class="list-group-item btn-turquoise flex-fill {{ request()->is('admin/categories') ? 'active' : '' }}">
+                                <a href="{{ route('admin.categories')}}" class="list-group-item btn-turquoise flex-fill {{ request()->is('admin/categories') ? 'active' : '' }}">
                                     CATEGORIES
                                 </a>
 
