@@ -92,9 +92,9 @@ Route::group(['middleware' => 'auth'], function(){
     Route::get('/api/select-data', [SelectDataController::class, 'getData']);
 
     # Chat
-    Route::get('/chat', [ChatController::class, 'index'])->name('chat.index');
-    Route::post('/profile/{id}/chat', [ChatController::class, 'createChat'])->name('chat.create');
-    Route::post('/chat/store', [ChatController::class, 'store'])->name('chat.store');
+    Route::get('/profile/{profile_id}/chat', [ChatController::class, 'index'])->name('chat.index');
+    // Route::post('/profile/{id}/chat', [ChatController::class, 'createChat'])->name('chat.create');
+    Route::post('/chat/{profile_id}/messages', [ChatController::class, 'store'])->name('chat.store');
 
     # Support
     Route::get('/inquiry/create', [InquiryController::class, 'create'])->name('inquiry.create');
