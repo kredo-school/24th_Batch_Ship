@@ -50,7 +50,7 @@
 
                     {{-- from for message --}}
                     <div class="col">
-                        <form action="{{ route('chat.index', $user->id) }}" method="get" class="row row-cols lg auto g-3 align-items-center">
+                        <form action="{{ route('chat.show', $user->id) }}" method="get" class="row row-cols lg auto g-3 align-items-center">
                             @csrf
                             
                             <button type="submit" class="btn btn-outline-secondary">Message</button>
