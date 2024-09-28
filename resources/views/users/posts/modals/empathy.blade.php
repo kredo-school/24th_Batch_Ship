@@ -13,7 +13,7 @@
             </div>
             <hr>
             <div class="modal-body" style="max-height: 400px; overflow-y: scroll;" id="comments-container">
-                @if ($comments->isNotEmpty())
+                {{-- @if ($comments->isNotEmpty())
                     @foreach ($comments as $postcomment)
                         <div class="comment-item" data-percentage="{{ $postcomment->percentage }}" data-date="{{ $postcomment->created_at }}">
                             <div class="row align-items-center">
@@ -55,7 +55,7 @@
                     @endforeach
                 @else
                     <p class="text-center">No comments yet.</p>
-                @endif
+                @endif --}}
             </div>
         </div>
     </div>

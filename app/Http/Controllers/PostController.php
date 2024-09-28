@@ -8,13 +8,14 @@ use Illuminate\Support\Str;
 use App\Models\Post;
 use App\Models\CategoryPost;
 use App\Models\Category;
-use App\Models\PostComment;
 
 class PostController extends Controller
 {
     private $post;
     private $categoryPost;
     private $category;
+
+    protected $fillable = ['description', 'image'];
 
     public function __construct(Post $post, CategoryPost $categoryPost, Category $category)
     {
@@ -38,7 +39,7 @@ class PostController extends Controller
         $all_posts = $this->getAllPosts();
         return view('users.posts.index')
             ->with('all_posts', $all_posts);
-
+        
     }
 
     # Go to Post for auth user
@@ -87,55 +88,48 @@ class PostController extends Controller
     # show() - view Show Post Page
     public function show($id)
     {
-       $post = $this->post->with('user')->findOrFail($id);
-       $postComments=PostComment::with('user')->with('post')->where('post_id', $id)->get();
+       $post = $this->post->with('user', 'images')->findOrFail($id);
 
+       $imageCount = $post->images->count();
+    \Log::info('Number of images: ' . $imageCount); // ログに出力
 
-
-
-      return view('users.posts.show')->with('post', $post)->with('comments' , $postComments);
+      return view('users.posts.show')->with('post', $post);
     }
 
     // store() = save the post to DB
     public function store(Request $request)
     {
         $request->validate([
-            'description'   => 'max:1500|required_if:image,null',
-            'image'      => 'mimes:jpg,jpeg,png,gif|max:1048|required_if:description,null',
-            'category'      => 'required|array|between:1,3' 
-        ], [
-            'description.max' => 'The description must be at least 1500 characters.',
-            'category.between' => 'You must select at least one interest',
+                'description'   => 'max:1500',
+                'images.*'      => 'mimes:jpg,jpeg,png,gif|max:1048',
+                'category'      => 'required|array|between:1,3'
         ]);
-
-        # Save the post
-        $this->post->user_id        = Auth::user()->id;
-        if($request->image){
-        $this->post->image          = 'data:image/' . $request->image->extension() . ';base64,' . base64_encode(file_get_contents($request->image));}
-        $this->post->description    = $request->description;
-        $this->post->timestamps = $request->timestamps;
-
-
-        if($request->image){
-            $this->post->image = 'data:image/' . $request->image->extension() . ';base64,' . base64_encode(file_get_contents($request->image));
-        }
-        // if($request->avatar){
-        //     $this->post->image = 'data:image/' . $request->image->extension() . ';base64,' . base64_encode(file_get_contents($request->image));
-        // }
-
-        $this->post->save();
-        # Save the categories to the category_post povit table
-
-        foreach ($request->category as $category_id){
+        
+    # Save the post
+    $this->post->user_id = Auth::user()->id;
+    $this->post->description = $request->description;
+    $this->post->save();
+        
+    # Save multiple images
+    if ($request->hasFile('images')) {
+    foreach ($request->file('images') as $image) {
+            $imageData = base64_encode(file_get_contents($image));
+            $this->post->images()->create(['image_data' => $imageData]);
+         }
+    }
+        
+    # Save the categories to the category_post pivot table
+        $category_post = [];
+        foreach ($request->category as $category_id) {
             $category_post[] = ['category_id' => $category_id];
         }
-
-        $this->post->categoryPost()->createMany($category_post);
-
-        # Go back to homepage
+        
+        $this->post->categories()->attach($category_post);
+    
+    # Go back to homepage
         return redirect()->route('users.posts.show', ['id' => $this->post->id]);
-        // return redirect()->route('users.posts.show');
-    }
+        
+    }        
 
     // edit() - view Edit Post page
     public function edit($id)
@@ -163,11 +157,12 @@ class PostController extends Controller
 
     public function update(Request $request, $id)
     {
+        dd($request->all());
         # 1. VALIDATE THE DATA FROM THE FORM
         $request->validate([
             'category'      => 'required|array|between:1,3',
             'description'   => 'required|min:1|max:1000',
-            'image'         => 'mimes:jpg,jpeg,png,gif|max:1048'
+            'image.*'         => 'mimes:jpg,jpeg,png,gif|max:1048'
         ]);
 
         # 2. UPDATE THE POST
@@ -191,10 +186,9 @@ class PostController extends Controller
        $post->categoryPost()->createMany($category_post);
 
        # 5. REDIRECT to Shoe Post page
-       return redirect()->route('post.show', $id);
+       return redirect()->route('users.posts.show', $id);
     }
 
-    
 
 
     // delete the post
@@ -205,8 +199,6 @@ class PostController extends Controller
 
         return redirect()->route('users.posts.index');
     }
-
-
 
 
     }

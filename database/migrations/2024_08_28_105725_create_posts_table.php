@@ -16,11 +16,12 @@ return new class extends Migration
             $table->text('description');
             $table->longText('image')->nullable();
             $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('category_id')->nullable();
             $table->timestamps();
-
-
+        
             $table->foreign('user_id')->references('id')->on('users');
         });
+        
     }
 
     /**
@@ -28,6 +29,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('posts');
+        Schema::table('posts', function (Blueprint $table) {
+            $table->dropColumn('category_id'); // delete
+        });
     }
 };
