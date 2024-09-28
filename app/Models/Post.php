@@ -62,4 +62,11 @@ class Post extends Model
     //      return $this->hasMany(Percentage::class);
     //  }
 
+        # To get multiple images
+        public function images()
+        {
+            return $this->hasMany(postImage::class);
+        }
+        
+
 }

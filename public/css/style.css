@@ -60,6 +60,10 @@ p {
     color: #0D768B;
 }
 
+.text-gold {
+    color: #CFB53B;
+}
+
 /* Button Color */
 .btn-turquoise {
     background-color: #0D768B;
@@ -80,6 +84,48 @@ p {
 .btn-blue {
     background-color: #EDFAFD;
 }
+
+/* button with multiple images on user's profile */
+.btn-profile-post{
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: auto;
+}
+
+.btn-profile-post-prev{
+    left: -9%;
+}
+
+.btn-profile-post-next{
+    right: -9%;
+}
+
+/* button with multiple images on user's profile for search view*/
+.btn-search-post-prev{
+    left: -4%;
+}
+
+.btn-search-post-next{
+    right: -4%;
+}
+
+/* button with multiple images on user's profile for go to post view*/
+.btn-category-post-prev
+.btn-category-post-next{
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: auto;
+}
+
+.btn-category-post-prev{
+    left: -4%;
+}
+.btn-category-post-next{
+    right: -4%;
+}
+
 
 /* SMALL */
 .icon-sm {
@@ -112,6 +158,12 @@ p {
 .image-community {
     width: 800px;    /* 9 * 16px = 144px */
     height: 300px;
+    object-fit: cover;
+}
+
+.img-profile-index {
+    width: 120px;
+    height: auto;
     object-fit: cover;
 }
 
@@ -179,11 +231,6 @@ p {
     border-color: rgb(216, 216, 216);
 }
 
-.btn-turquoise2 {
-    background-color: #0D768B;
-    color: white;
-}
-
 .btn-turquoise2:hover {
     background-color: white;
     color: #0D768B ;
@@ -223,3 +270,10 @@ p {
 .pagination {
     justify-content: center;
   }
+
+/* search view, user"s category  */
+  .flex-categories {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px; 
+}

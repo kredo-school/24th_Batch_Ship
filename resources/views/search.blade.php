@@ -14,15 +14,15 @@
                 @if($search)
                 {{ $search }}
             @else
-            <span class="text-warning">-</span>
+            <span class="text-gold">-</span>
             @endif</h1>  
             <h3 class="">
                 @if($selectedCategoryName)
-                <button class="fs-4 px-3 py-1 bg-turquoise text-white rounded border-0">
+                <span class="badge bg-turquoise text-white ms-1 px-2 text-decoration-none">
                     {{ $selectedCategoryName }}
-                </button>
+                </span>
             @else
-                <span class="text-warning">No category selected</span>
+                <span class="text-gold">No category selected</span>
             @endif
             </h3>
         </div>
@@ -62,15 +62,13 @@
                             {{ $user->introduction }} 
                         </p>
                         {{-- interest(categories) --}}
-                        <div class="row card-text text-start ms-1 mt-auto">
-                            @if(isset($user->categories))
+                        <div class="card-text text-start ms-1 mt-auto flex-categories">
                             @foreach($user->categories as $category)
-                            <a href="{{ route('users.categories.show', $category->id) }}" class="text-decoration-none">
-                                <span class="badge ms-1 bg-turquoise text-white">{{ $category->name }}</span>
-                            </a>
+                                <a href="{{ route('users.categories.show', $category->id) }}" class="text-decoration-none">
+                                    <span class="badge bg-turquoise text-white">{{ $category->name }}</span>
+                                </a>
                             @endforeach
-                            @endif
-                        </div>
+                        </div>              
                     </div>
                 </div>
             </div>
@@ -91,13 +89,45 @@
             <h2 class="mb-0">Post</h2>
         </div>
         <div class="row row-eq-height">
-            @foreach($result_posts as $post)
+           @foreach($result_posts as $post)
             <div class="col-lg-3 col-md-6 mb-4">
+                <a href="{{ route('users.posts.show', $post->id) }}" class="text-decoration-none text-black">
                 <div class="card rounded border-0 h-100 d-flex flex-column">
                     {{-- Post image --}}
-                    <div class="mb-2">
-                        <img class="w-100 object-fit-fill" src="{{ $post->image }}" alt="">
+                    @if ($post->images->isNotEmpty())
+                    <div id="carousel-{{ $post->id }}" class="carousel slide" data-bs-ride="false">
+                        <div class="carousel-inner">
+                            @foreach ($post->images->chunk(2) as $index => $imagesChunk)
+                                <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">
+                                    <div class="d-flex justify-content-center">
+                                        @foreach ($imagesChunk as $image)
+                                            <div class="mx-1" style="overflow: hidden;">
+                                                <img src="data:image/png;base64,{{ $image->image_data }}" alt="Post ID {{ $post->id }}" class="img-fluid img-profile-index mt-3">
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+
+                        @if ($post->images->count() > 2)
+                            <button class="carousel-control-prev btn-search-post-prev" type="button" data-bs-target="#carousel-{{ $post->id }}" data-bs-slide="prev">
+                                <i class="fa-solid fa-caret-left fs-1 text-turquoise">
+                                    <span class="visually-hidden">Previous</span>
+                                </i>
+                            </button>
+                            <button class="carousel-control-next btn-search-post-next" type="button" data-bs-target="#carousel-{{ $post->id }}" data-bs-slide="next">
+                                <i class="fa-solid fa-caret-right fs-1 text-turquoise">
+                                    <span class="visually-hidden">Next</span>
+                                </i>
+                            </button>
+                        @endif
                     </div>
+                    @else
+                    <div class="jutify-content-center" style="height: 160px; overflow-y: scroll;">
+                        <p class="p-3">{{ $post->description }}</p>
+                    </div>
+                @endif
                     <div class="card-body d-flex flex-column">
                         <div class="row mb-2 ms-1">
                             {{-- avatar & name --}}
@@ -113,6 +143,7 @@
                                 @endif
                             </div>                      
                         </div>
+                    </a>
                         {{-- Post category --}}
                         <div class="row card-text text-start ms-1 mt-auto">
                             <div class="col">

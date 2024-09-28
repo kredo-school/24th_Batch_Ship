@@ -58,7 +58,7 @@ class HomeController extends Controller
         }
     
         if (empty($keyword) && empty($contentTypes) && empty($selectedCategory)) {
-            $no_results_message = "Please enter a search keyword AND select at least one type (User, Post, Community, Event, or All) AND category.";
+            $no_results_message = "Please enter a search keyword & select at least one type -> User/Post/Community/Event/All.";
         } 
         elseif (empty($keyword) && (!empty($contentTypes) || !empty($selectedCategory))) {
             if (in_array('username', $contentTypes) || in_array('all', $contentTypes)) {
@@ -111,7 +111,7 @@ class HomeController extends Controller
                 $result_events->isEmpty()
             ) {
                 if ($categoryName) {
-                    $no_results_message = "Please select at least one type (User, Post, Community, Event, or All) for '{$categoryName}'.";
+                    $no_results_message = "Please select at least one type -> User/Post/Community/Event/All.";
                 } else {
                     $no_results_message = "No results found for this category.";
                 }

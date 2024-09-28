@@ -3,15 +3,13 @@
 @section('title', 'Show all index for a category')
 
 @section('content')
-<div class="container-fluid">
+<div class="container-fluid"> 
     <div class="row">
         <div class="col">
             <h1 class="fw-bold text-end">Category index:</h1>
         </div>
-        <div class="col p-0">
-            <button class="btn btn-lg fs-4 px-3 py-1 bg-turquoise text-white rounded border-0">
-                {{ $category->name }}
-            </button>
+        <div class="col ps-0">
+            <span class="fs-5 mt-2 badge bg-turquoise text-white px-2 text-decoration-none">{{ $category->name }}</span>
         </div>
     </div>
 
@@ -24,37 +22,37 @@
         <div class="d-flex justify-content-between align-items-center mb-3">
             <h2 class="mb-0">User</h2>
         </div>
-        <div class="row row-eq-height">
+        <div class="row">
             @if($users->isNotEmpty())
                 @foreach($users as $user)
                 <div class="col-lg-3 col-md-6 mb-4">
                     <div class="card rounded border-0 h-100 d-flex flex-column">
-                        <div class="card-body d-flex flex-column" style="max-height: 200px; overflow-y: scroll;">
-                            {{-- avatar & name --}}
+                        <div class="card-body d-flex flex-column" style="max-height: 200px; overflow-y: auto;">
+                            {{-- Avatar & Username --}}
                             <div class="d-flex align-items-center mb-1">
-                                @if($user->avatar)
                                 <a href="{{ route('users.profile.specificProfile', $user->id) }}" class="me-1">
-                                    <img src="{{ $user->avatar }}" alt="avatar" class="rounded avatar-sm" style="border-radius:50%;">
+                                    @if($user->avatar)
+                                        <img src="{{ $user->avatar }}" alt="avatar" class="rounded-circle avatar-md" style="border-radius:50%;">
+                                    @else
+                                        <i class="fa-solid fa-circle-user icon-sm me-2"></i>
+                                    @endif
                                 </a>
-                                @else
-                                <a href="{{ route('users.profile.specificProfile', $user->id) }}" class="me-1 text-decoration-none text-dark">
-                                    <i class="fa-solid fa-circle-user icon-sm me-2"></i>
-                                </a>
-                                @endif
                                 @if($user->username)
-                                <h3 class="ms-1 mb-0">{{ $user->username }}</h3>
+                                    <h3 class="ms-1 mb-0">{{ $user->username }}</h3>
                                 @endif
                             </div>
-                            {{-- introduction --}}
+                            
+                            {{-- Introduction --}}
                             <p class="mb-2">{{ $user->introduction }}</p>
-                            {{-- interest(categories) --}}
-                            <div class="row card-text text-start ms-1 mt-auto">
+                            
+                            {{-- Categories (Interests) --}}
+                            <div class="d-flex flex-wrap">
                                 @foreach($user->categories as $category)
-                                <a href="{{ route('users.categories.show', $category->id) }}" class="text-decoration-none">
-                                    <span class="badge ms-1 bg-turquoise text-white">{{ $category->name }}</span>
-                                </a>
+                                    <a href="{{ route('users.categories.show', $category->id) }}" class="text-decoration-none">
+                                        <span class="badge bg-turquoise text-white ms-1">{{ $category->name }}</span>
+                                    </a>
                                 @endforeach
-                            </div>
+                            </div>                  
                         </div>
                     </div>
                 </div>
@@ -63,10 +61,13 @@
                 <p class="text-center">No users found.</p>
             @endif
         </div>       
+    
+        {{-- Pagination --}}
         <div class="d-flex justify-content-center mt-4">
             {{ $users->links() }}
         </div>
-    </div>        
+    </div>
+    
 
     {{-- Post --}}
     <div class="mt-5 bg-pink p-3">
@@ -79,9 +80,33 @@
                 <div class="col-lg-3 col-md-6 mb-4">
                     <div class="card rounded border-0 h-100 d-flex flex-column">
                         {{-- Post image --}}
-                        <div class="mb-2">
-                            <img class="w-100 object-fit-fill" src="{{ $post->image }}" alt="">
-                        </div>
+                        <div id="carouselExample" class="carousel slide" data-interval="false">
+                            <div class="carousel-inner px-3 pt-1">
+                                @foreach ($post->images->chunk(2) as $index => $imagesChunk)
+                                <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">
+                                    <div class="d-flex justify-content-center">
+                                        @foreach ($imagesChunk as $image)
+                                            <div class="mx-1" style="overflow: hidden;">
+                                                <img src="data:image/png;base64,{{ $image->image_data }}" alt="Post ID {{ $post->id }}" class="img-fluid img-profile-index mt-3">
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            @endforeach
+                            </div>
+                            @if ($post->images->count() > 2) 
+                            <button class="carousel-control-prev btn-category-post-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+                                <i class="fa-solid fa-caret-left fs-1 text-turquoise">
+                                    <span class="visually-hidden">Previous</span>
+                                </i>
+                            </button>
+                            <button class="carousel-control-next btn-category-post-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+                                <i class="fa-solid fa-caret-right fs-1 text-turquoise">
+                                    <span class="visually-hidden">Next</span>
+                                </i>
+                            </button>
+                            @endif
+                        </div>   
                         <div class="card-body d-flex flex-column">
                             <div class="row mb-2 ms-1">
                                 {{-- avatar & name --}}

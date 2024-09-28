@@ -249,9 +249,18 @@ p {
 
 /* Post Show */
 .img-postshow {
-    width: 500px !important;
-    height: 300px !important;
-    padding-left: 0;
+    width: 90% !important;
+    height: 480px !important;
+    object-fit: contain;
+}
+
+/* button for multiple images */
+.carousel-control-prev,
+.carousel-control-next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: auto;
 }
 
 .masonry {
