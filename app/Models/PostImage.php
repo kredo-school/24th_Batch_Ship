@@ -10,6 +10,6 @@ class PostImage extends Model
 
     public function post()
     {
-        return $this->belongsTo(PostImage::class);
+        return $this->belongsTo(Post::class);
     }
 }
