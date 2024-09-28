@@ -1,0 +1,12 @@
+.chat-card {
+    border-radius: 15px;
+}
+
+.chat-outline {
+    position: relative;
+    height: 500px;
+}
+
+/* .chat-scroll {
+    overflow: scroll;
+} */
