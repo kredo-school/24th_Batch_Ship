@@ -106,7 +106,7 @@ class PostController extends Controller
         ]);
         
     # Save the post
-    $this->post->user_id = Auth::user()->id;
+    $this->post->user_id     = Auth::user()->id;
     $this->post->description = $request->description;
     $this->post->save();
         
@@ -157,7 +157,6 @@ class PostController extends Controller
 
     public function update(Request $request, $id)
     {
-        dd($request->all());
         # 1. VALIDATE THE DATA FROM THE FORM
         $request->validate([
             'category'      => 'required|array|between:1,3',
