@@ -24,6 +24,30 @@
                                         @endif
                                     </div>
                                     <div class="col-2 text-start">
+<div class="modal fade" id="see-all-reactions">
+    <div class="modal-dialog">
+        <div class="modal-content border-turquoise pe-1 modal-with">
+            <div class="modal-header text-center border-0 d-block">
+                <p class="mt-4 mb-0">
+                    Sort by
+                    <button class="btn btn-turquoise mx-2" type="button" id="sort-enpathy">Enpathy %</button>
+                    or
+                    <button class="btn btn-turquoise mx-2" type="button" id="sort-date">date (newest list)</button>
+                </p>
+            </div>
+            <hr>
+            <div class="modal-body" style="max-height: 400px; overflow-y: scroll;" id="comments-container">
+                {{-- @if ($comments->isNotEmpty())
+                    @foreach ($comments as $postcomment)
+                        <div class="comment-item" data-percentage="{{ $postcomment->percentage }}" data-date="{{ $postcomment->created_at }}">
+                            <div class="row align-items-center">
+                                <div class="col-1 text-start">
+                                    @if ($postcomment->user_id !== $post->user_id)
+                                        {{ $postcomment->percentage }}<span>%</span>
+                                    @endif
+                                </div>
+                                <div class="col-2 text-start">
+                                    @if ($postcomment->user->avatar)
                                         <a href="{{ route('users.profile.specificProfile', $postcomment->user_id) }}">
                                             <img src="{{ $postcomment->user->avatar ?? 'default-avatar.png' }}"
                                                 alt="" class="rounded-circle avatar-sm">
@@ -119,6 +143,12 @@
                     @endif
                 </div>
 
+                        </div>
+                        <hr>
+                    @endforeach
+                @else
+                    <p class="text-center">No comments yet.</p>
+                @endif --}}
             </div>
 
 

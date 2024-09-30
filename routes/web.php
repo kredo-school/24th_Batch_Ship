@@ -97,8 +97,8 @@ Route::group(['middleware' => 'auth'], function(){
 
     # Chat
     Route::get('/chat', [ChatController::class, 'index'])->name('chat.index');
-    Route::post('/profile/{id}/chat', [ChatController::class, 'createChat'])->name('chat.create');
-    Route::post('/chat/store', [ChatController::class, 'store'])->name('chat.store');
+    Route::get('/profile/{profile_id}/chat', [ChatController::class, 'getAllChat'])->name('chat.show');
+    Route::post('/chat/{profile_id}/messages', [ChatController::class, 'store'])->name('chat.store');
 
     # Support
     Route::get('/inquiry/create', [InquiryController::class, 'create'])->name('inquiry.create');
@@ -116,5 +116,7 @@ Route::group(['middleware' => 'auth'], function(){
     Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => 'admin'], function(){
         # Support
         Route::get('/support', [InquiriesController::class,'index'])->name('support');
+        Route::delete('/support/{id}/completed', [InquiriesController::class, 'completed'])->name('support.completed');
+        Route::patch('/support/{id}/pending', [InquiriesController::class, 'pending'])->name('support.pending');
     });
 });

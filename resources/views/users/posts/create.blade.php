@@ -6,14 +6,6 @@
 @endsection
 
 @section('content')
-
-
-<head>
-    <link rel="stylesheet" href="{{ asset('css/style_postshow.css') }}">
-
-
-</head>
-
     <div class="bg-pink px-5 py-4">   {{-- Container  bg-pink div--}}
         <h3 class="d-block fw-bold text-center mb-4">
             Share what you like !
@@ -35,13 +27,13 @@
                     <div class="row">
                         <div class="col-8">
                             <label for="image" class="form-label fw-bold mt-2">Image</label>
-                            <input type="file" name="image" id="image" class="form-control" aria-describedby="image-info">
+                            <input type="file" name="images[]" id="images" class="form-control" aria-describedby="image-info" multiple>
                             <div id="image-info" class="form-text p-2">
                               The acceptable formats are jpeg, jpg, png, and gif only.<br>
                               Max file size is 1048kB.
                             </div>
                             {{-- Error --}}
-                            @error('image')
+                            @error('images.*')
                                 <p class="text-danger small">{{ $message }}</p>
                             @enderror
                         </div>
@@ -56,16 +48,16 @@
                 {{-- Category  --}}
                 <div class="col">  {{-- right side div--}}
                     <p class="text-center mt-3 ">▼ Select your Interests ! (at least one)</p>
-                        {{-- Error message area --}}
-                            @error('category')
-                                <div class="text-danger small text-center">{{ $message }}</div>
-                            @enderror
-                    <div class="m-3 scroll-container text-center mx-0">
+                    <div class="m-3 scroll-container ">
                         <div class="category">
                             @foreach($all_categories as $category)
-                                <input type="checkbox" name="category[]" id="{{ $category->name }}" name="{{ $category->id }}" autocomplete="off" value="{{ $category->id }}">
+                                <input type="checkbox" name="category[]" id="{{ $category->name }}" value="{{ $category->id }}">
                                 <label for="{{ $category->name }}" class="form-check-label">{{ $category->name }}</label>
                             @endforeach
+                            {{-- Error message area --}}
+                            @error('category')
+                                <div class="text-danger small">{{ $message }}</div>
+                            @enderror
                         </div>
                     </div>
                 </div> {{-- end of right side div--}}
