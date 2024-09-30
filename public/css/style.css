@@ -231,6 +231,11 @@ p {
     border-color: rgb(216, 216, 216);
 }
 
+.btn-turquoise2 {
+    background-color: #0D768B;
+    color: white;
+}
+
 .btn-turquoise2:hover {
     background-color: white;
     color: #0D768B ;
