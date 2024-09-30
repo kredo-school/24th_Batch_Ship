@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Post;
 use App\Models\PostComment;
+use App\Models\Reply;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+
 
 class PostCommentController extends Controller
 
@@ -65,6 +67,23 @@ class PostCommentController extends Controller
 
     return view('users.posts.modals.empathy' , compact('comments', 'post'));
  }
+
+
+ public function reply(Request $request, $commentId)
+{
+    $request->validate([
+        'reply' => 'required|string|max:255',
+    ]);
+
+    $reply = new Reply();
+    $reply->user_id = Auth::id();
+    $reply->post_comment_id = $commentId;
+    $reply->content = $request->reply;
+    $reply->save();
+
+    return redirect()->back(); // モーダルを再表示するためにリダイレクト
+}
+
 
 
     public function destroy($id)

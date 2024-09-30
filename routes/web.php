@@ -8,10 +8,7 @@ use App\Http\Controllers\EventController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CommunityController;
 use App\Http\Controllers\EventUserController;
-
-
-// use App\Http\Controllers\CommentController;
-// use App\Http\Controllers\PercentageController;
+use App\Http\Controllers\ReplyController;
 use App\Http\Controllers\PostCommentController;
 
 use App\Http\Controllers\SelectDataController;
@@ -61,7 +58,14 @@ Route::group(['middleware' => 'auth'], function(){
     // Post Percentage and Comment
     Route::post('/comment/{post_id}/store', [PostCommentController::class, 'store'])->name('comment.store');
     Route::get('/comments/show/{post}', [PostCommentController::class, 'show'])->name('comments.show');
+    Route::post('/comment/{post_id}/reply', [PostCommentController::class, 'reply'])->name('comment.reply');
     Route::delete('/comment/{post_id}/destroy', [PostCommentController::class, 'destroy'])->name('comment.destroy');
+
+     // Reply
+     Route::post('/comment/{comment}/reply', [ReplyController::class, 'store'])->name('comment.reply');
+     Route::delete('comment/{comment_id}/reply/{reply_id}/destroy', [ReplyController::class, 'destroy'])->name('reply.destroy');
+
+    // Route::get('/comment/{comment_id}/replies', [ReplyController::class, 'showReplies'])->name('reply.show');
 
 
 

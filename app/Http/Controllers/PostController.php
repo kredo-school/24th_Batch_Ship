@@ -45,31 +45,31 @@ class PostController extends Controller
     public function authPostIndex()
     {
         $user = Auth::user();
-        
+
         // categories with auth user
         $categoryUsers = $user->CategoryUser;
-    
+
         // to get all categories for posts
         $relatedPosts = collect();
-    
+
         foreach ($categoryUsers as $categoryUser) {
             $category = $categoryUser->category;
-    
+
             if ($category) {
                 // relatedPosts
                 $posts = $category->relatedPosts;
-    
+
                 // when new posts has posted, it increases
                 if ($posts->isNotEmpty()) {
                     $relatedPosts = $relatedPosts->merge($posts);
                 }
             }
         }
-    
+
         return view('auth.postIndex', compact('user', 'relatedPosts'));
-    }    
-      
-    
+    }
+
+
     private function getAllPosts()
     {
         $all_posts = $this->post->latest()->get();
@@ -102,7 +102,7 @@ class PostController extends Controller
         $request->validate([
             'description'   => 'max:1500|required_if:image,null',
             'image'      => 'mimes:jpg,jpeg,png,gif|max:1048|required_if:description,null',
-            'category'      => 'required|array|between:1,3' 
+            'category'      => 'required|array|between:1,3'
         ], [
             'description.max' => 'The description must be at least 1500 characters.',
             'category.between' => 'You must select at least one interest',
@@ -194,7 +194,7 @@ class PostController extends Controller
        return redirect()->route('post.show', $id);
     }
 
-    
+
 
 
     // delete the post
