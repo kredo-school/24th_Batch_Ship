@@ -18,8 +18,8 @@
      <div class="col-md py-3 w-100">
         <form method="POST" action="{{ route('register') }}">
             @csrf
-            <h3 class="fw-bold my-4 text-center" style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);">Create an account</h1>
-            <div class="row">
+            <h3 class="fw-bold my-4 text-center mb-4" style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);">Create an account</h1>
+            <div class="row px-5">
                 <div class="col-md mb-3">
                     <input id="first_name" type="text" class="form-control bg-yellow @error('first_name') is-invalid @enderror" name="first_name" value="{{ old('name') }}" required autocomplete="first_name"  placeholder="First Name" autofocus >
          
@@ -39,7 +39,7 @@
                              @enderror
                  </div>
             </div>
-            <div class="mb-3">
+            <div class="mb-3 px-5">
                 <input type="text" name="username" id="" class="form-control bg-yellow @error('username') is-invalid @enderror" placeholder="Username" autofocus>
                 @error('username')
                  <span class="invalid-feedback" role="alert">
@@ -47,7 +47,7 @@
                  </span>
                 @enderror
             </div>
-            <div class="mb-3">
+            <div class="mb-3 px-5">
                 <input id="email" type="email" class="form-control bg-yellow @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" placeholder="Email">
 
                 
@@ -58,7 +58,7 @@
                 @enderror
              </div>
             
-            <div class="mb-3">
+            <div class="mb-3 px-5">
                 <input id="password" type="password" class="form-control bg-yellow @error('password') is-invalid @enderror" name="password" required autocomplete="new-password" placeholder="Enter your password">
                     @error('password')
                         <span class="invalid-feedback" role="alert">
@@ -67,15 +67,12 @@
                     @enderror
             </div>
 
-            <div class="mb-3">
+            <div class="mb-4 px-5">
                 <input id="password-confirm" type="password" class="form-control bg-yellow" name="password_confirmation" required autocomplete="new-password" placeholder="confirm your password">
         </div>
 
-            <div class="mb-3">
+            <div class="mb-4 px-5">
                 <button type="submit" class="btn btn-success w-100 bg-turquoise">Create</button>
-            </div>
-            <div class="mb-3 text-center fw-bold">
-                <p>Already have an account? <a href="{{ route('login') }}" class="text-decoration-none text-turquoise">Log in</a> </p>
             </div>
         </form>
      </div>
