@@ -24,10 +24,10 @@
           {{-- Inquiry content --}}
           <div class="col-6">
             {{-- Subject --}}
-            <p class="text-decoration-none text-black mb-0" data-bs-toggle="modal" data-bs-target="#inquiry-message-{{ $inquiry->id }}">
+            <a href="#" class="text-decoration-none text-black mb-0" data-bs-toggle="modal" data-bs-target="#inquiry-message-{{ $inquiry->id }}">
               {{ $inquiry->subject }}
-            </p>
-            {{-- Message --}}
+            </a>
+            {{-- Message modal --}}
             @include('admin.support.modal.message')
           </div>
 
