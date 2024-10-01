@@ -159,36 +159,48 @@ class PostController extends Controller
     {
         # 1. VALIDATE THE DATA FROM THE FORM
         $request->validate([
-            'category'      => 'required|array|between:1,3',
-            'description'   => 'required|min:1|max:1000',
-            'image.*'         => 'mimes:jpg,jpeg,png,gif|max:1048'
+            'category'    => 'required|array|between:1,3', // Ensure categories are required, an array, and between 1 to 3
+            'description' => 'required|min:1|max:1000', // Ensure description is required with length constraints
+            'image.*'     => 'mimes:jpg,jpeg,png,gif|max:1048' // Ensure images are of the correct type and size
         ]);
-
+    
         # 2. UPDATE THE POST
-        $post                 = $this->post->findOrFail($id);
-        $post->description    = $request->description;
-
-        #IF there is a new image
-        if($request->image){
-            $post->image      = 'data:image/' . $request->image->extension() . ';base64,' . base64_encode(file_get_contents($request->image));
+        $post = $this->post->findOrFail($id); // Find the post or fail
+        $post->description = $request->description; // Update the description
+    
+        # Handle deleted images
+        if ($request->has('remove_images')) {
+            foreach ($request->remove_images as $key) {
+                // Delete images from the database
+                $post->images()->where('id', $key)->delete();
+            }
         }
-
-       $post->save();
-
-       # 3. DELETE ALL RECORDS from the category_post table related to this POST
-       $post->categoryPost()->delete();
-
-       # 4. SAVE the new categories to the category_post table
-       foreach($request->category as $category_id){
-            $category_post[]  =  ['category_id' => $category_id];
-       }
-       $post->categoryPost()->createMany($category_post);
-
-       # 5. REDIRECT to Shoe Post page
-       return redirect()->route('users.posts.show', $id);
+            
+        # Process new images if uploaded
+        if ($request->hasFile('image')) {
+            foreach ($request->file('image') as $file) {
+                // Check if the file was uploaded successfully
+                if ($file->isValid()) {
+                    // Encode the image data to base64
+                    $imageData = base64_encode(file_get_contents($file->getRealPath()));
+                    
+                    // Save to the database
+                    $post->images()->create(['image_data' => $imageData]);
+                }
+            }
+        }
+    
+        $post->save(); // Save the updated post
+    
+        # 3. DELETE ALL RECORDS from the category_post table related to this POST
+        $post->categories()->detach(); // Detach all related categories
+    
+        # 4. SAVE the new categories to the category_post table
+        $post->categories()->attach($request->category); // Attach new categories
+    
+        # 5. REDIRECT to Show Post page
+        return redirect()->route('users.posts.show', $id); // Redirect to the post show page
     }
-
-
 
     // delete the post
     public function destroy($id)
