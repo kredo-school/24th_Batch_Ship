@@ -49,11 +49,11 @@
 
                                                                 <div class="pt-1">
                                                                     <p class="fw-bold mb-0 text-black">{{ $chat->recipient->username}}</p>
-                                                                    <p class="small text-muted">Message</p>
+                                                                    <p class="small text-muted">{{$chat->latestMessage->text}}</p>
                                                                 </div>
                                                             </div>
                                                             <div class="pt-1">
-                                                                <p class="small text-muted mb-1">Time</p>
+                                                                <p class="small text-muted mb-1">{{$chat->latestMessage->updated_at}}</p>
                                                                 <span class="badge bg-danger rounded-pill float-end">1</span>
                                                             </div>
                                                         </a>
@@ -69,11 +69,11 @@
                                                 
                                                                 <div class="pt-1">
                                                                     <p class="fw-bold mb-0 text-black">{{ $chat->sender->username}}</p>
-                                                                    <p class="small text-muted">Message</p>
+                                                                    <p class="small text-muted">{{$chat->latestMessage->text}}</p>
                                                                 </div>
                                                             </div>
                                                             <div class="pt-1">
-                                                                <p class="small text-muted mb-1">Time</p>
+                                                                <p class="small text-muted mb-1">{{$chat->latestMessage->updated_at}}</p>
                                                                 <span class="badge bg-danger rounded-pill float-end">1</span>
                                                             </div>
                                                         </a>
@@ -125,26 +125,14 @@
                                 {{-- input message  --}}
                                 <div class="text-muted d-flex justify-content-start align-items-center pe-3 pt-3 mt-2">
 
-                                    {{-- @if($all_messages->isNotEmpty()) --}}
-                                        @if ($chat->sender == Auth::user())
-                                            {{-- when Auth user is a sender --}}
-                                            <a href="{{ route('users.profile.specificProfile', $profile_id) }}" class="d-flex justify-content-between text-decoration-none">
-                                                @if ($chat->recipient->avatar)
-                                                    <img src="{{ $chat->recipient->avatar }}" alt="{{ $chat->recipient->name }}" class="d-flex align-self-center me-3 rounded-circle avatar-sm" width="60">
-                                                @else
-                                                    <i class="fa-solid fa-circle-user text-secondary d-flex align-self-center me-3 icon-sm" width="60"></i>
-                                                @endif
-                                            </a>
+                                    {{-- recipient's avatar --}}
+                                    <a href="{{ route('users.profile.specificProfile', $profile_id) }}" class="d-flex justify-content-between text-decoration-none">
+                                        @if ($recipientData->avatar)
+                                            <img src="{{ $recipientData->avatar }}" alt="{{ $recipientData->name }}" class="d-flex align-self-center me-3 rounded-circle avatar-sm" width="60">
                                         @else
-                                            <a href="{{ route('users.profile.specificProfile', $profile_id) }}" class="d-flex justify-content-between text-decoration-none">
-                                                @if ($chat->sender->avatar)
-                                                    <img src="{{ $chat->sender->avatar }}" alt="{{ $chat->sender->name }}" class="d-flex align-self-center me-3 rounded-circle avatar-sm" width="60">
-                                                @else
-                                                    <i class="fa-solid fa-circle-user text-secondary d-flex align-self-center me-3 icon-sm" width="60"></i>
-                                                @endif
-                                            </a>
+                                            <i class="fa-solid fa-circle-user text-secondary d-flex align-self-center me-3 icon-sm" width="60"></i>
                                         @endif
-                                    {{-- @endif --}}
+                                    </a>
 
                                     <form action="{{ route('chat.store', $profile_id) }}" method="post" class="row align-items-center w-100">
                                         @csrf
