@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Post;
 use App\Models\PostComment;
+use App\Models\Reply;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+
 
 class PostCommentController extends Controller
 
@@ -38,21 +40,25 @@ class PostCommentController extends Controller
         ]);
 
 
-        #2. Save the comment to the db
+         #2. Save the comment to the db
 
-        $this->postcomment->comment = $request->comment;
-        $this->postcomment->percentage = $request->percentage;
-        $this->postcomment->user_id     = Auth::user()->id;
-        $this->postcomment->post_id     = $post_id;
-        $this->postcomment->save();
+         $this->postcomment->comment = $request->comment;
+         $this->postcomment->percentage = $request->percentage;
+         $this->postcomment->user_id     = Auth::user()->id;
+         $this->postcomment->post_id     = $post_id;
+         $this->postcomment->save();
 
-        # 3. Redirect back to the page
-         return redirect()->back();
-    }
+         # 3. Redirect back to the page
+        //   return redirect()->back();
+        return redirect()->route('comments.show', $post_id);
+     }
 
-    public function show(Post $post)
+
+     public function show($id )
 {
     $sort = request('sort');
+
+    $post = Post::with('user')->findOrFail($id);
 
     if ($sort === 'percentage') {
         $comments = $post->comments()->orderBy('percentage', 'desc')->get();
@@ -62,10 +68,9 @@ class PostCommentController extends Controller
         $comments = $post->comments; // デフォルトのソート
     }
 
+    return view('users.posts.show', compact('comments', 'post'));
 
-    return view('users.posts.modals.empathy' , compact('comments', 'post'));
- }
-
+  }
 
     public function destroy($id)
     {

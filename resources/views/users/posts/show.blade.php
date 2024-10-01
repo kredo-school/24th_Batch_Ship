@@ -83,7 +83,7 @@
                 @if ($post->images->isNotEmpty())
                     <div id="carouselExample" class="carousel slide" data-interval="false">
                         <div class="carousel-indicators">
-                            @if ($post->images->count() > 1) 
+                            @if ($post->images->count() > 1)
                             @foreach ($post->images as $index => $image)
                                 <button type="button" data-bs-target="#carouselExample" data-bs-slide-to="{{ $index }}" class="@if($index == 0) active @endif" aria-current="{{ $index == 0 ? 'true' : 'false' }}" aria-label="Slide {{ $index + 1 }}"></button>
                             @endforeach
@@ -96,7 +96,7 @@
                                 </div>
                             @endforeach
                         </div>
-                        @if ($post->images->count() > 1) 
+                        @if ($post->images->count() > 1)
                             <button class="carousel-control-prev display-2" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
                                 <i class="fa-solid fa-caret-left text-gold">
                                     <span class="visually-hidden">Previous</span>
@@ -117,62 +117,44 @@
                 @endif
             </div>
 
+            <hr class="col-7 mt-5">
             <div class="row pt-6">
-                <div class="col-6">
-                    <form action="" method="post">
-                        {{-- If you are not the owner of the post, you can put empathy on this post --}}
+                <div class="row pt-6">
+                    {{-- Comment form --}}
+                    <form action="{{ route('comment.store', $post->id) }}" method="post">
+                        @csrf
+
+                        {{-- Enpathy Slider for non-owners --}}
                         @if (!($post->user->id === Auth::user()->id))
                             <div class="form-group mb-2 mx-3">
-                                <label for="enpathy">Enpathy:</label>
+                                <label for="enpathy">Empathy:</label>
                                 <div class="range-slider">
-                                    <input type="range" id="range" value="60" min="60" max="100" step="1" list="my-datalist" class="bg-turquoise" oninput="document.getElementById('output1').value=this.value">
+                                    <input type="range" id="percentage" name="percentage" value="60"
+                                        min="60" max="100" step="1" list="my-datalist"
+                                        class="bg-turquoise"
+                                        oninput="document.getElementById('output1').value=this.value">
                                     <output id="output1" class="m-2">60</output><span>%</span>
                                 </div>
                             </div>
                         @endif
 
-                        {{-- show all the comments --}}
-                        {{-- @if ($post->comments->isNotEmpty())
-                        <ul class="list-group mt-2">
-                            @foreach ($post->comments as $comment)
-                                <li class="list-group-item border-0 p-0 mb-2">
-                                    <a href="{{ route('profile.show', $comment->user->id) }}" class="text-decoration-none text-dark fw-bold">{{ $comment->user->name }}</a>
-                                    &nbsp;
-                                    <p class="d-inline fw-light">{{ $comment->body }}</p>
+                        {{-- Comment for post --}}
+                        <textarea name="comment" id="{{ $post->id }}" rows="1" class="form-control form-control-sm"
+                            placeholder="Add a comment...">{{ old('comment' . $post->id) }}</textarea>
 
-                                    <form action="{{ route('comment.destroy', $comment->id) }}" method="post">
-                                        @csrf
-                                        @method('DELETE')
-
-                                        <span class="text-uppercase text-muted xsmall">{{ date('M d, Y', strtotime($comment->created_at)) }}</span>
-                            @endforeach
-                            @endif --}}
-
-                        {{-- comment for post --}}
-                        <textarea name="postcomment" rows="2" placeholder="comment" class="form-control form-control-sm form-group mt-5"></textarea>
-                        {{-- If you are not the owner of the post, you can delete comment on this post --}}
-                        {{-- @if (Auth::user()->id === $comment->user->id)
-                        &middot;
-                        <button type="submit" class="border-0 bg-transparent text-danger p-0 xsmall">Delete</button>
-                        @endif --}}
-
-                        {{-- submit --}}
-                        <button type="submit" class="btn btn-gold form-group m-3 btn-lg">Post</button>
+                        <button type="submit" class="btn btn-gold form-group mt-3 ml-1 btn-lg">Send</button>
                     </form>
                 </div>
-            </div>
-
-            <div class="text-end">
-                {{-- you can see all reaction which post owner get here --}}
-                <button class="shadow-none p-0 border-0 text-turquoise bg-pink" data-bs-toggle="modal" data-bs-target="#see-all-reactions{{-- #delete-post-{{ $post->id }} --}}">
-                    {{-- use modal to show all reaction --}}
-                    see all reactions
-                </button>
-                @include('users.posts.modals.empathy')
+                <div class="text-end">
+                    {{-- you can see all reaction witch post owner get here --}}
+                    <button class="shadow-none p-0 border-0 text-turquoise bg-pink" data-bs-toggle="modal"
+                        data-bs-target="#see-all-reactions{{-- #delete-post-{{ $post->id }} --}}">
+                        {{-- use modal to show all reaction --}}
+                        see all reactions
+                    </button>
+                    @include('users.posts.modals.empathy')
+                </div>
             </div>
         </div>
-    </div>
-</div>
 
 @endsection
-

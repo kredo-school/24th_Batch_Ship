@@ -39,38 +39,38 @@ class PostController extends Controller
         $all_posts = $this->getAllPosts();
         return view('users.posts.index')
             ->with('all_posts', $all_posts);
-        
+
     }
 
     # Go to Post for auth user
     public function authPostIndex()
     {
         $user = Auth::user();
-        
+
         // categories with auth user
         $categoryUsers = $user->CategoryUser;
-    
+
         // to get all categories for posts
         $relatedPosts = collect();
-    
+
         foreach ($categoryUsers as $categoryUser) {
             $category = $categoryUser->category;
-    
+
             if ($category) {
                 // relatedPosts
                 $posts = $category->relatedPosts;
-    
+
                 // when new posts has posted, it increases
                 if ($posts->isNotEmpty()) {
                     $relatedPosts = $relatedPosts->merge($posts);
                 }
             }
         }
-    
+
         return view('auth.postIndex', compact('user', 'relatedPosts'));
-    }    
-      
-    
+    }
+
+
     private function getAllPosts()
     {
         $all_posts = $this->post->latest()->get();
@@ -87,29 +87,38 @@ class PostController extends Controller
 
     # show() - view Show Post Page
     public function show($id)
-    {
-       $post = $this->post->with('user', 'images')->findOrFail($id);
+{
+    $post = $this->post->with(['user', 'images', 'comments.user'])->findOrFail($id);
 
-       $imageCount = $post->images->count();
+    $imageCount = $post->images->count();
     \Log::info('Number of images: ' . $imageCount); // ログに出力
 
-      return view('users.posts.show')->with('post', $post);
-    }
+    return view('users.posts.show')->with('post', $post);
+}
 
     // store() = save the post to DB
     public function store(Request $request)
     {
         $request->validate([
+
+            'description'   => 'max:1500|required_if:image,null',
+            'image'      => 'mimes:jpg,jpeg,png,gif|max:1048|required_if:description,null',
+            'category'      => 'required|array|between:1,3'
+        ], [
+            'description.max' => 'The description must be at least 1500 characters.',
+            'category.between' => 'You must select at least one interest',
+
                 'description'   => 'max:1500',
                 'images.*'      => 'mimes:jpg,jpeg,png,gif|max:1048',
                 'category'      => 'required|array|between:1,3'
+
         ]);
-        
+
     # Save the post
     $this->post->user_id     = Auth::user()->id;
     $this->post->description = $request->description;
     $this->post->save();
-        
+
     # Save multiple images
     if ($request->hasFile('images')) {
     foreach ($request->file('images') as $image) {
@@ -117,19 +126,19 @@ class PostController extends Controller
             $this->post->images()->create(['image_data' => $imageData]);
          }
     }
-        
+
     # Save the categories to the category_post pivot table
         $category_post = [];
         foreach ($request->category as $category_id) {
             $category_post[] = ['category_id' => $category_id];
         }
-        
+
         $this->post->categories()->attach($category_post);
-    
+
     # Go back to homepage
         return redirect()->route('users.posts.show', ['id' => $this->post->id]);
-        
-    }        
+
+    }
 
     // edit() - view Edit Post page
     public function edit($id)
@@ -201,6 +210,9 @@ class PostController extends Controller
         # 5. REDIRECT to Show Post page
         return redirect()->route('users.posts.show', $id); // Redirect to the post show page
     }
+
+
+
 
     // delete the post
     public function destroy($id)
