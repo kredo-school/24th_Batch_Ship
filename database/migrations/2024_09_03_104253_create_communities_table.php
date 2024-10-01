@@ -29,8 +29,8 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('communities');
-        Schema::table('communities', function (Blueprint $table) {
-            $table->dropSoftDeletes();
-        });
+        // Schema::table('communities', function (Blueprint $table) {
+        //     $table->dropSoftDeletes();
+        // });
     }
 };

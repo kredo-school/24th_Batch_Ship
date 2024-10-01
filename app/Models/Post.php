@@ -8,7 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 
 class Post extends Model
+
 {
+    // use HasFactory, SoftDeletes;
+
+    protected $table = 'posts';
+    protected $fillable = ['description', 'image','user_id'];
+    public $timestamps = true;
     // use HasFactory, SoftDeletes;
 
     # POST - USER
@@ -39,16 +45,21 @@ class Post extends Model
 //         return $this->hasMany(Comment::class);
 //     }
 
-//     # to get all the likes of a post
-//     public function likes()
-//     {
-//         return $this->hasMany(Like::class);
-//     }
+     # to get all the comments under a post
+     public function comments()
+     {
+         return $this->hasMany(PostComment::class);
+     }
 
-//     # return TRUE if the Auth user already liked the post
-//     public function isLiked()
-//     {
-//         return $this->likes()->where('user_id', Auth::user()->id)->exists();
-//     }
+     public function percentage()
+     {
+         return $this->hasMany(PostComment::class);
+        //  ->where('post_id', $this->id);
+     }
+     # to get all the likes of a post
+    //  public function percentage()
+    //  {
+    //      return $this->hasMany(Percentage::class);
+    //  }
 
 }
