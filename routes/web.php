@@ -8,6 +8,12 @@ use App\Http\Controllers\EventController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CommunityController;
 use App\Http\Controllers\EventUserController;
+
+
+// use App\Http\Controllers\CommentController;
+// use App\Http\Controllers\PercentageController;
+use App\Http\Controllers\PostCommentController;
+
 use App\Http\Controllers\SelectDataController;
 use App\Http\Controllers\BoardCommentController;
 use App\Http\Controllers\CommunityUserController;
@@ -17,13 +23,14 @@ use App\Http\Controllers\InquiryController;
 
 use App\Http\Controllers\Admin\InquiriesController;
 
+
 Auth::routes();
 
 Route::group(['middleware' => 'auth'], function(){
 
     Route::get('/search', [HomeController::class, 'search'])->name('search');
 
-    
+
     //Profile
     Route::get('/', [ProfileController::class,'index'])->name('users.profile.index');
     Route::get('/profile/{id}', [ProfileController::class,'specificProfile'])->name('users.profile.specificProfile');
@@ -36,10 +43,11 @@ Route::group(['middleware' => 'auth'], function(){
     Route::get('/post/index', [PostController::class, 'index'])->name('users.posts.index');
     Route::get('/post/{id}/show', [PostController::class, 'show'])->name('users.posts.show');
     Route::get('/post/create', [PostController::class, 'create'])->name('users.posts.create');
-    Route::post('/post/store', [PostController::class, 'store'])->name('users.posts.store');
     Route::get('/post/{id}/edit', [PostController::class, 'edit'])->name('users.posts.edit');
+    Route::post('/post/store', [PostController::class, 'store'])->name('users.posts.store');
     Route::patch('/post/{id}/update', [PostController::class, 'update'])->name('users.posts.update');
     Route::delete('/post/{id}/destroy', [PostController::class, 'destroy'])->name('users.posts.destroy');
+
 
     # Community
     Route::get('/community/index', [CommunityController::class,'index'])->name('communities.index');
@@ -49,10 +57,20 @@ Route::group(['middleware' => 'auth'], function(){
     Route::get('/community/{id}/edit', [CommunityController::class, 'edit'])->name('communities.edit');
     Route::patch('/community/{id}/update', [CommunityController::class, 'update'])->name('communities.update');
 
+
+    // Post Percentage and Comment
+    Route::post('/comment/{post_id}/store', [PostCommentController::class, 'store'])->name('comment.store');
+    Route::get('/comments/show/{post}', [PostCommentController::class, 'show'])->name('comments.show');
+    Route::delete('/comment/{post_id}/destroy', [PostCommentController::class, 'destroy'])->name('comment.destroy');
+
+
+
+    # COMMENT
     # BOARDCOMMENT
     Route::post('/comment/{community_id}/store', [BoardCommentController::class, 'store'])->name('boardcomment.store');
     Route::patch('/comment/{id}/update', [BoardCommentController::class, 'update'])->name('boardcomment.update');
     Route::delete('/comment/{id}/destroy', [BoardCommentController::class, 'destroy'])->name('boardcomment.destroy');
+
 
     # CommunityUser
     Route::post('/community/{id}/join', [CommunityUserController::class, 'join'])->name('community.join');
@@ -69,14 +87,14 @@ Route::group(['middleware' => 'auth'], function(){
     # EventUser
     Route::post('/event/{id}/join', [EventUserController::class, 'join'])->name('event.join');
     Route::delete('/event/{id}/unjoin', [EventUserController::class, 'unjoin'])->name('event.unjoin');
-        
+
     # API
     Route::get('/api/select-data', [SelectDataController::class, 'getData']);
 
     # Chat
     Route::get('/chat', [ChatController::class, 'index'])->name('chat.index');
-    Route::post('/profile/{id}/chat', [ChatController::class, 'createChat'])->name('chat.create');
-    Route::post('/chat/store', [ChatController::class, 'store'])->name('chat.store');
+    Route::get('/profile/{profile_id}/chat', [ChatController::class, 'getAllChat'])->name('chat.show');
+    Route::post('/chat/{profile_id}/messages', [ChatController::class, 'store'])->name('chat.store');
 
     # Support
     Route::get('/inquiry/create', [InquiryController::class, 'create'])->name('inquiry.create');
@@ -94,7 +112,7 @@ Route::group(['middleware' => 'auth'], function(){
     Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => 'admin'], function(){
         # Support
         Route::get('/support', [InquiriesController::class,'index'])->name('support');
-        # Categories
-        Route::get('/categories', [CategoriesController::class,'index'])->name('categories');
+        Route::delete('/support/{id}/completed', [InquiriesController::class, 'completed'])->name('support.completed');
+        Route::patch('/support/{id}/pending', [InquiriesController::class, 'pending'])->name('support.pending');
     });
 });

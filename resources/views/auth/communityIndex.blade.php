@@ -9,9 +9,9 @@
         <div class="row mb-3">
             <div class="col text-center">
                 @foreach ($user->categoryUser as $category_user)
-                <a href="{{ route('users.categories.show', $category_user->category_id) }}" class="btn fs-4 px-3 py-1 bg-turquoise text-white rounded border-0">
-                    {{ $category_user->category->name }}
-                </a>
+                    <a href="{{ route('users.categories.show', $category_user->category_id) }}" class="fs-5 badge bg-turquoise text-white ms-1 px-2 text-decoration-none">
+                        {{ $category_user->category->name }}
+                    </a>
             @endforeach
             </div>
         </div>
@@ -49,7 +49,7 @@
                 @endforeach
             </div>
         @else
-            <h3 class="text-secondary text-center">No communities found</h3>
+            <h3 class="text-secondary text-center">No related communities found</h3>
         @endif    
     </div>
 @endsection

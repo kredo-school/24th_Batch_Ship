@@ -53,6 +53,10 @@
                                 </li>
                             @endif
                         @else
+                            {{-- Chat icon --}}
+                            <li class="nav-item">
+                                <a href="{{ route('chat.index') }}" class="nav-link text-white active" type="button"><i class="fa-solid fa-comments"></i></a>
+                            </li>
                             {{-- Ship icon --}}
                             <li class="nav-item dropdown">
                                 <a href="" class="nav-link dropdown-toggle text-white" role="button" data-bs-toggle="dropdown" area-expanded="false">
