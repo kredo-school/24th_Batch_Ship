@@ -40,21 +40,25 @@ class PostCommentController extends Controller
         ]);
 
 
-        #2. Save the comment to the db
+         #2. Save the comment to the db
 
-        $this->postcomment->comment = $request->comment;
-        $this->postcomment->percentage = $request->percentage;
-        $this->postcomment->user_id     = Auth::user()->id;
-        $this->postcomment->post_id     = $post_id;
-        $this->postcomment->save();
+         $this->postcomment->comment = $request->comment;
+         $this->postcomment->percentage = $request->percentage;
+         $this->postcomment->user_id     = Auth::user()->id;
+         $this->postcomment->post_id     = $post_id;
+         $this->postcomment->save();
 
-        # 3. Redirect back to the page
-         return redirect()->back();
-    }
+         # 3. Redirect back to the page
+        //   return redirect()->back();
+        return redirect()->route('comments.show', $post_id);
+     }
 
-    public function show(Post $post)
+
+     public function show($id )
 {
     $sort = request('sort');
+
+    $post = Post::with('user')->findOrFail($id);
 
     if ($sort === 'percentage') {
         $comments = $post->comments()->orderBy('percentage', 'desc')->get();
@@ -64,27 +68,9 @@ class PostCommentController extends Controller
         $comments = $post->comments; // デフォルトのソート
     }
 
+    return view('users.posts.show', compact('comments', 'post'));
 
-    return view('users.posts.modals.empathy' , compact('comments', 'post'));
- }
-
-
- public function reply(Request $request, $commentId)
-{
-    $request->validate([
-        'reply' => 'required|string|max:255',
-    ]);
-
-    $reply = new Reply();
-    $reply->user_id = Auth::id();
-    $reply->post_comment_id = $commentId;
-    $reply->content = $request->reply;
-    $reply->save();
-
-    return redirect()->back(); // モーダルを再表示するためにリダイレクト
-}
-
-
+  }
 
     public function destroy($id)
     {

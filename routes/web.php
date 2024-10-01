@@ -38,7 +38,7 @@ Route::group(['middleware' => 'auth'], function(){
 
     //Post
     Route::get('/post/index', [PostController::class, 'index'])->name('users.posts.index');
-    Route::get('/post/{id}/show', [PostController::class, 'show'])->name('users.posts.show');
+    Route::get('/post/{id}/show', [PostCommentController::class, 'show'])->name('users.posts.show');
     Route::get('/post/create', [PostController::class, 'create'])->name('users.posts.create');
     Route::get('/post/{id}/edit', [PostController::class, 'edit'])->name('users.posts.edit');
     Route::post('/post/store', [PostController::class, 'store'])->name('users.posts.store');
@@ -58,14 +58,14 @@ Route::group(['middleware' => 'auth'], function(){
     // Post Percentage and Comment
     Route::post('/comment/{post_id}/store', [PostCommentController::class, 'store'])->name('comment.store');
     Route::get('/comments/show/{post}', [PostCommentController::class, 'show'])->name('comments.show');
-    Route::post('/comment/{post_id}/reply', [PostCommentController::class, 'reply'])->name('comment.reply');
+    // Route::post('/comment/{post_id}/reply', [PostCommentController::class, 'reply'])->name('comment.reply');
     Route::delete('/comment/{post_id}/destroy', [PostCommentController::class, 'destroy'])->name('comment.destroy');
 
      // Reply
-     Route::post('/comment/{comment}/reply', [ReplyController::class, 'store'])->name('comment.reply');
-     Route::delete('comment/{comment_id}/reply/{reply_id}/destroy', [ReplyController::class, 'destroy'])->name('reply.destroy');
+     Route::post('/comment/{comment_id}/reply', [ReplyController::class, 'store'])->name('reply.store');
+     Route::get('/comment/{comment_id}/replies', [ReplyController::class, 'showReplies'])->name('reply.show');
+     Route::delete('reply/{id}', [ReplyController::class, 'deleteReply'])->name('reply.destroy');
 
-    // Route::get('/comment/{comment_id}/replies', [ReplyController::class, 'showReplies'])->name('reply.show');
 
 
 

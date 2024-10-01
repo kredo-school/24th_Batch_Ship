@@ -37,36 +37,29 @@ class Post extends Model
     {
         return $this->belongsToMany(Category::class, 'category_post', 'post_id', 'category_id');
     }
-    
-    
-//     # to get all the comments under a post
-//     public function comments()
-//     {
-//         return $this->hasMany(Comment::class);
-//     }
+
+
+
 
      # to get all the comments under a post
      public function comments()
      {
-         return $this->hasMany(PostComment::class);
-     }
+         return $this->hasMany(PostComment::class, 'post_id');
+
+}
 
      public function percentage()
      {
          return $this->hasMany(PostComment::class);
         //  ->where('post_id', $this->id);
      }
-     # to get all the likes of a post
-    //  public function percentage()
-    //  {
-    //      return $this->hasMany(Percentage::class);
-    //  }
+
 
         # To get multiple images
         public function images()
         {
             return $this->hasMany(postImage::class);
         }
-        
+
 
 }

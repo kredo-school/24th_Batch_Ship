@@ -16,10 +16,12 @@ class PostComment extends Model
      protected $fillable = [ 'user_id', 'post_id', 'percentage', 'comment' ];
 
 
+
+
      public function post()
-    {
-        return $this->belongsTo(Post::class);
-    }
+     {
+         return $this->belongsTo(Post::class);
+     }
 
     public function getPercentage()
     {
@@ -27,9 +29,9 @@ class PostComment extends Model
 
     }
 
-    public function replies()
-{
-    return $this->hasMany(Reply::class);
-}
 
+    public function replies()
+    {
+        return $this->hasMany(Reply::class, 'post_comment_id');
+    }
 }

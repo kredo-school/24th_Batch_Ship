@@ -9,42 +9,43 @@ use Illuminate\Support\Facades\Auth;
 
 class ReplyController extends Controller
 {
-    private $reply;
+    public function __construct(Reply $reply)
+    {
+        $this->reply = $reply;
+    }
+
     // コメントに関連するリプライを取得
     public function showReplies($commentId)
     {
-        // コメントを取得
         $postComment = PostComment::findOrFail($commentId);
-
-        // そのコメントに関連するリプライを取得
-        $replies = $postComment->replies;
-        $replies = Reply::where('post_comment_id', $commentId)->get();
+        $replies = $postComment->replies; // これで関連するリプライを取得
 
         return view('replies.show', compact('postComment', 'replies'));
     }
 
     // リプライを保存するメソッド
-    public function store(Request $request, $commentId)
+    public function store(Request $request, $comment_id)
     {
         $request->validate([
-            'reply' => 'required|string',
+            'reply' => 'required|string|max:500', // 内容の最大長を追加
         ]);
 
+        // 新しいリプライを作成
         $reply = new Reply();
+        $reply->post_comment_id = $comment_id;
+        $reply->user_id = Auth::id();
         $reply->content = $request->reply;
-        $reply->user_id = Auth::user()->id;
-        $reply->post_comment_id = $commentId; // ここでコメントIDを設定
         $reply->save();
 
-        return redirect()->back(); // または適切なリダイレクト先
+        return redirect()->back();
+
     }
 
-    public function destroy($id)
+    // リプライを削除するメソッド
+    public function deleteReply($id)
     {
         $this->reply->destroy($id);
 
         return redirect()->back();
     }
-
 }
-
