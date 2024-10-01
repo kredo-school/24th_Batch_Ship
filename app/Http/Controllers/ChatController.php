@@ -94,17 +94,28 @@ class ChatController extends Controller
         // get all messages
         $sender_id = Auth::id();
         $recipient_id = $profile_id;
+        $recipientData = User::findOrFail($profile_id);
 
         // identify chat
         $chats = Chat::where(function($query) use ($sender_id, $recipient_id) {
             $query->where('sender_id', $sender_id)
                   ->where('recipient_id', $recipient_id)
-                  ->with('messages');
+                  ->with('messages')
+                  ->with('sender')
+                  ->with('recipient')
+                  ->with(['latestMessage' => function($query){
+                    $query->latest('created_at'); // get latest massage
+                  }]);
         })
         ->orWhere(function($query) use ($sender_id, $recipient_id) {
             $query->where('sender_id', $recipient_id)
                   ->where('recipient_id', $sender_id)
-                  ->with('messages');
+                  ->with('messages')
+                  ->with('sender')
+                  ->with('recipient')
+                  ->with(['latestMessage' => function($query){
+                    $query->latest('created_at'); // get latest massage
+                  }]);
         })
         ->get();
 
@@ -112,23 +123,23 @@ class ChatController extends Controller
             return $chat->messages;
         });
 
-        // $latest_massage = $this->getLatestMessage();
+        $chat = $chats->first();
 
-        return view('users.chats.index', compact('all_chats', 'profile_id', 'all_messages'));
+        return view('users.chats.index', compact('all_chats', 'profile_id', 'all_messages', 'chat', 'recipientData'));
     }
 
-    // public function getLatestMessage(){
+    // public function search(Request $request){
     //     $sender_id = Auth::id();
 
     //     $chat = Chat::where(function($query) use ($sender_id) {
     //         $query->where('sender_id', $sender_id)
-    //               ->orWhere('recipient_id', $sender_id);
+    //               ->where('recipient_id', $sender_id);
     //     })
-    //     ->with(['messages' => function($query){
-    //         $query->orderBy('created_at', 'desc')->limit(1);
-    //     }])
-    //     ->get();
+    //     ->first();
 
-    //     return view('users.chats.index', compact('chat'));
+    //     $users = $chat->user->where('username','like', '%'. $request->search . '%')->get();
+
+    //     return view('users.chats.index')->with('users', $users)
+    //                                     ->with('search', $request->search);
     // }
 }
