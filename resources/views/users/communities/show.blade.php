@@ -18,34 +18,35 @@
         </div>
 
           {{-- bulletin board --}}
+          {{ Auth::user()->id }}
           <div class="container bg-white p-3 w-100">
-            <form action="{{ route('boardcomment.store', $community->id) }}" method="post" enctype="multipart/form-data">
-                @csrf
-                {{-- input for comments --}}
-                <div class="row">
-                  <div class="col-1"></div>
-                  <div class="col-10">
-                    <div class="mb-2 input-group">
-                      <textarea name="comment_body{{ $community->id }}" rows="1" class="form-control form-control-sm rounded shadow-sm" placeholder="write a comment"></textarea>
-                      @error('comment_body' . $community->id)
-                      <p class="mb-0 text-danger samll">{{ $message }}</p>
-                      @enderror
-                      <button type="submit" value="send" class="btn btn-turquoise rounded fw-bold mx-2 px-4 py-0 w-25">Post</button>  
-                    </div>              
-                  </div>
-                  <div class="col"></div>
-                </div>
-                <div class="row">
-                  <div class="col-1"></div>
-                  <div class="col-7">
-                    {{-- input to uploard img --}}
-                    <input type="file" class="form-control form-control-sm"  name="image" id="image" >
-                    {{-- Error message area --}}
-                    @error('image')
-                      <div class="text-danger small">{{ $message }}</div>
+            <form action="{{ route('boardcomment.store', $community->id) }}" method="POST" enctype="multipart/form-data">
+              @csrf
+              {{-- input for comments --}}
+              <div class="row">
+                <div class="col-1"></div>
+                <div class="col-10">
+                  <div class="mb-2 input-group">
+                    <textarea name="comment_body{{ $community->id }}" rows="1" class="form-control form-control-sm rounded shadow-sm" placeholder="write a comment"></textarea>
+                    @error('comment_body' . $community->id)
+                    <p class="mb-0 text-danger samll">{{ $message }}</p>
                     @enderror
+                    <button type="submit" value="send" class="btn btn-turquoise rounded fw-bold mx-2 px-4 py-0 w-25">Post</button>
                   </div>
-                </div>        
+                </div>
+                <div class="col"></div>
+              </div>
+              <div class="row">
+                <div class="col-1"></div>
+                <div class="col-7">
+                  {{-- input to uploard img --}}
+                  <input type="file" class="form-control form-control-sm"  name="image" id="image" >
+                  {{-- Error message area --}}
+                  @error('image')
+                    <div class="text-danger small">{{ $message }}</div>
+                  @enderror
+                </div>
+              </div>
             </form>
                 
             <hr class="my-3">

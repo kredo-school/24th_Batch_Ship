@@ -11,6 +11,7 @@ class BoardComment extends Model
     use HasFactory;
 
     protected $table = 'board_comments';
+    protected $fillable = ['user_id', 'community_id', 'body', 'image'];
 
     # To get the info of the owner of the comment
     public function user()
