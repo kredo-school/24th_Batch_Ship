@@ -71,7 +71,7 @@ Route::group(['middleware' => 'auth'], function(){
 
     # COMMENT
     # BOARDCOMMENT
-    Route::post('/comment/{community_id}/store', [BoardCommentController::class, 'store'])->name('boardcomment.store');
+    Route::post('/comment/store', [BoardCommentController::class, 'store'])->name('boardcomment.store');
     Route::patch('/comment/{id}/update', [BoardCommentController::class, 'update'])->name('boardcomment.update');
     Route::delete('/comment/{id}/destroy', [BoardCommentController::class, 'destroy'])->name('boardcomment.destroy');
 
