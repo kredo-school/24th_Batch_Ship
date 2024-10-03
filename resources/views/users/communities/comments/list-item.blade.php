@@ -38,20 +38,21 @@
                   {{-- created date --}}
                   <p class="text-muted fw-light mb-1">{{ date('M-d-Y', strtotime($comment->created_at)) }}  {{ date('H:i', strtotime($comment->created_at)) }}</p> 
                   @if ($comment->user_id == Auth::user()->id)
-                  &nbsp;
+                    &nbsp;
 
-                    {{-- delete button  --}}
-                    <button type="submit" class="bg-white border border-0 bg-transparent" data-bs-toggle="modal" data-bs-target="#delete-comment-{{ $comment->id }}">
-                      <i class="fa-regular fa-trash-can"></i>
-                    </button>
-                    @include('users.communities.modals.delete')
+                      {{-- delete button  --}}
+                      <button type="submit" class="bg-white border border-0 bg-transparent" data-bs-toggle="modal" data-bs-target="#delete-comment-{{ $comment->id }}">
+                        <i class="fa-regular fa-trash-can"></i>
+                      </button>
+                      @include('users.communities.modals.delete')
 
-                    {{-- edit button --}}
-                    <button class="bg-white border border-0 bg-transparent" data-bs-toggle="modal" data-bs-target="#edit-comment-{{ $comment->id }}">
-                      <i class="fa-regular fa-pen-to-square text-dark"></i>
-                    </button>
-                    @include('users.communities.modals.edit')
-                  
+                      {{-- edit button --}} 
+                      @if ($comment->body)
+                        <button class="bg-white border border-0 bg-transparent" data-bs-toggle="modal" data-bs-target="#edit-comment-{{ $comment->id }}">
+                          <i class="fa-regular fa-pen-to-square text-dark"></i>
+                        </button>
+                        @include('users.communities.modals.edit')
+                      @endif                 
                   @endif
                 </div>
             </div>  
