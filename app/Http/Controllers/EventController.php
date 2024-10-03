@@ -74,20 +74,22 @@ class EventController extends Controller
         // $id - ID of the event
         $event = $this->event->findOrFail($id);
 
-        // For the left Side of Contents
+        // For the left side of contents
         $date = Carbon::parse($event->date)->format('Y/m/d');
         $startTime = Carbon::parse($event->start_time)->format('H:i');
         $endTime = Carbon::parse($event->end_time)->format('H:i');
 
-        // For the right Side of Contents
+        // For the right side of contents
         $all_categories = $event->community->categoryCommunity->all();
         $all_attendees = collect($event->attendees);
+        // Current Date and Time
         $currentDateTime = Carbon::now();
+        $currentDate = Carbon::today(); // Use Carbon to get the current date without time
 
         // For location map
         $encodedAddress = urlencode($event->address);
 
-        return view('users.events.show', compact('event', 'date', 'startTime', 'endTime', 'all_categories', 'all_attendees', 'currentDateTime','encodedAddress'));
+        return view('users.events.show', compact('event', 'date', 'startTime', 'endTime', 'all_categories', 'all_attendees', 'currentDateTime', 'currentDate', 'encodedAddress'));
     }
 
     public function edit($id)

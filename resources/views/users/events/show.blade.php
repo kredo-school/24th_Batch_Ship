@@ -7,38 +7,39 @@
     <div class="container-fluid bg-yellow rounded p-3">
         <div class="row py-3">
             {{-- Title --}}
-            <div class="col-10">
+            <div class="col-9">
                 <h1 class="h1">{{ $event->title }}</h1>
             </div>
             {{-- Join Button --}}
             @if (Auth::user()->id !== $event->host_id)
-                <div class="col-2">
-                    {{-- Check if the user is already joining the event --}}
-                    @if ($event->isJoining())
-                        <form action="{{ route('event.unjoin', $event->id) }}" method="post">
-                            @csrf
-                            @method('DELETE')
-                
-                            <button type="submit" class="btn btn-turquoise float-end">UNJOIN</button>
-                        </form>
-                    @else
-                        {{-- Check if the user is the community owner or a community member --}}
-                        @if (
-                            $event->community->owner_id === Auth::user()->id ||
-                            $event->community->members->contains('user_id', Auth::user()->id)
-                        )
+                <div class="col-3">
+                    @if ($currentDate->lessThan($event->date))
+                        @php
+                            $isJoining = $event->isJoining();
+                            $isCommunityOwner = $event->community->owner_id === Auth::user()->id;
+                            $isCommunityMember = $event->community->members->contains('user_id', Auth::user()->id);
+                        @endphp
+
+                        @if ($isJoining)
+                            <form action="{{ route('event.unjoin', $event->id) }}" method="post">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-turquoise float-end">UNJOIN</button>
+                            </form>
+                        @elseif ($isCommunityOwner || $isCommunityMember)
                             <form action="{{ route('event.join', $event->id) }}" method="post">
                                 @csrf
-                                
                                 <button type="submit" class="btn btn-turquoise float-end">JOIN</button>
                             </form>
                         @else
                             {{-- Warning modal for NON community member --}}
-                            <button type="button" class="btn btn-turquoise float-end" data-bs-toggle="modal" data-bs-target="#join-warning-{{ $event->id }}">
-                                JOIN
-                            </button>
+                            <button type="button" class="btn btn-turquoise float-end" data-bs-toggle="modal" data-bs-target="#join-warning-{{ $event->id }}">JOIN</button>
                             @include('users.events.modals.join-warning')
                         @endif
+                    @else
+                        <p class="text-danger mt-2">
+                            You can no longer JOIN or UNJOIN this event as it has either reached its deadline or has already occurred.
+                        </p>
                     @endif
                 </div>  
             @endif
@@ -174,19 +175,29 @@
 
                 {{-- Edit/Delete Button --}}
                 @if (Auth::user()->id === $event->host_id)
-                    <div class="row mt-5 d-flex justify-content-end">
-                        <div class="col text-end">
-                            <a href="{{ route('event.edit', $event->id) }}" class="btn bg-gold text-white py-1">
-                                <i class="fa-solid fa-pen-to-square"></i>
-                                Edit event
-                            </a>
-                            <button type="button" class="btn bg-white text-danger py-1 ms-2" data-bs-toggle="modal" data-bs-target="#delete-event-{{ $event->id }}">
-                                <i class="fa-solid fa-trash-can"></i> 
-                                Delete event
-                            </button>
+                    @if ($currentDate->lessThan($event->date))
+                        <div class="row mt-5 d-flex justify-content-end">
+                            <div class="col text-end">
+                                <a href="{{ route('event.edit', $event->id) }}" class="btn bg-gold text-white py-1">
+                                    <i class="fa-solid fa-pen-to-square"></i>
+                                    Edit event
+                                </a>
+                                <button type="button" class="btn bg-white text-danger py-1 ms-2" data-bs-toggle="modal" data-bs-target="#delete-event-{{ $event->id }}">
+                                    <i class="fa-solid fa-trash-can"></i> 
+                                    Delete event
+                                </button>
+                            </div>
                         </div>
-                    </div>
-                    @include('users.events.modals.delete') 
+                        @include('users.events.modals.delete') 
+                    @else
+                        <div class="row mt-5 d-flex justify-content-end">
+                            <div class="col">
+                                <p class="text-danger">
+                                    This event can no longer be Edited or Deleted as it has either reached its deadline or has already occurred.
+                                </p>
+                            </div>
+                        </div>
+                    @endif
                 @endif
             </div>
         </div>
