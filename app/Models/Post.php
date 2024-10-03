@@ -58,7 +58,7 @@ class Post extends Model
         # To get multiple images
         public function images()
         {
-            return $this->hasMany(postImage::class);
+            return $this->hasMany(PostImage::class);
         }
 
 

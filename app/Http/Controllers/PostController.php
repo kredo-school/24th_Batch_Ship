@@ -101,42 +101,47 @@ class PostController extends Controller
     {
         $request->validate([
 
-            'description'   => 'max:1500|required_if:image,null',
-            'image'      => 'mimes:jpg,jpeg,png,gif|max:1048|required_if:description,null',
-            'category'      => 'required|array|between:1,3'
+            'description'       => 'max:1500|required_if:image,null',
+            'image.*'           => 'mimes:jpg,jpeg,png,gif|max:1048|required_if:description,null',
+            'category'          => 'required|array|between:1,3'
         ], [
-            'description.max' => 'The description must be at least 1500 characters.',
-            'category.between' => 'You must select at least one interest',
+            'description.max'   => 'The description must be at least 1500 characters.',
+            'category.between'  => 'You must select at least one interest',
 
                 'description'   => 'max:1500',
-                'images.*'      => 'mimes:jpg,jpeg,png,gif|max:1048',
+                'image.*'       => 'mimes:jpg,jpeg,png,gif|max:1048|required_if:description,null',
                 'category'      => 'required|array|between:1,3'
 
         ]);
 
     # Save the post
-    $this->post->user_id     = Auth::user()->id;
-    $this->post->description = $request->description;
-    $this->post->save();
-
-    # Save multiple images
-    if ($request->hasFile('images')) {
-    foreach ($request->file('images') as $image) {
-            $imageData = base64_encode(file_get_contents($image));
-            $this->post->images()->create(['image_data' => $imageData]);
-         }
-    }
-
+    $post = $this->post->create([
+        'user_id' => Auth::user()->id,
+        'description' => $request->description,
+    ]);
+    
+    // Save multiple images
+    if ($request->hasFile('image')) {
+        foreach ($request->file('image') as $file) {
+            // Get the file contents and encode them in base64
+            $fileContents = file_get_contents($file->getRealPath());
+            $base64Image = base64_encode($fileContents);
+    
+            // Save the base64 encoded data to the database
+            $post->images()->create(['image_data' => $base64Image]);
+        }
+    }   
+    
     # Save the categories to the category_post pivot table
         $category_post = [];
         foreach ($request->category as $category_id) {
             $category_post[] = ['category_id' => $category_id];
         }
 
-        $this->post->categories()->attach($category_post);
+        $post->categories()->attach($request->category);
 
     # Go back to homepage
-        return redirect()->route('users.posts.show', ['id' => $this->post->id]);
+        return redirect()->route('users.posts.show', ['id' => $post->id]);
 
     }
 
@@ -168,9 +173,17 @@ class PostController extends Controller
     {
         # 1. VALIDATE THE DATA FROM THE FORM
         $request->validate([
-            'category'    => 'required|array|between:1,3', // Ensure categories are required, an array, and between 1 to 3
-            'description' => 'required|min:1|max:1000', // Ensure description is required with length constraints
-            'image.*'     => 'mimes:jpg,jpeg,png,gif|max:1048' // Ensure images are of the correct type and size
+            'description'   => 'max:1500|required_if:image,null',
+            'image.*'       => 'mimes:jpg,jpeg,png,gif|max:1048|required_if:description,null',
+            'category'      => 'required|array|between:1,3'
+        ], [
+            'description.max' => 'The description must be at least 1500 characters.',
+            'category.between' => 'You must select at least one interest',
+
+                'description'   => 'max:1500',
+                'image.*'       => 'mimes:jpg,jpeg,png,gif|max:1048|required_if:description,null',
+                'category'      => 'required|array|between:1,3'
+
         ]);
     
         # 2. UPDATE THE POST
@@ -210,7 +223,6 @@ class PostController extends Controller
         # 5. REDIRECT to Show Post page
         return redirect()->route('users.posts.show', $id); // Redirect to the post show page
     }
-
 
 
 
