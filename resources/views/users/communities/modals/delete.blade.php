@@ -8,10 +8,16 @@
             </div>
 
             <div class="modal-body">
-                <p>Are you sure you want to delete this comment?</p>
+                <p>Are you sure you want to delete this?</p>
                 <div class="mt-3 text-bold">
                     {{ old('body', $comment->body) }}
                 </div>
+                @if ($comment->image)
+                &nbsp;
+                <div>
+                    <img src="{{ $comment->image }}" alt="comment id {{ $comment->id }}" class="image-lg">
+                </div>
+                @endif
             </div>
 
             <div class="modal-footer border-0">

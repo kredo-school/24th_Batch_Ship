@@ -25,14 +25,14 @@
                 <input type="hidden" name="community_id" value="{{ $community->id }}">
                 <div class="row">
                   <div class="col-1"></div>
-                  <div class="col-10">
-                    <div class="mb-2 input-group">
+                  <div class="col-10 mb-2">
+                    <div class="input-group">
                       <textarea name="comment_body" rows="1" class="form-control form-control-sm rounded shadow-sm" placeholder="write a comment"></textarea>
-                      @error('comment_body')
-                      <p class="mb-0 text-danger samll">{{ $message }}</p>
-                      @enderror
                       <button type="submit" value="send" class="btn btn-turquoise rounded fw-bold mx-2 px-4 py-0 w-25">Post</button>  
-                    </div>              
+                    </div> 
+                    @error('comment_body')
+                      <p class="mb-0 text-danger samll">{{ $message }}</p>
+                    @enderror             
                   </div>
                   <div class="col"></div>
                 </div>

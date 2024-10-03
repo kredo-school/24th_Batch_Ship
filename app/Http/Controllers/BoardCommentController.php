@@ -25,7 +25,7 @@ class BoardCommentController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'comment_body' => 'required|max:200'
+            'comment_body' => 'required_if:image,null|max:200'
         ], [
             'comment_body.required' => 'You cannot submit an empty comment.',
             'comment_body.max' => 'The comment must not have more than 200 characters.'
