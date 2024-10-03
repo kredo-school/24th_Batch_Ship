@@ -62,14 +62,44 @@ class Community extends Model
         return $this->hasMany(Event::class)->orderBy('date')->orderBy('start_time');
     }
 
+    # Check if the user is the event host or an attendee for active events
+    private function activeEvent($isEventHost = true)
+    {
+        $currentDateTime = now();
+        $currentDateString = $currentDateTime->toDateString();
+        $currentTimeString = $currentDateTime->toTimeString();
+
+        $events = $this->events(); // Access the events related to this community
+
+        // Check if the user is the host; if so, filter events by host_id
+        if ($isEventHost) {
+            $events->where('host_id', Auth::id());
+        } else { // If the user is an attendee, filter events by user_id in the event_user_table
+            $events->whereHas('attendees', function ($q) {
+                $q->where('user_id', Auth::id()); // Check if the current user is an attendee
+            });
+        }
+
+        // Check if the event date is in the future or if it is today and the end time is still in the future
+        return $events->where(function ($q) use ($currentDateString, $currentTimeString) {
+            $q->whereDate('date', '>', $currentDateString)
+            ->orWhere(function ($q) use ($currentDateString, $currentTimeString) {
+                $q->whereDate('date', $currentDateString)
+                    ->where('end_time', '>', $currentTimeString);
+            });
+        })->exists();
+    }
+
+    # For active events hosted by the user
     public function activeEventHost()
     {
-        $currentDateTime = now(); // Get the current date and time
+        return $this->activeEvent(true);
+    }
 
-        return $this->hasMany(Event::class)
-            // Check if the event end time is after the current time
-            ->where(DB::raw('CONCAT(date, " ", end_time)'), '>', $currentDateTime) 
-            ->where('host_id', Auth::user()->id)
-            ->exists(); // Check if there are any active events hosted by the user
-        }
+    # For active events attended by the user
+    public function activeEventAttendee()
+    {
+        return $this->activeEvent(false);
+    }
+
 }
