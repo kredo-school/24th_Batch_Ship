@@ -17,6 +17,7 @@ use App\Http\Controllers\CommunityUserController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\InquiryController;
+use App\Http\Controllers\NotificationController;
 
 use App\Http\Controllers\Admin\InquiriesController;
 
@@ -111,6 +112,11 @@ Route::group(['middleware' => 'auth'], function(){
 
     # Category Action
     Route::get('/categories/{id}', [CategoryController::class, 'show'])->name('users.categories.show');
+
+    # Notification
+    Route::get('/notifications/{id}', [NotificationController::class, 'getNotificationsForUser'])->name('notifications');
+    Route::get('/mark-as-read', [NotificationController::class, 'markAsRead'])->name('mark-as-read');
+
 
     # Admin
     Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => 'admin'], function(){
