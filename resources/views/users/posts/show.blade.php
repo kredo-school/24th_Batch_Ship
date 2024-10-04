@@ -82,6 +82,7 @@
                 @if ($post->images->isNotEmpty())
                     <div id="carouselExample" class="carousel slide" data-interval="false">
                         <div class="carousel-indicators">
+                            {{-- if there is more than 1 image, button will show up --}}
                             @if ($post->images->count() > 1)
                             @foreach ($post->images as $index => $image)
                                 <button type="button" data-bs-target="#carouselExample" data-bs-slide-to="{{ $index }}" class="@if($index == 0) active @endif" aria-current="{{ $index == 0 ? 'true' : 'false' }}" aria-label="Slide {{ $index + 1 }}"></button>
@@ -139,6 +140,10 @@
                         {{-- Comment for post --}}
                         <textarea name="comment" id="{{ $post->id }}" rows="1" class="form-control form-control-sm"
                             placeholder="Add a comment...">{{ old('comment' . $post->id) }}</textarea>
+
+                        @error('comment')
+                            <div class="text-danger small">{{ $message }}</div>
+                        @enderror
 
                         <button type="submit" class="btn btn-gold form-group mt-3 ml-1 btn-lg">Send</button>
                     </form>
