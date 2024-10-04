@@ -77,8 +77,7 @@
             </div>
 
             {{-- Right side of the Post --}}
-            <div class="col-6">
-                <div class="row h-25"></div>
+            <div class="col-6 mt-5">
                 {{-- images or description --}}
                 @if ($post->images->isNotEmpty())
                     <div id="carouselExample" class="carousel slide" data-interval="false">
@@ -117,9 +116,8 @@
                 @endif
             </div>
 
-            <hr class="col-7 mt-5">
             <div class="row pt-6">
-                <div class="row pt-6">
+                <div class="col-6 pt-6">
                     {{-- Comment form --}}
                     <form action="{{ route('comment.store', $post->id) }}" method="post">
                         @csrf
