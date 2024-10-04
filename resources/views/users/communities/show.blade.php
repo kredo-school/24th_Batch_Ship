@@ -101,7 +101,7 @@
             @if ($community->user->avatar)
               <img src="{{ $community->user->avatar }}" alt="{{ $community->user->username }}" class="rounded-circle avatar-sm"> 
             @else
-              <i class="fa-solid fa-circle-user icon-sm"></i>   
+              <i class="fa-solid fa-circle-user text-dark icon-sm"></i>   
             @endif    
           </a>   
         </div>
