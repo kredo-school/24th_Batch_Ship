@@ -1,6 +1,9 @@
 @extends('layouts.app')
 
 @section('title', 'Show Community')
+@section('styles')
+  <link rel="stylesheet" href="{{ asset('css/style_postshow.css') }}">
+@endsection
 
 @section('content')
 
@@ -134,18 +137,19 @@
           @endif
         </div>
 
-        {{-- Interets --}}
+        {{-- Interests --}}
         <div class="row mb-3">
           <form action="" method="post">
             @csrf
-            <h6>Interest</h6>
-            <div class="col-6">
-              <div class="input-group">
-                <input type="number" name="interest%" id="" class="form-control border-0 text-end">
-                <span class="input-group-text bg-white border-0">%</span>
-                <button class="btn bg-turquoise text-white rounded fw-bold px-3 py-0">Send</button>      
-              </div>
-            </div>     
+            <label for="enpathy" class="fw-bold mb-2">Interest:</label>
+            <div class="range-slider">
+                <input type="range" id="percentage" name="percentage" value="60"
+                    min="60" max="100" step="1" list="my-datalist"
+                    class="bg-turquoise"
+                    oninput="document.getElementById('output1').value=this.value">
+                <output id="output1" class="m-2">60</output><span>%</span>
+            </div>
+            <button type="submit" class="btn btn-gold form-group mt-3 ml-1 btn-sm">Send</button>
           </form>
         </div>
       
