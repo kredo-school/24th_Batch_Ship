@@ -22,7 +22,8 @@
 
           {{-- bulletin board --}}
           <div class="container bg-white p-3 w-100">
-            <form action="{{ route('boardcomment.store') }}" method="post" enctype="multipart/form-data">
+            @if  (Auth::user()->id === $community->owner_id || $community->isJoining())
+              <form action="{{ route('boardcomment.store') }}" method="post" enctype="multipart/form-data">
                 @csrf
                 {{-- input for comments --}}
                 <input type="hidden" name="community_id" value="{{ $community->id }}">
@@ -50,8 +51,39 @@
                     @enderror
                   </div>
                 </div>        
-            </form>
-                
+              </form>
+            @else
+              <form action="#" method="#" enctype="multipart/form-data">
+                @csrf
+                {{-- input for comments --}}
+                <input type="hidden" name="community_id" value="{{ $community->id }}">
+                <div class="row">
+                  <div class="col-1"></div>
+                  <div class="col-10 mb-2">
+                    <div class="input-group">
+                      <textarea name="comment_body" rows="1" class="form-control form-control-sm rounded shadow-sm" placeholder="you should join this community to post the comment!"></textarea>
+                      <button type="submit" value="send" class="btn btn-turquoise rounded fw-bold mx-2 px-4 py-0 w-25">Post</button>  
+                    </div> 
+                    @error('comment_body')
+                      <p class="mb-0 text-danger samll">{{ $message }}</p>
+                    @enderror             
+                  </div>
+                  <div class="col"></div>
+                </div>
+                <div class="row">
+                  <div class="col-1"></div>
+                  <div class="col-7">
+                    {{-- input to uploard img --}}
+                    <input type="file" class="form-control form-control-sm"  name="image" id="image" >
+                    {{-- Error message area --}}
+                    @error('image')
+                      <div class="text-danger small">{{ $message }}</div>
+                    @enderror
+                  </div>
+                </div>        
+              </form> 
+            @endif
+              
             <hr class="my-3">
 
             {{-- comments list --}}
