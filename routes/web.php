@@ -18,6 +18,7 @@ use App\Http\Controllers\ChatController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\InquiryController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\EventReviewController;
 
 use App\Http\Controllers\Admin\InquiriesController;
 use App\Http\Controllers\InterestRateController;
@@ -96,6 +97,9 @@ Route::group(['middleware' => 'auth'], function(){
     # EventUser
     Route::post('/event/{id}/join', [EventUserController::class, 'join'])->name('event.join');
     Route::delete('/event/{id}/unjoin', [EventUserController::class, 'unjoin'])->name('event.unjoin');
+
+    #EventReview
+    Route::post('/event/{id}/review', [EventReviewController::class, 'store'])->name('event.review');
 
     # API
     Route::get('/api/select-data', [SelectDataController::class, 'getData']);

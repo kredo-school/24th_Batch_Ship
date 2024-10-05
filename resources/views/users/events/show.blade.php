@@ -40,7 +40,7 @@
                         @include('users.events.modals.join-warning')
                     @endif
                 @else
-                    <p class="text-danger mt-2">
+                    <p class="text-danger small mt-2">
                         You can no longer JOIN or UNJOIN this event as it has either reached its deadline or has already occurred.
                     </p>
                 @endif
@@ -163,28 +163,31 @@
             @if ($currentDateTime->greaterThan($event->date . ' ' . $event->end_time) && 
                 $event->attendees->contains('user_id', Auth::user()->id))
                 <div class="row mt-3">
-                    <form action="#" method="post">
+                    <form action="{{ route('event.review', $event->id)}}" method="post">
                         @csrf
 
                         <h1 class="h6">Review Event</h1>
                         {{-- Review Slider for attendees --}}
-                        <div class="row ms-1">
-                            <div class="range-slider">
-                                <input type="range" id="percentage" name="percentage" value="60"
-                                    min="60" max="100" step="1" list="my-datalist"
-                                    class="bg-turquoise"
-                                    oninput="document.getElementById('output1').value=this.value">
+                        <div class="row d-flex ms-1">
+                            <div class="range-slider d-flex align-items-center">
+                                <input type="range" id="percentage" name="review_rate" value="60" min="60" max="100" step="1" list="my-datalist" class="bg-turquoise" oninput="document.getElementById('output1').value=this.value">
                                 <output id="output1" class="m-2">60</output><span>%</span>
+                                @error('review_rate')
+                                    <div class="text-danger small ms-2">{{ $message }}</div> 
+                                @enderror
                             </div>
                         </div> 
                         {{-- Comment for event --}}
-                        <div class="row d-flex">
-                            <div class="col-8">
-                                <textarea name="comment" id="{{-- $post->id --}}" rows="1" class="form-control" placeholder="Add a comment...">{{-- old('comment' . $post->id) --}}</textarea>
+                        <div class="row d-flex mt-2">
+                            <div class="col-9">
+                                <textarea name="review_comment" rows="1" class="form-control" placeholder="Add a comment...">{{ old('review_comment') }}</textarea>
                             </div>
                             <div class="col-auto">
-                                <button class="btn btn-turquoise px-3">Send</button>  
+                                <button type="submit" class="btn btn-turquoise px-3">Send</button>  
                             </div>
+                            @error('review_comment')
+                                <div class="text-danger small">{{ $message }}</div> 
+                            @enderror
                         </div>   
                     </form>
                 </div>
@@ -209,7 +212,7 @@
                 @else
                     <div class="row mt-5 d-flex justify-content-end">
                         <div class="col">
-                            <p class="text-danger">
+                            <p class="text-danger small">
                                 This event can no longer be Edited or Deleted as it has either reached its deadline or has already occurred.
                             </p>
                         </div>
