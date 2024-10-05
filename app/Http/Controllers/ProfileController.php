@@ -7,6 +7,7 @@ use App\Models\Category;
 use App\Models\Community;
 use App\Models\Event;
 use App\Models\CommunityUser;
+use App\Models\Compatibility;
 use App\Models\EventUser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -15,6 +16,7 @@ class ProfileController extends Controller
 {
     private $user;
     private $category;
+    private $community;
 
     public function __construct(User $user, Category $category, Community $community){
         $this->user = $user;
@@ -31,7 +33,7 @@ class ProfileController extends Controller
     public function authPostIndex()
     {
         $user = Auth::user();
-        
+
         // categories with auth user
         $categoryUsers = $user->CategoryUser;
 
@@ -65,8 +67,14 @@ class ProfileController extends Controller
         $join_communities = CommunityUser::where('user_id', $id)->paginate(4, ["*"], 'join_communities');
         $own_events = Event::where('host_id', $id)->paginate(4, ["*"], 'own_events');
         $join_events = EventUser::where('user_id', $id)->paginate(4, ["*"], 'join_events');
+        $reactedCompatibilities = Compatibility::with('sender')->where('user_id', $id)->get();
+        $reactingCompatibilities = Compatibility::with('user')->where('send_user_id', $id)->get();
 
-        return view('users.profile.index', compact('user', 'own_communities', 'join_communities', 'own_events', 'join_events'));
+
+
+
+
+        return view('users.profile.index', compact('user', 'own_communities', 'join_communities', 'own_events', 'join_events','reactedCompatibilities', 'reactingCompatibilities'));
     }
 
     # visit to create profile page

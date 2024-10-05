@@ -213,12 +213,6 @@ p {
 }
 
 
-/*Category*/
-
-/* .category{
-    font-size: 1.1rem;
-} */
-
 .category label
 {
     width: 100px;
@@ -302,7 +296,7 @@ p {
 
    #percentage {
     appearance:none;
-    background-color: #FCEFEE;
+    background: none;
     width:15%;
     height:20px;
 }

@@ -1,7 +1,12 @@
+<head>
+    <link rel="stylesheet" href="{{ asset('css/style_profile_show.css') }}">
+</head>
+
 <div class="container-fluid">
-    <div class="row">
+    <div class="row p-3">
         <div class="col-3 d-flex justify-content-center align-items-center">
-            {{-- avatar --}}
+
+ {{-- avatar --}}
             @if ($user->avatar)
                 <img src="{{ $user->avatar }}" alt="{{ $user->name }}" class="img-thumbnail rounded-circle avatar-lg">
             @else
@@ -9,75 +14,77 @@
             @endif
         </div>
 
-        <div class="col-9 p-5">
-            {{-- user name --}}
-            <div class="row mb-3">
-                <h2 class="display-6 mb-0">{{ $user->username }}</h2><br>
-            </div>
+        <div class="col-9">
+
+ {{-- user name --}}
+
+                <strong class="h1 display-6 p-3 ">{{ $user->username }}</strong>
+
 
             <div class="row mb-3">
-                {{-- reaction modal --}}
-                <div class="col-auto">
-                    <button type="button" class="text-danger btn btn-lg" data-bs-toggle="modal" data-bs-target="#reacted-profile">
+
+ {{-- reaction modal --}}
+                <div class="col-4 mt-5">
+                    <button type="button" class="text-danger btn btn-lg " data-bs-toggle="modal" data-bs-target="#reacted-profile">
                         <i class="fa-solid fa-heart text-danger"></i>
                     </button>
-                </div>
-                <div class="col-auto">
-                    <button type="button" class="text-primary btn btn-lg" data-bs-toggle="modal" data-bs-target="#reacting-profile">
+                    <button type="button" class="text-primary btn btn-lg " data-bs-toggle="modal" data-bs-target="#reacting-profile">
                         <i class="fa-solid fa-heart"></i>
                     </button>
-                </div>
+
+
                 @include('users.profile.modal.compatibility')
+               </div>
+            </div>
 
+ {{-- compatibility form and message from  --}}
                 @if (Auth::user()->id !== $user->id)
-                    {{-- form for compatibility --}}
-                    <div class="col-auto">
-                        <form action="#" method="post" class="row row-cols-lg-auto g-3 align-items-center">
+                    <div class="col-4">
+                    <form action="{{ route('compatibility.store', $user->id) }}" method="post" class="row row-cols-lg-auto g-3 align-items-center">
                             @csrf
-
-                            <div class="col">
-                                <div class="input-group">
-                                    <input type="number" name="compatibility" id="compatibility" class="form-control" placeholder="compatibility" aria-label="compatibility">
-                                    <span class="input-group-text" id="percentage">%</span>
+                                <div class="range-slider mb-5 ml-3">
+                                     <label for="compatibility" class="form-label mx-3 ">Compatibility:</label>
+                                    <input type="range" id="compatibility" name="compatibility" value="60"
+                                        min="60" max="100" step="1" class=""
+                                        oninput="document.getElementById('output1').value=this.value">
+                                    <output id="output1" class="mx-2">60</output>
+                                    <span>%</span>
                                 </div>
                             </div>
 
-                            <div class="col">
+                            <div class="col-2 mt-4">
                                 <button type="submit" class="btn btn-gold text-white">Send</button>
                             </div>
                         </form>
-                    </div>
 
-                    {{-- from for message --}}
-                    <div class="col">
+                    <div class="col-2 mt-4">
                         <form action="{{ route('chat.show', $user->id) }}" method="get" class="row row-cols lg auto g-3 align-items-center">
                             @csrf
-                            
-                            <button type="submit" class="btn btn-outline-secondary">Message</button>
-                            {{-- <a href="{{ route('chat.index') }}" class="btn btn-outline-secondary">Message</a> --}}
+
+                            <button type="submit" class="btn btn-outline-secondary"><i class="fa-solid fa-envelope "></i> &nbsp;  Message</button>
+
                         </form>
-                    </div>    
+                        </div>
                 @endif
             </div>
+        </div>
 
-            {{-- introduction --}}
-            <div class="row mb-3">
-                <p>{{ $user->introduction }}</p>
+{{-- introduction --}}
+
+            <div class="mb-3 mx-3">
+                <h4>{{ $user->introduction }}</h4>
             </div>
 
-            {{-- categories --}}
-            <div class="row">
-                <div class="col">
-                    {{-- display all selected categories --}}
+ {{-- display all selected categories --}}
+                  <div class="mb-2  ">
                     @forelse ($user->categoryUser as $category_user)
-                        <a href="{{ route('users.categories.show', $category_user->category_id) }}" class="badge bg-turquoise text-decoration-none me-1 mt-2">
+                        <a href="{{ route('users.categories.show', $category_user->category_id) }}" class="badge bg-turquoise text-decoration-none category-name mx-2 ">
                             {{ $category_user->category->name }}
                         </a>
                     @empty
-                        <a href="#" class="badge bg-dark text-decoration-none mt-1">Uncategorized</a>
+                        <a href="" class="badge bg-dark text-decoration-none ">Uncategorized</a>
                     @endforelse
-                </div>                
+
             </div>
         </div>
-    </div>
 </div>

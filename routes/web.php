@@ -10,7 +10,7 @@ use App\Http\Controllers\CommunityController;
 use App\Http\Controllers\EventUserController;
 use App\Http\Controllers\ReplyController;
 use App\Http\Controllers\PostCommentController;
-
+use App\Http\Controllers\CompatibilityController;
 use App\Http\Controllers\SelectDataController;
 use App\Http\Controllers\BoardCommentController;
 use App\Http\Controllers\CommunityUserController;
@@ -19,7 +19,8 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\InquiryController;
 
 use App\Http\Controllers\Admin\InquiriesController;
-
+use App\Models\Compatibility;
+use App\Models\Profile;
 
 Auth::routes();
 
@@ -35,6 +36,14 @@ Route::group(['middleware' => 'auth'], function(){
     Route::get('/profile/{id}/create', [ProfileController::class, 'create'])->name('users.profile.create');
     Route::patch('/profile/store', [ProfileController::class, 'update'])->name('users.profile.update');
     Route::patch('/profile/update', [ProfileController::class, 'profileUpdate'])->name('users.profile.profileUpdate');
+
+
+    // Profile Compatibilities
+    Route::post('/compatibility/{userId}', [CompatibilityController::class, 'store'])->name('compatibility.store');
+    Route::delete('/profile/{id}/destroy', [CompatibilityController::class, 'destroy'])->name('compatibility.destroy');
+
+
+
 
     //Post
     Route::get('/post/index', [PostController::class, 'index'])->name('users.posts.index');
@@ -58,7 +67,6 @@ Route::group(['middleware' => 'auth'], function(){
     // Post Percentage and Comment
     Route::post('/comment/{post_id}/store', [PostCommentController::class, 'store'])->name('comment.store');
     Route::get('/comments/show/{post}', [PostCommentController::class, 'show'])->name('comments.show');
-    // Route::post('/comment/{post_id}/reply', [PostCommentController::class, 'reply'])->name('comment.reply');
     Route::delete('/comment/{post_id}/destroy', [PostCommentController::class, 'destroy'])->name('comment.destroy');
 
      // Reply
