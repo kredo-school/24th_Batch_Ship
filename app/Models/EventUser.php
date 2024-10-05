@@ -9,10 +9,12 @@ class EventUser extends Model
 {
     use HasFactory;
 
+    //  To tell the laravel that we are accessing the event_user table
     protected $table = 'event_user';
-    //  this is to tell the laravel that we are accessing the event_user table
+
     protected $fillable = ['event_id', 'user_id'];
-    // set the value to false to tell Laravel to not insert the timestamps
+
+    // Set the value to false to tell Laravel to not insert the timestamps
     public $timestamps = false;
 
     # To get the user information
