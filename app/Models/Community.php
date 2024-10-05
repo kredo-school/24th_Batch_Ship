@@ -104,7 +104,7 @@ class Community extends Model
 
     public function percentage()
     {
-        return $this->hasMany(InterestRate::class);
+        return $this->hasMany(InterestsRate::class);
     }
 
 }

@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\InterestRate;
 use Illuminate\Http\Request;
+use App\Models\InterestsRate;
 use Illuminate\Support\Facades\Auth;
 
 class InterestRateController extends Controller
 {
-    private $interestrate;
+    private $interestsrate;
 
-    public function __construct(InterestRate $interstrate)
+    public function __construct(InterestsRate $interestsrate)
     {
-        $this->interestrate = $interestrate;
+        $this->interestsrate = $interestsrate;
     }
 
     public function store(Request $request, $community_id)
@@ -20,19 +20,16 @@ class InterestRateController extends Controller
 
         #1. Validate the request
         $request->validate([
-            'percentage' => 'sometimes|integer|min:60|max:100',
+            'percentage' => 'required|integer|min:60|max:100',
         ]);
 
-
          #2. Save the interestrate to the db
-
-         
-         $this->interestrate->percentage = $request->percentage;
-         $this->interestrate->user_id     = Auth::user()->id;
-         $this->interestrate->community_id     = $community_id;
-         $this->interestrate->save();
+         $this->interestsrate->percentage = $request->percentage;
+         $this->interestsrate->user_id     = Auth::user()->id;
+         $this->interestsrate->community_id     = $community_id;
+         $this->interestsrate->save();
 
          # 3. Redirect back to the page
-        return redirect()->route('communities.show', $community_id);
+        return redirect()->back();
      }
 }
