@@ -17,9 +17,10 @@ use App\Http\Controllers\CommunityUserController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\InquiryController;
+use App\Http\Controllers\NotificationController;
 
 use App\Http\Controllers\Admin\InquiriesController;
-
+use App\Http\Controllers\InterestRateController;
 
 Auth::routes();
 
@@ -54,6 +55,10 @@ Route::group(['middleware' => 'auth'], function(){
     Route::get('/community/{id}/edit', [CommunityController::class, 'edit'])->name('communities.edit');
     Route::patch('/community/{id}/update', [CommunityController::class, 'update'])->name('communities.update');
 
+    // Community Persentage(interest)
+    Route::post('/comment/store/{community_id}', [InterestRateController::class, 'store'])->name('interest.store');
+    Route::get('/comments/show/{interest}', [InterestRateController::class, 'show'])->name('interests.show');
+    
 
     // Post Percentage and Comment
     Route::post('/comment/{post_id}/store', [PostCommentController::class, 'store'])->name('comment.store');
@@ -71,9 +76,9 @@ Route::group(['middleware' => 'auth'], function(){
 
     # COMMENT
     # BOARDCOMMENT
-    Route::post('/comment/{community_id}/store', [BoardCommentController::class, 'store'])->name('boardcomment.store');
+    Route::post('/comment/store', [BoardCommentController::class, 'store'])->name('boardcomment.store');
     Route::patch('/comment/{id}/update', [BoardCommentController::class, 'update'])->name('boardcomment.update');
-    Route::delete('/comment/{id}/destroy', [BoardCommentController::class, 'destroy'])->name('boardcomment.destroy');
+    Route::delete('/comment/{id}', [BoardCommentController::class, 'destroy'])->name('boardcomment.destroy');
 
 
     # CommunityUser
@@ -111,6 +116,11 @@ Route::group(['middleware' => 'auth'], function(){
 
     # Category Action
     Route::get('/categories/{id}', [CategoryController::class, 'show'])->name('users.categories.show');
+
+    # Notification
+    Route::get('/notifications/{id}', [NotificationController::class, 'getNotificationsForUser'])->name('notifications');
+    Route::get('/mark-as-read', [NotificationController::class, 'markAsRead'])->name('mark-as-read');
+
 
     # Admin
     Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => 'admin'], function(){
