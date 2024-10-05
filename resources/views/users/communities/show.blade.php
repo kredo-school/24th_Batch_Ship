@@ -171,7 +171,7 @@
 
         {{-- Interests --}}
         <div class="row mb-3">
-          <form action="" method="post">
+        <form action="{{ route('interest.store', $community->id)}}" method="post">
             @csrf
             <label for="enpathy" class="fw-bold mb-2">Interest:</label>
             <div class="range-slider">
