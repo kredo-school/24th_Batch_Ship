@@ -118,5 +118,5 @@ Route::group(['middleware' => 'auth'], function(){
         Route::post('/categories/store',[AdminCatController::class,'store'])->name('categories.store');
         Route::patch('/categories/{id}/update',[AdminCatController::class,'update'])->name('categories.update');
         Route::delete('/categories/{id}/destroy', [AdminCatController::class,'destroy'])->name('categories.destroy');
-    });
+    }); 
 });

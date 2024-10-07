@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Category;
 
 
+
 class AdminCatController extends Controller
 {
     private $category;
