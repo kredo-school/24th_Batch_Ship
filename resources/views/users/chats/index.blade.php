@@ -21,6 +21,8 @@
                 {{-- outline --}}
                 <div class="card chat-card">
                     <div class="card-body">
+                        
+
                         <div class="row">
                             {{-- LEFT SIDE --}}
                             <div class="col-md-6 col-lg-5 col-xl-4 mb-4 mb-md-0">
@@ -32,60 +34,66 @@
                                         <span class="input-group-text border-0"><i class="fas fa-search"></i></span>
                                     </div> --}}
 
+                                    
                                     {{-- user list --}}
                                     <div class="overflow-auto  chat-outline">
                                         <ul class="list-unstyled mb-0">
-                                            @forelse ($all_chats as $chat)
-                                                <li class="p-2 border-bottom">
-                                                    @if ($chat->sender_id == Auth::user()->id)
-                                                        {{-- when Auth user is a sender --}}
-                                                        <a href="{{ route('chat.show', $chat->recipient->id) }}" class="d-flex justify-content-between text-decoration-none">
-                                                            <div class="d-flex flex-row">
-                                                                @if ($chat->recipient->avatar)
-                                                                    <img src="{{ $chat->recipient->avatar }}" alt="{{ $chat->recipient->name }}" class="d-flex align-self-center me-3 rounded-circle avatar-sm">
-                                                                @else
-                                                                    <i class="fa-solid fa-circle-user text-secondary d-flex align-self-center me-3 icon-sm"></i>
-                                                                @endif
-
-                                                                <div class="pt-1">
-                                                                    <p class="fw-bold mb-0 text-black">{{ $chat->recipient->username}}</p>
-                                                                    <p class="small text-muted">{{$chat->latestMessage->text}}</p>
-                                                                </div>
-                                                            </div>
-                                                            <div class="pt-1">
-                                                                <p class="small text-muted mb-1">{{ date('Y-m-d H:i', strtotime($chat->latestMessage->updated_at))}}</p>
-                                                                @if ($chat->unread_count > 0)
-                                                                    <span class="badge bg-danger rounded-pill float-end">{{ $chat->unread_count }}</span>
-                                                                @endif
-                                                            </div>
-                                                        </a>
-                                                    @else
-                                                        {{-- when auth user is a recipient --}}
-                                                        <a href="{{ route('chat.show', $chat->sender->id) }}" class="d-flex justify-content-between text-decoration-none">
-                                                            <div class="d-flex flex-row">
-                                                                @if ($chat->sender->avatar)
-                                                                    <img src="{{ $chat->sender->avatar }}" alt="{{ $chat->sender->name }}" class="d-flex align-self-center me-3 rounded-circle avatar-sm">
-                                                                @else
-                                                                    <i class="fa-solid fa-circle-user text-secondary d-flex align-self-center me-3 icon-sm"></i>
-                                                                @endif
-                                                
-                                                                <div class="pt-1">
-                                                                    <p class="fw-bold mb-0 text-black">{{ $chat->sender->username}}</p>
-                                                                    <p class="small text-muted">{{$chat->latestMessage->text}}</p>
-                                                                </div>
-                                                            </div>
-                                                            <div class="pt-1">
-                                                                <p class="small text-muted mb-1">{{ date('Y-m-d H:i', strtotime($chat->latestMessage->updated_at))}}</p>
-                                                                @if ($chat->unread_count > 0)
-                                                                    <span class="badge bg-danger rounded-pill float-end">{{ $chat->unread_count }}</span>
-                                                                @endif
-                                                            </div>
-                                                        </a>
-                                                    @endif
-                                                </li>
-                                            @empty
+                                            @if ($status == 'NO_MESSAGE')
                                                 <h3 class="text-secondary text-center"> No chats yet.</h3>
-                                            @endforelse
+                                            @else
+                    
+                                                @forelse ($all_chats as $chat)
+                                                    <li class="p-2 border-bottom">
+                                                        @if ($chat->sender_id == Auth::user()->id)
+                                                            {{-- when Auth user is a sender --}}
+                                                            <a href="{{ route('chat.show', $chat->recipient->id) }}" class="d-flex justify-content-between text-decoration-none">
+                                                                <div class="d-flex flex-row">
+                                                                    @if ($chat->recipient->avatar)
+                                                                        <img src="{{ $chat->recipient->avatar }}" alt="{{ $chat->recipient->name }}" class="d-flex align-self-center me-3 rounded-circle avatar-sm">
+                                                                    @else
+                                                                        <i class="fa-solid fa-circle-user text-secondary d-flex align-self-center me-3 icon-sm"></i>
+                                                                    @endif
+
+                                                                    <div class="pt-1">
+                                                                        <p class="fw-bold mb-0 text-black">{{ $chat->recipient->username}}</p>
+                                                                        <p class="small text-muted">{{$chat->latestMessage->text}}</p>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="pt-1">
+                                                                    <p class="small text-muted mb-1">{{ date('Y-m-d H:i', strtotime($chat->latestMessage->updated_at))}}</p>
+                                                                    @if ($chat->unread_count > 0)
+                                                                        <span class="badge bg-danger rounded-pill float-end">{{ $chat->unread_count }}</span>
+                                                                    @endif
+                                                                </div>
+                                                            </a>
+                                                        @else
+                                                            {{-- when auth user is a recipient --}}
+                                                            <a href="{{ route('chat.show', $chat->sender->id) }}" class="d-flex justify-content-between text-decoration-none">
+                                                                <div class="d-flex flex-row">
+                                                                    @if ($chat->sender->avatar)
+                                                                        <img src="{{ $chat->sender->avatar }}" alt="{{ $chat->sender->name }}" class="d-flex align-self-center me-3 rounded-circle avatar-sm">
+                                                                    @else
+                                                                        <i class="fa-solid fa-circle-user text-secondary d-flex align-self-center me-3 icon-sm"></i>
+                                                                    @endif
+                                                    
+                                                                    <div class="pt-1">
+                                                                        <p class="fw-bold mb-0 text-black">{{ $chat->sender->username}}</p>
+                                                                        <p class="small text-muted">{{$chat->latestMessage->text}}</p>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="pt-1">
+                                                                    <p class="small text-muted mb-1">{{ date('Y-m-d H:i', strtotime($chat->latestMessage->updated_at))}}</p>
+                                                                    @if ($chat->unread_count > 0)
+                                                                        <span class="badge bg-danger rounded-pill float-end">{{ $chat->unread_count }}</span>
+                                                                    @endif
+                                                                </div>
+                                                            </a>
+                                                        @endif
+                                                    </li>
+                                                @empty
+                                                    <h3 class="text-secondary text-center"> No messages yet.</h3>
+                                                @endforelse
+                                            @endif
                                         </ul>
                                     </div>
                                 </div>
@@ -157,12 +165,12 @@
                                     <form action="{{ route('chat.store', $profile_id) }}" method="post" class="row align-items-center w-100">
                                         @csrf
 
-                                        <div class="col-9">
+                                        <div class="col-11">
                                             <input type="text" name="text" id="text" class="form-control form-control-lg" placeholder="Type message.">
                                         </div>
-                                        <div class="col-3">
-                                            <a href="#" class="ms-2 text-muted"><i class="fas fa-paperclip"></i></a>
-                                            <a href="#" class="ms-3 text-muted"><i class="fas fa-smile"></i></a>
+                                        <div class="col-1">
+                                            {{-- <a href="#" class="ms-2 text-muted"><i class="fas fa-paperclip"></i></a>
+                                            <a href="#" class="ms-3 text-muted"><i class="fas fa-smile"></i></a> --}}
                                             <button type="submit" class="btn btn-outline-none text-secondary"><i class="fas fa-paper-plane"></i></button>
                                             {{-- <a href="#" class="ms-3"><i class="fas fa-paper-plane"></i></a> --}}
                                         </div>
