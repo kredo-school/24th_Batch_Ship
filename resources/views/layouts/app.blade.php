@@ -26,9 +26,9 @@
         <nav class="navbar navbar-expand-md navbar-light bg-turquoise shadow-sm">
             <div class="container-fluid">
                 <a class="navbar-brand" href="{{ route('users.profile.index') }}">
-                    <img src="/assets/image/SHIPlogo_blue.png" alt="" width="40" height="30">
+                    <img src="/assets/image/SHIPlogo_blue.png" alt="" width="40" height="30" class="object-fit-cover">
                 </a>
-                <a href="{{ route('users.profile.index') }}" class="nav-link me-auto mb-2 mb-lg-0 text-white"><h1 class="h5 mb-0">{{ config('app.name', 'SHIP') }}</h1></a>
+                <a href="{{ route('users.profile.index') }}" class="nav-link me-auto text-white my-auto"><h1 class="h5 mb-0">{{ config('app.name', 'SHIP') }}</h1></a>
 
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
@@ -66,10 +66,11 @@
                                     @else
                                         {{-- icon for no message --}}
                                         <i class="fa-solid fa-anchor"></i>
+                                        <span class="ps-1 menu-title">Any news?</span>
                                     @endif
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end">
-                                    <li><h1 class="h6 text-center text-dark">any news?</h1></li>
+                                    <li><h1 class="h6 text-center text-dark dropdown-title">Any news?</h1></li>
                                     @if(Auth::user()->unreadNotifications->isEmpty())
                                     {{-- Message when there are no notifications --}}
                                         <li><p class="text-center"><i class="fa-regular fa-face-meh"></i> not yet</p></li> 
@@ -97,33 +98,42 @@
 
                             {{-- Chat icon --}}
                             <li class="nav-item">
-                                <a href="{{ route('chat.index') }}" class="nav-link text-white active" type="button"><i class="fa-solid fa-comments"></i></a>
+                                <a href="{{ route('chat.index') }}" class="nav-link text-white active" type="button">
+                                    <i class="fa-solid fa-comments"></i>
+                                    <span class="ps-1 menu-title">Chat</span>
+                                </a>
                             </li>
                             {{-- Ship icon --}}
                             <li class="nav-item dropdown">
                                 <a href="" class="nav-link dropdown-toggle text-white" role="button" data-bs-toggle="dropdown" area-expanded="false">
                                     <i class="fa-solid fa-ship"></i>
+                                    <span class="ps-1 menu-title">Go to...</span>
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end">
-                                    <li><h1 class="h6 text-center text-dark">Go to...</h1></li>
+                                    <li><h1 class="h6 text-center text-dark dropdown-title">Go to...</h1></li>
                                     <li><a href="{{ route('auth.postIndex') }}" class="dropdown-item">Post</a></li>
-                                    <li><a href="{{ route('auth.communityIndex') }}" class="dropdown-item">Community</a></li>
+                                    <li><a href="{{ route('auth.communityIndex') }}" class="dropdown-item">Community</a>
+                                    </li>
                                 </ul>
                             </li>
                             {{-- Create icon --}}
                             <li class="nav-item dropdown">
                                 <a href="#" class="nav-link dropdown-toggle text-white" role="button" data-bs-toggle="dropdown" area-expanded="false">
                                     <i class="fa-solid fa-circle-plus"></i>
+                                    <span class="ps-1 menu-title">Create</span>
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end">
-                                    <li><h1 class="h6 text-center text-dark">Create...</h1></li>
+                                    <li><h1 class="h6 text-center text-dark dropdown-title">Create...</h1></li>
                                     <li><a href="{{ route('users.posts.create') }}" class="dropdown-item">Post</a></li>
                                     <li><a href="{{ route('communities.create') }}" class="dropdown-item">Community</a></li>
                                 </ul>
                             </li>
                             {{-- Search icon (open modal)--}}
                             <li class="nav-item">
-                                <a href="#" class="nav-link text-white" data-bs-toggle="modal" data-bs-target="#search"><i class="fa-solid fa-magnifying-glass"></i></a>
+                                <a href="#" class="nav-link text-white" data-bs-toggle="modal" data-bs-target="#search">
+                                    <i class="fa-solid fa-magnifying-glass"></i>
+                                    <span class="pe-1 menu-title">Search</span>
+                                </a>
                                 @include('layouts.modals.search')
                             </li>
                             {{-- Dropdown --}}

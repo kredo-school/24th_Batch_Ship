@@ -27,8 +27,8 @@ Auth::routes();
 
 Route::group(['middleware' => 'auth'], function(){
 
+    #Search
     Route::get('/search', [HomeController::class, 'search'])->name('search');
-
 
     //Profile
     Route::get('/', [ProfileController::class,'index'])->name('users.profile.index');
@@ -122,7 +122,7 @@ Route::group(['middleware' => 'auth'], function(){
     Route::get('/categories/{id}', [CategoryController::class, 'show'])->name('users.categories.show');
 
     # Notification
-    Route::get('/notifications/{id}', [NotificationController::class, 'getNotificationsForUser'])->name('notifications');
+    // Route::get('/notifications/{id}', [NotificationController::class, 'getNotificationsForUser'])->name('notifications');
     Route::get('/mark-as-read', [NotificationController::class, 'markAsRead'])->name('mark-as-read');
 
 
