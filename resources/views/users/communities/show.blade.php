@@ -1,6 +1,9 @@
 @extends('layouts.app')
 
 @section('title', 'Show Community')
+@section('styles')
+  <link rel="stylesheet" href="{{ asset('css/style_postshow.css') }}">
+@endsection
 
 @section('content')
 
@@ -19,19 +22,21 @@
 
           {{-- bulletin board --}}
           <div class="container bg-white p-3 w-100">
-            <form action="{{ route('boardcomment.store', $community->id) }}" method="post" enctype="multipart/form-data">
+            @if  (Auth::user()->id === $community->owner_id || $community->isJoining())
+              <form action="{{ route('boardcomment.store') }}" method="post" enctype="multipart/form-data">
                 @csrf
                 {{-- input for comments --}}
+                <input type="hidden" name="community_id" value="{{ $community->id }}">
                 <div class="row">
                   <div class="col-1"></div>
-                  <div class="col-10">
-                    <div class="mb-2 input-group">
-                      <textarea name="comment_body{{ $community->id }}" rows="1" class="form-control form-control-sm rounded shadow-sm" placeholder="write a comment"></textarea>
-                      @error('comment_body' . $community->id)
-                      <p class="mb-0 text-danger samll">{{ $message }}</p>
-                      @enderror
+                  <div class="col-10 mb-2">
+                    <div class="input-group">
+                      <textarea name="comment_body" rows="1" class="form-control form-control-sm rounded shadow-sm" placeholder="write a comment"></textarea>
                       <button type="submit" value="send" class="btn btn-turquoise rounded fw-bold mx-2 px-4 py-0 w-25">Post</button>  
-                    </div>              
+                    </div> 
+                    @error('comment_body')
+                      <p class="mb-0 text-danger samll">{{ $message }}</p>
+                    @enderror             
                   </div>
                   <div class="col"></div>
                 </div>
@@ -46,8 +51,39 @@
                     @enderror
                   </div>
                 </div>        
-            </form>
-                
+              </form>
+            @else
+              <form action="#" method="#" enctype="multipart/form-data">
+                @csrf
+                {{-- input for comments --}}
+                <input type="hidden" name="community_id" value="{{ $community->id }}">
+                <div class="row">
+                  <div class="col-1"></div>
+                  <div class="col-10 mb-2">
+                    <div class="input-group">
+                      <textarea name="comment_body" rows="1" class="form-control form-control-sm rounded shadow-sm" placeholder="you should join this community to post the comment!"></textarea>
+                      <button type="submit" value="send" class="btn btn-turquoise rounded fw-bold mx-2 px-4 py-0 w-25">Post</button>  
+                    </div> 
+                    @error('comment_body')
+                      <p class="mb-0 text-danger samll">{{ $message }}</p>
+                    @enderror             
+                  </div>
+                  <div class="col"></div>
+                </div>
+                <div class="row">
+                  <div class="col-1"></div>
+                  <div class="col-7">
+                    {{-- input to uploard img --}}
+                    <input type="file" class="form-control form-control-sm"  name="image" id="image" >
+                    {{-- Error message area --}}
+                    @error('image')
+                      <div class="text-danger small">{{ $message }}</div>
+                    @enderror
+                  </div>
+                </div>        
+              </form> 
+            @endif
+              
             <hr class="my-3">
 
             {{-- comments list --}}
@@ -61,29 +97,31 @@
       {{-- right side --}}
       <div class="col-md-4">
         {{-- Show JOIN/UNJOIN button for user, or EDIT button for community owner --}}
-        @if (Auth::user()->id !== $community->owner_id)
-          {{-- 1. Check if the user is joining or unjoining  2. If joining, check if the user is the active event host --}}
-          <form action="{{ $community->isJoining() ? ($community->activeEventHost() ? '#' : route('community.unjoin', $community->id)) : route('community.join', $community->id) }}" method="POST">
-            @csrf
-            {{-- If the user is joining but not the active event host, allow UNJOIN --}}
-            @if ($community->isJoining() && !$community->activeEventHost())
-              @method('DELETE')
-            @endif
+        @if (Auth::user()->id !== $community->owner_id) {{-- Check if the user is not the community owner --}}
+          @php
+            $isJoining = $community->isJoining(); // Check if the user is currently joined to the community
+            $isActiveEvent = $community->activeEventHost() || $community->activeEventAttendee();
+            // Check if there are active events hosted or attended by the user
+          @endphp
 
+          <form action="{{ $isJoining ? ($isActiveEvent ? '#' : route('community.unjoin', $community->id)) : route('community.join', $community->id) }}" method="POST"> {{-- Set the form action based on the user's join status and active events --}}
+            @csrf
+            @if ($isJoining && !$isActiveEvent) {{-- If the user is joined and there are no active events --}}
+              @method('DELETE') {{-- Use DELETE method to UNJOIN the community --}}
+            @endif
+            
             <div class="mb-3 d-flex justify-content-end">
-              <button class="btn btn-gold m-3" 
-                {{-- Warning for event host: they cannot unjoin community without deleting all active events --}}
-                {!! $community->isJoining() && $community->activeEventHost() ? 'type="button" data-bs-toggle="modal" data-bs-target="#unjoin-warning-' . $community->id . '"' : '' !!}>
-                {{-- JOIN/UNJOIN button for user --}}
-                {{ $community->isJoining() ? 'UNJOIN' : 'JOIN' }}
+              <button class="btn btn-gold m-3" {!! ($isJoining && $isActiveEvent) ? 'type="button" data-bs-toggle="modal" data-bs-target="#unjoin-warning-' . $community->id . '"' : '' !!}>
+                {{ $isJoining ? 'UNJOIN' : 'JOIN' }}
               </button>
             </div>
           </form>
 
-          {{-- Warning modal for active event host --}}
-          @if ($community->isJoining() && $community->activeEventHost())
+          {{-- Warning modal for active event host or attendee --}}
+          @if ($isJoining && $isActiveEvent)
             @include('users.communities.modals.unjoin-warning')
           @endif
+
         @else
           {{-- EDIT button for community owner --}}
           <div class="mb-3 d-flex justify-content-end">
@@ -98,7 +136,7 @@
             @if ($community->user->avatar)
               <img src="{{ $community->user->avatar }}" alt="{{ $community->user->username }}" class="rounded-circle avatar-sm"> 
             @else
-              <i class="fa-solid fa-circle-user icon-sm"></i>   
+              <i class="fa-solid fa-circle-user text-dark icon-sm"></i>   
             @endif    
           </a>   
         </div>
@@ -131,18 +169,19 @@
           @endif
         </div>
 
-        {{-- Interets --}}
+        {{-- Interests --}}
         <div class="row mb-3">
-          <form action="" method="post">
+        <form action="{{ route('interest.store', $community->id)}}" method="post">
             @csrf
-            <h6>Interest</h6>
-            <div class="col-6">
-              <div class="input-group">
-                <input type="number" name="interest%" id="" class="form-control border-0 text-end">
-                <span class="input-group-text bg-white border-0">%</span>
-                <button class="btn bg-turquoise text-white rounded fw-bold px-3 py-0">Send</button>      
-              </div>
-            </div>     
+            <label for="enpathy" class="fw-bold mb-2">Interest:</label>
+            <div class="range-slider">
+                <input type="range" id="percentage" name="percentage" value="60"
+                    min="60" max="100" step="1" list="my-datalist"
+                    class="bg-turquoise"
+                    oninput="document.getElementById('output1').value=this.value">
+                <output id="output1" class="m-2">60</output><span>%</span>
+            </div>
+            <button type="submit" class="btn btn-gold form-group mt-3 ml-1 btn-sm">Send</button>
           </form>
         </div>
       

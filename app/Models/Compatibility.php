@@ -22,8 +22,8 @@ public function user()
 }
 
 public function sender()
-{
-    return $this->belongsTo(User::class, 'send_user_id');
-}
+    {
+        return $this->belongsTo(User::class, 'send_user_id');
+    }
 
 }

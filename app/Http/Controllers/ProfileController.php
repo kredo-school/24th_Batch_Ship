@@ -11,6 +11,7 @@ use App\Models\Compatibility;
 use App\Models\EventUser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log; // 追加
 
 class ProfileController extends Controller
 {
@@ -18,10 +19,11 @@ class ProfileController extends Controller
     private $category;
     private $community;
 
-    public function __construct(User $user, Category $category, Community $community){
+    public function __construct(User $user, Category $category, Community $community, Compatibility $compatibility){
         $this->user = $user;
         $this->category = $category;
         $this->community = $community;
+        $this->compatibility =$compatibility;
         // $this->event = $event;
     }
 
@@ -76,6 +78,59 @@ class ProfileController extends Controller
 
         return view('users.profile.index', compact('user', 'own_communities', 'join_communities', 'own_events', 'join_events','reactedCompatibilities', 'reactingCompatibilities'));
     }
+    public function storeCompatibility(Request $request)
+{
+    $userId = Auth::id();
+
+    if (!$userId) {
+        return redirect()->back()->with('error', 'You must be logged in to perform this action.');
+    }
+
+    $request->validate([
+        'send_user_id' => 'required|integer',
+        'compatibility' => 'required|integer',
+    ]);
+
+    // 互換性が既に存在するか確認
+    $compatibility = Compatibility::where('user_id', $userId)
+                                  ->where('send_user_id', $request->send_user_id)
+                                  ->first();
+
+                                  if ($compatibility) {
+                                    // 互換性が存在する場合はアップデート
+                                    Log::info('Updating compatibility:', [
+                                        'user_id' => $userId,
+                                        'send_user_id' => $request->send_user_id,
+                                        'compatibility' => $request->compatibility,
+                                    ]);
+                                    $compatibility->compatibility = $request->compatibility;
+                                    $compatibility->save();
+                                    Log::info('Updated compatibility successfully.');
+                                } else {
+                                    // 互換性が存在しない場合は新規作成
+                                    Log::info('Creating new compatibility:', [
+                                        'user_id' => $userId,
+                                        'send_user_id' => $request->send_user_id,
+                                        'compatibility' => $request->compatibility,
+                                    ]);
+                                    Compatibility::create([
+                                        'user_id' => $userId,
+                                        'send_user_id' => $request->send_user_id,
+                                        'compatibility' => $request->compatibility,
+                                    ]);
+                                    Log::info('Created compatibility successfully.');
+                                }
+             
+                                Log::info('Request data:', $request->all());
+}
+
+
+
+
+
+
+
+
 
     # visit to create profile page
     public function create()

@@ -29,7 +29,7 @@
                             <a href="{{ route('users.profile.specificProfile', $compatibility->send_user_id) }}" class="text-decoration-none text-dark fw-bold mx-2">{{ $compatibility->sender->username }}</a>
                         </div>
                         <div class="col-2 text-end">
-                            @if ($compatibility->user_id === Auth::user()->id || $compatibility->send_user_id === Auth::user()->id)
+                            @if ($compatibility->send_user_id === Auth::user()->id)
                         <form action="{{ route('compatibility.destroy', $compatibility->id) }}" method="post">
                             @csrf
                             @method('DELETE')
@@ -84,7 +84,7 @@
                             <a href="{{ route('users.profile.specificProfile', $compatibility->send_user_id) }}" class="text-decoration-none text-dark fw-bold mx-2">{{ $compatibility->user->username }}</a>
                         </div>
                         <div class="col-2 text-end">
-                            @if ($compatibility->send_user_id === Auth::user()->id || $compatibility->user_id === Auth::user()->id)
+                            @if ($compatibility->send_user_id === Auth::user()->id )
                         <form action="{{ route('compatibility.destroy', $compatibility->id) }}" method="post">
                             @csrf
                             @method('DELETE')
