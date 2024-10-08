@@ -1,0 +1,89 @@
+
+/* Admin Category */
+
+.bg-blue {
+    background-color: #EDFAFD;
+}
+
+/* Button color */
+.btn-outline-gold {
+    color: #CFB53B !important;
+}
+
+.btn-gold-cancel {
+    background-color: #CFB53B;
+    color: white;
+}
+
+.btn-gold-cancel:hover {
+    background-color: #FBF9EF;
+    color: #CFB53B;
+    border-color: rgb(216, 216, 216);
+}
+
+.btn-gold-delete:hover {
+    background-color: #CFB53B;
+    color: white;
+}
+
+.btn-turquoise-cancel {
+    background-color: #0D768B;
+    color: white;
+}
+
+.btn-turquoise-cancel:hover {
+    background-color: #EDFAFD;
+    color: #0D768B;
+    border-color: rgb(216, 216, 216);
+}
+
+.btn-turquoise-update:hover {
+    background-color: #0D768B;
+    color: white;
+}
+
+.category-edit {
+    color: #0D768B;
+}
+
+.category-delete {
+    color: #CFB53B;
+}
+
+/* Table Color*/
+.table-blue {
+    background-color: #EDFAFD !important;
+}
+
+.custom-table-hover tbody tr:hover { 
+    background-color: #B4E0FA; 
+}
+
+/* Border Color */
+.border-turquoise {
+    border-color: #0D768B;
+    border-width: thick;
+}
+
+.border-turquoise2 {
+    border-color: #0D768B;
+}
+
+.border-red {
+    border-color: rgb(174, 17, 17);
+    border-width: thick;
+}
+
+/* Index table */
+.category-id, .category-name {
+    font-size: 1.5rem; 
+    font-weight: bold; 
+}
+
+.action-icons {
+    margin-left: 20px; 
+}
+
+.extra-space {
+    padding-left: 300px; 
+}

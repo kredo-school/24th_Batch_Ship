@@ -21,6 +21,8 @@ use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\EventReviewController;
 
 use App\Http\Controllers\Admin\InquiriesController;
+use App\Http\Controllers\Admin\AdminCatController;
+
 use App\Http\Controllers\InterestRateController;
 
 Auth::routes();
@@ -82,6 +84,7 @@ Route::group(['middleware' => 'auth'], function(){
     Route::delete('/comment/{id}', [BoardCommentController::class, 'destroy'])->name('boardcomment.destroy');
 
 
+
     # CommunityUser
     Route::post('/community/{id}/join', [CommunityUserController::class, 'join'])->name('community.join');
     Route::delete('/community/{id}/unjoin', [CommunityUserController::class, 'unjoin'])->name('community.unjoin');
@@ -130,6 +133,12 @@ Route::group(['middleware' => 'auth'], function(){
     Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => 'admin'], function(){
         # Support
         Route::get('/support', [InquiriesController::class,'index'])->name('support');
+        # Categories
+        Route::get('/categories', [AdminCatController::class,'index'])->name('categories');
+        Route::post('/categories/store',[AdminCatController::class,'store'])->name('categories.store');
+        Route::patch('/categories/{id}/update',[AdminCatController::class,'update'])->name('categories.update');
+        Route::delete('/categories/{id}/destroy', [AdminCatController::class,'destroy'])->name('categories.destroy');
+    }); 
         Route::delete('/support/{id}/completed', [InquiriesController::class, 'completed'])->name('support.completed');
         Route::patch('/support/{id}/pending', [InquiriesController::class, 'pending'])->name('support.pending');
     });
