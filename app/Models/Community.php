@@ -2,11 +2,12 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Models\InterestsRate;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Community extends Model
 {
@@ -102,7 +103,8 @@ class Community extends Model
         return $this->activeEvent(false);
     }
 
-    public function percentage()
+    # To get all percentage of the community
+    public function interestsRate()
     {
         return $this->hasMany(InterestsRate::class);
     }
