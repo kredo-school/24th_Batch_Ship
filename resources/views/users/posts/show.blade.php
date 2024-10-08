@@ -123,7 +123,7 @@
                     <form action="{{ route('comment.store', $post->id) }}" method="post">
                         @csrf
 
-                        {{-- Enpathy Slider for non-owners --}}
+               {{-- Enpathy Slider for non-owners --}}
                         @if (!($post->user->id === Auth::user()->id))
                             <div class="form-group mb-2 mx-3">
                                 <label for="enpathy">Empathy:</label>
