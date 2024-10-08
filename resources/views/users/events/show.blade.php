@@ -1,12 +1,12 @@
 @extends('layouts.app')
 
 @section('title', 'Show Event')
-    
+
+@section('styles')
+<link rel="stylesheet" href="{{ asset('css/style_event.css') }}">
+@endsection
+
 @section('content')
-<head>
-    <link rel="stylesheet" href="{{ asset('css/style_event.css') }}">
-</head>
-    
 <div class="container-fluid bg-yellow rounded p-3">
     <div class="row py-3">
         {{-- Title --}}
@@ -91,14 +91,15 @@
                             <div class="row">
                                 <div class="col">
                                     @if($event->categories->isNotEmpty())
-                                    @foreach ($event->categories as $category)
-                                        <a href="{{ route('users.categories.show', $category->id) }}" class="badge me-1 bg-turquoise text-decoration-none">{{ $category->name }}</a>
-                                    @endforeach
-                                @else
-                                    <span class="badge bg-turquoise mt-1">Uncategorized</span>
-                                @endif
-                                
+                                        @foreach ($event->categories as $category)
+                                            <a href="{{ route('users.categories.show', $category->id) }}" class="badge me-1 bg-turquoise text-decoration-none">{{ $category->name }}</a>
+                                        @endforeach
+                                    @else
+                                        <span class="badge bg-turquoise mt-1">Uncategorized</span>
+                                    @endif
                                 </div>
+
+                                {{-- Community owner --}}
                                 <div class="col">
                                     <p class="text-end">Created by 
                                         <a href="{{ route('users.profile.specificProfile', $event->community->owner_id) }}">
@@ -115,7 +116,8 @@
                     </div>
                 </a>
             </div>
-            {{-- Community owner --}}
+            
+            {{-- Event host --}}
             <div class="row mt-3">
                 <h1 class="h6">Created by</h1>
                 <a href="{{ route('users.profile.specificProfile', $event->host_id) }}">
@@ -128,36 +130,39 @@
             </div>
 
             {{-- Event Attendees --}}
-            <div class="row mt-3">
+            <div class="row d-flex align-items-center mt-3">
                 {{-- Number of attendees --}}
-                <div class="col">
+                <div class="col-10">
                     <h1 class="h6">Attendees ({{ $event->attendees->count() }})</h1>
                 </div>
-                {{-- More than 11 users, "see all" button will appear --}}
-                @if ($event->attendees->count() >10)
-                    <div class="col text-end">
-                        <a href="#" class="fw-bold text-decoration-none" data-bs-toggle="modal" data-bs-target="#attendees-{{ $event->id }}">see all</a>
-                        @include('users.events.modals.attendees-list')
-                    </div>
-                @endif
+                <div class="col-auto">
+                    <a href="#" class="fw-bold text-decoration-none" data-bs-toggle="modal" data-bs-target="#attendees-{{ $event->id }}">see all</a>
+                    {{-- @include('users.events.modals.attendees-list') --}}
+                </div>
             </div>
-            {{-- Attendees list up to 10 --}}
-            @if (count($event->attendees) > 0)
-                <div class="d-flex">
-                    @foreach (collect($all_attendees)->take(10) as $attendee)
-                        <div class="me-2">
-                            <a href="{{ route('users.profile.specificProfile', $attendee->user_id) }}" class="text-decoration-none">
-                                @if ($attendee->user->avatar)
-                                    <img src="{{ $attendee->user->avatar }}" alt="{{ $attendee->user->username }}" class="rounded-circle avatar-sm">
+            {{-- Show up to 12 attendees --}}
+            @if ($attendeesWithReviews->isNotEmpty())
+                <div class="d-flex flex-wrap">
+                    @foreach ($attendeesWithReviews->take(12) as $attendeeWithReview)
+                        <div class="me-2 mb-1">
+                            <a href="{{ route('users.profile.specificProfile', $attendeeWithReview['attendee']->user_id) }}" class="text-decoration-none">
+                                @if ($attendeeWithReview['attendee']->user->avatar)
+                                    <img src="{{ $attendeeWithReview['attendee']->user->avatar }}" alt="{{ $attendeeWithReview['attendee']->user->username }}" class="rounded-circle avatar-sm">
                                 @else
                                     <i class="fa-solid fa-circle-user text-dark icon-sm"></i>
                                 @endif
-                            </a> 
+                            </a>
+                            
+                            {{-- If user has reviewed this event, retrieve review_rate % --}}
+                            @if ($attendeeWithReview['review'])
+                                <div class="no-margin">
+                                    <p>{{ $attendeeWithReview['review']->review_rate }}%</p>
+                                </div> 
+                            @endif
                         </div>
                     @endforeach
                 </div>
             @endif
-
 
             {{-- Review form will appear after the event --}}
             @if ($currentDateTime->greaterThan($event->date . ' ' . $event->end_time) && 
@@ -177,13 +182,14 @@
                                 @enderror
                             </div>
                         </div> 
+
                         {{-- Comment for event --}}
                         <div class="row d-flex mt-2">
                             <div class="col-9">
                                 <textarea name="review_comment" rows="1" class="form-control" placeholder="Add a comment...">{{ old('review_comment') }}</textarea>
                             </div>
                             <div class="col-auto">
-                                <button type="submit" class="btn btn-turquoise px-3">Send</button>  
+                                <button type="submit" class="btn btn-gold px-3">SEND</button>  
                             </div>
                             @error('review_comment')
                                 <div class="text-danger small">{{ $message }}</div> 

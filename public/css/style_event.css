@@ -51,5 +51,7 @@
 
     }
 
-
+.no-margin p {
+    margin: 0;
+}
 

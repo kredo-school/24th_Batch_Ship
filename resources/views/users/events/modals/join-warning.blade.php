@@ -10,7 +10,7 @@
       <div class="modal-body mt-3">
         <p class="text-center">
           Event attendance is limited to community members only. <br>
-          <span class="text-danger fw-bold">You must first join the community</span> in order to participate.
+          <span class="text-danger fw-bold">You must first JOIN the Community</span> in order to participate.
         </p>
       </div>
 
