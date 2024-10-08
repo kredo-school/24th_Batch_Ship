@@ -56,31 +56,31 @@
                  {{-- Notification icon --}}
                             <li class="nav-item dropdown">
                                 <a href="#" class="nav-link dropdown-toggle text-white" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    {{-- @if(Auth::user()->unreadNotifications->count()) --}}
-                                        {{-- icon for new message --}}
+                                    @if(Auth::user()->unreadNotifications->count()) 
+                                        {{-- icon for new message
                                         <i class="fa-solid fa-face-laugh"></i> 
                       {{-- Display unread notification count as a badge --}}
                                         <span class="badge bg-danger rounded-circle p-1">
-                                            {{-- {{ Auth::user()->unreadNotifications->count() }} --}}
+                                            {{ Auth::user()->unreadNotifications->count() }}
                                         </span>
-                                    {{-- @else --}}
+                                    @else
                          {{-- icon for no message --}}
                                         <i class="fa-solid fa-anchor"></i>
-                                    {{-- @endif --}}
+                                    @endif
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end">
                                     <li><h1 class="h6 text-center text-dark">any news?</h1></li>
-                                    {{-- @if(Auth::user()->unreadNotifications->isEmpty()) --}}
-                          {{-- Message when there are no notifications --}}
+                                    @if(Auth::user()->unreadNotifications->isEmpty()) 
+                          {{-- Message when there are no notifications--}}
                                          <li><p class="text-center"><i class="fa-regular fa-face-meh"></i> not yet</p></li>
-                                    {{-- @else --}}
+                                    @else
                                         <li>
                                             {{-- Link to mark all as read --}}
                                             <a href="{{ route('mark-as-read') }}" class="dropdown-item text-turquoise"><i class="fa-solid fa-circle-dot"></i> Mark all as read</a>
                                         </li>
                                         <li>
                                             <div class="overflow-y-auto" style="max-height: 250px;">
-                                                {{-- @foreach (Auth::user()->unreadNotifications as $notification)
+                                                @foreach (Auth::user()->unreadNotifications as $notification)
                                                     <div class="d-flex flex-row align-items-center justify-content-between border-bottom p-2 {{ $loop->iteration % 2 == 0 ? 'bg-green' : 'bg-white' }}">
                                                         <a href="{{ route('users.posts.show', $notification->data['post_id']) }}" class="font-bold text-decoration-none text-dark">
                                                             "{{ $notification->data['comment'] ?? 'Notification' }}"
@@ -91,7 +91,7 @@
                                             </div>
                                         </li>
 
-                                    @endif --}}
+                                    @endif
                                 </ul>
                             </li>
 
