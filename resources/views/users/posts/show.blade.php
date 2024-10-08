@@ -1,3 +1,5 @@
+Post  show.blade.php
+
 @extends('layouts.app')
 
 @section('title', 'Post:show')
@@ -160,4 +162,3 @@
             </div>
         </div>
 
-@endsection

@@ -51,4 +51,10 @@ class Event extends Model
     {
         return $this->belongsToMany(Category::class, 'category_event', 'event_id', 'category_id');
     }
+
+    // To get reviews written by the attendees
+    public function eventReviews()
+    {
+        return $this->hasMany(EventReview::class);
+    }
 }

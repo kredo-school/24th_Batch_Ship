@@ -121,15 +121,24 @@ class CommunityController extends Controller
 
         $community = $this->community->findOrFail($id);
 
+        // Retrieve members and categories
         $all_members = $community->members->all();
         $all_categories = $community->categoryCommunity->all();
         $all_interestsrate = $community->interestsRate->all();
+
+        // Check if the user is currently joined to the community
+        $isJoining = $community->isJoining();
+
+        // Check if there are active events hosted or attended by the user 
+        $isActiveEvent = $community->activeEventHost() || $community->activeEventAttendee();
 
         return view('users.communities.show')
             ->with('community', $community)
             ->with('all_members', $all_members)
             ->with('all_categories', $all_categories)
             ->with('all_interestsrate', $all_interestsrate);
+            ->with('isJoining', $isJoining)
+            ->with('isActiveEvent', $isActiveEvent);
     }
 
     # To open the Edit Post page

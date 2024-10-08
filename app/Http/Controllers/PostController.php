@@ -8,6 +8,7 @@ use Illuminate\Support\Str;
 use App\Models\Post;
 use App\Models\CategoryPost;
 use App\Models\Category;
+use App\Models\PostComment;
 
 class PostController extends Controller
 {
@@ -224,6 +225,7 @@ class PostController extends Controller
         return redirect()->route('users.posts.show', $id); // Redirect to the post show page
     }
 
+    
 
 
     // delete the post

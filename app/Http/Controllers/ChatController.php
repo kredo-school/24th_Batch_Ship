@@ -39,10 +39,15 @@ class ChatController extends Controller
             } else {
                 $recipient_id = $latest_chat->sender_id;
             }
+            $status = 'WITH_MESSAGE';
+            return $this->getAllChat($recipient_id, $status);
+        } else {
+            $status = 'NO_MESSAGE';
+            return $this->getAllChat(Auth::user()->id, $status);
         }
 
-        //  pass recipient_id
-        return $this->getAllChat($recipient_id);
+        // //  pass recipient_id
+        // return $this->getAllChat($recipient_id);
     }
 
     # to store messages
@@ -107,8 +112,32 @@ class ChatController extends Controller
         return redirect()->back();
     }
 
+    public function getAllChatMain($profile_id){
+        $sender_id = Auth::user()->id;
+        // condition to figure out user is sender or recipient 
+        // get latest chat
+        $latest_chat = Chat::where('sender_id', $sender_id)
+                            ->orWhere('recipient_id', $sender_id)
+                            ->with(['latestMessage' => function($query){
+                                $query->latest('created_at');
+                            }])
+                            ->latest('updated_at')
+                            ->first();
+
+        // get recipient_id or sender_id from latest chat
+        if ($latest_chat){
+            $status = 'WITH_MESSAGE';
+            
+        } else {
+            $status = 'NO_MESSAGE';
+            
+        }
+
+        return $this->getAllChat($profile_id, $status);
+    }
+
     # process to get chats and messages
-    public function getAllChat($profile_id){
+    public function getAllChat($profile_id, $status){
 
         // get all messages
         $sender_id = Auth::id();
@@ -139,10 +168,12 @@ class ChatController extends Controller
         $chat = $chats->first();
 
         // mark unread message as read
-        ChatMessage::where('chat_id', $chat->id)
-        ->where('user_id', '!=', Auth::user()->id)
-        ->whereNull('read_at')
-        ->update(['read_at' => now()]);
+        if($chat){
+            ChatMessage::where('chat_id', $chat->id)
+            ->where('user_id', '!=', Auth::user()->id)
+            ->whereNull('read_at')
+            ->update(['read_at' => now()]);
+            }
 
         // get all chats
         $all_chats = Chat::where('sender_id', Auth::id())
@@ -154,7 +185,7 @@ class ChatController extends Controller
                         return $chat;
                     });
 
-        return view('users.chats.index', compact('all_chats', 'profile_id', 'all_messages', 'chat', 'recipientData'));
+        return view('users.chats.index', compact('all_chats', 'profile_id', 'all_messages', 'chat', 'recipientData', 'status'));
     }
 
     // public function search(Request $request){

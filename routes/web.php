@@ -21,14 +21,16 @@ use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\EventReviewController;
 
 use App\Http\Controllers\Admin\InquiriesController;
+use App\Http\Controllers\Admin\AdminCatController;
+
 use App\Http\Controllers\InterestRateController;
 
 Auth::routes();
 
 Route::group(['middleware' => 'auth'], function(){
 
+    #Search
     Route::get('/search', [HomeController::class, 'search'])->name('search');
-
 
     //Profile
     Route::get('/', [ProfileController::class,'index'])->name('users.profile.index');
@@ -82,6 +84,7 @@ Route::group(['middleware' => 'auth'], function(){
     Route::delete('/comment/{id}', [BoardCommentController::class, 'destroy'])->name('boardcomment.destroy');
 
 
+
     # CommunityUser
     Route::post('/community/{id}/join', [CommunityUserController::class, 'join'])->name('community.join');
     Route::delete('/community/{id}/unjoin', [CommunityUserController::class, 'unjoin'])->name('community.unjoin');
@@ -106,7 +109,7 @@ Route::group(['middleware' => 'auth'], function(){
 
     # Chat
     Route::get('/chat', [ChatController::class, 'index'])->name('chat.index');
-    Route::get('/profile/{profile_id}/chat', [ChatController::class, 'getAllChat'])->name('chat.show');
+    Route::get('/profile/{profile_id}/chat', [ChatController::class, 'getAllChatMain'])->name('chat.show');
     Route::post('/chat/{profile_id}/messages', [ChatController::class, 'store'])->name('chat.store');
 
     # Support
@@ -122,7 +125,7 @@ Route::group(['middleware' => 'auth'], function(){
     Route::get('/categories/{id}', [CategoryController::class, 'show'])->name('users.categories.show');
 
     # Notification
-    Route::get('/notifications/{id}', [NotificationController::class, 'getNotificationsForUser'])->name('notifications');
+    // Route::get('/notifications/{id}', [NotificationController::class, 'getNotificationsForUser'])->name('notifications');
     Route::get('/mark-as-read', [NotificationController::class, 'markAsRead'])->name('mark-as-read');
 
 
@@ -132,5 +135,12 @@ Route::group(['middleware' => 'auth'], function(){
         Route::get('/support', [InquiriesController::class,'index'])->name('support');
         Route::delete('/support/{id}/completed', [InquiriesController::class, 'completed'])->name('support.completed');
         Route::patch('/support/{id}/pending', [InquiriesController::class, 'pending'])->name('support.pending');
+        # Categories
+        Route::get('/categories', [AdminCatController::class,'index'])->name('categories');
+        Route::post('/categories/store',[AdminCatController::class,'store'])->name('categories.store');
+        Route::patch('/categories/{id}/update',[AdminCatController::class,'update'])->name('categories.update');
+        Route::delete('/categories/{id}/destroy', [AdminCatController::class,'destroy'])->name('categories.destroy');
+     
+        
     });
 });

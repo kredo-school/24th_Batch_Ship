@@ -98,12 +98,6 @@
       <div class="col-md-4">
         {{-- Show JOIN/UNJOIN button for user, or EDIT button for community owner --}}
         @if (Auth::user()->id !== $community->owner_id) {{-- Check if the user is not the community owner --}}
-          @php
-            $isJoining = $community->isJoining(); // Check if the user is currently joined to the community
-            $isActiveEvent = $community->activeEventHost() || $community->activeEventAttendee();
-            // Check if there are active events hosted or attended by the user
-          @endphp
-
           <form action="{{ $isJoining ? ($isActiveEvent ? '#' : route('community.unjoin', $community->id)) : route('community.join', $community->id) }}" method="POST"> {{-- Set the form action based on the user's join status and active events --}}
             @csrf
             @if ($isJoining && !$isActiveEvent) {{-- If the user is joined and there are no active events --}}
@@ -142,20 +136,20 @@
         </div>
 
         {{-- Members --}}
-        <div class="row mb-3">
-          <div class="col">
+        <div class="row d-flex align-items-center mb-2">
+          <div class="col-10">
             {{-- Number of members --}}
             <h6>Members({{ $community->members->count() }})</h6>
           </div>
-          @if (count($community->members) > 0)
-            <div class="col text-end">
-              <a href="#" class="text-decoration-none fw-bold me-4" data-bs-toggle="modal" data-bs-target="#community-members-{{ $community->id }}">See all</a>
+          @if ($community->members->isNotEmpty())
+            <div class="col-auto">
+              <a href="#" class="text-decoration-none fw-bold" data-bs-toggle="modal" data-bs-target="#community-members-{{ $community->id }}">See all</a>
               @include('users.communities.modals.members-list')
             </div>
-            {{-- Attendees list up to 10 --}}
-            <div class="d-flex">
-              @foreach (collect($all_members)->take(10) as $member)
-                <div class="me-2">
+            {{-- Show up to 12 members --}}
+            <div class="d-flex flex-wrap">
+              @foreach ($community->members->take(12) as $member)
+                <div class="me-2 mb-1">
                   <a href="{{ route('users.profile.specificProfile', $member->user_id) }}" class="text-decoration-none">
                     @if ($member->user->avatar)
                       <img src="{{ $member->user->avatar }}" alt="{{ $member->user->username }}" class="rounded-circle avatar-sm">

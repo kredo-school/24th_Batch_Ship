@@ -4,12 +4,12 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // Initialize Google Maps Places Autocomplete for the address input field
-function initialize() {
-  var input = document.getElementById('autocomplete');
-  var autocomplete = new google.maps.places.Autocomplete(input);
+function initMap() {
+  var inputautocomplete = document.getElementById('autocomplete');
+  var autocomplete = new google.maps.places.Autocomplete(inputautocomplete);
 
   autocomplete.addListener('place_changed', function () {
-    var place = autocomplete.getPlace();
+    var place = autocomplete.getPlace(); 
     document.getElementById('latitude').value = place.geometry['location'].lat();
     document.getElementById('longitude').value = place.geometry['location'].lng();
   });
