@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
+use App\Models\Community;
 use Illuminate\Http\Request;
 use App\Models\InterestsRate;
 use Illuminate\Support\Facades\Auth;
@@ -9,10 +11,14 @@ use Illuminate\Support\Facades\Auth;
 class InterestRateController extends Controller
 {
     private $interestsrate;
+    private $community;
+    private $user;
 
-    public function __construct(InterestsRate $interestsrate)
+    public function __construct(InterestsRate $interestsrate, Community $community, User $user)
     {
         $this->interestsrate = $interestsrate;
+        $this->community         = $community;
+        $this->user = $user;
     }
 
     public function store(Request $request, $community_id)
@@ -31,5 +37,6 @@ class InterestRateController extends Controller
 
          # 3. Redirect back to the page
         return redirect()->back();
-     }
+    }
+    
 }

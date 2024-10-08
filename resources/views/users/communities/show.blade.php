@@ -171,18 +171,20 @@
 
         {{-- Interests --}}
         <div class="row mb-3">
-        <form action="{{ route('interest.store', $community->id)}}" method="post">
-            @csrf
-            <label for="enpathy" class="fw-bold mb-2">Interest:</label>
-            <div class="range-slider">
-                <input type="range" id="percentage" name="percentage" value="60"
-                    min="60" max="100" step="1" list="my-datalist"
-                    class="bg-turquoise"
-                    oninput="document.getElementById('output1').value=this.value">
-                <output id="output1" class="m-2">60</output><span>%</span>
-            </div>
-            <button type="submit" class="btn btn-gold form-group mt-3 ml-1 btn-sm">Send</button>
-          </form>
+          @if (!($community->user->id === Auth::user()->id))
+            <form action="{{ route('interest.store', $community->id)}}" method="post">
+              @csrf
+              <label for="enpathy" class="fw-bold mb-2">Interest:</label>
+              <div class="range-slider">
+                  <input type="range" id="percentage" name="percentage" value="60"
+                      min="60" max="100" step="1" list="my-datalist"
+                      class="bg-turquoise"
+                      oninput="document.getElementById('output1').value=this.value">
+                  <output id="output1" class="m-2">60</output><span>%</span>
+              </div>
+              <button type="submit" class="btn btn-gold form-group mt-3 ml-1 btn-sm">Send</button>
+            </form>
+          @endif
         </div>
       
         {{-- Category --}}
