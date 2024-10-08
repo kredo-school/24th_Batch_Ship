@@ -12,6 +12,7 @@ use App\Models\EventUser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log; // 追加
+use Illuminate\Support\Facades\DB;
 
 class ProfileController extends Controller
 {
@@ -78,59 +79,53 @@ class ProfileController extends Controller
 
         return view('users.profile.index', compact('user', 'own_communities', 'join_communities', 'own_events', 'join_events','reactedCompatibilities', 'reactingCompatibilities'));
     }
+
+
     public function storeCompatibility(Request $request)
-{
-    $userId = Auth::id();
-
-    if (!$userId) {
-        return redirect()->back()->with('error', 'You must be logged in to perform this action.');
+    {
+        Log::info('storeCompatibility called');
+    
+        // バリデーション
+        $request->validate([
+            'compatibility' => 'required|integer|min:60|max:100',
+        ]);
+    
+        $currentUserId = Auth::id(); // ログインしているユーザーのID
+        $profileOwnerId = $request->send_user_id; // プロフィールページのオーナーのID
+    
+        // 互換性が既に存在するか確認
+        $compatibility = Compatibility::where('user_id', $profileOwnerId)
+                                      ->where('send_user_id', $currentUserId)
+                                      ->first();
+    
+        if ($compatibility) {
+            // 互換性が存在する場合はアップデート
+            Log::info('Updating compatibility:', [
+                'user_id' => $profileOwnerId,
+                'send_user_id' => $currentUserId,
+                'compatibility' => $request->compatibility,
+            ]);
+            $compatibility->compatibility = $request->compatibility;
+            $compatibility->save();
+            Log::info('Updated compatibility successfully.');
+        } else {
+            // 互換性が存在しない場合は新規作成
+            Log::info('Creating new compatibility:', [
+                'user_id' => $profileOwnerId,
+                'send_user_id' => $currentUserId,
+                'compatibility' => $request->compatibility,
+            ]);
+            Compatibility::create([
+                'user_id' => $profileOwnerId, // プロフィールページのオーナーのID
+                'send_user_id' => $currentUserId, // 送信側のユーザーのID
+                'compatibility' => $request->compatibility,
+            ]);
+            Log::info('Created compatibility successfully.');
+        }
+    
+        return redirect()->back()->with('success', 'Compatibility saved successfully.');
     }
-
-    $request->validate([
-        'send_user_id' => 'required|integer',
-        'compatibility' => 'required|integer',
-    ]);
-
-    // 互換性が既に存在するか確認
-    $compatibility = Compatibility::where('user_id', $userId)
-                                  ->where('send_user_id', $request->send_user_id)
-                                  ->first();
-
-                                  if ($compatibility) {
-                                    // 互換性が存在する場合はアップデート
-                                    Log::info('Updating compatibility:', [
-                                        'user_id' => $userId,
-                                        'send_user_id' => $request->send_user_id,
-                                        'compatibility' => $request->compatibility,
-                                    ]);
-                                    $compatibility->compatibility = $request->compatibility;
-                                    $compatibility->save();
-                                    Log::info('Updated compatibility successfully.');
-                                } else {
-                                    // 互換性が存在しない場合は新規作成
-                                    Log::info('Creating new compatibility:', [
-                                        'user_id' => $userId,
-                                        'send_user_id' => $request->send_user_id,
-                                        'compatibility' => $request->compatibility,
-                                    ]);
-                                    Compatibility::create([
-                                        'user_id' => $userId,
-                                        'send_user_id' => $request->send_user_id,
-                                        'compatibility' => $request->compatibility,
-                                    ]);
-                                    Log::info('Created compatibility successfully.');
-                                }
-             
-                                Log::info('Request data:', $request->all());
-}
-
-
-
-
-
-
-
-
+    
 
     # visit to create profile page
     public function create()
@@ -250,5 +245,5 @@ class ProfileController extends Controller
     //     }
     //     return $own_events;
     // }
-}
 
+    }

@@ -46,8 +46,8 @@ Route::group(['middleware' => 'auth'], function(){
 
 
 
+
     // // Profile Compatibilities
-    // Route::post('/compatibility/{userId}', [CompatibilityController::class, 'store'])->name('compatibility.store');
     Route::delete('/profile/{id}/destroy', [CompatibilityController::class, 'destroy'])->name('compatibility.destroy');
 
 

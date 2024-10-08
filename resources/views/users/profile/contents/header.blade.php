@@ -42,6 +42,7 @@
                     <div class="col-4">
                     <form action="{{ route('compatibility.store', $user->id) }}" method="post" class="row row-cols-lg-auto g-3 align-items-center">
                             @csrf
+                            <input type="hidden" name="send_user_id" value="{{ $user->id }}">
                                 <div class="range-slider mb-5 ml-3">
                                      <label for="compatibility" class="form-label mx-3 ">Compatibility:</label>
                                     <input type="range" id="compatibility" name="compatibility" value="60"
@@ -50,9 +51,8 @@
                                     <output id="output1" class="mx-2">60</output>
                                     <span>%</span>
                                 </div>
-                            </div>
-
-                            <div class="col-2 mt-4">
+                            </div>    
+                        <div class="col-2 mt-4">
                                 <button type="submit" class="btn btn-gold text-white">Send</button>
                             </div>
                         </form>
