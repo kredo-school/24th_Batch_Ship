@@ -42,8 +42,8 @@ class EventController extends Controller
             'start_time'   => 'required|date_format:H:i',
             'end_time'     => 'required|date_format:H:i|after:start_time',
             'address'      => 'required|string|max:255',
-            'latitude'     => 'required|numeric', // for location map
-            'longitude'    => 'required|numeric', // for location map
+            // 'latitude'     => 'required|numeric', // for location map
+            // 'longitude'    => 'required|numeric', // for location map
             'price'        => 'required|string|max:255',
             'description'  => 'required|string',
             'image'        => 'required|mimes:jpeg,jpg,png,gif|max:1048'
@@ -57,8 +57,8 @@ class EventController extends Controller
         $this->event->start_time   = $request->start_time;
         $this->event->end_time     = $request->end_time;
         $this->event->address      = $request->address;
-        $this->event->latitude     = $request->latitude; // for location map
-        $this->event->longitude    = $request->longitude; // for location map
+        // $this->event->latitude     = $request->latitude; // for location map
+        // $this->event->longitude    = $request->longitude; // for location map
         $this->event->price        = $request->price;
         $this->event->description  = $request->description;
         $this->event->image        = 'data:image/' . $request->image->extension() . ';base64,' . base64_encode(file_get_contents($request->image));
