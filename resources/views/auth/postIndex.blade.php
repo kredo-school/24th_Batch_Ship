@@ -9,9 +9,9 @@
         <div class="row mb-3">
             <div class="col text-center">
                 @foreach ($user->categoryUser as $category_user)
-                <a href="{{ route('users.categories.show', $category_user->category_id) }}" class="btn fs-4 px-3 py-1 bg-turquoise text-white rounded border-0">
-                    {{ $category_user->category->name }}
-                </a>
+                    <a href="{{ route('users.categories.show', $category_user->category_id) }}" class="fs-5 badge bg-turquoise text-white ms-1 px-2 text-decoration-none">
+                        {{ $category_user->category->name }}
+                    </a>
             @endforeach
 
             </div>
@@ -30,11 +30,36 @@
                                     <div class="mb-3 card-text large-text text-dark">{{ Str::limit($post->description, 100) }}</div>
 
                                     {{-- post image --}}
-                                    @if (!empty($post->image))
-                                        <div>
-                                            <img src="{{ $post->image }}" alt="Post ID {{ $post->id }}" class="fixed-size-img rounded">
+                                    @if ($post->images->isNotEmpty())
+                                    <div id="carousel-{{ $post->id }}" class="carousel slide" data-bs-ride="false">
+                                        <div class="carousel-inner">
+                                            @foreach ($post->images->chunk(2) as $index => $imagesChunk)
+                                                <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">
+                                                    <div class="d-flex justify-content-center">
+                                                        @foreach ($imagesChunk as $image)
+                                                            <div class="mx-1" style="overflow: hidden;">
+                                                                <img src="data:image/png;base64,{{ $image->image_data }}" alt="Post ID {{ $post->id }}" class="img-fluid img-profile-index">
+                                                            </div>
+                                                        @endforeach
+                                                    </div>
+                                                </div>
+                                            @endforeach
                                         </div>
-                                    @endif
+
+                                        @if ($post->images->count() > 2)
+                                            <button class="carousel-control-prev btn-profile-post-prev" type="button" data-bs-target="#carousel-{{ $post->id }}" data-bs-slide="prev">
+                                                <i class="fa-solid fa-caret-left fs-1 text-turquoise">
+                                                    <span class="visually-hidden">Previous</span>
+                                                </i>
+                                            </button>
+                                            <button class="carousel-control-next btn-profile-post-next" type="button" data-bs-target="#carousel-{{ $post->id }}" data-bs-slide="next">
+                                                <i class="fa-solid fa-caret-right fs-1 text-turquoise">
+                                                    <span class="visually-hidden">Next</span>
+                                                </i>
+                                            </button>
+                                        @endif
+                                    </div>
+                                @endif
 
                                     {{-- post category --}}
                                     <div class="row card-text text-start ms-1 mt-auto">

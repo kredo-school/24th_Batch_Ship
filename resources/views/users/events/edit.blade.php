@@ -117,4 +117,5 @@
 
 <!-- JavaScript -->
 <script src="{{ asset('js/events/google-map.js') }}"></script>
+<script src="{{ asset('js/events/preview.js') }}"></script>
 @endsection

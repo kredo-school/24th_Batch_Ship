@@ -42,8 +42,8 @@ class EventController extends Controller
             'start_time'   => 'required|date_format:H:i',
             'end_time'     => 'required|date_format:H:i|after:start_time',
             'address'      => 'required|string|max:255',
-            'latitude'     => 'required|numeric', // for location map
-            'longitude'    => 'required|numeric', // for location map
+            // 'latitude'     => 'required|numeric', // for location map
+            // 'longitude'    => 'required|numeric', // for location map
             'price'        => 'required|string|max:255',
             'description'  => 'required|string',
             'image'        => 'required|mimes:jpeg,jpg,png,gif|max:1048'
@@ -57,8 +57,8 @@ class EventController extends Controller
         $this->event->start_time   = $request->start_time;
         $this->event->end_time     = $request->end_time;
         $this->event->address      = $request->address;
-        $this->event->latitude     = $request->latitude; // for location map
-        $this->event->longitude    = $request->longitude; // for location map
+        // $this->event->latitude     = $request->latitude; // for location map
+        // $this->event->longitude    = $request->longitude; // for location map
         $this->event->price        = $request->price;
         $this->event->description  = $request->description;
         $this->event->image        = 'data:image/' . $request->image->extension() . ';base64,' . base64_encode(file_get_contents($request->image));
@@ -68,26 +68,43 @@ class EventController extends Controller
         return redirect()->route('event.show', $this->event->id);
     }
     
-
     public function show($id)
     {
         // $id - ID of the event
         $event = $this->event->findOrFail($id);
 
-        // For the left Side of Contents
+        // Date and Time
         $date = Carbon::parse($event->date)->format('Y/m/d');
         $startTime = Carbon::parse($event->start_time)->format('H:i');
         $endTime = Carbon::parse($event->end_time)->format('H:i');
-
-        // For the right Side of Contents
-        $all_categories = $event->community->categoryCommunity->all();
-        $all_attendees = collect($event->attendees);
         $currentDateTime = Carbon::now();
+        $currentDate = Carbon::today(); // Use Carbon to get the current date without time
+
+        // Get the community categories
+        $all_categories = $event->community->categoryCommunity;
+
+        // Get attendees and reviews
+        $all_attendees = $event->attendees;
+        $all_reviews = $event->eventReviews;
+
+        // Create a collection associating attendees with their corresponding reviews
+        $attendeesWithReviews = collect();
+
+        foreach ($all_attendees as $attendee) {
+            // Find the review for this attendee, if the attendee has reviewed this event
+            $attendeeReview = $all_reviews->where('user_id', $attendee->user_id)->first();
+
+            // Add attendee and their review (if any) to the collection
+            $attendeesWithReviews->push([
+                'attendee' => $attendee,
+                'review' => $attendeeReview,
+            ]);
+        }
 
         // For location map
         $encodedAddress = urlencode($event->address);
 
-        return view('users.events.show', compact('event', 'date', 'startTime', 'endTime', 'all_categories', 'all_attendees', 'currentDateTime','encodedAddress'));
+        return view('users.events.show', compact('event', 'date', 'startTime', 'endTime', 'currentDateTime', 'currentDate', 'all_categories', 'attendeesWithReviews', 'encodedAddress'));
     }
 
     public function edit($id)

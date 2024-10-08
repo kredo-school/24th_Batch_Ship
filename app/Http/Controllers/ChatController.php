@@ -21,20 +21,41 @@ class ChatController extends Controller
     }
 
     public function index(){
-        # get all chats
-        $all_chats = Chat::where('sender_id', Auth::id())
-                        ->orWhere('recipient_id', Auth::id())
-                        ->get();
+        $sender_id = Auth::user()->id;
+        // condition to figure out user is sender or recipient 
+        // get latest chat
+        $latest_chat = Chat::where('sender_id', $sender_id)
+                            ->orWhere('recipient_id', $sender_id)
+                            ->with(['latestMessage' => function($query){
+                                $query->latest('created_at');
+                            }])
+                            ->latest('updated_at')
+                            ->first();
 
-        return view('users.chats.index', compact('all_chats'));
+        // get recipient_id or sender_id from latest chat
+        if ($latest_chat){
+            if ($latest_chat->sender_id === $sender_id){
+                $recipient_id = $latest_chat->recipient_id;
+            } else {
+                $recipient_id = $latest_chat->sender_id;
+            }
+            $status = 'WITH_MESSAGE';
+            return $this->getAllChat($recipient_id, $status);
+        } else {
+            $status = 'NO_MESSAGE';
+            return $this->getAllChat(Auth::user()->id, $status);
+        }
+
+        // //  pass recipient_id
+        // return $this->getAllChat($recipient_id);
     }
 
-    //  create new chat
-    public function createChat(Request $request, $id){
+    # to store messages
+    public function store(Request $request, $profile_id){
         $sender_id = Auth::id();
-        $recipient_id = $id;
+        $recipient_id = $profile_id;
 
-        # check if a chat already exists
+        // identify chat
         $chat = Chat::where(function($query) use ($sender_id, $recipient_id) {
             $query->where('sender_id', $sender_id)
                   ->where('recipient_id', $recipient_id);
@@ -45,37 +66,140 @@ class ChatController extends Controller
         })
         ->first();
 
+        // check if a chat already exists
         if ($chat) {
             // Conversation exists
-            return redirect()->route('chat.index', ['chat' => $chat->id]);
+            $request->validate(
+                [   // RULES
+                    'text' => 'required|max:150'
+                ],
+                [   // ERROE MESSAGES
+                    'required' => 'You cannot send an empty message.',
+                    'max' => 'The message must not have more than 150 characters.'
+                ]
+            );
+
+            $this->chatmessage->text = $request->text;
+            $this->chatmessage->user_id = Auth::user()->id;
+            $this->chatmessage->chat_id = $chat->id;
+            $this->chatmessage->save();
+
+            $chat->touch();
 
         } else {
+
             // No conversation exists yet
             $this->chat->sender_id = Auth::user()->id;
-            $this->chat->recipient_id = $id;
+            $this->chat->recipient_id = $profile_id;
             $this->chat->save();
-            return redirect()->route('chat.index', ['chat' => $chat->id]);
+
+            $request->validate(
+                [   // RULES
+                    'text' => 'required|max:150'
+                ],
+                [   // ERROE MESSAGES
+                    'required' => 'You cannot send an empty message.',
+                    'max' => 'The message must not have more than 150 characters.'
+                ]
+            );
+
+            $this->chatmessage->text = $request->text;
+            $this->chatmessage->user_id = Auth::user()->id;
+            $this->chatmessage->chat_id = $this->chat->id;
+            $this->chatmessage->save();
         }
-    }
-
-    # store each messages
-    public function store(Request $request){
-
-        $request->validate(
-            [
-                'text' => 'required|max:150'
-            ]
-            // [
-            //     'required' => 'You cannot send an empty message.',
-            //     'max' => 'The message must not have more than 150 characters.'
-            // ]
-        );
-
-        $this->chatmessage->text = $request->text;
-        $this->chatmessage->user_id = Auth::user()->id;
-        // $this->chatmessage->chat_id = $chat_id;
-        $this->chatmessage->save();
 
         return redirect()->back();
     }
+
+    public function getAllChatMain($profile_id){
+        $sender_id = Auth::user()->id;
+        // condition to figure out user is sender or recipient 
+        // get latest chat
+        $latest_chat = Chat::where('sender_id', $sender_id)
+                            ->orWhere('recipient_id', $sender_id)
+                            ->with(['latestMessage' => function($query){
+                                $query->latest('created_at');
+                            }])
+                            ->latest('updated_at')
+                            ->first();
+
+        // get recipient_id or sender_id from latest chat
+        if ($latest_chat){
+            $status = 'WITH_MESSAGE';
+            
+        } else {
+            $status = 'NO_MESSAGE';
+            
+        }
+
+        return $this->getAllChat($profile_id, $status);
+    }
+
+    # process to get chats and messages
+    public function getAllChat($profile_id, $status){
+
+        // get all messages
+        $sender_id = Auth::id();
+        $recipient_id = $profile_id;
+        $recipientData = User::findOrFail($profile_id);
+
+        // identify chat
+        $chats = Chat::where(function($query) use ($sender_id, $recipient_id) { // for the case sender_id = Auth user
+            $query->where('sender_id', $sender_id)
+                  ->where('recipient_id', $recipient_id)
+                  ->with('messages')
+                  ->with('sender')
+                  ->with('recipient');
+        })
+        ->orWhere(function($query) use ($sender_id, $recipient_id) {    // for the case sender_id != Auth user
+            $query->where('sender_id', $recipient_id)
+                  ->where('recipient_id', $sender_id)
+                  ->with('messages')
+                  ->with('sender')
+                  ->with('recipient');
+        })
+        ->get();
+        
+        $all_messages = $chats->flatMap(function($chat){
+            return $chat->messages;
+        });
+
+        $chat = $chats->first();
+
+        // mark unread message as read
+        if($chat){
+            ChatMessage::where('chat_id', $chat->id)
+            ->where('user_id', '!=', Auth::user()->id)
+            ->whereNull('read_at')
+            ->update(['read_at' => now()]);
+            }
+
+        // get all chats
+        $all_chats = Chat::where('sender_id', Auth::id())
+                    ->orWhere('recipient_id', Auth::id())
+                    ->orderBy('updated_at', 'desc')
+                    ->get()
+                    ->map(function ($chat) {
+                        $chat->unread_count = $chat->getUnreadMessagesCount(Auth::id());
+                        return $chat;
+                    });
+
+        return view('users.chats.index', compact('all_chats', 'profile_id', 'all_messages', 'chat', 'recipientData', 'status'));
+    }
+
+    // public function search(Request $request){
+    //     $sender_id = Auth::id();
+
+    //     $chat = Chat::where(function($query) use ($sender_id) {
+    //         $query->where('sender_id', $sender_id)
+    //               ->where('recipient_id', $sender_id);
+    //     })
+    //     ->first();
+
+    //     $users = $chat->user->where('username','like', '%'. $request->search . '%')->get();
+
+    //     return view('users.chats.index')->with('users', $users)
+    //                                     ->with('search', $request->search);
+    // }
 }

@@ -11,13 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('review_rate', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('event_id');
-            $table->unsignedBigInteger('rate');
-            $table->timestamps();
-            
+        Schema::table('interests_rate', function (Blueprint $table) {
+        $table->integer('percentage')->nullable(false)->change();
+
         });
     }
 
@@ -26,6 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('review_rate');
+        //
     }
 };

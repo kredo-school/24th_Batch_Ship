@@ -9,9 +9,17 @@
 
       <div class="modal-body mt-3">
         <p class="text-center">
-          As the host of upcoming events in this community, <br>
-          <span class="text-danger fw-bold">you need to delete all scheduled events within this community</span><br> 
-          before you can unjoin.
+          {{-- Change message based on user status --}}
+          @if ($community->activeEventHost())
+            {{-- For event host --}}
+            As the host of scheduled events in this community, <br>
+            <span class="text-danger fw-bold">you need to Delete all scheduled Events within this community</span><br> 
+            before you can unjoin. 
+          @else
+            {{-- For event attendee --}}
+            As an attendee of scheduled events in this community, <br>
+            <span class="text-danger fw-bold">you need to UNJOIN from all scheduled Events within this community</span> before you can unjoin.  
+          @endif
         </p>
       </div>
 

@@ -8,10 +8,7 @@ use App\Http\Controllers\EventController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CommunityController;
 use App\Http\Controllers\EventUserController;
-
-
-// use App\Http\Controllers\CommentController;
-// use App\Http\Controllers\PercentageController;
+use App\Http\Controllers\ReplyController;
 use App\Http\Controllers\PostCommentController;
 
 use App\Http\Controllers\SelectDataController;
@@ -20,10 +17,13 @@ use App\Http\Controllers\CommunityUserController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\InquiryController;
+use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\EventReviewController;
 
 use App\Http\Controllers\Admin\InquiriesController;
 use App\Http\Controllers\Admin\AdminCatController;
 
+use App\Http\Controllers\InterestRateController;
 
 Auth::routes();
 
@@ -42,7 +42,7 @@ Route::group(['middleware' => 'auth'], function(){
 
     //Post
     Route::get('/post/index', [PostController::class, 'index'])->name('users.posts.index');
-    Route::get('/post/{id}/show', [PostController::class, 'show'])->name('users.posts.show');
+    Route::get('/post/{id}/show', [PostCommentController::class, 'show'])->name('users.posts.show');
     Route::get('/post/create', [PostController::class, 'create'])->name('users.posts.create');
     Route::get('/post/{id}/edit', [PostController::class, 'edit'])->name('users.posts.edit');
     Route::post('/post/store', [PostController::class, 'store'])->name('users.posts.store');
@@ -58,19 +58,31 @@ Route::group(['middleware' => 'auth'], function(){
     Route::get('/community/{id}/edit', [CommunityController::class, 'edit'])->name('communities.edit');
     Route::patch('/community/{id}/update', [CommunityController::class, 'update'])->name('communities.update');
 
+    // Community Persentage(interest)
+    Route::post('/comment/store/{community_id}', [InterestRateController::class, 'store'])->name('interest.store');
+    Route::get('/comments/show/{interest}', [InterestRateController::class, 'show'])->name('interests.show');
+    
 
     // Post Percentage and Comment
     Route::post('/comment/{post_id}/store', [PostCommentController::class, 'store'])->name('comment.store');
     Route::get('/comments/show/{post}', [PostCommentController::class, 'show'])->name('comments.show');
+    // Route::post('/comment/{post_id}/reply', [PostCommentController::class, 'reply'])->name('comment.reply');
     Route::delete('/comment/{post_id}/destroy', [PostCommentController::class, 'destroy'])->name('comment.destroy');
+
+     // Reply
+     Route::post('/comment/{comment_id}/reply', [ReplyController::class, 'store'])->name('reply.store');
+     Route::get('/comment/{comment_id}/replies', [ReplyController::class, 'showReplies'])->name('reply.show');
+     Route::delete('reply/{id}', [ReplyController::class, 'deleteReply'])->name('reply.destroy');
+
 
 
 
     # COMMENT
     # BOARDCOMMENT
-    Route::post('/comment/{community_id}/store', [BoardCommentController::class, 'store'])->name('boardcomment.store');
+    Route::post('/comment/store', [BoardCommentController::class, 'store'])->name('boardcomment.store');
     Route::patch('/comment/{id}/update', [BoardCommentController::class, 'update'])->name('boardcomment.update');
-    Route::delete('/comment/{id}/destroy', [BoardCommentController::class, 'destroy'])->name('boardcomment.destroy');
+    Route::delete('/comment/{id}', [BoardCommentController::class, 'destroy'])->name('boardcomment.destroy');
+
 
 
     # CommunityUser
@@ -89,13 +101,16 @@ Route::group(['middleware' => 'auth'], function(){
     Route::post('/event/{id}/join', [EventUserController::class, 'join'])->name('event.join');
     Route::delete('/event/{id}/unjoin', [EventUserController::class, 'unjoin'])->name('event.unjoin');
 
+    #EventReview
+    Route::post('/event/{id}/review', [EventReviewController::class, 'store'])->name('event.review');
+
     # API
     Route::get('/api/select-data', [SelectDataController::class, 'getData']);
 
     # Chat
     Route::get('/chat', [ChatController::class, 'index'])->name('chat.index');
-    Route::post('/profile/{id}/chat', [ChatController::class, 'createChat'])->name('chat.create');
-    Route::post('/chat/store', [ChatController::class, 'store'])->name('chat.store');
+    Route::get('/profile/{profile_id}/chat', [ChatController::class, 'getAllChatMain'])->name('chat.show');
+    Route::post('/chat/{profile_id}/messages', [ChatController::class, 'store'])->name('chat.store');
 
     # Support
     Route::get('/inquiry/create', [InquiryController::class, 'create'])->name('inquiry.create');
@@ -109,6 +124,11 @@ Route::group(['middleware' => 'auth'], function(){
     # Category Action
     Route::get('/categories/{id}', [CategoryController::class, 'show'])->name('users.categories.show');
 
+    # Notification
+    Route::get('/notifications/{id}', [NotificationController::class, 'getNotificationsForUser'])->name('notifications');
+    Route::get('/mark-as-read', [NotificationController::class, 'markAsRead'])->name('mark-as-read');
+
+
     # Admin
     Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => 'admin'], function(){
         # Support
@@ -119,4 +139,7 @@ Route::group(['middleware' => 'auth'], function(){
         Route::patch('/categories/{id}/update',[AdminCatController::class,'update'])->name('categories.update');
         Route::delete('/categories/{id}/destroy', [AdminCatController::class,'destroy'])->name('categories.destroy');
     }); 
+        Route::delete('/support/{id}/completed', [InquiriesController::class, 'completed'])->name('support.completed');
+        Route::patch('/support/{id}/pending', [InquiriesController::class, 'pending'])->name('support.pending');
+    });
 });

@@ -22,7 +22,7 @@
                         @if ($user->avatar)
                             <img id="image-preview" src="{{ $user->avatar }}" alt="{{ $user->name }}" class="img-thumbnail rounded-circle d-block mx-auto avatar-lg mb-3">
                         @else
-                            <p id="image-preview" class="display-1 mb-0"><i class="fa-solid fa-circle-user text-turquoise"></i></p>
+                            <img id="image-preview" src="/assets/image/avatar1.png" alt="preview image" class="img-thumbnail border rounded-circle d-block mx-auto avatar-lg mb-2">
                         @endif
 
                         <label class="mb-3">

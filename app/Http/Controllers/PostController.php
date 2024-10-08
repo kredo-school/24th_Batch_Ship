@@ -16,6 +16,8 @@ class PostController extends Controller
     private $categoryPost;
     private $category;
 
+    protected $fillable = ['description', 'image'];
+
     public function __construct(Post $post, CategoryPost $categoryPost, Category $category)
     {
         $this->post = $post;
@@ -45,31 +47,31 @@ class PostController extends Controller
     public function authPostIndex()
     {
         $user = Auth::user();
-        
+
         // categories with auth user
         $categoryUsers = $user->CategoryUser;
-    
+
         // to get all categories for posts
         $relatedPosts = collect();
-    
+
         foreach ($categoryUsers as $categoryUser) {
             $category = $categoryUser->category;
-    
+
             if ($category) {
                 // relatedPosts
                 $posts = $category->relatedPosts;
-    
+
                 // when new posts has posted, it increases
                 if ($posts->isNotEmpty()) {
                     $relatedPosts = $relatedPosts->merge($posts);
                 }
             }
         }
-    
+
         return view('auth.postIndex', compact('user', 'relatedPosts'));
-    }    
-      
-    
+    }
+
+
     private function getAllPosts()
     {
         $all_posts = $this->post->latest()->get();
@@ -86,55 +88,62 @@ class PostController extends Controller
 
     # show() - view Show Post Page
     public function show($id)
-    {
-       $post = $this->post->with('user')->findOrFail($id);
-       $postComments=PostComment::with('user')->with('post')->where('post_id', $id)->get();
+{
+    $post = $this->post->with(['user', 'images', 'comments.user'])->findOrFail($id);
 
+    $imageCount = $post->images->count();
+    \Log::info('Number of images: ' . $imageCount); // ログに出力
 
-
-
-      return view('users.posts.show')->with('post', $post)->with('comments' , $postComments);
-    }
+    return view('users.posts.show')->with('post', $post);
+}
 
     // store() = save the post to DB
     public function store(Request $request)
     {
         $request->validate([
-            'description'   => 'max:1500|required_if:image,null',
-            'image'      => 'mimes:jpg,jpeg,png,gif|max:1048|required_if:description,null',
-            'category'      => 'required|array|between:1,3' 
+
+            'description'       => 'max:1500|required_if:image,null',
+            'image.*'           => 'mimes:jpg,jpeg,png,gif|max:1048|required_if:description,null',
+            'category'          => 'required|array|between:1,3'
         ], [
-            'description.max' => 'The description must be at least 1500 characters.',
-            'category.between' => 'You must select at least one interest',
+            'description.max'   => 'The description must be at least 1500 characters.',
+            'category.between'  => 'You must select at least one interest',
+
+                'description'   => 'max:1500',
+                'image.*'       => 'mimes:jpg,jpeg,png,gif|max:1048|required_if:description,null',
+                'category'      => 'required|array|between:1,3'
+
         ]);
 
-        # Save the post
-        $this->post->user_id        = Auth::user()->id;
-        if($request->image){
-        $this->post->image          = 'data:image/' . $request->image->extension() . ';base64,' . base64_encode(file_get_contents($request->image));}
-        $this->post->description    = $request->description;
-        $this->post->timestamps = $request->timestamps;
-
-
-        if($request->image){
-            $this->post->image = 'data:image/' . $request->image->extension() . ';base64,' . base64_encode(file_get_contents($request->image));
+    # Save the post
+    $post = $this->post->create([
+        'user_id' => Auth::user()->id,
+        'description' => $request->description,
+    ]);
+    
+    // Save multiple images
+    if ($request->hasFile('image')) {
+        foreach ($request->file('image') as $file) {
+            // Get the file contents and encode them in base64
+            $fileContents = file_get_contents($file->getRealPath());
+            $base64Image = base64_encode($fileContents);
+    
+            // Save the base64 encoded data to the database
+            $post->images()->create(['image_data' => $base64Image]);
         }
-        // if($request->avatar){
-        //     $this->post->image = 'data:image/' . $request->image->extension() . ';base64,' . base64_encode(file_get_contents($request->image));
-        // }
-
-        $this->post->save();
-        # Save the categories to the category_post povit table
-
-        foreach ($request->category as $category_id){
+    }   
+    
+    # Save the categories to the category_post pivot table
+        $category_post = [];
+        foreach ($request->category as $category_id) {
             $category_post[] = ['category_id' => $category_id];
         }
 
-        $this->post->categoryPost()->createMany($category_post);
+        $post->categories()->attach($request->category);
 
-        # Go back to homepage
-        return redirect()->route('users.posts.show', ['id' => $this->post->id]);
-        // return redirect()->route('users.posts.show');
+    # Go back to homepage
+        return redirect()->route('users.posts.show', ['id' => $post->id]);
+
     }
 
     // edit() - view Edit Post page
@@ -165,33 +174,55 @@ class PostController extends Controller
     {
         # 1. VALIDATE THE DATA FROM THE FORM
         $request->validate([
-            'category'      => 'required|array|between:1,3',
-            'description'   => 'required|min:1|max:1000',
-            'image'         => 'mimes:jpg,jpeg,png,gif|max:1048'
+            'description'   => 'max:1500|required_if:image,null',
+            'image.*'       => 'mimes:jpg,jpeg,png,gif|max:1048|required_if:description,null',
+            'category'      => 'required|array|between:1,3'
+        ], [
+            'description.max' => 'The description must be at least 1500 characters.',
+            'category.between' => 'You must select at least one interest',
+
+                'description'   => 'max:1500',
+                'image.*'       => 'mimes:jpg,jpeg,png,gif|max:1048|required_if:description,null',
+                'category'      => 'required|array|between:1,3'
+
         ]);
-
+    
         # 2. UPDATE THE POST
-        $post                 = $this->post->findOrFail($id);
-        $post->description    = $request->description;
-
-        #IF there is a new image
-        if($request->image){
-            $post->image      = 'data:image/' . $request->image->extension() . ';base64,' . base64_encode(file_get_contents($request->image));
+        $post = $this->post->findOrFail($id); // Find the post or fail
+        $post->description = $request->description; // Update the description
+    
+        # Handle deleted images
+        if ($request->has('remove_images')) {
+            foreach ($request->remove_images as $key) {
+                // Delete images from the database
+                $post->images()->where('id', $key)->delete();
+            }
         }
-
-       $post->save();
-
-       # 3. DELETE ALL RECORDS from the category_post table related to this POST
-       $post->categoryPost()->delete();
-
-       # 4. SAVE the new categories to the category_post table
-       foreach($request->category as $category_id){
-            $category_post[]  =  ['category_id' => $category_id];
-       }
-       $post->categoryPost()->createMany($category_post);
-
-       # 5. REDIRECT to Shoe Post page
-       return redirect()->route('post.show', $id);
+            
+        # Process new images if uploaded
+        if ($request->hasFile('image')) {
+            foreach ($request->file('image') as $file) {
+                // Check if the file was uploaded successfully
+                if ($file->isValid()) {
+                    // Encode the image data to base64
+                    $imageData = base64_encode(file_get_contents($file->getRealPath()));
+                    
+                    // Save to the database
+                    $post->images()->create(['image_data' => $imageData]);
+                }
+            }
+        }
+    
+        $post->save(); // Save the updated post
+    
+        # 3. DELETE ALL RECORDS from the category_post table related to this POST
+        $post->categories()->detach(); // Detach all related categories
+    
+        # 4. SAVE the new categories to the category_post table
+        $post->categories()->attach($request->category); // Attach new categories
+    
+        # 5. REDIRECT to Show Post page
+        return redirect()->route('users.posts.show', $id); // Redirect to the post show page
     }
 
     
@@ -205,8 +236,6 @@ class PostController extends Controller
 
         return redirect()->route('users.posts.index');
     }
-
-
 
 
     }

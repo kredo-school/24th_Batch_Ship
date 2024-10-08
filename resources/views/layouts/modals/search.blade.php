@@ -58,7 +58,7 @@
                     </div>
 
                     <div class="mx-auto">
-                        <button type="submit" class="btn btn-turquoise text-white px-5 mt-4 w-100">Search</button>
+                        <button type="submit" class="btn btn-turquoise px-5 mt-4 w-100">Search</button>
                     </div>
                 </form>
             </div>

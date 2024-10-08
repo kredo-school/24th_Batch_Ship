@@ -23,4 +23,17 @@ class Chat extends Model
     public function messages(){
         return $this->hasMany(ChatMessage::class);
     }
+
+    # To get latest message of a chat
+    public function latestMessage(){
+        return $this->hasOne(ChatMessage::class)->latestOfMany();
+    }
+
+    public function getUnreadMessagesCount($userId)
+    {
+        return $this->messages()
+                    ->where('user_id', '!=', $userId)
+                    ->whereNull('read_at')
+                    ->count();
+    }
 }

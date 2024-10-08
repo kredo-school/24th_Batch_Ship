@@ -6,9 +6,6 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up()
     {
         Schema::create('post_comments', function (Blueprint $table) {
@@ -19,9 +16,8 @@ return new class extends Migration
             $table->text('comment');
             $table->timestamps();
 
-             $table->foreign('user_id')->references('id')->on('users');
-             $table->foreign('post_id')->references('id')->on('posts')->onDelete('cascade');
-
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('post_id')->references('id')->on('posts')->onDelete('cascade');
         });
     }
 
