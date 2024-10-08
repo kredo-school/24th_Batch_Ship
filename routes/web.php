@@ -133,13 +133,14 @@ Route::group(['middleware' => 'auth'], function(){
     Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => 'admin'], function(){
         # Support
         Route::get('/support', [InquiriesController::class,'index'])->name('support');
+        Route::delete('/support/{id}/completed', [InquiriesController::class, 'completed'])->name('support.completed');
+        Route::patch('/support/{id}/pending', [InquiriesController::class, 'pending'])->name('support.pending');
         # Categories
         Route::get('/categories', [AdminCatController::class,'index'])->name('categories');
         Route::post('/categories/store',[AdminCatController::class,'store'])->name('categories.store');
         Route::patch('/categories/{id}/update',[AdminCatController::class,'update'])->name('categories.update');
         Route::delete('/categories/{id}/destroy', [AdminCatController::class,'destroy'])->name('categories.destroy');
-    }); 
-        Route::delete('/support/{id}/completed', [InquiriesController::class, 'completed'])->name('support.completed');
-        Route::patch('/support/{id}/pending', [InquiriesController::class, 'pending'])->name('support.pending');
+     
+        
     });
 });
