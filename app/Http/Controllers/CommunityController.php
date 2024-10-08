@@ -134,7 +134,7 @@ class CommunityController extends Controller
             ->with('community', $community)
             ->with('all_members', $all_members)
             ->with('all_categories', $all_categories)
-            ->with('all_interestsrate', $all_interestsrate);
+            ->with('all_interestsrate', $all_interestsrate)
             ->with('isJoining', $isJoining)
             ->with('isActiveEvent', $isActiveEvent);
     }
