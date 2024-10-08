@@ -120,7 +120,7 @@ Route::group(['middleware' => 'auth'], function(){
 
     # Chat
     Route::get('/chat', [ChatController::class, 'index'])->name('chat.index');
-    Route::get('/profile/{profile_id}/chat', [ChatController::class, 'getAllChat'])->name('chat.show');
+    Route::get('/profile/{profile_id}/chat', [ChatController::class, 'getAllChatMain'])->name('chat.show');
     Route::post('/chat/{profile_id}/messages', [ChatController::class, 'store'])->name('chat.store');
 
     # Support
