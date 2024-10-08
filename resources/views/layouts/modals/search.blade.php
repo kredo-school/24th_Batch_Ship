@@ -1,3 +1,6 @@
+<!-- jQuery CDN -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 <div class="modal fade" id="search">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -8,17 +11,17 @@
             </div>
 
             <div class="modal-body">
+                <div id="error-message" class="alert alert-danger d-none" role="alert"></div>
 
-                <form action="{{ route('search') }}" method="GET">
-                    @csrf
-                    
-                    <input type="text" name="keyword" id="keyword" class="form-control" placeholder="Enter keyword..." >
+                <form id="search-form" action="{{ route('search') }}" method="GET">
+                    <input type="text" name="keyword" id="keyword" class="form-control" placeholder="Enter keyword...">
                     <select name="category" id="category" class="form-select form-select-sm mt-3 w-50">
-                        <option disabled selected value>Select Category</option>
+                        <option disabled value>Select Category</option>
                         <option value="">none</option>
                     </select>
-                    
+
                     <script>
+                    // Fetch category data and add it to the select box.
                     document.addEventListener('DOMContentLoaded', function() {
                         fetch('/api/select-data')
                             .then(response => response.json())
@@ -33,12 +36,12 @@
                             })
                             .catch(error => console.error('Error fetching data:', error));
                     });
-                    
                     </script>
-                    
+
+                    <!-- checkbox -->
                     <div class="form-check form-check-inline mt-3">
                         <input type="checkbox" name="content[]" id="username" value="username" class="form-check-input">
-                        <label for="username" class="form-check-label">User</label>
+                        <label for="username" class="form-check-label">Username</label>
                     </div>
                     <div class="form-check form-check-inline mt-3">
                         <input type="checkbox" name="content[]" id="post" value="post" class="form-check-input">
@@ -61,6 +64,30 @@
                         <button type="submit" class="btn btn-turquoise px-5 mt-4 w-100">Search</button>
                     </div>
                 </form>
+
+                {{-- javascript to show error on modal --}}
+                <script>
+                    // for showing select options(user, post, community,evvent, all)
+                    $(document).ready(function() {
+                        $('#search-form').on('submit', function(event) {
+                            const selectedContent = $('input[name="content[]"]:checked').length;  
+                            // to check checkbox has selected(checked)
+                
+                            $('#error-message').addClass('d-none'); 
+                            // hide error
+                
+                            // if checkbox has not selected
+                            if (selectedContent === 0) {
+                                event.preventDefault();  
+                                // prevent to send(to go result page)
+                                $('#error-message').removeClass('d-none');  
+                                // then show error message 
+                                $('#error-message').text('Please select at least one of User, Post, Community, Event, or All.');
+                            }
+                        });
+                    });
+                </script>
+                
             </div>
 
             <div class="modal-footer border-0">

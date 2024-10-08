@@ -282,3 +282,16 @@ p {
     flex-wrap: wrap;
     gap: 5px;
 }
+
+/* for hamburger menu */
+@media (min-width: 425px) { 
+    .menu-title {
+        display: none;
+    }
+}
+
+@media (max-width: 425px) { 
+    .dropdown-title {
+        display: none;
+    }
+}
