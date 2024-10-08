@@ -20,11 +20,9 @@ class CommunityController extends Controller
     private $interestsrate;
     private $communityUser;
 
-    public function __construct(Community $community, CategoryCommunity $categoryCommunity, Category $category, InterestsRate $interestsrate){
+    public function __construct(Community $community, CategoryCommunity $categoryCommunity, Category $category){
         $this->community         = $community;
         $this->category          = $category;
-        $this->categoryCommunity = $categoryCommunity;
-        $this->interestsrate     = $interestsrate;
     }
 
     public function index(){
