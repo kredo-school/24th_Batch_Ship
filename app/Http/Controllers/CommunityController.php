@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use App\Models\Category;
-use App\Models\CategoryCommunity;
 use App\Models\Community;
+use Illuminate\Http\Request;
+use App\Models\CommunityUser;
+use App\Models\InterestsRate;
+use App\Models\CategoryCommunity;
+use Illuminate\Support\Facades\Auth;
 
 
 
@@ -15,6 +17,13 @@ class CommunityController extends Controller
     private $community;
     private $category;
     private $categoryCommunity;
+    private $interestsrate;
+    private $communityUser;
+
+    public function __construct(Community $community, CategoryCommunity $categoryCommunity, Category $category){
+        $this->community         = $community;
+        $this->category          = $category;
+    }
 
     public function index(){
 
@@ -66,12 +75,6 @@ class CommunityController extends Controller
         return $all_communities;
     }
 
-    public function __construct(Community $community, CategoryCommunity $categoryCommunity, Category $category){
-        $this->community         = $community;
-        $this->category          = $category;
-        $this->categoryCommunity = $categoryCommunity;
-    }
-
     # To open the Create Community page
     public function create(){
 
@@ -119,6 +122,7 @@ class CommunityController extends Controller
         // Retrieve members and categories
         $all_members = $community->members->all();
         $all_categories = $community->categoryCommunity->all();
+        $all_interestsrate = $community->interestsRate->all();
 
         // Check if the user is currently joined to the community
         $isJoining = $community->isJoining();
@@ -130,6 +134,7 @@ class CommunityController extends Controller
             ->with('community', $community)
             ->with('all_members', $all_members)
             ->with('all_categories', $all_categories)
+            ->with('all_interestsrate', $all_interestsrate);
             ->with('isJoining', $isJoining)
             ->with('isActiveEvent', $isActiveEvent);
     }

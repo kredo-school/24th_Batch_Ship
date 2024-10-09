@@ -13,7 +13,7 @@ class CommunityUser extends Model
     //  this is to tell the laravel that we are accessing the community_user table
     protected $fillable = ['community_id', 'user_id'];
     // set the value to false to tell Laravel to not insert the timestamps
-    public $timestamps = false;
+    public $timestamps = true;
 
     # To get the user information
     public function user()

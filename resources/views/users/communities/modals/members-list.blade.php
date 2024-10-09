@@ -8,9 +8,9 @@
           <h6 class="text-center pb-2">Someone who is interested in this community</h6>
           <div class="d-flex justify-content-center align-items-center mt-3">
             <p class="mx-2 px-2 mb-0">sort by</p>
-            <button class="btn bg-turquoise text-white"> interest %</button>
+            <button class="btn btn-turquoise"> interest %</button>
             <p class="mx-2 px-2 mb-0">or</p>
-            <button class="btn bg-turquoise text-white"> date(newest first)</button>
+            <button class="btn btn-turquoise"> date(newest first)</button>
           </div> 
         </div> {{-- end of container --}}
       </div>  {{-- end of modal-header --}}
@@ -20,10 +20,11 @@
           <hr>
           <div class="row mb-1">
             <div class="col-2">
-              {{-- @if ($user->interest%? ) --}}
-              <p class="text-end" >{{-- $user->interest% --}} %</p>
-              {{-- @else --}}                  
-              {{-- @endif --}}
+              @foreach ($all_interestsrate as $interest)
+                @if ($member->user_id == $interest->user_id)
+                  <p class="text-end" >{{ $interest->percentage }} %</p>
+                @endif
+              @endforeach
             </div>
             <div class="col-2 d-flex align-items-center">
               <a href="{{ route('users.profile.specificProfile', $member->user_id) }}" class="me-3">
@@ -38,7 +39,7 @@
               </a>
             </div>
             <div class="col">
-              <p class="text-muted fw-light mb-1 ms-auto">{{-- date('M-d--Y', strtotime()) --}} 15-Aug-2024</p>
+              <p class="text-muted fw-light mb-1 ms-auto">{{ date('M d, Y', strtotime($member->created_at)) }}</p>
             </div>
           </div>
         @endforeach
