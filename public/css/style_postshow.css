@@ -298,7 +298,7 @@ p {
     object-fit: cover;
 }
 
-/* Enpathy range */
+/* Empathy range */
 
    #percentage {
     appearance:none;
@@ -351,5 +351,38 @@ p {
 
     }
 
+    /* for responsive size */
+    @media (min-width: 425px) { 
+        .post-show-avatar{
+            display: flex;
+            justify-content: center;
+        }
+        .avatar-profile
+        {
+            width: 6rem;
+            height: 6em;
+            object-fit: cover;
+            margin: auto;
+        }
+    }
 
+    @media (max-width: 425px) { 
+        .post-show-avatar{
+            display: flex;
+            justify-content: center;
+        }
+        .avatar-profile
+        {
+            width: 6rem;
+            height: 6em;
+            object-fit: cover;
+            margin: auto;
+        }
+        
+        #percentage::-webkit-slider-thumb {
+            height: 14px;
+            width: 14px; 
+        }
+        
+    }
 
