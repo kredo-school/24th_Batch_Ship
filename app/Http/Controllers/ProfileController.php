@@ -24,7 +24,7 @@ class ProfileController extends Controller
         $this->user = $user;
         $this->category = $category;
         $this->community = $community;
-        $this->compatibility =$compatibility;
+        // $this->compatibility =$compatibility;
         // $this->event = $event;
     }
 
