@@ -47,14 +47,14 @@ class InterestRateController extends Controller
             'percentage' => 'required|integer|min:60|max:100',
         ]);
 
-         #2. Save the interestrate to the db
-         $interestsrate = $this->interestsrate->findOrFail($id);
-         $this->interestsrate->percentage = $request->percentage;
-         $this->interestsrate->user_id     = Auth::user()->id;
-         $this->interestsrate->community_id     = $request->community_id;
-         $this->interestsrate->save();
+        #2. Save the interestrate to the db
+        $interestsrate = $this->interestsrate->findOrFail($id);
+        $interestsrate->percentage = $request->percentage;
+        $interestsrate->user_id     = Auth::user()->id;
+        $interestsrate->community_id     = $request->community_id;
+        $interestsrate->save();
 
-         # 3. Redirect back to the page
+        # 3. Redirect back to the page
         return redirect()->back();
     }
 
