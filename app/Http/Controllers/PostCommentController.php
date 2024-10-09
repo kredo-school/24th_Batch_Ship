@@ -52,7 +52,8 @@ class PostCommentController extends Controller
         $user->notify(new CommentNotification($postComment)); 
     
         # 3. Redirect back to the page
-        return redirect()->route('comments.show', $post_id);
+        // return redirect()->route('comments.show', $post_id);
+        return redirect()->route('users.posts.show', $post_id);
     }
   
 

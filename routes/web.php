@@ -82,7 +82,6 @@ Route::group(['middleware' => 'auth'], function(){
 
     // Post Percentage and Comment
     Route::post('/comment/{post_id}/store', [PostCommentController::class, 'store'])->name('comment.store');
-    Route::get('/comments/show/{post}', [PostCommentController::class, 'show'])->name('comments.show');
     Route::delete('/comment/{post_id}/destroy', [PostCommentController::class, 'destroy'])->name('comment.destroy');
 
      // Reply
