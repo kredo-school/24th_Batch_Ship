@@ -1,5 +1,3 @@
-Post  show.blade.php
-
 @extends('layouts.app')
 
 @section('title', 'Post:show')
@@ -10,80 +8,84 @@ Post  show.blade.php
     <link rel="stylesheet" href="{{ asset('css/style_postshow.css') }}">
 </head>
 
-<div class="card border-0 bg-pink">
-    <div class="card-body">
-        <div class="row">
+<div class="container-fulid bg-pink p-3">
+    <div class="row">
+       <div class="row">
             {{-- Left side of the Post --}}
-            <div class="col-6">
+            <div class="col-lg-6">
                 <div class="row">
-                    <div class="col-2 px-0">
-                        @if ($post->user->avatar)
+                    {{-- avatar --}}
+                    <div class="col-md-4 post-show-avatar">
+                              @if ($post->user->avatar)
                             <a href="{{ route('users.profile.specificProfile', $post->user->id) }}">
-                                <img src="{{ $post->user->avatar }}" alt="" class="rounded-circle avatar-profile">
+                                <img src="{{ $post->user->avatar }}" alt="" class="my-auto rounded-circle avatar-profile">
                             </a>
                         @else
                             <a href="{{ route('users.profile.specificProfile', $post->user->id) }}">
                                 <i class="fas fa-circle-user text-secondary icon"></i>
                             </a>
-                        @endif
+                        @endif                  
                     </div>
-
+                    {{-- name --}}
                     <div class="col my-auto">
-                        <div class="row mt-1">
-                            <div class="col profile-name">
+                        <div class="row p-0">
+                            <div class="col ms-0 profile-name">
                                 {{-- Name of user who posted this post --}}
                                 <a href="{{ route('users.profile.specificProfile', $post->user->id) }}" class="text-decoration-none text-dark mx-2">
-                                    <span class="p-3">{{ $post->user->first_name }}</span>
-                                    <span class="p-3">{{ $post->user->last_name }}</span>
+                                    <span class="">{{ $post->user->first_name }}</span>
+                                    <span class="">{{ $post->user->last_name }}</span>
                                 </a>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-5 m-3">
                                 <div class="category">
                                     @foreach ($post->categoryPost as $category_post)
-                                        <a href="{{ route('users.categories.show', $category_post->category_id) }}" class="badge bg-turquoise text-decoration-none me-1 mt-2">
+                                        <a href="{{ route('users.categories.show', $category_post->category_id) }}" class="badge bg-turquoise text-decoration-none d-inline-block me-1 mt-2">
                                             {{ $category_post->category->name }}
                                         </a>
                                     @endforeach
-                                </div>
-                            </div>
-                            <div class="col text-end mt-2">
-                                {{-- If you are the owner of the post, you can edit or delete this post --}}
-                                @if ($post->user->id === Auth::user()->id)
-                                    {{-- edit --}}
-                                    <a href="{{ route('users.posts.edit', $post->id) }}" class="post-edit btn edit-icon pe-0">
-                                        <i class="fa-regular fa-pen-to-square show-icon"></i>
-                                    </a>
-                                    {{-- delete --}}
-                                    <span class="btn post-delete show-icon ps-2" data-bs-toggle="modal" data-bs-target="#delete">
-                                        <i class="fa-regular fa-trash-can fw-bold"></i>
-                                        @include('users.posts.modals.delete')
-                                    </span>
-                                @else
-                                @endif
-                                <p class="text-uppercase text-muted text-end">{{ date('M d, Y', strtotime($post->created_at)) }}</p>
-                            </div>
+                                </div>                                
                         </div>
+                            <div class="row">
+                                <div class="col-md text-end mt-2">
+                                    {{-- If you are the owner of the post, you can edit or delete this post --}}
+                                    @if ($post->user->id === Auth::user()->id)
+                                        {{-- edit --}}
+                                        <a href="{{ route('users.posts.edit', $post->id) }}" class="post-edit btn edit-icon pe-0">
+                                            <i class="fa-regular fa-pen-to-square show-icon"></i>
+                                        </a>
+                                        {{-- delete --}}
+                                        <span class="btn post-delete show-icon ps-2" data-bs-toggle="modal" data-bs-target="#delete">
+                                            <i class="fa-regular fa-trash-can fw-bold"></i>
+                                            @include('users.posts.modals.delete')
+                                        </span>
+                                    @else
+                                    @endif
+                                    <p class="text-uppercase text-muted text-end">{{ date('M d, Y', strtotime($post->created_at)) }}</p>
+                                </div>                                
+                            </div>
                     </div>
-                </div>
-                <hr class="my-0">
 
-                {{-- Post content --}}
-                <div class="row px-3 position-relative">
-                    @if ($post->images->isNotEmpty())
-                    &nbsp;
-                    <p class="d-inline fw-light">{{ $post->description }}</p>
-                    @endif
-                </div>
+
+                </div>  
+                <hr class="mt-2">
             </div>
 
-            {{-- Right side of the Post --}}
-            <div class="col-6 mt-5">
+          </div> 
+          <div class="row">
+                    {{-- Post content --}}
+                    <div class="col-6 px-3 position-relative">
+                        @if ($post->images->isNotEmpty())
+                        <p class="d-inline fw-light">{{ $post->description }}</p>
+                        @endif
+                    </div>
+                    
+                                {{-- Right side of the Post --}}
+            <div class="col-lg-6">
                 {{-- images or description --}}
                 @if ($post->images->isNotEmpty())
                     <div id="carouselExample" class="carousel slide" data-interval="false">
-                        <div class="carousel-indicators">
+                        <div class="carousel-indicators mt-0">
                             {{-- if there is more than 1 image, button will show up --}}
                             @if ($post->images->count() > 1)
                             @foreach ($post->images as $index => $image)
@@ -91,7 +93,7 @@ Post  show.blade.php
                             @endforeach
                             @endif
                         </div>
-                        <div class="carousel-inner px-auto">
+                        <div class="carousel-inner px-2">
                             @foreach ($post->images as $index => $image)
                                 <div class="carousel-item @if($index == 0) active @endif">
                                     <img class="d-block img-postshow mx-auto justify-content-center" src="data:image/png;base64,{{ $image->image_data }}" alt="post id {{ $post->id }}" data-index="{{ $index }}">
@@ -119,8 +121,10 @@ Post  show.blade.php
                 @endif
             </div>
 
-            <div class="row pt-6">
-                <div class="col-6 pt-6">
+            </div>    
+
+            <div class="row">
+                <div class="col-lg-6">
                     {{-- Comment form --}}
                     <form action="{{ route('comment.store', $post->id) }}" method="post">
                         @csrf
@@ -128,11 +132,11 @@ Post  show.blade.php
                {{-- Enpathy Slider for non-owners --}}
                         @if (!($post->user->id === Auth::user()->id))
                             <div class="form-group mb-2 mx-3">
-                                <label for="enpathy">Empathy:</label>
+                                <label for="empathy" class="my-2">Empathy:</label>
                                 <div class="range-slider">
                                     <input type="range" id="percentage" name="percentage" value="60"
                                         min="60" max="100" step="1" list="my-datalist"
-                                        class="bg-turquoise"
+                                        class="bg-turquoise w-50"
                                         oninput="document.getElementById('output1').value=this.value">
                                     <output id="output1" class="m-2">60</output><span>%</span>
                                 </div>
@@ -161,4 +165,7 @@ Post  show.blade.php
                 </div>
             </div>
         </div>
+</div>
 
+
+@endsection
