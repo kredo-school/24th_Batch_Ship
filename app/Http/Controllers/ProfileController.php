@@ -19,12 +19,13 @@ class ProfileController extends Controller
     private $user;
     private $category;
     private $community;
+    
 
-    public function __construct(User $user, Category $category, Community $community, Compatibility $compatibility){
+    public function __construct(User $user, Category $category, Community $community, ){
         $this->user = $user;
         $this->category = $category;
         $this->community = $community;
-        // $this->compatibility =$compatibility;
+    
         // $this->event = $event;
     }
 

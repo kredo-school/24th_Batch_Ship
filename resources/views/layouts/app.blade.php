@@ -54,34 +54,27 @@
                                 </li>
                             @endif
                         @else
-                 {{-- Notification icon --}}
+                            {{-- Notification icon --}}
                             <li class="nav-item dropdown">
                                 <a href="#" class="nav-link dropdown-toggle text-white" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    @if(Auth::user()->unreadNotifications->count()) 
-                                        {{-- icon for new message
-                                        <i class="fa-solid fa-face-laugh"></i> 
-                      {{-- Display unread notification count as a badge --}}
+                                    @if(Auth::user()->unreadNotifications->count())
+                                        {{-- icon for new message --}}
+                                        <i class="fa-solid fa-face-laugh"></i>
+                                        {{-- Display unread notification count as a badge --}}
                                         <span class="badge bg-danger rounded-circle p-1">
                                             {{ Auth::user()->unreadNotifications->count() }}
                                         </span>
                                     @else
-                         {{-- icon for no message --}}
+                                        {{-- icon for no message --}}
                                         <i class="fa-solid fa-anchor"></i>
                                         <span class="ps-1 menu-title">Any news?</span>
                                     @endif
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end">
-
-                                    <li><h1 class="h6 text-center text-dark">any news?</h1></li>
-                                    @if(Auth::user()->unreadNotifications->isEmpty()) 
-                          {{-- Message when there are no notifications--}}
-                                         <li><p class="text-center"><i class="fa-regular fa-face-meh"></i> not yet</p></li>
-
                                     <li><h1 class="h6 text-center text-dark dropdown-title">Any news?</h1></li>
                                     @if(Auth::user()->unreadNotifications->isEmpty())
                                     {{-- Message when there are no notifications --}}
                                         <li><p class="text-center"><i class="fa-regular fa-face-meh"></i> not yet</p></li> 
-
                                     @else
                                         <li>
                                             {{-- Link to mark all as read --}}
@@ -99,7 +92,7 @@
                                                 @endforeach
                                             </div>
                                         </li>
-
+                                        
                                     @endif
                                 </ul>
                             </li>
@@ -155,9 +148,9 @@
                                         <li>
                                             <a href="{{ route('admin.support') }}" class="dropdown-item text-turquoise">
                                                 <i class="fas fa-user-gear"></i> Admin
-                                            </a>
+                                            </a>    
                                         </li>
-
+                                        
                                         <hr class="dropdown-divider">
                                     @endcan
 
@@ -214,14 +207,14 @@
                                     COMMUNITIES
                                 </a>
                             </div>
-                        </div>
+                        </div>  
                     @endif
 
                     {{-- Main Content --}}
                     @if (request()->is('admin/*'))
                         <div class="col-9">
                             @yield('content')
-                        </div>
+                        </div>  
                     @else
                         <div class="col-11">
                             @yield('content')
