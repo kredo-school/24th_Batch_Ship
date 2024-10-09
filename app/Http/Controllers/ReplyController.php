@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 
 class ReplyController extends Controller
 {
+    protected $reply;
     public function __construct(Reply $reply)
     {
         $this->reply = $reply;

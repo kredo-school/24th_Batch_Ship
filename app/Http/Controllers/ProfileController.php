@@ -7,19 +7,25 @@ use App\Models\Category;
 use App\Models\Community;
 use App\Models\Event;
 use App\Models\CommunityUser;
+use App\Models\Compatibility;
 use App\Models\EventUser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log; // 追加
+use Illuminate\Support\Facades\DB;
 
 class ProfileController extends Controller
 {
     private $user;
     private $category;
+    private $community;
+    
 
-    public function __construct(User $user, Category $category, Community $community){
+    public function __construct(User $user, Category $category, Community $community, ){
         $this->user = $user;
         $this->category = $category;
         $this->community = $community;
+    
         // $this->event = $event;
     }
 
@@ -31,7 +37,7 @@ class ProfileController extends Controller
     public function authPostIndex()
     {
         $user = Auth::user();
-        
+
         // categories with auth user
         $categoryUsers = $user->CategoryUser;
 
@@ -65,9 +71,62 @@ class ProfileController extends Controller
         $join_communities = CommunityUser::where('user_id', $id)->paginate(4, ["*"], 'join_communities');
         $own_events = Event::where('host_id', $id)->paginate(4, ["*"], 'own_events');
         $join_events = EventUser::where('user_id', $id)->paginate(4, ["*"], 'join_events');
+        $reactedCompatibilities = Compatibility::with('sender')->where('user_id', $id)->get();
+        $reactingCompatibilities = Compatibility::with('user')->where('send_user_id', $id)->get();
 
-        return view('users.profile.index', compact('user', 'own_communities', 'join_communities', 'own_events', 'join_events'));
+
+
+
+
+        return view('users.profile.index', compact('user', 'own_communities', 'join_communities', 'own_events', 'join_events','reactedCompatibilities', 'reactingCompatibilities'));
     }
+
+
+    public function storeCompatibility(Request $request)
+    {
+        Log::info('storeCompatibility called');
+    
+        // バリデーション
+        $request->validate([
+            'compatibility' => 'required|integer|min:60|max:100',
+        ]);
+    
+        $currentUserId = Auth::id(); // ログインしているユーザーのID
+        $profileOwnerId = $request->send_user_id; // プロフィールページのオーナーのID
+    
+        // 互換性が既に存在するか確認
+        $compatibility = Compatibility::where('user_id', $profileOwnerId)
+                                      ->where('send_user_id', $currentUserId)
+                                      ->first();
+    
+        if ($compatibility) {
+            // 互換性が存在する場合はアップデート
+            Log::info('Updating compatibility:', [
+                'user_id' => $profileOwnerId,
+                'send_user_id' => $currentUserId,
+                'compatibility' => $request->compatibility,
+            ]);
+            $compatibility->compatibility = $request->compatibility;
+            $compatibility->save();
+            Log::info('Updated compatibility successfully.');
+        } else {
+            // 互換性が存在しない場合は新規作成
+            Log::info('Creating new compatibility:', [
+                'user_id' => $profileOwnerId,
+                'send_user_id' => $currentUserId,
+                'compatibility' => $request->compatibility,
+            ]);
+            Compatibility::create([
+                'user_id' => $profileOwnerId, // プロフィールページのオーナーのID
+                'send_user_id' => $currentUserId, // 送信側のユーザーのID
+                'compatibility' => $request->compatibility,
+            ]);
+            Log::info('Created compatibility successfully.');
+        }
+    
+        return redirect()->back()->with('success', 'Compatibility saved successfully.');
+    }
+    
 
     # visit to create profile page
     public function create()
@@ -187,5 +246,5 @@ class ProfileController extends Controller
     //     }
     //     return $own_events;
     // }
-}
 
+    }
