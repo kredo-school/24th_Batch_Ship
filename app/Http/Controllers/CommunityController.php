@@ -125,6 +125,7 @@ class CommunityController extends Controller
         $all_categories = $community->categoryCommunity->all();
         $all_interestsrate = $community->interestsRate->all();
         $user_percentage = 0;
+        $interests_id = 0;
 
         $all_interestrate_users = [];
         foreach ($all_interestsrate as $interest) {
@@ -141,7 +142,7 @@ class CommunityController extends Controller
 
             if ($interest->user_id == Auth::user()->id){
                 $interests_id = $interest->id;
-            }
+            } 
         }
 
         // Check if the user is currently joined to the community
