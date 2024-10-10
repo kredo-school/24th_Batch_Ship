@@ -80,6 +80,20 @@ class EventController extends Controller
         $currentDateTime = Carbon::now();
         $currentDate = Carbon::today(); // Use Carbon to get the current date without time
 
+        // Check user's participation status and community membership related to the event
+        $isJoining = false;
+        $isCommunityOwner = false;
+        $isCommunityMember = false;
+        // Check if the user is logged in and is not the host of the event
+        if (Auth::check() && Auth::user()->id !== $event->host_id) {
+            // Check if the user is currently joining the event
+            $isJoining = $event->isJoining();
+            // Check if the user is the owner of the community associated with this event
+            $isCommunityOwner = $event->community->owner_id === Auth::user()->id;
+            // Check if the user is a member of the community associated with this event
+            $isCommunityMember = $event->community->members->contains('user_id', Auth::user()->id);
+        }
+
         // Get the community categories
         $all_categories = $event->community->categoryCommunity;
 
@@ -104,7 +118,7 @@ class EventController extends Controller
         // For location map
         $encodedAddress = urlencode($event->address);
 
-        return view('users.events.show', compact('event', 'date', 'startTime', 'endTime', 'currentDateTime', 'currentDate', 'all_categories', 'attendeesWithReviews', 'encodedAddress'));
+        return view('users.events.show', compact('event', 'date', 'startTime', 'endTime', 'currentDateTime', 'currentDate', 'isJoining', 'isCommunityOwner', 'isCommunityMember', 'all_categories', 'attendeesWithReviews', 'encodedAddress'));
     }
 
     public function edit($id)

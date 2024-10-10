@@ -119,7 +119,8 @@ Route::group(['middleware' => 'auth'], function(){
     Route::delete('/event/{id}/unjoin', [EventUserController::class, 'unjoin'])->name('event.unjoin');
 
     #EventReview
-    Route::post('/event/{id}/review', [EventReviewController::class, 'store'])->name('event.review');
+    Route::post('/review/{event_id}/store', [EventReviewController::class, 'store'])->name('review.store');
+    Route::delete('/review/{review_id}/destroy', [EventReviewController::class, 'destroy'])->name('review.destroy');
 
     # API
     Route::get('/api/select-data', [SelectDataController::class, 'getData']);
