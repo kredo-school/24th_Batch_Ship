@@ -167,7 +167,7 @@
         <div class="row mb-3">
               @if (!($community->user->id === Auth::user()->id))
                 @if (in_array(strval(Auth::user()->id), $all_interestrate_users))
-                  <form action="{{ route('interest.update',  $interests_id) }}" method="" enctype="multipart/form-data">
+                  <form action="{{ route('interest.update',  $interests_id) }}" method="post" enctype="multipart/form-data">
                     @csrf
                     @method('PATCH')
                     <label for="enpathy" class="fw-bold mb-2">Interest:</label>

@@ -61,10 +61,9 @@ Route::group(['middleware' => 'auth'], function(){
     // Community Persentage(interest)
     Route::post('/interest/store/{community_id}', [InterestRateController::class, 'store'])->name('interest.store');
     // Route::get('/comments/show/{interest}', [InterestRateController::class, 'show'])->name('interests.show');
-    Route::delete('/interest/destroy{id}/', [InterestRateController::class, 'destroy'])->name('interest.destroy');
+    Route::delete('/interest/destroy/{id}', [InterestRateController::class, 'destroy'])->name('interest.destroy');
     Route::patch('/interest/update/{id}', [InterestRateController::class, 'update'])->name('interest.update');
     
-
     // Post Percentage and Comment
     Route::post('/comment/{post_id}/store', [PostCommentController::class, 'store'])->name('comment.store');
     Route::get('/comments/show/{post}', [PostCommentController::class, 'show'])->name('comments.show');
