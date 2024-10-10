@@ -18,7 +18,7 @@
 
  {{-- user name --}}
 
-                <strong class="h1 display-6 p-3 ">{{ $user->username }}</strong>
+                <p class="h1 display-6 p-3 fw-bold">{{ $user->username }}</p>
 
 
             <div class="row mb-3">
