@@ -17,12 +17,6 @@
         @if (Auth::user()->id !== $event->host_id)
             <div class="col-3">
                 @if ($currentDate->lessThan($event->date))
-                    @php
-                        $isJoining = $event->isJoining();
-                        $isCommunityOwner = $event->community->owner_id === Auth::user()->id;
-                        $isCommunityMember = $event->community->members->contains('user_id', Auth::user()->id);
-                    @endphp
-
                     @if ($isJoining)
                         <form action="{{ route('event.unjoin', $event->id) }}" method="post">
                             @csrf
@@ -74,7 +68,7 @@
 
             {{-- Description --}}
             <h1 class="h4">Event Description</h1>
-            <p>{{ $event->description }}</p>
+            <p class="break-word">{{ $event->description }}</p>
         </div>
 
         {{-- Right Side of Contents --}}
@@ -137,8 +131,8 @@
                 </div>
                 <div class="col-auto">
                     <a href="#" class="fw-bold text-decoration-none" data-bs-toggle="modal" data-bs-target="#attendees-{{ $event->id }}">see all</a>
-                    {{-- @include('users.events.modals.attendees-list') --}}
                 </div>
+                @include('users.events.modals.attendees-list')
             </div>
             {{-- Show up to 12 attendees --}}
             @if ($attendeesWithReviews->isNotEmpty())
@@ -168,7 +162,7 @@
             @if ($currentDateTime->greaterThan($event->date . ' ' . $event->end_time) && 
                 $event->attendees->contains('user_id', Auth::user()->id))
                 <div class="row mt-3">
-                    <form action="{{ route('event.review', $event->id)}}" method="post">
+                    <form action="{{ route('review.store', $event->id)}}" method="post">
                         @csrf
 
                         <h1 class="h6">Review Event</h1>

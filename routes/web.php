@@ -76,9 +76,10 @@ Route::group(['middleware' => 'auth'], function(){
     Route::patch('/community/{id}/update', [CommunityController::class, 'update'])->name('communities.update');
 
     // Community Persentage(interest)
-    Route::post('/comment/store/{community_id}', [InterestRateController::class, 'store'])->name('interest.store');
-    Route::get('/comments/show/{interest}', [InterestRateController::class, 'show'])->name('interests.show');
-
+    Route::post('/interest/store/{community_id}', [InterestRateController::class, 'store'])->name('interest.store');
+    // Route::get('/comments/show/{interest}', [InterestRateController::class, 'show'])->name('interests.show');
+    Route::delete('/interest/destroy{id}/', [InterestRateController::class, 'destroy'])->name('interest.destroy');
+    Route::patch('/interest/update/{id}', [InterestRateController::class, 'update'])->name('interest.update');
 
     // Post Percentage and Comment
     Route::post('/comment/{post_id}/store', [PostCommentController::class, 'store'])->name('comment.store');
@@ -118,7 +119,8 @@ Route::group(['middleware' => 'auth'], function(){
     Route::delete('/event/{id}/unjoin', [EventUserController::class, 'unjoin'])->name('event.unjoin');
 
     #EventReview
-    Route::post('/event/{id}/review', [EventReviewController::class, 'store'])->name('event.review');
+    Route::post('/review/{event_id}/store', [EventReviewController::class, 'store'])->name('review.store');
+    Route::delete('/review/{review_id}/destroy', [EventReviewController::class, 'destroy'])->name('review.destroy');
 
     # API
     Route::get('/api/select-data', [SelectDataController::class, 'getData']);
