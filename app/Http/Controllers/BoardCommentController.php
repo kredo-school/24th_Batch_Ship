@@ -25,20 +25,21 @@ class BoardCommentController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'comment_body' => 'required|max:200'
+            
+            'comment_body' => 'nullable|max:200|required_without:image',
+            'image'        => 'nullable|mimes:jpg,jpeg,png,gif|max:1048|required_without:comment_body',
         ], [
-            'comment_body.required' => 'You cannot submit an empty comment.',
-            'comment_body.max' => 'The comment must not have more than 200 characters.'
-        ],[
-            'image'      => 'nullable|mimes:jpg,jpeg,png,gif|max:1048',
+            'comment_body.required_without' => 'You must provide either a comment or an image.',
+            'image.required_without'        => 'You must provide either a comment or an image.',
+            'comment_body.max'              => 'The comment must not have more than 200 characters.',
         ]);
 
         $this->boardcomment->body    = $request->input('comment_body');
         $this->boardcomment->user_id = Auth::user()->id;
         $this->boardcomment->community_id = $request->input('community_id');
 
-        if($request->image){
-            $this->boardcomment->image          = 'data:image/' . $request->image->extension() . ';base64,' . base64_encode(file_get_contents($request->image));
+        if ($request->hasFile('image')) {
+            $this->boardcomment->image = 'data:image/' . $request->image->extension() . ';base64,' . base64_encode(file_get_contents($request->image));
         }
 
         $this->boardcomment->save();

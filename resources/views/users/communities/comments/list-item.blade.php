@@ -27,7 +27,7 @@
                 </div>
               </div>
               <div class="row mt-2">
-                @if ($comment->image)
+                @if (!empty($comment->image))
                   <img src="{{ $comment->image }}" class="img-boardcomment" alt="">
                 @endif
               </div>
