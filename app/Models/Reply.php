@@ -15,11 +15,6 @@ class Reply extends Model
         'content',
     ];
 
-    // リプライが関連するコメントを取得
-    // public function comment()
-    // {
-    //     return $this->belongsTo(PostComment::class);
-    // }
 
     public function postComment()
     {

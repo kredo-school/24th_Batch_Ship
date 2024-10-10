@@ -150,8 +150,8 @@ p {
     font-size: 9rem;
 }
 .avatar-lg {
-    width: 9rem;
-    height: 9rem;
+    width: 11rem;
+    height: 11rem;
     object-fit: cover;
 }
 
@@ -280,7 +280,7 @@ p {
   .flex-categories {
     display: flex;
     flex-wrap: wrap;
-    gap: 5px; 
+    gap: 5px;
 }
 
 /* for hamburger menu */

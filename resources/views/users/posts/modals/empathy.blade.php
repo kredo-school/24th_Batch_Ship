@@ -138,7 +138,7 @@
                     document.getElementById('sort-date').addEventListener('click', function() {
                         sortComments('date');
                     });
-
+//Reply 
                     function attachReplyButtons() {
                         const replyButtons = document.querySelectorAll('.reply-button');
                         replyButtons.forEach(button => {
