@@ -15,12 +15,12 @@
 
     <div class="row pt-5">
       <label for="subject" class="form-label">Subject</label>
-      <input type="text" name="subject" id="subject" value="{{ $inquiry->subject }}" class="form-control text-muted" readonly>
+      <p class="text-muted">{{ $inquiry->subject }}</p>
     </div>
 
     <div class="row pt-3">
       <label for="message" class="form-label">Message</label>
-      <textarea name="message" id="message" cols="30" rows="10" class="form-control text-muted" readonly>{{ $inquiry->message }}</textarea>
+      <p class="text-muted break-word">{{ $inquiry->message }}</p>
     </div>
 
     <div class="row pt-5">

@@ -295,3 +295,9 @@ p {
         display: none;
     }
 }
+
+/* Line breaks for long text */
+.break-word {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
