@@ -20,9 +20,10 @@ class CommunityController extends Controller
     private $interestsrate;
     private $communityUser;
 
-    public function __construct(Community $community, CategoryCommunity $categoryCommunity, Category $category){
+    public function __construct(Community $community, CategoryCommunity $categoryCommunity, Category $category, InterestsRate $interestsrate){
         $this->community         = $community;
         $this->category          = $category;
+        $this->interestsrate     = $interestsrate;
     }
 
     public function index(){
@@ -123,6 +124,25 @@ class CommunityController extends Controller
         $all_members = $community->members->all();
         $all_categories = $community->categoryCommunity->all();
         $all_interestsrate = $community->interestsRate->all();
+        $user_percentage = 0;
+
+        $all_interestrate_users = [];
+        foreach ($all_interestsrate as $interest) {
+            $all_interestrate_users[] = $interest->user_id;
+
+            if ($interest->user_id == Auth::user()->id){
+                $user_percentage = $interest->percentage;
+            }
+        }
+
+        $all_interestrate_ids = [];
+        foreach ($all_interestsrate as $interest) {
+            $all_interestrate_ids[] = $interest->id;
+
+            if ($interest->user_id == Auth::user()->id){
+                $interests_id = $interest->id;
+            }
+        }
 
         // Check if the user is currently joined to the community
         $isJoining = $community->isJoining();
@@ -134,9 +154,12 @@ class CommunityController extends Controller
             ->with('community', $community)
             ->with('all_members', $all_members)
             ->with('all_categories', $all_categories)
-            ->with('all_interestsrate', $all_interestsrate);
+            ->with('all_interestsrate', $all_interestsrate)
             ->with('isJoining', $isJoining)
-            ->with('isActiveEvent', $isActiveEvent);
+            ->with('isActiveEvent', $isActiveEvent)
+            ->with('all_interestrate_users', $all_interestrate_users)
+            ->with('user_percentage', $user_percentage)
+            ->with('interests_id', $interests_id);
     }
 
     # To open the Edit Post page

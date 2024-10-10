@@ -38,5 +38,32 @@ class InterestRateController extends Controller
          # 3. Redirect back to the page
         return redirect()->back();
     }
+
+    public function update(Request $request, $id)
+    {
+
+        #1. Validate the request
+        $request->validate([
+            'percentage' => 'required|integer|min:60|max:100',
+        ]);
+
+        #2. Save the interestrate to the db
+        $interestsrate = $this->interestsrate->findOrFail($id);
+        $interestsrate->percentage = $request->percentage;
+        $interestsrate->user_id     = Auth::user()->id;
+        $interestsrate->community_id     = $request->community_id;
+        $interestsrate->save();
+
+        # 3. Redirect back to the page
+        return redirect()->back();
+    }
+
+    public function destroy($id)
+    {
+        $interestsrate = $this->interestsrate->findOrFail($id);
+        $interestsrate->forceDelete();
+
+        return redirect()->back();
+    }
     
 }

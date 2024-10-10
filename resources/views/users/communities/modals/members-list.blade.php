@@ -8,25 +8,25 @@
           <h6 class="text-center pb-2">Someone who is interested in this community</h6>
           <div class="d-flex justify-content-center align-items-center mt-3">
             <p class="mx-2 px-2 mb-0">sort by</p>
-            <button class="btn btn-turquoise"> interest %</button>
+            <button class="btn btn-turquoise" type="button" id="sort-interest"> interest %</button>
             <p class="mx-2 px-2 mb-0">or</p>
-            <button class="btn btn-turquoise"> date(newest first)</button>
+            <button class="btn btn-turquoise" type="button" id="sort-date"> date(newest first)</button>
           </div> 
         </div> {{-- end of container --}}
       </div>  {{-- end of modal-header --}}
 
-      <div class="modal-body border-0 my-1 pt-0" style="max-height: 400px; overflow-y: auto;">
+      <div class="modal-body border-0 my-1 pt-0" style="max-height: 400px; overflow-y: scroll;" id="members-container">
         @foreach ($all_members as $member)
           <hr>
           <div class="row mb-1">
-            <div class="col-2">
+            <div class="col-3">
               @foreach ($all_interestsrate as $interest)
                 @if ($member->user_id == $interest->user_id)
-                  <p class="text-end" >{{ $interest->percentage }} %</p>
+                  <p class="text-center" >{{ $interest->percentage }} %</p>
                 @endif
               @endforeach
             </div>
-            <div class="col-2 d-flex align-items-center">
+            <div class="col-3 d-flex align-items-center">
               <a href="{{ route('users.profile.specificProfile', $member->user_id) }}" class="me-3">
                 @if ($member->user->avatar)
                   <img src="{{ $member->user->avatar }}" alt="{{ $member->user->username }}" class="rounded-circle avatar-sm">
@@ -38,8 +38,19 @@
                 <h6 class="">{{ $member->user->username }}</h6>
               </a>
             </div>
-            <div class="col">
-              <p class="text-muted fw-light mb-1 ms-auto">{{ date('M d, Y', strtotime($member->created_at)) }}</p>
+            <div class="col text-center">
+              <p class="text-muted fw-light mb-1">{{ date('M d, Y', strtotime($member->created_at)) }}</p>
+            </div>
+            <div class="col-2 text-end">
+              @foreach ($all_interestsrate as $interest)
+                @if ($member->user->id === Auth::user()->id && $member->user_id == $interest->user_id)
+                  <form action="{{ route('interest.destroy', $interest->id)}}" method="post">
+                      @csrf
+                      @method('DELETE')
+                      <button type="submit" class="border-0 bg-transparent text-danger p-0 xsmall" title="Delete interest(%)"><i class="fa-regular fa-trash-can"></i></button>
+                  </form>
+                @endif
+              @endforeach
             </div>
           </div>
         @endforeach
