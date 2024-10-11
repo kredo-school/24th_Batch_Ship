@@ -354,9 +354,13 @@ p {
         .avatar-profile
         {
             width: 6rem;
-            height: 6em;
+            height: 6rem;
             object-fit: cover;
             margin: auto;
+        }
+
+        #introduction {
+            width: 100%;
         }
     }
 
@@ -368,9 +372,13 @@ p {
         .avatar-profile
         {
             width: 6rem;
-            height: 6em;
+            height: 6rem;
             object-fit: cover;
             margin: auto;
+        }
+
+        #introduction {
+            width: 100%;
         }
         
         #percentage::-webkit-slider-thumb {

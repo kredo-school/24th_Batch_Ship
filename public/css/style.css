@@ -294,6 +294,23 @@ p {
     .dropdown-title {
         display: none;
     }
+
+    .avatar-lg,
+    .fa-circle-user
+    {
+        width: 8rem;
+        height: 8rem;
+        object-fit: cover;
+    }
+}
+
+@media (min-width: 728px) { 
+    /* .avatar-lg
+    {
+        width: 8rem;
+        height: 8rem;
+        object-fit: cover;
+    } */
 }
 
 /* Line breaks for long text */

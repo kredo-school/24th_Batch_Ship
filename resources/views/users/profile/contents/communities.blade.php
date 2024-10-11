@@ -52,8 +52,10 @@
         @endforelse
     </div>
 
-    <div class="d-flex justify-content-center mt-3">
-        {{ $own_communities->links() }}
+    <div class="d-flex justify-content-center mt-4">
+        @if($own_communities instanceof \Illuminate\Pagination\LengthAwarePaginator && $own_communities->total() > 0)
+            {{ $own_communities->appends(request()->query())->links('pagination::bootstrap-4') }}
+        @endif
     </div>
 
 </div>
@@ -113,8 +115,10 @@
         @endforelse
     </div>
 
-    <div class="d-flex justify-content-center mt-3">
-        {{ $join_communities->links() }}
+    <div class="d-flex justify-content-center mt-4">
+        @if($join_communities instanceof \Illuminate\Pagination\LengthAwarePaginator && $join_communities->total() > 0)
+            {{ $join_communities->appends(request()->query())->links('pagination::bootstrap-4') }}
+        @endif
     </div>
 
 </div>
