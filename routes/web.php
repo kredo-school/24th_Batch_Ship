@@ -114,6 +114,7 @@ Route::group(['middleware' => 'auth'], function(){
     Route::get('/event/{id}/edit', [EventController::class, 'edit'])->name('event.edit');
     Route::patch('/event/{id}/update', [EventController::class, 'update'])->name('event.update');
     Route::delete('/event/{id}/destroy', [EventController::class, 'destroy'])->name('event.destroy');
+    Route::get('/review/{event_id}/sort', [EventController::class, 'sort'])->name('review.sort');
 
     # EventUser
     Route::post('/event/{id}/join', [EventUserController::class, 'join'])->name('event.join');

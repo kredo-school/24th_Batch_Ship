@@ -12,17 +12,24 @@
         {{-- Review sort button will appear after the event --}}
         @if ($currentDateTime->greaterThan($event->date . ' ' . $event->end_time))
           <div class="mt-4">
-            <p class="text-center">
-              Sort by 
-              <button class="btn btn-turquoise mx-2" type="button" id="sort-rate">Review&nbsp; %</button>
-              or
-              <button class="btn btn-turquoise mx-2" type="button" id="sort-date">Date (newest list)</button>
-            </p> 
+            <form id="sortForm" action="{{ route('review.sort', $event->id) }}" method="GET">
+              <p class="text-center">
+                Sort by
+                <button class="btn btn-turquoise mx-2" type="button" onclick="setSortValue('review_rate')">
+                  Review&nbsp; %
+                </button>
+                or
+                <button class="btn btn-turquoise mx-2" type="button" onclick="setSortValue('created_at')">
+                  Date (newest list)
+                </button>
+              </p>
+              <input type="hidden" name="sort" id="sortValue" value=""> 
+            </form>
           </div>
         @endif
       </div>  {{-- end of modal-header --}}
 
-      <div class="modal-body">
+      <div class="modal-body" id="modal-body">
         {{-- Host information --}}
         <div class="row">
           <div class="col-2 text-center">
@@ -73,7 +80,7 @@
               @endif
             </div>
 
-            <div class="d-flex justify-content-end align-items-end">
+            <div class="d-flex justify-content-end align-items-center">
               {{-- Delete button for reviewer --}}
               @if ($currentDateTime->greaterThan($event->date . ' ' . $event->end_time) && 
                    $attendeeWithReview['review'] &&
@@ -87,7 +94,7 @@
 
               {{-- Review date --}}
               @if ($attendeeWithReview['review'])
-                <div class="text-uppercase text-muted xsmall ms-3">
+                <div class="text-uppercase text-muted xsmall ms-2">
                   {{ date('M d, Y', strtotime($attendeeWithReview['review']->created_at)) }}
                 </div>  
               @endif
@@ -98,4 +105,3 @@
     </div>
   </div>
 </div>
-
