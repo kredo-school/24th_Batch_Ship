@@ -59,6 +59,10 @@
                             <i class="fa-solid fa-caret-down"></i> Self-introduction
                         </p>
                         <textarea class="border-0 p-2" name="introduction" id="introduction" cols="57" rows="5" class="p-2" placeholder="">{{ old('introduction', $user->introduction) }}</textarea>
+                        {{-- Error --}}
+                        @error('introduction')
+                            <p class="text-danger small">{{ $message }}</p>
+                        @enderror
                     </div>
 
                     {{-- select interest --}}

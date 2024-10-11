@@ -65,8 +65,10 @@
         @endforelse
     </div>
 
-    <div class="d-flex justify-content-center mt-3">
-        {{ $own_events->links() }}
+    <div class="d-flex justify-content-center mt-4">
+        @if($own_events instanceof \Illuminate\Pagination\LengthAwarePaginator && $own_events->total() > 0)
+            {{ $own_events->appends(request()->query())->links('pagination::bootstrap-4') }}
+        @endif
     </div>
 
 </div>
@@ -90,10 +92,15 @@
                     <div class="card border-0 rounded h-100 d-flex flex-column mb-3">
                         {{-- image --}}
                         <div class="mb-2">
-                            <a href="{{ route('event.show', $event->id) }}">
-                                <img src="{{ $event->image }}" alt="Event ID{{ $event->id }}" class="fixed-size-img rounded card-img-top">
-                            </a>
+                            @if ($event->image)
+                                <a href="{{ route('event.show', $event->id) }}">
+                                    <img src="{{ $event->image }}" alt="Event ID {{ $event->id }}" class="fixed-size-img rounded card-img-top">
+                                </a>
+                            @else
+                                <img src="{{ asset('path/to/default/image.jpg') }}" alt="No Image" class="fixed-size-img rounded card-img-top">
+                            @endif
                         </div>
+                        
                         <div class="card-body d-flex flex-column">
                             <div class="row mb-2-2 ms-1">
                                 {{-- event title --}}
@@ -111,19 +118,24 @@
 
                                 <div class="row card-text text-start mt-auto">
                                     {{-- event title this event belongs to --}}
-                                    <a href="@" class="text-decoration-none text-secondary">community_title</a>
+                                    <a href="#" class="text-decoration-none text-secondary">
+                                        {{ $event->community ? $event->community->title : 'コミュニティなし' }}
+                                    </a>
+                                    
                                     
                                     {{-- date --}}
-                                    <p class="text-muted xsmall">date</p>
+                                    <p class="text-muted xsmall">{{ $event->date }}</p>
                                 </div>
                             </div>
 
                             <div class="row card-text text-start ms-1 mt-auto">
                                 {{-- category --}}
                                 <div class="col">
-                                    {{-- @foreach ($community->categoryCommunity as $category_community)
-                                        <a href="#" class="badge me-1 bg-turquoise text-decoration-none">{{ $category_community->category->name }}</a>
-                                    @endforeach --}}
+                                    @if($event->categories->isNotEmpty())
+                                        @foreach ($event->categories as $category)
+                                            <a href="{{ route('users.categories.show', $category->id) }}" class="badge me-1 bg-turquoise text-decoration-none">{{ $category->name }}</a>
+                                        @endforeach
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -135,8 +147,10 @@
         @endforelse
     </div>
 
-    <div class="d-flex justify-content-center mt-3">
-        {{ $join_events->links() }}
+    <div class="d-flex justify-content-center mt-4">
+        @if($join_events instanceof \Illuminate\Pagination\LengthAwarePaginator && $join_events->total() > 0)
+            {{ $join_events->appends(request()->query())->links('pagination::bootstrap-4') }}
+        @endif
     </div>
 
 </div>
