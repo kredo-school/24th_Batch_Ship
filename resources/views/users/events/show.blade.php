@@ -76,7 +76,7 @@
             {{-- Community information this event belongs to --}}
             <div class="row">
                 <a href="{{ route('communities.show', $event->community->id) }}" class="text-decoration-none text-black">
-                    <div class="card border-0 w-auto mx-auto bg-transparent">
+                    <div class="card border-0 w-auto mx-auto px-0">
                         <img src="{{ $event->community->image }}" alt="{{ $event->community->title }}" class="card-img-top">
                         <div class="card-body">
                             <div class="row">
@@ -84,9 +84,11 @@
                             </div>
                             <div class="row">
                                 <div class="col">
-                                    @if($event->categories->isNotEmpty())
-                                        @foreach ($event->categories as $category)
-                                            <a href="{{ route('users.categories.show', $category->id) }}" class="badge me-1 bg-turquoise text-decoration-none">{{ $category->name }}</a>
+                                    @if($communityCategories->isNotEmpty())
+                                        @foreach ($communityCategories as $communityCategory)
+                                            <a href="{{ route('users.categories.show', $communityCategory->category_id)}}" class="badge me-1 bg-turquoise text-decoration-none">
+                                                {{ $communityCategory->category->name }}
+                                            </a>
                                         @endforeach
                                     @else
                                         <span class="badge bg-turquoise mt-1">Uncategorized</span>

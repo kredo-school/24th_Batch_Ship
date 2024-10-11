@@ -34,11 +34,13 @@ class EventController extends Controller
 
     public function store(Request $request)
     {
+        $currentDateTime = Carbon::now();
+
         # 1. Validate the form data
         $request->validate([
             'community_id' => 'required',
             'event_title'  => 'required|string|max:255',
-            'date'         => 'required|date',
+            'date'         => 'required|date|after_or_equal:'.$currentDateTime->format('Y-m-d'),
             'start_time'   => 'required|date_format:H:i',
             'end_time'     => 'required|date_format:H:i|after:start_time',
             'address'      => 'required|string|max:255',
@@ -47,7 +49,18 @@ class EventController extends Controller
             'price'        => 'required|string|max:255',
             'description'  => 'required|string',
             'image'        => 'required|mimes:jpeg,jpg,png,gif|max:1048'
+        ], [
+            'date.after_or_equal' => 'The event date must be today or a future date.',
+            'end_time.after'      => 'The event end time must be after the start time.',
         ]);
+
+        # Combine date and start_time into a single DateTime for comparison
+        $startDateTime = Carbon::createFromFormat('Y-m-d H:i', $request->date . ' ' . $request->start_time);
+
+        # Check if startDateTime is in the future compared to current time
+        if ($startDateTime->isBefore($currentDateTime)) {
+            return back()->withErrors(['start_time' => 'The event start time must be in the future.']);
+        }
     
         # 2. Save the event
         $this->event->host_id      = Auth::user()->id;
@@ -95,7 +108,7 @@ class EventController extends Controller
         }
 
         // Get the community categories
-        $all_categories = $event->community->categoryCommunity;
+        $communityCategories = $event->community->categoryCommunity;
 
         // Get attendees with reviews
         $attendeesWithReviews = $this->getAttendeesWithReviews($event);
@@ -103,7 +116,7 @@ class EventController extends Controller
         // For location map
         $encodedAddress = urlencode($event->address);
 
-        return view('users.events.show', compact('event', 'date', 'startTime', 'endTime', 'currentDateTime', 'currentDate', 'isJoining', 'isCommunityOwner', 'isCommunityMember', 'all_categories', 'attendeesWithReviews', 'encodedAddress'));
+        return view('users.events.show', compact('event', 'date', 'startTime', 'endTime', 'currentDateTime', 'currentDate', 'isJoining', 'isCommunityOwner', 'isCommunityMember', 'communityCategories', 'attendeesWithReviews', 'encodedAddress'));
     }
 
     public function getAttendeesWithReviews($event)
