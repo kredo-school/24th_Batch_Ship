@@ -230,4 +230,11 @@
 
 <!-- JavaScript -->
 <script src="{{ asset('js/events/google-map.js') }}"></script>
+<script src="{{ asset('js/events/sort-review.js') }}"></script>
+
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- Bootstrap -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 @endsection
