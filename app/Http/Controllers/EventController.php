@@ -178,6 +178,8 @@ class EventController extends Controller
 
     public function update(Request $request, $id)
     {
+        $currentDateTime = Carbon::now();
+
         # 1. Validate the request
         $request->validate([
             'title'        => 'required|string|max:255',
