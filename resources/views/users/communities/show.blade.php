@@ -145,7 +145,7 @@
             <div class="col-6">
               @if ($community->members->isNotEmpty())
                 <div class="text-end">
-                  <a href="#" class="text-decoration-none fw-bold" data-bs-toggle="modal" data-bs-target="#community-members-{{ $community->id }}">See all</a>
+                  <a href="#" class="text-decoration-none fw-bold" data-bs-toggle="modal" data-bs-target="#community-members">See all</a>
                   @include('users.communities.modals.members-list')
                 </div>
               @endif
@@ -173,7 +173,7 @@
         <div class="row mb-3">
           <div class="col-12">
             @if (Auth::user()->id === $community->owner_id || $community->isJoining())
-            <label for="enpathy" class="fw-bold mb-2">Interest:</label>
+            <label for="enpathy" class="fw-bold mb-2 h6">Interest:</label>
               @if (!($community->user->id === Auth::user()->id))
                 @if (in_array(strval(Auth::user()->id), $all_interestrate_users))
                   <form action="{{ route('interest.update',  $interests_id) }}" method="post" enctype="multipart/form-data">
