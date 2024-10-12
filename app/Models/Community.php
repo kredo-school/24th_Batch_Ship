@@ -48,7 +48,7 @@ class Community extends Model
     # To get all members of the community
     public function members()
     {
-        return $this->hasMany(CommunityUser::class)->orderBy('created_at', 'desc');
+        return $this->hasMany(CommunityUser::class);
     }
 
     # return TRUE if the Auth user is already joining the community

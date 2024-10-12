@@ -74,7 +74,7 @@ Route::group(['middleware' => 'auth'], function(){
     Route::get('/community/{id}/show',[CommunityController::class,'show'])->name('communities.show');
     Route::get('/community/{id}/edit', [CommunityController::class, 'edit'])->name('communities.edit');
     Route::patch('/community/{id}/update', [CommunityController::class, 'update'])->name('communities.update');
-    Route::get('/community/{community_id}/sort', [CommunityController::class, 'sort'])->name('interest.sort');
+    Route::get('/community/{id}/sort', [CommunityController::class, 'sort'])->name('interest.sort');
 
     // Community Persentage(interest)
     Route::post('/interest/store/{community_id}', [InterestRateController::class, 'store'])->name('interest.store');

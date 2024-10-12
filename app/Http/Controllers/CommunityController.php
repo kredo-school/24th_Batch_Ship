@@ -155,6 +155,9 @@ class CommunityController extends Controller
         // Check if there are active events hosted or attended by the user 
         $isActiveEvent = $community->activeEventHost() || $community->activeEventAttendee();
 
+        // Get  getMembersWithInterests
+        $membersWithInterests = $this->getMembersWithInterests($community);
+
         return view('users.communities.show')
             ->with('community', $community)
             ->with('all_members', $all_members)
@@ -164,7 +167,8 @@ class CommunityController extends Controller
             ->with('isActiveEvent', $isActiveEvent)
             ->with('all_interestrate_users', $all_interestrate_users)
             ->with('user_percentage', $user_percentage)
-            ->with('interests_id', $interests_id);
+            ->with('interests_id', $interests_id)
+            ->with('membersWithInterests', $membersWithInterests);
     }
 
     # To open the Edit Post page
@@ -260,8 +264,8 @@ class CommunityController extends Controller
 
         // Define sorting functions
         $sortFunctions = [
-            'interest_rate' => fn($members) => $members['interest']->interest_rate ?? 0,
-            'created_at' => fn($members) => $members->created_at ?? null
+            'interest_rate' => fn($members) => $members['interest']->percentage ?? 0,
+            'created_at' => fn($members) => $members['member']->created_at ?? null
         ];
 
         // Apply sorting if a sort condition is specified
