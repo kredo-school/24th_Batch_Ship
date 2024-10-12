@@ -43,19 +43,6 @@
                                     <p class="text-muted xsmall">{{ $event->date }} {{ $event->start_time }} ~ {{ $event->end_time }}</p>
                                 </div>
                             </div>
-
-                            <div class="row card-text text-start ms-1 mt-auto">
-                                {{-- category --}}
-                                <div class="col">
-                                    @if($event->categories->isNotEmpty())
-                                    @foreach ($event->categories as $category)
-                                     <a href="{{ route('users.categories.show', $category->id) }}" class="badge me-1 bg-turquoise text-decoration-none">{{ $category->name }}</a>
-                                    @endforeach
-                                    @else
-                                        <a href="#" class="badge bg-turquoise mt-1 text-decoration-none">Uncategorized</a>
-                                    @endif
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </a>
@@ -119,7 +106,7 @@
                                 <div class="row card-text text-start mt-auto">
                                     {{-- event title this event belongs to --}}
                                     <a href="#" class="text-decoration-none text-secondary">
-                                        {{ $event->community ? $event->community->title : 'コミュニティなし' }}
+                                        {{ $event->community ? $event->community->title : 'no title' }}
                                     </a>
                                     
                                     
@@ -128,16 +115,6 @@
                                 </div>
                             </div>
 
-                            <div class="row card-text text-start ms-1 mt-auto">
-                                {{-- category --}}
-                                <div class="col">
-                                    @if($event->categories->isNotEmpty())
-                                        @foreach ($event->categories as $category)
-                                            <a href="{{ route('users.categories.show', $category->id) }}" class="badge me-1 bg-turquoise text-decoration-none">{{ $category->name }}</a>
-                                        @endforeach
-                                    @endif
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </a>

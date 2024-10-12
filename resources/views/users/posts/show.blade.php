@@ -119,6 +119,7 @@
                         <p class="">{{ $post->description }}</p>
                     </div>
                 @endif
+
             </div>
 
             </div>    
