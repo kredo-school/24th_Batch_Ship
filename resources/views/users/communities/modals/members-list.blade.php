@@ -18,12 +18,12 @@
                   Interest&nbsp; %
                 </button>
                 <input type="hidden" name="sort" id="sortValue" value=""> 
-              </p>
-            </form>
-                {{-- or
+                or
                 <button class="btn btn-turquoise mx-2" type="button" onclick="setSortValue('created_at')">
                   Date (newest list)
-                </button> --}}
+                </button>
+              </p>
+            </form>
           </div> 
         </div> {{-- end of container --}}
       </div>  {{-- end of modal-header --}}

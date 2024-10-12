@@ -231,7 +231,7 @@ class CommunityController extends Controller
         $membersWithInterests = collect();
 
         foreach ($all_members as $member) {
-            // Find the interest-rate for this member, if the member has interest-rate of this event
+            // Find the interest-rate for this member, if the member has interest-rate of this community
             $memberInterest = $all_interests->where('user_id', $member->user_id)->first();
 
             // Add member and their interests (if any) to the collection
@@ -249,15 +249,15 @@ class CommunityController extends Controller
         // Interest the community using the community ID
         $community = $this->community->findOrFail($id);
 
-        // Get memberss with interests
-        $membersWithInterests = $this->getmembersWithInterests($community);
+        // Get members with interests
+        $membersWithInterests = $this->getMembersWithInterests($community);
 
         // Get the sort condition from the request
         $sort = $request->input('sort', null);
 
         // Define sorting functions
         $sortFunctions = [
-            'interest' => fn($members) => $members['interest']->interest_rate ?? 0,
+            'interest_rate' => fn($members) => $members['interest']->interest_rate ?? 0,
             'created_at' => fn($members) => $members->created_at ?? null
         ];
 

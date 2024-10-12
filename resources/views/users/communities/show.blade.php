@@ -170,35 +170,39 @@
         </div>
 
         {{-- Interests --}}
-        <label for="enpathy" class="fw-bold mb-2">Interest:</label>
         <div class="row mb-3">
           <div class="col-12">
-            @if (!($community->user->id === Auth::user()->id))
-              @if (in_array(strval(Auth::user()->id), $all_interestrate_users))
-                <form action="{{ route('interest.update',  $interests_id) }}" method="post" enctype="multipart/form-data">
-                  @csrf
-                  @method('PATCH')
-                    <div class="range-slider">
-                      <input type="range" id="percentage" name="percentage" value="60"
-                          min="60" max="100" step="1" list="my-datalist"
-                          class="bg-turquoise"
-                          oninput="document.getElementById('output1').value=this.value">
-                      <output id="output1" class="m-2">{{ $user_percentage }}</output><span>%</span>
-                      <button type="submit" class="btn btn-gold ms-4 form-group ml-1 btn-sm">Send</button>
-                    </div>
-                </form>
+            @if (Auth::user()->id === $community->owner_id || $community->isJoining())
+            <label for="enpathy" class="fw-bold mb-2">Interest:</label>
+              @if (!($community->user->id === Auth::user()->id))
+                @if (in_array(strval(Auth::user()->id), $all_interestrate_users))
+                  <form action="{{ route('interest.update',  $interests_id) }}" method="post" enctype="multipart/form-data">
+                    @csrf
+                    @method('PATCH')
+                      <div class="range-slider">
+                        <input type="range" id="percentage" name="percentage" value="60"
+                            min="60" max="100" step="1" list="my-datalist"
+                            class="bg-turquoise"
+                            oninput="document.getElementById('output1').value=this.value">
+                        <output id="output1" class="m-2">{{ $user_percentage }}</output><span>%</span>
+                        <button type="submit" class="btn btn-gold ms-4 form-group ml-1 btn-sm">Send</button>
+                      </div>
+                  </form>
+                @else
+                  <form action="{{ route('interest.store', $community->id)}}" method="post">
+                    @csrf
+                      <div class="range-slider">
+                        <input type="range" id="percentage" name="percentage" value="60"
+                            min="60" max="100" step="1" list="my-datalist"
+                            class="bg-turquoise"
+                            oninput="document.getElementById('output1').value=this.value">
+                        <output id="output1" class="m-2">60</output><span>%</span>
+                        <button type="submit" class="btn btn-gold ms-4 form-group ml-1 btn-sm">Send</button>
+                      </div>
+                  </form>  
+                @endif
               @else
-                <form action="{{ route('interest.store', $community->id)}}" method="post">
-                  @csrf
-                    <div class="range-slider">
-                      <input type="range" id="percentage" name="percentage" value="60"
-                          min="60" max="100" step="1" list="my-datalist"
-                          class="bg-turquoise"
-                          oninput="document.getElementById('output1').value=this.value">
-                      <output id="output1" class="m-2">60</output><span>%</span>
-                      <button type="submit" class="btn btn-gold ms-4 form-group ml-1 btn-sm">Send</button>
-                    </div>
-                </form>  
+
               @endif
             @else
 
