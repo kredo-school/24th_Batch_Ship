@@ -1,5 +1,6 @@
 <head>
     <link rel="stylesheet" href="{{ asset('css/style_profile_show.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/style_postshow.css') }}">
 </head>
 
 <div class="container-fluid">
@@ -51,7 +52,7 @@
                                     <output id="output1" class="mx-2">60</output>
                                     <span>%</span>
                                 </div>
-                            </div>    
+                            </div>
                         <div class="col-2 mt-4">
                                 <button type="submit" class="btn btn-gold text-white">Send</button>
                             </div>

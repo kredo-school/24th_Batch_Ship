@@ -3,3 +3,68 @@
     flex-wrap: wrap;
     
 }
+/* Enpathy range */
+
+#percentage {
+    appearance:none;
+    background: none;
+    width:80px;
+    height:10px;
+}
+
+/* Thumb: Chrome, Safari, Opera, Edge Chromium */
+    #percentage::-webkit-slider-runnable-track {
+        appearance: none;
+        height:10px;
+        background:linear-gradient(90deg,#fff,#f9776e);
+        border-radius:8px;
+     }
+
+    #percentage::-webkit-slider-thumb {
+        appearance:none;
+        width:20px;
+        height:10px;
+        border-radius:50%;
+        background:#f9776e;
+        /* transform:scale(1); */
+        cursor:pointer;
+        background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="red"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>') no-repeat center;
+        background-size: contain;
+        transform: scale(2.5); /* スケールを調整 */
+
+    }
+
+/* Track: Firefox */
+    #percentage::-moz-range-track {
+        appearance: none;
+        height:15px;
+        background:linear-gradient(90deg,#fff,#f9776e);
+        border-radius:8px;
+        background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="red"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>') no-repeat center;
+    background-size: contain;
+    }
+
+/* Thumb: Firefox */
+    #percentage::-moz-range-thumb {
+        width:20px;
+        height:20px;
+        border-radius:50%;
+        background:#f9776e;
+        transform:scale(1.5);
+        cursor:pointer;
+        border: solid 1px #f9776e;
+
+    }
+
+.comment-post{
+    width: 150px;
+    
+}
+
+
+
+.fa-heart{
+
+    font-size: 2.5rem;
+}
+

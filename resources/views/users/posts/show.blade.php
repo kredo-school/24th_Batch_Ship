@@ -24,7 +24,7 @@
                             <a href="{{ route('users.profile.specificProfile', $post->user->id) }}">
                                 <i class="fas fa-circle-user text-secondary icon"></i>
                             </a>
-                        @endif                  
+                        @endif
                     </div>
                     {{-- name --}}
                     <div class="col my-auto">
@@ -44,7 +44,7 @@
                                             {{ $category_post->category->name }}
                                         </a>
                                     @endforeach
-                                </div>                                
+                                </div>
                         </div>
                             <div class="row">
                                 <div class="col-md text-end mt-2">
@@ -62,16 +62,16 @@
                                     @else
                                     @endif
                                     <p class="text-uppercase text-muted text-end">{{ date('M d, Y', strtotime($post->created_at)) }}</p>
-                                </div>                                
+                                </div>
                             </div>
                     </div>
 
 
-                </div>  
+                </div>
                 <hr class="mt-2">
             </div>
 
-          </div> 
+          </div>
           <div class="row">
                     {{-- Post content --}}
                     <div class="col-6 px-3 position-relative">
@@ -79,7 +79,7 @@
                         <p class="d-inline fw-light">{{ $post->description }}</p>
                         @endif
                     </div>
-                    
+
                                 {{-- Right side of the Post --}}
             <div class="col-lg-6">
                 {{-- images or description --}}
@@ -121,7 +121,7 @@
                 @endif
             </div>
 
-            </div>    
+            </div>
 
             <div class="row">
                 <div class="col-lg-6">
@@ -129,7 +129,7 @@
                     <form action="{{ route('comment.store', $post->id) }}" method="post">
                         @csrf
 
-               {{-- Enpathy Slider for non-owners --}}
+                        {{-- Enpathy Slider for non-owners --}}
                         @if (!($post->user->id === Auth::user()->id))
                             <div class="form-group mb-2 mx-3">
                                 <label for="empathy" class="my-2">Empathy:</label>
@@ -155,17 +155,19 @@
                     </form>
                 </div>
                 <div class="text-end">
-                    {{-- you can see all reaction witch post owner get here --}}
                     <button class="shadow-none p-0 border-0 text-turquoise bg-pink" data-bs-toggle="modal"
-                        data-bs-target="#see-all-reactions{{-- #delete-post-{{ $post->id }} --}}">
-                        {{-- use modal to show all reaction --}}
+                        data-bs-target="#see-all-reactions">
+
                         see all reactions
                     </button>
                     @include('users.posts.modals.empathy')
                 </div>
             </div>
         </div>
+
+
 </div>
 
 
 @endsection
+
