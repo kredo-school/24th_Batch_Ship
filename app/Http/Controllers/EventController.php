@@ -40,7 +40,7 @@ class EventController extends Controller
         $request->validate([
             'community_id' => 'required',
             'event_title'  => 'required|string|max:255',
-            'date'         => 'required|date|after_or_equal:'.$currentDateTime->format('Y-m-d'),
+            'date'         => 'required|date|after:'.$currentDateTime->format('Y-m-d'),
             'start_time'   => 'required|date_format:H:i',
             'end_time'     => 'required|date_format:H:i|after:start_time',
             'address'      => 'required|string|max:255',
@@ -50,17 +50,9 @@ class EventController extends Controller
             'description'  => 'required|string',
             'image'        => 'required|mimes:jpeg,jpg,png,gif|max:1048'
         ], [
-            'date.after_or_equal' => 'The event date must be today or a future date.',
-            'end_time.after'      => 'The event end time must be after the start time.',
+            'date.after'     => 'The event date must be in the future.',
+            'end_time.after' => 'The event end time must be after the start time.',
         ]);
-
-        # Combine date and start_time into a single DateTime for comparison
-        $startDateTime = Carbon::createFromFormat('Y-m-d H:i', $request->date . ' ' . $request->start_time);
-
-        # Check if startDateTime is in the future compared to current time
-        if ($startDateTime->isBefore($currentDateTime)) {
-            return back()->withErrors(['start_time' => 'The event start time must be in the future.']);
-        }
     
         # 2. Save the event
         $this->event->host_id      = Auth::user()->id;
@@ -189,13 +181,16 @@ class EventController extends Controller
         # 1. Validate the request
         $request->validate([
             'title'        => 'required|string|max:255',
-            'date'         => 'required|date',
+            'date'         => 'required|date|after:'.$currentDateTime->format('Y-m-d'),
             'start_time'   => 'required|date_format:H:i',
             'end_time'     => 'required|date_format:H:i|after:start_time',
             'address'      => 'required|string|max:255',
             'price'        => 'required|string|max:255',
             'description'  => 'required|string',
             'image'        => 'mimes:jpeg,jpg,png,gif|max:1048'
+        ], [
+            'date.after'     => 'The event date must be in the future.',
+            'end_time.after' => 'The event end time must be after the start time.',
         ]);
 
         # 2. Update the event
