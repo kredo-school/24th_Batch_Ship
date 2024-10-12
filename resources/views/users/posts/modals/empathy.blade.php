@@ -110,116 +110,11 @@
                 </div>
             </div>
 
-            <script>
-                document.addEventListener('DOMContentLoaded', function() {
-
-                    $('#see-all-reactions').on('show.bs.modal', function () {
-    $.ajax({
-        url: '/your/api/endpoint',
-        method: 'GET',
-        success: function(data) {
-            const commentsContainer = document.getElementById('comments-container');
-            commentsContainer.innerHTML = ''; // 既存の内容をクリア
-            data.forEach(comment => {
-                commentsContainer.innerHTML += `<div class="comment-item" data-percentage="${comment.percentage}" data-date="${comment.created_at}">...</div>`;
-            });
-            sortComments('date'); // デフォルトで日付でソートする場合
-        },
-        error: function() {
-            console.error('Failed to fetch comments.');
-        }
-    });
-});
-
-                    function sortComments(sortType) {
-                        const commentsContainer = document.getElementById('comments-container');
-                        const comments = Array.from(commentsContainer.querySelectorAll('.comment-item'));
-
-                        const validComments = comments.filter(comment => {
-                            const percentage = comment.dataset.percentage;
-                            return percentage !== '' && percentage !== null;
-                        });
-
-                        validComments.sort((a, b) => {
-    if (sortType === 'percentage') {
-        return parseInt(b.dataset.percentage) - parseInt(a.dataset.percentage);
-    } else if (sortType === 'date') {
-        return new Date(b.dataset.date) - new Date(a.dataset.date);
-    }
-    return 0;
-});
-
-console.log('Before sorting:', commentsContainer.innerHTML);
-validComments.forEach((comment) => {
-    commentsContainer.appendChild(comment.cloneNode(true)); // コメントを複製して追加
-});
-console.log('After sorting:', commentsContainer.innerHTML);
-
-commentsContainer.innerHTML = ''; // コンテナを空にする
-
-validComments.forEach((comment) => {
-    commentsContainer.appendChild(comment.cloneNode(true)); // コメントを複製して追加
-});
-
-                        // 最後に<hr>が残るのを防ぐ
-                        if (commentsContainer.lastChild && commentsContainer.lastChild.tagName === 'HR') {
-                            commentsContainer.removeChild(commentsContainer.lastChild);
-                        }
-
-                        // ここでイベントリスナーを再設定
-                        attachReplyButtons();
-                        attachShowRepliesButtons();
-                    }
-
-                    document.getElementById('sort-empathy').addEventListener('click', function() {
-    sortComments('percentage');
-});
-document.getElementById('sort-date').addEventListener('click', function() {
-    sortComments('date');
-});
+            @section('scripts')
+<script src="{{ asset('js/posts/empathy.js') }}"></script>
+@endsection
 
 
-//Reply
-                    function attachReplyButtons() {
-                        const replyButtons = document.querySelectorAll('.reply-button');
-                        replyButtons.forEach(button => {
-                            button.removeEventListener('click', toggleReplyForm); // 既存のリスナーを削除
-                            button.addEventListener('click', toggleReplyForm);
-                        });
-                    }
-
-                    function toggleReplyForm() {
-                        const commentId = this.getAttribute('data-comment-id');
-                        const replyForm = document.getElementById(`reply-form-${commentId}`);
-                        replyForm.style.display = replyForm.style.display === 'none' || replyForm.style.display === '' ?
-                            'block' : 'none';
-                    }
-
-                    function attachShowRepliesButtons() {
-                        const showReplyButtons = document.querySelectorAll('.show-replies-button');
-                        showReplyButtons.forEach(button => {
-                            button.removeEventListener('click', toggleReplies); // 既存のリスナーを削除
-                            button.addEventListener('click', toggleReplies);
-                        });
-                    }
-
-                    function toggleReplies() {
-                        const commentId = this.getAttribute('data-comment-id');
-                        const repliesContainer = document.getElementById(`replies-container-${commentId}`);
-                        if (repliesContainer.style.display === 'none' || repliesContainer.style.display === '') {
-                            repliesContainer.style.display = 'block';
-                            this.textContent = 'Hide Replies'; // ボタンのテキストを更新
-                        } else {
-                            repliesContainer.style.display = 'none';
-                            this.textContent = `Show Replies (${repliesContainer.children.length})`; // ボタンのテキストを更新
-                        }
-                    }
-
-                    // 初期設定
-                    attachReplyButtons();
-                    attachShowRepliesButtons();
-                });
-            </script>
 
 
 </body>

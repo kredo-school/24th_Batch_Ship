@@ -1,5 +1,6 @@
 <head>
     <link rel="stylesheet" href="{{ asset('css/style_profile_show.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/style_postshow.css') }}">
 </head>
 
 <div class="container-fluid">

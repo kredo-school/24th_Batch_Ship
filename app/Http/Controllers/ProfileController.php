@@ -71,25 +71,25 @@ class ProfileController extends Controller
     }
 
 
-    public function profileProcess($id)
-    {
-        $user = $this->user->findOrFail($id);
+    // public function profileProcess($id)
+    // {
+    //     $user = $this->user->findOrFail($id);
 
-        $own_communities = Community::where('owner_id', $id)->paginate(4, ["*"], 'own_communities');
-        $join_communities = CommunityUser::where('user_id', $id)->paginate(4, ["*"], 'join_communities');
-        $own_events = Event::where('host_id', $id)->paginate(4, ["*"], 'own_events');
-        $join_events = EventUser::where('user_id', $id)->paginate(4, ["*"], 'join_events');
-        $reactedCompatibilities = Compatibility::with('sender')->where('user_id', $id)->get();
-        $reactingCompatibilities = Compatibility::with('user')->where('send_user_id', $id)->get();
+    //     $own_communities = Community::where('owner_id', $id)->paginate(4, ["*"], 'own_communities');
+    //     $join_communities = CommunityUser::where('user_id', $id)->paginate(4, ["*"], 'join_communities');
+    //     $own_events = Event::where('host_id', $id)->paginate(4, ["*"], 'own_events');
+    //     $join_events = EventUser::where('user_id', $id)->paginate(4, ["*"], 'join_events');
+    //     $reactedCompatibilities = Compatibility::with('sender')->where('user_id', $id)->get();
+    //     $reactingCompatibilities = Compatibility::with('user')->where('send_user_id', $id)->get();
 
-        // ユーザーの投稿を取得
-        $posts = Post::where('user_id', $id)->get();
+    //     // ユーザーの投稿を取得
+    //     $posts = Post::where('user_id', $id)->get();
 
-        // これらの投稿に対するコメントを取得
-        $comments = PostComment::whereIn('post_id', $posts->pluck('id'))->get();
+    //     // これらの投稿に対するコメントを取得
+    //     $comments = PostComment::whereIn('post_id', $posts->pluck('id'))->get();
 
-        return view('users.profile.index', compact('user', 'own_communities', 'join_communities', 'own_events', 'join_events', 'reactedCompatibilities', 'reactingCompatibilities', 'posts', 'comments'));
-    }
+    //     return view('users.profile.index', compact('user', 'own_communities', 'join_communities', 'own_events', 'join_events', 'reactedCompatibilities', 'reactingCompatibilities', 'posts', 'comments'));
+    // }
 
 
     //     return view('users.profile.index', compact('user', 'own_communities', 'join_communities', 'own_events', 'join_events','reactedCompatibilities', 'reactingCompatibilities'));
@@ -119,12 +119,19 @@ class ProfileController extends Controller
                                   ->where('send_user_id', $id)
                                   ->get();
 
+    // ユーザーの投稿を取得
+    $posts = Post::where('user_id', $id)->get();
+
+    // これらの投稿に対するコメントを取得
+    $comments = PostComment::whereIn('post_id', $posts->pluck('id'))->get();
+
+
         return view('users.profile.index', compact(
             'user', 'posts', 'own_communities', 'join_communities',
             'own_events', 'join_events',
-            'reactedCompatibilities', 'reactingCompatibilities'
+            'reactedCompatibilities', 'reactingCompatibilities','posts','comments'
         ));
->>>>>>> ed53dbb256497cdd7786b813f803a51d94b01e1e
+
     }
 
 
