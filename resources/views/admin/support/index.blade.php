@@ -10,7 +10,7 @@
        @forelse ($all_inquiries as $inquiry)
         <div class="row align-items-center bg-green m-3 py-2">
           {{-- User information --}}
-          <div class="col-2">
+          <div class="col-3 d-flex align-items-center">
             <a href="{{ route('users.profile.specificProfile', $inquiry->user_id) }}" class="text-black d-flex align-items-center text-decoration-none">
               @if ($inquiry->user->avatar)
                 <img src="{{ $inquiry->user->avatar }}" alt="{{ $inquiry->user->username }}" class="rounded-circle avatar-sm">
@@ -19,10 +19,11 @@
               @endif
               <p class="ms-2 mb-0">{{ $inquiry->user->username }}</p>
             </a>
+            <a href="mailto:{{ $inquiry->user->email }}" class="ms-3">{{ $inquiry->user->email }}</a>
           </div>
 
           {{-- Inquiry content --}}
-          <div class="col-6">
+          <div class="col-5">
             {{-- Subject --}}
             <a href="#" class="text-decoration-none text-black mb-0" data-bs-toggle="modal" data-bs-target="#inquiry-message-{{ $inquiry->id }}">
               {{ $inquiry->subject }}
