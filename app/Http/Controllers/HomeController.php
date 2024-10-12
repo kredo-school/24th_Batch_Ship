@@ -122,7 +122,7 @@ class HomeController extends Controller
     {
         return $this->post->latest()
             ->when($keyword, function ($query) use ($keyword) {
-                return $query->where('title', 'LIKE', '%' . $keyword . '%');
+                return $query->where('description', 'LIKE', '%' . $keyword . '%');
             })
             ->when($selectedCategory, function ($query) use ($selectedCategory) {
                 return $query->whereHas('categories', function ($query) use ($selectedCategory) {
