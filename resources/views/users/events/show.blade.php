@@ -75,6 +75,7 @@
         <div class="col-4">
             {{-- Community information this event belongs to --}}
             <div class="row">
+                <p class="" >This event is part of the following community:</p>
                 <a href="{{ route('communities.show', $event->community->id) }}" class="text-decoration-none text-black">
                     <div class="card border-0 w-auto mx-auto px-0">
                         <img src="{{ $event->community->image }}" alt="{{ $event->community->title }}" class="card-img-top">
@@ -115,7 +116,7 @@
             
             {{-- Event host --}}
             <div class="row mt-3">
-                <h1 class="h6">Created by</h1>
+                <h1 class="h6">host by</h1>
                 <a href="{{ route('users.profile.specificProfile', $event->host_id) }}">
                     @if ($event->host->avatar)
                         <img src="{{ $event->host->avatar }}" alt="{{ $event->host->username }}" class="rounded-circle avatar-sm">   

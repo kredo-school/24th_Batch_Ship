@@ -8,9 +8,16 @@
       </div>
 
       <div class="modal-body mt-3">
-        <p class="text-center">
+        <p class="text-center mb-0">
           Event attendance is limited to community members only. <br>
           <span class="text-danger fw-bold">You must first JOIN the Community</span> in order to participate.
+          <br>
+          <br>
+          <span class="fw-bold">This event belogns to...</span>
+          <br>
+          <a href="{{ route('communities.show', $event->community->id) }}" class="text-decoration-none text-black">
+            <span class="h4 text-center text-turquoise">{{ $event->community->title }}</span>
+          </a>
         </p>
       </div>
 
