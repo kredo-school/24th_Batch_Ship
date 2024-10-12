@@ -27,7 +27,7 @@
                     {{-- Image --}}
                     <div class="row">
                         {{-- Preview area --}}
-                        <div class="mt-2" id="imagePreview"></div>
+                        <div class="mt-2 d-flex d-wrap" id="imagePreview"></div>
                         
                         <div class="col-8">
                             <label for="image" class="form-label fw-bold mt-2">Image</label>
