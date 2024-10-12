@@ -106,7 +106,7 @@
                                 <div class="row card-text text-start mt-auto">
                                     {{-- event title this event belongs to --}}
                                     <a href="#" class="text-decoration-none text-secondary">
-                                        {{ $event->community ? $event->community->title : 'コミュニティなし' }}
+                                        {{ $event->community ? $event->community->title : 'no title' }}
                                     </a>
                                     
                                     

@@ -106,13 +106,15 @@ class HomeController extends Controller
     {
         return $this->user->latest()
             ->when($keyword, function ($query) use ($keyword) {
-                return $query->where('username', 'LIKE', '%' . $keyword . '%'); 
+                return $query->where('username', 'LIKE', '%' . $keyword . '%');
+                             
             })
             ->when($selectedCategory, function ($query) use ($selectedCategory) {
                 return $query->whereHas('categories', function ($query) use ($selectedCategory) {
                     $query->where('id', $selectedCategory);
                 });
             })
+            ->where('id', '!=', auth()->id())
             ->paginate(4);
     }
     
@@ -122,15 +124,18 @@ class HomeController extends Controller
     {
         return $this->post->latest()
             ->when($keyword, function ($query) use ($keyword) {
-                return $query->where('description', 'LIKE', '%' . $keyword . '%');
+                $query->where('description', 'LIKE', '%' . $keyword . '%');
             })
             ->when($selectedCategory, function ($query) use ($selectedCategory) {
-                return $query->whereHas('categories', function ($query) use ($selectedCategory) {
+                $query->whereHas('categories', function ($query) use ($selectedCategory) {
                     $query->where('id', $selectedCategory);
                 });
             })
+            ->where('user_id', '!=', auth()->id()) // except own posts
             ->paginate(4);
     }
+    
+    
 
     // Community search processing
     private function searchCommunities($keyword, $selectedCategory)
@@ -144,6 +149,7 @@ class HomeController extends Controller
                     $query->where('id', $selectedCategory);
                 });
             })
+            ->where('owner_id', '!=', auth()->id())
             ->paginate(4);
     }
 
@@ -160,6 +166,7 @@ class HomeController extends Controller
                     $query->where('categories.id', $selectedCategory);
                 });
             })
+            ->where('host_id', '!=', auth()->id())
             ->paginate(4);
     }
     

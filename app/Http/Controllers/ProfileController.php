@@ -104,11 +104,14 @@ class ProfileController extends Controller
                               ->paginate(4, ['*'], 'join_communities');
 
         $own_events = Event::where('host_id', $id)
+                      ->orderByRaw('CASE WHEN date > ? THEN 0 ELSE 1 END, date desc', [now()]) // to order date newest
                       ->paginate(4, ['*'], 'own_events');
 
         $join_events = Event::whereHas('attendees', function ($query) use ($id) {
                         $query->where('user_id', $id);
-                    })->with('community')->paginate(4, ['*'], 'join_events');
+                    })->with('community')
+                    ->orderByRaw('CASE WHEN date > ? THEN 0 ELSE 1 END, date desc', [now()]) // to order date newest
+                    ->paginate(4, ['*'], 'join_events');
 
 
         $reactedCompatibilities = Compatibility::with('sender')
