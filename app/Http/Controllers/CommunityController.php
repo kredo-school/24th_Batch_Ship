@@ -57,6 +57,9 @@ class CommunityController extends Controller
                 }
             }
         }
+
+        // Remove duplicate posts
+        $relatedCommunities = $relatedCommunities->unique('id'); // assuming 'id' is the primary key for posts
     
         return view('auth.communityIndex', compact('user', 'relatedCommunities'));
     }   

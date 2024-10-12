@@ -1,47 +1,64 @@
 document.addEventListener('DOMContentLoaded', function () {
-    // 画像プレビューの処理
-    document.getElementById('image').addEventListener('change', function(event) {
-        const files = event.target.files; // 複数のファイルを取得
-        const previewContainer = document.getElementById('imagePreview');
-        previewContainer.innerHTML = ''; // 以前のプレビューをクリア
+    // keep all selected file on preview
+    let allFiles = [];
 
-        Array.from(files).forEach((file, index) => {
+    // image preview process
+    document.getElementById('image').addEventListener('change', function(event) {
+        const files = Array.from(event.target.files); // a new selected file
+        const previewContainer = document.getElementById('imagePreview');
+        const input = document.getElementById('image');
+        
+        // add a new selected image to allFiles[]
+        allFiles = allFiles.concat(files);
+
+        // clear old preview then show a new selected preview
+        previewContainer.innerHTML = '';
+
+        // use DataTransfer to update input file
+        const dataTransfer = new DataTransfer();
+
+        // preview all selected files and add to DataTransfer
+        allFiles.forEach((file, index) => {
             const reader = new FileReader();
             reader.onload = function(e) {
                 const imgContainer = document.createElement('div');
-                imgContainer.className = 'position-relative me-2 mb-2 w-25 image-container'; // 指定されたクラス
-                imgContainer.setAttribute('data-key', index); // 一意のキーを設定
+                imgContainer.className = 'position-relative me-2 mb-2 w-25 image-container'; // class name
+                imgContainer.setAttribute('data-key', index); // Set a unique key to track how many images have been added
 
                 const img = document.createElement('img');
                 img.src = e.target.result;
-                img.className = 'w-100 img-thumbnail d-inline-block'; // スタイルを追加
+                img.className = 'w-100 img-thumbnail d-inline-block'; // set a style
                 
-                // バツ印を作成
+                // create x mark (delete button)
                 const deleteBtn = document.createElement('button');
                 deleteBtn.type = 'button';
                 deleteBtn.className = 'position-absolute bg-transparent border-0 bg-light fs-3 delete-image';
                 deleteBtn.style.top = '-5%';
                 deleteBtn.style.right = '-5%';
                 deleteBtn.setAttribute('aria-label', 'Close');
-                deleteBtn.innerHTML = '<i class="fa-solid fa-circle-xmark text-danger"></i>'; // バツ印のアイコン
+                deleteBtn.innerHTML = '<i class="fa-solid fa-circle-xmark text-danger"></i>'; // delete button
 
                 deleteBtn.addEventListener('click', function () {
-                    imgContainer.remove(); // 画像を削除
-                    const input = document.getElementById('image');
-                    const dataTransfer = new DataTransfer(); // 新しいDataTransferを作成
-                    Array.from(input.files).forEach((file, fileIndex) => {
-                        if (fileIndex !== index) {
-                            dataTransfer.items.add(file); // 削除しないファイルを追加
-                        }
+                    imgContainer.remove(); // when click xmark button, it remove
+                    allFiles = allFiles.filter((_, fileIndex) => fileIndex !== index); // remove from allFiles[]
+
+                    // update DataTransfer after the images has deleted
+                    const updatedDataTransfer = new DataTransfer();
+                    allFiles.forEach(file => {
+                        updatedDataTransfer.items.add(file);
                     });
-                    input.files = dataTransfer.files; // inputのファイルを更新
+                    input.files = updatedDataTransfer.files; // update input element
                 });
 
-                imgContainer.appendChild(img); // 画像をコンテナに追加
-                imgContainer.appendChild(deleteBtn); // バツ印をコンテナに追加
-                previewContainer.appendChild(imgContainer); // プレビューに追加
+                imgContainer.appendChild(img); // add img
+                imgContainer.appendChild(deleteBtn); // add xmark(delete button)
+                previewContainer.appendChild(imgContainer); // add to preview
             };
-            reader.readAsDataURL(file); // ファイルをData URLとして読み込む
+            reader.readAsDataURL(file); // read img file as URL
+            dataTransfer.items.add(file); // add to DataTransfer
         });
+
+        // update input files property to dataTransfer
+        input.files = dataTransfer.files;
     });
 });
