@@ -14,8 +14,8 @@ class EventUser extends Model
 
     protected $fillable = ['event_id', 'user_id'];
 
-    // Set the value to false to tell Laravel to not insert the timestamps
-    public $timestamps = false;
+    // Enable timestamps
+    public $timestamps = true;
 
     # To get the user information
     public function user()

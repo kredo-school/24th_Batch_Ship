@@ -80,10 +80,35 @@ class EventController extends Controller
         $currentDateTime = Carbon::now();
         $currentDate = Carbon::today(); // Use Carbon to get the current date without time
 
+        // Check user's participation status and community membership related to the event
+        $isJoining = false;
+        $isCommunityOwner = false;
+        $isCommunityMember = false;
+        // Check if the user is logged in and is not the host of the event
+        if (Auth::check() && Auth::user()->id !== $event->host_id) {
+            // Check if the user is currently joining the event
+            $isJoining = $event->isJoining();
+            // Check if the user is the owner of the community associated with this event
+            $isCommunityOwner = $event->community->owner_id === Auth::user()->id;
+            // Check if the user is a member of the community associated with this event
+            $isCommunityMember = $event->community->members->contains('user_id', Auth::user()->id);
+        }
+
         // Get the community categories
         $all_categories = $event->community->categoryCommunity;
 
-        // Get attendees and reviews
+        // Get attendees with reviews
+        $attendeesWithReviews = $this->getAttendeesWithReviews($event);
+
+        // For location map
+        $encodedAddress = urlencode($event->address);
+
+        return view('users.events.show', compact('event', 'date', 'startTime', 'endTime', 'currentDateTime', 'currentDate', 'isJoining', 'isCommunityOwner', 'isCommunityMember', 'all_categories', 'attendeesWithReviews', 'encodedAddress'));
+    }
+
+    public function getAttendeesWithReviews($event)
+    {
+        // Get attendees and reviews from the event
         $all_attendees = $event->attendees;
         $all_reviews = $event->eventReviews;
 
@@ -101,10 +126,34 @@ class EventController extends Controller
             ]);
         }
 
-        // For location map
-        $encodedAddress = urlencode($event->address);
+        return $attendeesWithReviews;
+    }
 
-        return view('users.events.show', compact('event', 'date', 'startTime', 'endTime', 'currentDateTime', 'currentDate', 'all_categories', 'attendeesWithReviews', 'encodedAddress'));
+    public function sort(Request $request, $id)
+    {
+        // Retrieve the event using the event ID
+        $event = $this->event->findOrFail($id);
+
+        // Get attendees with reviews
+        $attendeesWithReviews = $this->getAttendeesWithReviews($event);
+
+        // Get the sort condition from the request
+        $sort = $request->input('sort', null);
+
+        // Define sorting functions
+        $sortFunctions = [
+            'review_rate' => fn($attendee) => $attendee['review']->review_rate ?? 0,
+            'created_at' => fn($attendee) => $attendee['review']->created_at ?? null
+        ];
+
+        // Apply sorting if a sort condition is specified
+        if (isset($sortFunctions[$sort])) {
+            $attendeesWithReviews = $attendeesWithReviews->sortByDesc($sortFunctions[$sort]);
+        }
+
+        $currentDateTime = Carbon::now();
+        
+        return view('users.events.modals.attendees-list', compact('event', 'attendeesWithReviews', 'currentDateTime'));
     }
 
     public function edit($id)

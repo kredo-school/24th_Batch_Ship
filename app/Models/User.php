@@ -79,6 +79,10 @@ class User extends Authenticatable
         return $this->hasMany(Event::class)->latest();
     }
 
+    public function interests(){
+        return $this->hasMany(InterestRate::class);
+    }
+
     # To go to community for auth user
     public function communityUser()
     {

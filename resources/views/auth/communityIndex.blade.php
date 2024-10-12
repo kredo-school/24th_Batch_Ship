@@ -9,7 +9,7 @@
         <div class="row mb-3">
             <div class="col text-center">
                 @foreach ($user->categoryUser as $category_user)
-                    <a href="{{ route('users.categories.show', $category_user->category_id) }}" class="fs-5 badge bg-turquoise text-white ms-1 px-2 text-decoration-none">
+                    <a href="{{ route('users.categories.show', $category_user->category_id) }}" class="fs-5 badge bg-turquoise text-white ms-1 px-2 text-decoration-none mb-1">
                         {{ $category_user->category->name }}
                     </a>
             @endforeach

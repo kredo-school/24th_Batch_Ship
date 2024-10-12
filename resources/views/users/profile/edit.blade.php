@@ -22,7 +22,7 @@
                         @if ($user->avatar)
                             <img id="image-preview" src="{{ $user->avatar }}" alt="{{ $user->name }}" class="img-thumbnail rounded-circle d-block mx-auto avatar-lg mb-3">
                         @else
-                            <img id="image-preview" src="/assets/image/avatar1.png" alt="preview image" class="img-thumbnail border rounded-circle d-block mx-auto avatar-lg mb-2">
+                            <img id="image-preview" src="/assets/image/avatar1.png" class="img-thumbnail border rounded-circle d-block mx-auto avatar-lg mb-2">
                         @endif
 
                         <label class="mb-3">
@@ -59,6 +59,10 @@
                             <i class="fa-solid fa-caret-down"></i> Self-introduction
                         </p>
                         <textarea class="border-0 p-2" name="introduction" id="introduction" cols="57" rows="5" class="p-2" placeholder="">{{ old('introduction', $user->introduction) }}</textarea>
+                        {{-- Error --}}
+                        @error('introduction')
+                            <p class="text-danger small">{{ $message }}</p>
+                        @enderror
                     </div>
 
                     {{-- select interest --}}

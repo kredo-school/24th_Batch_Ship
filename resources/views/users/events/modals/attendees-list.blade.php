@@ -2,77 +2,106 @@
   <div class="modal-dialog">
 
     {{-- visible part --}}
-    <div class="modal-content border border-3 border-turquoise"> 
-      <div class="modal-header text-center border-0 d-block pb-0">
-        <div class="container">
-          <h6 class="text-center pb-2">All attendees</h6>
-          {{-- Review sort button will appear after the event --}}
-          @if ($currentDateTime->greaterThan($event->date . ' ' . $event->end_time))
-            <p class="mt-4">
-              Sort by 
-              <button class="btn btn-turquoise text-white mx-2" type="button" id="sort-compatibility">review %</button>
-              or
-              <button class="btn btn-turquoise text-white mx-2" type="button" id="sort-date">date (newest list)</button>
-            </p> 
-          @endif
-          <div class="row text-start">
-            <div class="col-1">
-              <div class="col-2">
-                <a href="{{ route('users.profile.specificProfile', $event->host_id) }}" class="me-auto">
-                  @if ($event->host->avatar)
-                    <img src="{{ $event->host->avatar }}" alt="{{ $event->host->username }}" class="rounded-circle avatar-sm">
-                  @else
-                    <i class="fa-solid fa-circle-user text-dark icon-sm"></i>
-                  @endif
-                </a> 
-              </div>
-            </div>
-            <div class="col-auto">
-              <p class="badge bg-gold text-white py-1 m-0">Host</p>
-              <h6 class="underline">
-                <a href="{{ route('users.profile.specificProfile', $event->host_id) }}" class="text-decoration-none text-black">
-                  {{ $event->host->username }}
-                </a>
-              </h6>
-            </div>
-         </div>       
-       </div> 
-     </div>  {{-- end of modal-header --}}
+    <div class="modal-content border-turquoise">
+      <div class="modal-header text-center d-block position-relative border-0">
+        <h6>All attendees</h6>
+        <button type="button" class="btn btn-sm position-absolute top-0 end-0" data-bs-dismiss="modal">
+          <i class="fa-regular fa-rectangle-xmark"></i> Close
+        </button>
 
-      <div class="modal-body border-0 my-1 pt-0" style="max-height: 400px; overflow-y: scroll;">
-        @foreach ($all_attendees as $attendee)
+        {{-- Review sort button will appear after the event --}}
+        @if ($currentDateTime->greaterThan($event->date . ' ' . $event->end_time))
+          <div class="mt-4">
+            <form id="sortForm" action="{{ route('review.sort', $event->id) }}" method="GET">
+              <p class="text-center">
+                Sort by
+                <button class="btn btn-turquoise mx-2" type="button" onclick="setSortValue('review_rate')">
+                  Review&nbsp; %
+                </button>
+                or
+                <button class="btn btn-turquoise mx-2" type="button" onclick="setSortValue('created_at')">
+                  Date (newest list)
+                </button>
+              </p>
+              <input type="hidden" name="sort" id="sortValue" value=""> 
+            </form>
+          </div>
+        @endif
+      </div>  {{-- end of modal-header --}}
+
+      <div class="modal-body" id="modal-body">
+        {{-- Host information --}}
+        <div class="row">
+          <div class="col-2 text-center">
+            <p class="badge bg-gold text-white py-1 m-0">Host</p>
+          </div>
+          <div class="col-2 p-0 text-start">
+            <a href="{{ route('users.profile.specificProfile', $event->host_id) }}" class="me-auto">
+              @if ($event->host->avatar)
+                <img src="{{ $event->host->avatar }}" alt="{{ $event->host->username }}" class="rounded-circle avatar-sm">
+              @else
+                <i class="fa-solid fa-circle-user text-dark icon-sm"></i>
+              @endif
+            </a>
+            <a href="{{ route('users.profile.specificProfile', $event->host_id) }}" class="text-decoration-none text-black">
+              {{ $event->host->username }}
+            </a>
+          </div>          
+        </div>
+
+        @foreach ($attendeesWithReviews as $attendeeWithReview)
           <hr>
-          <div class="row mb-1">
-            <div class="col-2 p-0 text-center">
-              <a href="{{ route('users.profile.specificProfile', $attendee->user_id) }}" class="me-auto">
-                @if ($attendee->user->avatar)
-                  <img src="{{ $attendee->user->avatar }}" alt="{{ $attendee->user->username }}" class="rounded-circle avatar-sm">
+          <div class="row">
+            {{-- Review rate % --}}
+            <div class="col-2 text-center">
+              @if ($attendeeWithReview['review'])
+                <p>{{ $attendeeWithReview['review']->review_rate }} %</p> 
+              @endif
+            </div>
+
+            {{-- Attendee information --}}
+            <div class="col-2 p-0 text-start">
+              <a href="{{ route('users.profile.specificProfile', $attendeeWithReview['attendee']->user_id) }}" class="me-auto">
+                @if ($attendeeWithReview['attendee']->user->avatar)
+                  <img src="{{ $attendeeWithReview['attendee']->user->avatar }}" alt="{{ $attendeeWithReview['attendee']->user->username }}" class="rounded-circle avatar-sm">
                 @else
                   <i class="fa-solid fa-circle-user text-dark icon-sm"></i>
                 @endif
               </a>
+              <a href="{{ route('users.profile.specificProfile', $attendeeWithReview['attendee']->user_id) }}" class="text-decoration-none text-black d-flex align-items-center">
+                {{ $attendeeWithReview['attendee']->user->username }}
+              </a>
             </div>
-            <div class="col-6 text-start">
-              <h6>
-                <a href="{{ route('users.profile.specificProfile', $attendee->user_id) }}" class="text-decoration-none text-black d-flex align-items-center">
-                  {{ $attendee->user->username }}
-                </a>
-              </h6>
+
+            {{-- Review comment --}}
+            <div class="col">
+              @if ($attendeeWithReview['review'])
+                <p class="text-break">{{ $attendeeWithReview['review']->review_comment }}</p>                                 
+              @endif
             </div>
-            <div class="col-2">
-              <i class="fa-solid fa-face-grin-wide text-turquoise fs-2"></i>
-            </div>
-            <div class="col-2 text-start fw-bold">
-              {{-- @if ($attendee->review) --}}
-                <p>{{-- $attendee->review->rate --}} %</p>                 
-              {{-- @endif --}}
+
+            <div class="d-flex justify-content-end align-items-center">
+              {{-- Delete button for reviewer --}}
+              @if ($currentDateTime->greaterThan($event->date . ' ' . $event->end_time) && 
+                   $attendeeWithReview['review'] &&
+                   $attendeeWithReview['attendee']->user_id === Auth::user()->id)
+                <form action="{{ route('review.destroy', $attendeeWithReview['review']->id) }}" method="post">
+                  @csrf
+                  @method('DELETE')
+                  <button type="submit" class="border-0 bg-transparent text-danger small">Delete</button>
+                </form>
+              @endif              
+
+              {{-- Review date --}}
+              @if ($attendeeWithReview['review'])
+                <div class="text-uppercase text-muted xsmall ms-2">
+                  {{ date('M d, Y', strtotime($attendeeWithReview['review']->created_at)) }}
+                </div>  
+              @endif
             </div>
           </div>
         @endforeach
-        <hr class="my-2">
       </div> {{-- end of modal-body --}}
-
     </div>
   </div>
 </div>
-

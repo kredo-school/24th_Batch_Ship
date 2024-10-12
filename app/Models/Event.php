@@ -38,7 +38,7 @@ class Event extends Model
 
     public function attendees()
     {
-        return $this->hasMany(EventUser::class);
+        return $this->hasMany(EventUser::class)->orderBy('created_at', 'desc');
     }
 
     public function isJoining()

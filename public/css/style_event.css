@@ -55,3 +55,8 @@
     margin: 0;
 }
 
+.modal-body {
+    max-height: 400px;
+    overflow-y: scroll;
+}
+

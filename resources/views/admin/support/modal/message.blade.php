@@ -10,7 +10,7 @@
 
       {{-- Inquiry Message --}}
       <div class="modal-body mt-3">
-        <p class="text-center">{{ $inquiry->message }}</p>
+        <p class="break-word">{{ $inquiry->message }}</p>
       </div>
 
       {{-- Status control --}}

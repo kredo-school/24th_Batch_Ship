@@ -6,11 +6,11 @@ use App\Models\User;
 use App\Models\Category;
 use App\Models\Community;
 use App\Models\Event;
+use App\Models\Post;
 use App\Models\CommunityUser;
 use App\Models\Compatibility;
 use App\Models\EventUser;
 use App\Models\PostComment;
-use App\Models\Post;
 use Illuminate\Http\Request;
 use App\Notifications\CommentNotification;
 use Illuminate\Support\Facades\Auth;
@@ -20,12 +20,14 @@ use Illuminate\Support\Facades\DB;
 class ProfileController extends Controller
 {
     private $user;
+    private $post;
     private $category;
     private $community;
 
 
-    public function __construct(User $user, Category $category, Community $community, ){
+    public function __construct(User $user, Post $post, Category $category, Community $community, ){
         $this->user = $user;
+        $this->post = $post;
         $this->category = $category;
         $this->community = $community;
 
@@ -68,6 +70,7 @@ class ProfileController extends Controller
         return $this->profileProcess($id);
     }
 
+
     public function profileProcess($id)
     {
         $user = $this->user->findOrFail($id);
@@ -86,10 +89,44 @@ class ProfileController extends Controller
         $comments = PostComment::whereIn('post_id', $posts->pluck('id'))->get();
 
         return view('users.profile.index', compact('user', 'own_communities', 'join_communities', 'own_events', 'join_events', 'reactedCompatibilities', 'reactingCompatibilities', 'posts', 'comments'));
-    
+    }
+
 
     //     return view('users.profile.index', compact('user', 'own_communities', 'join_communities', 'own_events', 'join_events','reactedCompatibilities', 'reactingCompatibilities'));
+    public function profileProcess($id) {
+        $user = $this->user->findOrFail($id);
+        $posts = Post::where('user_id', $id)->paginate(4);
+
+        $own_communities = Community::where('owner_id', $id)
+                            ->paginate(4, ['*'], 'own_communities');
+
+        $join_communities = CommunityUser::where('user_id', $id)
+                              ->paginate(4, ['*'], 'join_communities');
+
+        $own_events = Event::where('host_id', $id)
+                      ->paginate(4, ['*'], 'own_events');
+
+        $join_events = Event::whereHas('attendees', function ($query) use ($id) {
+                        $query->where('user_id', $id);
+                    })->with('community')->paginate(4, ['*'], 'join_events');
+
+
+        $reactedCompatibilities = Compatibility::with('sender')
+                                  ->where('user_id', $id)
+                                  ->get();
+
+        $reactingCompatibilities = Compatibility::with('user')
+                                  ->where('send_user_id', $id)
+                                  ->get();
+
+        return view('users.profile.index', compact(
+            'user', 'posts', 'own_communities', 'join_communities',
+            'own_events', 'join_events',
+            'reactedCompatibilities', 'reactingCompatibilities'
+        ));
+>>>>>>> ed53dbb256497cdd7786b813f803a51d94b01e1e
     }
+
 
 
     public function storeCompatibility(Request $request)
@@ -153,7 +190,7 @@ class ProfileController extends Controller
             'avatar' => 'mimes:jpg,jpeg,gif,png|max:1048',
             'introduction' => 'required|min:1|max:1000',
         ], [
-            'introduction.max' => 'The introduction must be at least 1000 characters.',
+            'introduction.max' => 'The introduction must not exceed 1000 characters.',
         ]);
 
         $user     = $this->user->find(Auth::user()->id);
@@ -202,9 +239,9 @@ class ProfileController extends Controller
             'category'      => 'required|array',
             'avatar'        => 'mimes:jpg,jpeg,gif,png|max:1048',
             'introduction'  => 'min:1|max:1000',
-            'username' => 'min:1|max:255'
+            'username'      => 'min:1|max:255'
         ], [
-            'introduction.max' => 'The introduction must be at least 1000 characters.',
+            'introduction.max' => 'The introduction must not exceed 1000 characters.',
         ]);
 
         $user     = $this->user->find(Auth::user()->id);
@@ -227,6 +264,7 @@ class ProfileController extends Controller
         $user->categoryUser()->createMany($category_user);
 
         return redirect()->route('users.profile.index');
+
     }
 
 

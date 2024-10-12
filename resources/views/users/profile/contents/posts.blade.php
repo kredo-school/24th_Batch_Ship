@@ -13,9 +13,9 @@
     </div>
 
     <div class="row row-eq-height">
-        @if ($user->posts->isNotEmpty())
+        @if ($posts->isNotEmpty())
             {{-- loop through posts --}}
-            @foreach ($user->posts as $post)
+            @foreach ($posts as $post)
                 <div class="col-sm-3 mb-3">
                     <a href="{{ route('users.posts.show', $post->id) }}" class="text-decoration-none text-black">
                         <div class="card border-0 rounded h-100 mb-3">
@@ -148,6 +148,10 @@
         @endif
     </div>
 
-    {{-- {{ $user->posts->links() }} --}}
+    <div class="d-flex justify-content-center mt-2">
+        @if($posts instanceof \Illuminate\Pagination\LengthAwarePaginator && $posts->total() > 0)
+            {{ $posts->appends(request()->query())->links('pagination::bootstrap-4') }}
+        @endif
+    </div>
 </div>
 
