@@ -23,10 +23,10 @@ class InterestsRate extends Model
          return $this->belongsTo(Community::class);
     }
 
-    public function getPercentage()
-    {
-        return $this->belongsTo(InterestsRate::class);
+    // public function getPercentage()
+    // {
+    //     return $this->belongsTo(InterestsRate::class);
 
-    }
+    // }
     
 }

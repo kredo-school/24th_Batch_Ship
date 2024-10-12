@@ -122,7 +122,7 @@ class HomeController extends Controller
     {
         return $this->post->latest()
             ->when($keyword, function ($query) use ($keyword) {
-                return $query->where('title', 'LIKE', '%' . $keyword . '%');
+                return $query->where('description', 'LIKE', '%' . $keyword . '%');
             })
             ->when($selectedCategory, function ($query) use ($selectedCategory) {
                 return $query->whereHas('categories', function ($query) use ($selectedCategory) {
@@ -150,7 +150,8 @@ class HomeController extends Controller
     // Event search processing
     private function searchEvents($keyword, $selectedCategory)
     {
-        return $this->event->orderBy('date', 'asc')
+        return $this->event->with('categories') 
+            ->orderByRaw('CASE WHEN date > ? THEN 0 ELSE 1 END, date desc', [now()]) // to order date newest
             ->when($keyword, function ($query) use ($keyword) {
                 return $query->where('title', 'LIKE', '%' . $keyword . '%');
             })
@@ -161,5 +162,6 @@ class HomeController extends Controller
             })
             ->paginate(4);
     }
+    
 
 }

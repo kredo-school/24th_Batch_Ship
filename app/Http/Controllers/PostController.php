@@ -67,6 +67,9 @@ class PostController extends Controller
                 }
             }
         }
+        
+        // Remove duplicate posts
+        $relatedPosts = $relatedPosts->unique('id'); // assuming 'id' is the primary key for posts
 
         return view('auth.postIndex', compact('user', 'relatedPosts'));
     }

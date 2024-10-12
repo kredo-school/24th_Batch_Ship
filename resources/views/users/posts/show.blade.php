@@ -116,7 +116,7 @@
                 @else
                     {{-- If there are no images, show description on the right --}}
                     <div class="py-5 px-2 text-center">
-                        <p class="display-4">{{ $post->description }}</p>
+                        <p class="">{{ $post->description }}</p>
                     </div>
                 @endif
             </div>

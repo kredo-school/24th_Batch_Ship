@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Category;
 use App\Models\Community;
 use Illuminate\Http\Request;
@@ -57,6 +58,9 @@ class CommunityController extends Controller
                 }
             }
         }
+
+        // Remove duplicate posts
+        $relatedCommunities = $relatedCommunities->unique('id'); // assuming 'id' is the primary key for posts
     
         return view('auth.communityIndex', compact('user', 'relatedCommunities'));
     }   
@@ -218,5 +222,58 @@ class CommunityController extends Controller
         # 5. Redirect to Show Post page (to confirm the update)
         return redirect()->route('communities.show',$id);
     }
+
+
+    public function getMembersWithInterests($community)
+    {
+        // Get members and interests from the community
+        $all_members = $community->members;
+        $all_interests = $community->interestsRate;
+
+        // Create a collection associating members with their interest
+        $membersWithInterests = collect();
+
+        foreach ($all_members as $member) {
+            // Find the interest-rate for this member, if the member has interest-rate of this community
+            $memberInterest = $all_interests->where('user_id', $member->user_id)->first();
+
+            // Add member and their interests (if any) to the collection
+            $membersWithInterests->push([
+                'member' => $member,
+                'interest' => $memberInterest,
+            ]);
+        }
+
+        return $membersWithInterests;
+    }
+
+    public function sort(Request $request, $id)
+    {
+        // Interest the community using the community ID
+        $community = $this->community->findOrFail($id);
+
+        // Get members with interests
+        $membersWithInterests = $this->getMembersWithInterests($community);
+
+        // Get the sort condition from the request
+        $sort = $request->input('sort', null);
+
+        // Define sorting functions
+        $sortFunctions = [
+            'interest_rate' => fn($members) => $members['interest']->interest_rate ?? 0,
+            'created_at' => fn($members) => $members->created_at ?? null
+        ];
+
+        // Apply sorting if a sort condition is specified
+        if (isset($sortFunctions[$sort])) {
+            $membersWithInterests = $membersWithInterests->sortByDesc($sortFunctions[$sort]);
+        }
+
+        $currentDateTime = Carbon::now();
+        
+        return view('users.communities.modals.members-list', compact('community', 'membersWithInterests', 'currentDateTime'));
+    }
+
 }
+
 

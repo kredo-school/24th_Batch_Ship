@@ -137,17 +137,23 @@
 
         {{-- Members --}}
         <div class="row d-flex align-items-center mb-2">
-          <div class="col-10">
-            {{-- Number of members --}}
-            <h6>Members({{ $community->members->count() }})</h6>
+          <div class="row">
+            <div class="col-6">
+              {{-- Number of members --}}
+              <h6>Members({{ $community->members->count() }})</h6>
+            </div>
+            <div class="col-6">
+              @if ($community->members->isNotEmpty())
+                <div class="text-end">
+                  <a href="#" class="text-decoration-none fw-bold" data-bs-toggle="modal" data-bs-target="#community-members-{{ $community->id }}">See all</a>
+                  @include('users.communities.modals.members-list')
+                </div>
+              @endif
+            </div>
           </div>
           @if ($community->members->isNotEmpty())
-            <div class="col-auto">
-              <a href="#" class="text-decoration-none fw-bold" data-bs-toggle="modal" data-bs-target="#community-members-{{ $community->id }}">See all</a>
-              @include('users.communities.modals.members-list')
-            </div>
             {{-- Show up to 12 members --}}
-            <div class="d-flex flex-wrap">
+            <div class="d-flex flex-wrap mt-2">
               @foreach ($community->members->take(12) as $member)
                 <div class="me-2 mb-1">
                   <a href="{{ route('users.profile.specificProfile', $member->user_id) }}" class="text-decoration-none">
@@ -165,38 +171,43 @@
 
         {{-- Interests --}}
         <div class="row mb-3">
+          <div class="col-12">
+            @if (Auth::user()->id === $community->owner_id || $community->isJoining())
+            <label for="enpathy" class="fw-bold mb-2">Interest:</label>
               @if (!($community->user->id === Auth::user()->id))
                 @if (in_array(strval(Auth::user()->id), $all_interestrate_users))
                   <form action="{{ route('interest.update',  $interests_id) }}" method="post" enctype="multipart/form-data">
                     @csrf
                     @method('PATCH')
-                    <label for="enpathy" class="fw-bold mb-2">Interest:</label>
-                    <div class="range-slider">
+                      <div class="range-slider">
                         <input type="range" id="percentage" name="percentage" value="60"
                             min="60" max="100" step="1" list="my-datalist"
                             class="bg-turquoise"
                             oninput="document.getElementById('output1').value=this.value">
                         <output id="output1" class="m-2">{{ $user_percentage }}</output><span>%</span>
-                    </div>
-                    <button type="submit" class="btn btn-gold form-group mt-3 ml-1 btn-sm">Send</button>
+                        <button type="submit" class="btn btn-gold ms-4 form-group ml-1 btn-sm">Send</button>
+                      </div>
                   </form>
                 @else
                   <form action="{{ route('interest.store', $community->id)}}" method="post">
                     @csrf
-                    <label for="enpathy" class="fw-bold mb-2">Interest:</label>
-                    <div class="range-slider">
+                      <div class="range-slider">
                         <input type="range" id="percentage" name="percentage" value="60"
                             min="60" max="100" step="1" list="my-datalist"
                             class="bg-turquoise"
                             oninput="document.getElementById('output1').value=this.value">
                         <output id="output1" class="m-2">60</output><span>%</span>
-                    </div>
-                    <button type="submit" class="btn btn-gold form-group mt-3 ml-1 btn-sm">Send</button>
+                        <button type="submit" class="btn btn-gold ms-4 form-group ml-1 btn-sm">Send</button>
+                      </div>
                   </form>  
                 @endif
               @else
 
               @endif
+            @else
+
+            @endif
+          </div>
         </div>
       
         {{-- Category --}}
@@ -227,4 +238,10 @@
       </div> {{-- end of right side --}}
     </div> {{-- end of row --}}
   </div> {{-- end of container --}}
+@endsection
+
+@section('scripts')
+<!-- JavaScript -->
+<script src="{{ asset('js/community/sort-interest.js') }}"></script>
+
 @endsection
