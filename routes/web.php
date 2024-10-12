@@ -44,7 +44,8 @@ Route::group(['middleware' => 'auth'], function(){
     Route::get('/profile/{id}', [ProfileController::class,'specificProfile'])->name('users.profile.specificProfile');
     Route::get('/profile/{id}/edit', [ProfileController::class, 'edit'])->name('users.profile.edit');
     Route::get('/profile/{id}/create', [ProfileController::class, 'create'])->name('users.profile.create');
-    Route::patch('/profile/store', [ProfileController::class, 'update'])->name('users.profile.update');
+    Route::patch('/profile/store', [ProfileController::class, 'update'])->name('users.profile.store');
+    Route::post('/profile/{id}/store', [ProfileController::class, 'storeEmpathy'])->name('empathy.store');
     Route::patch('/profile/update', [ProfileController::class, 'profileUpdate'])->name('users.profile.profileUpdate');
     Route::post('/compatibility/store', [ProfileController::class, 'storeCompatibility'])->name('compatibility.store');
 
@@ -155,7 +156,7 @@ Route::group(['middleware' => 'auth'], function(){
         Route::post('/categories/store',[AdminCatController::class,'store'])->name('categories.store');
         Route::patch('/categories/{id}/update',[AdminCatController::class,'update'])->name('categories.update');
         Route::delete('/categories/{id}/destroy', [AdminCatController::class,'destroy'])->name('categories.destroy');
-     
-        
+
+
     });
 });

@@ -1,5 +1,3 @@
-Post  show.blade.php
-
 @extends('layouts.app')
 
 @section('title', 'Post:show')
@@ -125,7 +123,7 @@ Post  show.blade.php
                     <form action="{{ route('comment.store', $post->id) }}" method="post">
                         @csrf
 
-               {{-- Enpathy Slider for non-owners --}}
+                        {{-- Enpathy Slider for non-owners --}}
                         @if (!($post->user->id === Auth::user()->id))
                             <div class="form-group mb-2 mx-3">
                                 <label for="enpathy">Empathy:</label>
@@ -151,14 +149,12 @@ Post  show.blade.php
                     </form>
                 </div>
                 <div class="text-end">
-                    {{-- you can see all reaction witch post owner get here --}}
                     <button class="shadow-none p-0 border-0 text-turquoise bg-pink" data-bs-toggle="modal"
-                        data-bs-target="#see-all-reactions{{-- #delete-post-{{ $post->id }} --}}">
-                        {{-- use modal to show all reaction --}}
+                        data-bs-target="#see-all-reactions">
+
                         see all reactions
                     </button>
                     @include('users.posts.modals.empathy')
                 </div>
             </div>
         </div>
-

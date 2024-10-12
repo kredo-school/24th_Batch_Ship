@@ -1,3 +1,9 @@
+<style>
+   a, a:visited {
+    text-decoration: none;
+   }
+</style>
+
 <body>
 
     <div class="modal fade" id="see-all-reactions">
@@ -6,7 +12,7 @@
                 <div class="modal-header text-center border-0 d-block">
                     <p class="mt-4 mb-0">
                         Sort by
-                        <button class="btn btn-turquoise mx-2" type="button" id="sort-enpathy">Empathy %</button>
+                        <button class="btn btn-turquoise mx-2" type="button" id="sort-empathy">Empathy %</button>
                         or
                         <button class="btn btn-turquoise mx-2" type="button" id="sort-date">date (newest list)</button>
                     </p>
@@ -23,7 +29,11 @@
                                 </div>
                                 <div class="col-2 text-start">
                                     <a href="{{ route('users.profile.specificProfile', $postcomment->user_id) }}">
-                                        <img src="{{ $postcomment->user->avatar ?? 'default-avatar.png' }}" alt="" class="rounded-circle avatar-sm">
+                                        @if ($postcomment->user->avatar)
+                                            <img src="{{ $postcomment->user->avatar }}" alt="{{ $postcomment->user->name }}" class=" rounded-circle avatar-sm no-underline">
+                                        @else
+                                            <i class="fa-solid fa-circle-user text-secondary text-center icon-sm no-underline"></i>
+                                        @endif
                                     </a>
                                     <a href="{{ route('users.profile.specificProfile', $postcomment->user_id) }}" class="text-decoration-none text-dark fw-bold mx-2">{{ $postcomment->user->username }}</a>
                                 </div>
@@ -68,7 +78,12 @@
                                     <div class="row reply-item align-items-center my-2 ">
                                         <div class="col-3 text-end ">
                                             <a href="{{ route('users.profile.specificProfile', $reply->user_id) }}">
-                                                <img src="{{ $reply->user->avatar ?? 'default-avatar.png' }}" alt="" class="rounded-circle avatar-sm text-decoration-none">
+                                                @if ($reply->user->avatar)
+                                                <img src="{{ $reply->user->avatar }}" alt="{{ $reply->user->name }}" class=" rounded-circle avatar-sm no-underline">
+                                            @else
+                                                <i class="fa-solid fa-circle-user text-secondary  text-center icon-sm no-underline"></i>
+                                            @endif
+
                                             </a>
                                             <strong>{{ $reply->user->username }}</strong>
                                         </div>
@@ -97,6 +112,25 @@
 
             <script>
                 document.addEventListener('DOMContentLoaded', function() {
+
+                    $('#see-all-reactions').on('show.bs.modal', function () {
+    $.ajax({
+        url: '/your/api/endpoint',
+        method: 'GET',
+        success: function(data) {
+            const commentsContainer = document.getElementById('comments-container');
+            commentsContainer.innerHTML = ''; // 既存の内容をクリア
+            data.forEach(comment => {
+                commentsContainer.innerHTML += `<div class="comment-item" data-percentage="${comment.percentage}" data-date="${comment.created_at}">...</div>`;
+            });
+            sortComments('date'); // デフォルトで日付でソートする場合
+        },
+        error: function() {
+            console.error('Failed to fetch comments.');
+        }
+    });
+});
+
                     function sortComments(sortType) {
                         const commentsContainer = document.getElementById('comments-container');
                         const comments = Array.from(commentsContainer.querySelectorAll('.comment-item'));
@@ -107,19 +141,25 @@
                         });
 
                         validComments.sort((a, b) => {
-                            if (sortType === 'percentage') {
-                                return parseInt(b.dataset.percentage) - parseInt(a.dataset.percentage);
-                            } else if (sortType === 'date') {
-                                return new Date(b.dataset.date) - new Date(a.dataset.date);
-                            }
-                            return 0;
-                        });
+    if (sortType === 'percentage') {
+        return parseInt(b.dataset.percentage) - parseInt(a.dataset.percentage);
+    } else if (sortType === 'date') {
+        return new Date(b.dataset.date) - new Date(a.dataset.date);
+    }
+    return 0;
+});
 
-                        commentsContainer.innerHTML = ''; // コンテナを空にする
+console.log('Before sorting:', commentsContainer.innerHTML);
+validComments.forEach((comment) => {
+    commentsContainer.appendChild(comment.cloneNode(true)); // コメントを複製して追加
+});
+console.log('After sorting:', commentsContainer.innerHTML);
 
-                        validComments.forEach((comment) => {
-                            commentsContainer.appendChild(comment.cloneNode(true)); // コメントを複製して追加
-                        });
+commentsContainer.innerHTML = ''; // コンテナを空にする
+
+validComments.forEach((comment) => {
+    commentsContainer.appendChild(comment.cloneNode(true)); // コメントを複製して追加
+});
 
                         // 最後に<hr>が残るのを防ぐ
                         if (commentsContainer.lastChild && commentsContainer.lastChild.tagName === 'HR') {
@@ -131,14 +171,15 @@
                         attachShowRepliesButtons();
                     }
 
-                    document.getElementById('sort-enpathy').addEventListener('click', function() {
-                        sortComments('percentage');
-                    });
+                    document.getElementById('sort-empathy').addEventListener('click', function() {
+    sortComments('percentage');
+});
+document.getElementById('sort-date').addEventListener('click', function() {
+    sortComments('date');
+});
 
-                    document.getElementById('sort-date').addEventListener('click', function() {
-                        sortComments('date');
-                    });
-//Reply 
+
+//Reply
                     function attachReplyButtons() {
                         const replyButtons = document.querySelectorAll('.reply-button');
                         replyButtons.forEach(button => {

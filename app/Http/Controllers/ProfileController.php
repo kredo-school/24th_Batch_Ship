@@ -9,7 +9,10 @@ use App\Models\Event;
 use App\Models\CommunityUser;
 use App\Models\Compatibility;
 use App\Models\EventUser;
+use App\Models\PostComment;
+use App\Models\Post;
 use Illuminate\Http\Request;
+use App\Notifications\CommentNotification;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log; // 追加
 use Illuminate\Support\Facades\DB;
@@ -19,13 +22,13 @@ class ProfileController extends Controller
     private $user;
     private $category;
     private $community;
-    
+
 
     public function __construct(User $user, Category $category, Community $community, ){
         $this->user = $user;
         $this->category = $category;
         $this->community = $community;
-    
+
         // $this->event = $event;
     }
 
@@ -65,8 +68,10 @@ class ProfileController extends Controller
         return $this->profileProcess($id);
     }
 
-    public function profileProcess($id){
+    public function profileProcess($id)
+    {
         $user = $this->user->findOrFail($id);
+
         $own_communities = Community::where('owner_id', $id)->paginate(4, ["*"], 'own_communities');
         $join_communities = CommunityUser::where('user_id', $id)->paginate(4, ["*"], 'join_communities');
         $own_events = Event::where('host_id', $id)->paginate(4, ["*"], 'own_events');
@@ -74,31 +79,36 @@ class ProfileController extends Controller
         $reactedCompatibilities = Compatibility::with('sender')->where('user_id', $id)->get();
         $reactingCompatibilities = Compatibility::with('user')->where('send_user_id', $id)->get();
 
+        // ユーザーの投稿を取得
+        $posts = Post::where('user_id', $id)->get();
 
+        // これらの投稿に対するコメントを取得
+        $comments = PostComment::whereIn('post_id', $posts->pluck('id'))->get();
 
+        return view('users.profile.index', compact('user', 'own_communities', 'join_communities', 'own_events', 'join_events', 'reactedCompatibilities', 'reactingCompatibilities', 'posts', 'comments'));
+    
 
-
-        return view('users.profile.index', compact('user', 'own_communities', 'join_communities', 'own_events', 'join_events','reactedCompatibilities', 'reactingCompatibilities'));
+    //     return view('users.profile.index', compact('user', 'own_communities', 'join_communities', 'own_events', 'join_events','reactedCompatibilities', 'reactingCompatibilities'));
     }
 
 
     public function storeCompatibility(Request $request)
     {
         Log::info('storeCompatibility called');
-    
+
         // バリデーション
         $request->validate([
             'compatibility' => 'required|integer|min:60|max:100',
         ]);
-    
+
         $currentUserId = Auth::id(); // ログインしているユーザーのID
         $profileOwnerId = $request->send_user_id; // プロフィールページのオーナーのID
-    
+
         // 互換性が既に存在するか確認
         $compatibility = Compatibility::where('user_id', $profileOwnerId)
                                       ->where('send_user_id', $currentUserId)
                                       ->first();
-    
+
         if ($compatibility) {
             // 互換性が存在する場合はアップデート
             Log::info('Updating compatibility:', [
@@ -123,10 +133,10 @@ class ProfileController extends Controller
             ]);
             Log::info('Created compatibility successfully.');
         }
-    
+
         return redirect()->back()->with('success', 'Compatibility saved successfully.');
     }
-    
+
 
     # visit to create profile page
     public function create()
@@ -218,6 +228,41 @@ class ProfileController extends Controller
 
         return redirect()->route('users.profile.index');
     }
+
+
+    // PostComment for SpecificProfile page
+
+    public function storeEmpathy(Request $request, $post_id)
+    {
+        #1. Validate the request
+        $request->validate([
+            'percentage' => 'sometimes|integer|min:60|max:100',
+            'comment' => 'required|string|max:150',
+        ]);
+
+        #2. Save the comment to the db
+        $postComment = new PostComment(); // new instance
+        $postComment->comment = $request->comment;
+        $postComment->percentage = $request->percentage;
+        $postComment->user_id = Auth::user()->id; // コメントを投稿したユーザーのID
+        $postComment->post_id = $post_id; // コメントが関連付けられた投稿のID
+        $postComment->save();
+
+        # when a comment has saved, notification will send
+        $post = Post::findOrFail($post_id); // 投稿を取得
+        $ownerId = $post->user_id; // 投稿のオーナーIDを取得
+
+        # 通知を送信
+        $user = User::find($ownerId); // オーナーのユーザーを取得
+        if ($user) {
+            $user->notify(new CommentNotification($postComment));
+        }
+
+        # 3. Redirect back to the owner's profile page
+        return redirect()->route('users.profile.specificProfile', ['id' => $ownerId]);
+    }
+
+
 
     # To get user's own communities
     // public function getOwnCommunity($id){

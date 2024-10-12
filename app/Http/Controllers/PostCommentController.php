@@ -38,7 +38,7 @@ class PostCommentController extends Controller
             'percentage' => 'sometimes|integer|min:60|max:100',
             'comment' => 'required|string|max:150',
         ]);
-    
+
         #2. Save the comment to the db
         $postComment = new PostComment(); // new instance
         $postComment->comment = $request->comment;
@@ -46,16 +46,17 @@ class PostCommentController extends Controller
         $postComment->user_id = Auth::user()->id;
         $postComment->post_id = $post_id;
         $postComment->save();
-        
+
         # when a comment has saved, notification will send
         $user = User::find(1); // who get the notification）
-        $user->notify(new CommentNotification($postComment)); 
-    
+        $user->notify(new CommentNotification($postComment));
+
         # 3. Redirect back to the page
         // return redirect()->route('comments.show', $post_id);
         return redirect()->route('users.posts.show', $post_id);
     }
-  
+
+   
 
      public function show($post_id)
 {
