@@ -114,7 +114,6 @@
                                     <p class="text-muted xsmall">{{ $event->date }}</p>
                                 </div>
                             </div>
-
                         </div>
                     </div>
                 </a>

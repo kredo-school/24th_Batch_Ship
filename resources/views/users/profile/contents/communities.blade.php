@@ -102,7 +102,7 @@
                                 {{-- category --}}
                                 <div class="col">
                                     @foreach ($community_user->community->categoryCommunity as $category_community)
-                                        <a href="#" class="badge me-1 bg-turquoise text-decoration-none">{{ $category_community->category->name }}</a>
+                                        <a href="{{ route('users.categories.show', $category_community->category_id) }}" class="badge me-1 bg-turquoise text-decoration-none">{{ $category_community->category->name }}</a>
                                     @endforeach
                                 </div>
                             </div>
