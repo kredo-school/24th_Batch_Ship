@@ -18,7 +18,7 @@
 
  {{-- user name --}}
 
-                <strong class="h1 display-6 p-3 ">{{ $user->username }}</strong>
+                <p class="h1 display-6 p-3 fw-bold">{{ $user->username }}</p>
 
 
             <div class="row mb-3">
@@ -51,7 +51,7 @@
                                     <output id="output1" class="mx-2">60</output>
                                     <span>%</span>
                                 </div>
-                            </div>    
+                            </div>
                         <div class="col-2 mt-4">
                                 <button type="submit" class="btn btn-gold text-white">Send</button>
                             </div>
@@ -78,11 +78,11 @@
  {{-- display all selected categories --}}
                   <div class="mb-2  ">
                     @forelse ($user->categoryUser as $category_user)
-                        <a href="{{ route('users.categories.show', $category_user->category_id) }}" class="badge bg-turquoise text-decoration-none category-name mx-2 ">
+                        <a href="{{ route('users.categories.show', $category_user->category_id) }}" class="badge bg-turquoise text-decoration-none category-name mx-2 mb-1">
                             {{ $category_user->category->name }}
                         </a>
                     @empty
-                        <a href="" class="badge bg-dark text-decoration-none ">Uncategorized</a>
+                        <a href="" class="badge bg-dark text-decoration-none mb-1">Uncategorized</a>
                     @endforelse
 
             </div>
