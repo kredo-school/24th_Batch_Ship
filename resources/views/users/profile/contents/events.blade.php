@@ -28,7 +28,7 @@
                                 <p class="col card-text text-end">Organized by
                                     <a href="{{ route('users.profile.specificProfile', $event->host_id )}}">
                                         @if ($user->avatar)
-                                            <img src="{{ $user->avatar }}" alt="{{ $user->name }}" class="img-thumbnail rounded-circle avatar-sm">
+                                            <img src="{{ $user->avatar }}" alt="{{ $user->name }}" class="rounded-circle avatar-sm">
                                         @else
                                             <i class="fa-solid fa-circle-user text-secondary icon-sm"></i>
                                         @endif   
@@ -94,9 +94,9 @@
                                 <h3 class="col card-title">{{ $event->title }}</h3>
                                 {{-- owner --}}
                                 <p class="col card-text text-end">Organized by
-                                    <a href="#">
-                                        @if ($user->avatar)
-                                            <img src="{{ $user->avatar }}" alt="{{ $user->name }}" class="img-thumbnail rounded-circle avatar-sm">
+                                    <a href="{{ route('users.profile.specificProfile', $event->host_id) }}">
+                                        @if ($event->host->avatar)
+                                            <img src="{{ $event->host->avatar }}" alt="{{ $event->host->username }}" class="rounded-circle avatar-sm">
                                         @else
                                             <i class="fa-solid fa-circle-user text-secondary icon-sm"></i>
                                         @endif   
@@ -105,7 +105,7 @@
 
                                 <div class="row card-text text-start mt-auto">
                                     {{-- event title this event belongs to --}}
-                                    <a href="#" class="text-decoration-none text-secondary">
+                                    <a href="{{ route('communities.show', $event->community_id) }}" class="text-decoration-none text-secondary">
                                         {{ $event->community ? $event->community->title : 'no title' }}
                                     </a>
                                     
