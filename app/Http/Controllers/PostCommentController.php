@@ -35,8 +35,8 @@ class PostCommentController extends Controller
     {
         #1. Validate the request
         $request->validate([
-            'percentage' => 'sometimes|integer|min:60|max:100',
-            'comment' => 'required|string|max:150',
+            'percentage' => 'required|integer|min:60|max:100',
+            'comment' => 'nullable|string|max:150',
         ]);
 
         #2. Save the comment to the db
@@ -56,7 +56,7 @@ class PostCommentController extends Controller
         return redirect()->route('users.posts.show', $post_id);
     }
 
-   
+
 
      public function show($post_id)
 {
