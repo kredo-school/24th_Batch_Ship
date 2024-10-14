@@ -8,7 +8,7 @@
 @section('content')
   <div class="container bg-blue">
     <div class="row p-3">
-      <form action="{{ route('users.profile.update') }}" method="post" enctype="multipart/form-data">
+      <form action="{{ route('users.profile.store') }}" method="post" enctype="multipart/form-data">
         @csrf
         @method('PATCH')
   
