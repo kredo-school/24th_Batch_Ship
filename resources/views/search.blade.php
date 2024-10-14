@@ -266,14 +266,6 @@
                             </div>                                        
                             @endif
                         </div>
-                        {{-- category --}}
-                        <div class="row card-text text-start ms-1 mt-auto">
-                            <div class="col">
-                                    @foreach ($event->categories as $category)
-                                        <a href="{{ route('users.categories.show', $category->id) }}" class="badge me-1 bg-turquoise text-decoration-none">{{ $category->name }}</a>
-                                    @endforeach
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>

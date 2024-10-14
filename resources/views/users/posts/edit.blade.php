@@ -45,7 +45,7 @@
                 @enderror
 
                 {{-- New images Preview area --}}
-                <div class="mt-2 me-2 mb-2 w-25" id="imagePreview"></div>
+                <div class="mt-2 me-2 mb-2 d-flex d-wrap" id="imagePreview"></div>
 
                 {{-- New Image --}}
                 <div class="row">
@@ -59,7 +59,11 @@
                         @error('image')
                             <div class="text-danger small">{{ $message }}</div>
                         @enderror
+
                     </div>
+
+
+                <input type="hidden" id="removedImages" name="removedImages" value="">
 
                     {{-- Post Button --}}
                     <div class="col">

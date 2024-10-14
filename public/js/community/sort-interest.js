@@ -7,10 +7,14 @@ function setSortValue(sortValue) {
         type: 'GET',
         data: $("#sortForm").serialize(),
         success: function(response) {
+            console.log(response)
             $("#modal-body").html($(response).find('#modal-body').html());
 
             // Reinitialize the modal
-            $('#community-members-{{ $community->id }}').modal('show');
+            $('#community-members').modal('show');
+        },
+        error: function(xhr, status, error) { console.error("An error occurred: " + status + " " + error); console.log(xhr.responseText); // To log the server's response 
         }
     });
+
 }
