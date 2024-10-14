@@ -28,7 +28,7 @@
                                 <p class="col card-text text-end">Created by
                                     <a href="{{ route('users.profile.specificProfile', $community->owner_id )}}">
                                         @if ($community->user->avatar)
-                                            <img src="{{ $community->user->avatar }}" alt="{{ $user->name }}" class="img-thumbnail rounded-circle avatar-sm">
+                                            <img src="{{ $community->user->avatar }}" alt="{{ $user->name }}" class="rounded-circle avatar-sm">
                                         @else
                                             <i class="fa-solid fa-circle-user text-secondary icon-sm"></i>
                                         @endif   
@@ -91,7 +91,7 @@
                                 <p class="col card-text text-end">Created by
                                     <a href="{{ route('users.profile.specificProfile', $community_user->community->owner_id )}}">
                                         @if ($community_user->community->user->avatar)
-                                            <img src="{{ $community_user->community->user->avatar }}" alt="{{ $community_user->community->user->name }}" class="img-thumbnail rounded-circle avatar-sm">
+                                            <img src="{{ $community_user->community->user->avatar }}" alt="{{ $community_user->community->user->name }}" class="rounded-circle avatar-sm">
                                         @else
                                             <i class="fa-solid fa-circle-user text-secondary icon-sm"></i>
                                         @endif   

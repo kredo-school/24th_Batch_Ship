@@ -116,7 +116,7 @@
             
             {{-- Event host --}}
             <div class="row mt-3">
-                <h1 class="h6">host by</h1>
+                <h1 class="h6">Host by</h1>
                 <a href="{{ route('users.profile.specificProfile', $event->host_id) }}">
                     @if ($event->host->avatar)
                         <img src="{{ $event->host->avatar }}" alt="{{ $event->host->username }}" class="rounded-circle avatar-sm">   
