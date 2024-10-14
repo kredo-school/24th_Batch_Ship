@@ -172,11 +172,34 @@
                         {{-- Review Slider for attendees --}}
                         <div class="row d-flex ms-1">
                             <div class="range-slider d-flex align-items-center">
-                                <input type="range" id="percentage" name="review_rate" value="60" min="60" max="100" step="1" list="my-datalist" class="bg-turquoise" oninput="document.getElementById('output1').value=this.value">
-                                <output id="output1" class="m-2">60</output><span>%</span>
-                                @error('review_rate')
-                                    <div class="text-danger small ms-2">{{ $message }}</div> 
-                                @enderror
+                                @if ($attendeesWithReviews->isNotEmpty())
+                                    @foreach ($attendeesWithReviews as $authWuthReview)
+                                        @if ($authWuthReview['attendee']->user_id == Auth::user()->id)
+                                            @if ($authWuthReview['review'])
+                                                <input type="range" id="percentage" name="review_rate" value="{{ $authWuthReview['review']->review_rate }}" min="60" max="100" step="1" list="my-datalist" class="bg-turquoise" oninput="document.getElementById('output1').value=this.value">
+                                                <output id="output1" class="m-2">{{ $authWuthReview['review']->review_rate }}</output><span>%</span>
+                                                @error('review_rate')
+                                                    <div class="text-danger small ms-2">{{ $message }}</div> 
+                                                @enderror 
+                                            @else
+                                                <input type="range" id="percentage" name="review_rate" value="60" min="60" max="100" step="1" list="my-datalist" class="bg-turquoise" oninput="document.getElementById('output1').value=this.value">
+                                                <output id="output1" class="m-2">60</output><span>%</span>
+                                                @error('review_rate')
+                                                    <div class="text-danger small ms-2">{{ $message }}</div> 
+                                                @enderror
+                                            @endif
+                                        @else
+                                    
+                                        @endif 
+                                    @endforeach 
+                                @else
+                                    <input type="range" id="percentage" name="review_rate" value="60" min="60" max="100" step="1" list="my-datalist" class="bg-turquoise" oninput="document.getElementById('output1').value=this.value">
+                                    <output id="output1" class="m-2">60</output><span>%</span>
+                                    @error('review_rate')
+                                        <div class="text-danger small ms-2">{{ $message }}</div> 
+                                    @enderror     
+                                @endif 
+                                                        
                             </div>
                         </div> 
 

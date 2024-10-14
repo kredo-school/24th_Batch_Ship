@@ -180,7 +180,7 @@
                     @csrf
                     @method('PATCH')
                       <div class="range-slider">
-                        <input type="range" id="percentage" name="percentage" value="60"
+                        <input type="range" id="percentage" name="percentage" value="{{ $user_percentage }}"
                             min="60" max="100" step="1" list="my-datalist"
                             class="bg-turquoise"
                             oninput="document.getElementById('output1').value=this.value">
