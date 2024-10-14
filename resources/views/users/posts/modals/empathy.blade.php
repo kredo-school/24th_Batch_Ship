@@ -1,9 +1,3 @@
-<style>
-   a, a:visited {
-    text-decoration: none;
-   }
-</style>
-
 <body>
 
     <div class="modal fade" id="see-all-reactions">
@@ -110,11 +104,9 @@
                 </div>
             </div>
 
-            @section('scripts')
-<script src="{{ asset('js/posts/empathy.js') }}"></script>
-@endsection
 
 
 
 
 </body>
+

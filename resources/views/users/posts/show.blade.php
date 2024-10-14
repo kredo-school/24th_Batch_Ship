@@ -154,7 +154,7 @@
 
                         <button type="submit" class="btn btn-gold form-group mt-3 ml-1 btn-lg">Send</button>
 
-  @endif
+                 @endif
                 </div>
             </form>
 
@@ -174,4 +174,5 @@
 
 
 @endsection
+
 

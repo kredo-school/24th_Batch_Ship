@@ -120,9 +120,3 @@
    </div>
 </div>
 </div>
-@section('scripts')
-<script src="{{ asset('js/profile/compatibility.js') }}"></script>
-
-
-
-@endsection

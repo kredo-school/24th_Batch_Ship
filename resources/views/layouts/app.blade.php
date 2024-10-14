@@ -74,7 +74,7 @@
                                     <li><h1 class="h6 text-center text-dark dropdown-title">Any news?</h1></li>
                                     @if(Auth::user()->unreadNotifications->isEmpty())
                                     {{-- Message when there are no notifications --}}
-                                        <li><p class="text-center"><i class="fa-regular fa-face-meh"></i> not yet</p></li> 
+                                        <li><p class="text-center"><i class="fa-regular fa-face-meh"></i> not yet</p></li>
                                     @else
                                         <li>
                                             {{-- Link to mark all as read --}}
@@ -92,8 +92,8 @@
                                                 @endforeach
                                             </div>
                                         </li>
-                                        
-                                        
+
+
                                     @endif
                                 </ul>
                             </li>
@@ -149,9 +149,9 @@
                                         <li>
                                             <a href="{{ route('admin.support') }}" class="dropdown-item text-turquoise">
                                                 <i class="fas fa-user-gear"></i> Admin
-                                            </a>    
+                                            </a>
                                         </li>
-                                        
+
                                         <hr class="dropdown-divider">
                                     @endcan
 
@@ -208,14 +208,14 @@
                                     COMMUNITIES
                                 </a>
                             </div>
-                        </div>  
+                        </div>
                     @endif
 
                     {{-- Main Content --}}
                     @if (request()->is('admin/*'))
                         <div class="col-9">
                             @yield('content')
-                        </div>  
+                        </div>
                     @else
                         <div class="col-11">
                             @yield('content')
@@ -230,5 +230,7 @@
         </div>
     </div>
     @yield('scripts')
+    <script src="{{ asset('js/posts/empathy.js') }}"></script>
+<script src="{{ asset('js/profile/compatibility.js') }}"></script>
 </body>
 </html>
