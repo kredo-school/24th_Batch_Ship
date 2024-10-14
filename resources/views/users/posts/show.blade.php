@@ -32,8 +32,8 @@
                             <div class="col ms-0 profile-name">
                                 {{-- Name of user who posted this post --}}
                                 <a href="{{ route('users.profile.specificProfile', $post->user->id) }}" class="text-decoration-none text-dark mx-2">
-                                    <p class="h1 fw-bold d-inline">{{ $post->user->first_name }}</p>
-                                    <p class="h1 fw-bold  d-inline">{{ $post->user->last_name }}</p>
+                                    <p class="h1 fw-bold d-inline">{{ $post->user->username }}</p>
+                                    {{-- <p class="h1 fw-bold  d-inline">{{ $post->user->last_name }}</p> --}}
                                 </a>
                             </div>
                         </div>

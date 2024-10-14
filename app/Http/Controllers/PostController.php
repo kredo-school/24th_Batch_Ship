@@ -105,16 +105,14 @@ class PostController extends Controller
     {
         $request->validate([
 
-            'description'       => 'max:1500|required_if:image,null',
-            'image.*'           => 'mimes:jpg,jpeg,png,gif|max:1048|required_if:description,null',
+            'description'       => 'max:1500|required_without:image',
+            'image.*'           => 'mimes:jpg,jpeg,png,gif|max:1048|required_without:description',
             'category'          => 'required|array|between:1,3'
         ], [
-            'description.max'   => 'The description must be at least 1500 characters.',
-            'category.between'  => 'You must select at least one interest',
-
-                'description'   => 'max:1500',
-                'image.*'       => 'mimes:jpg,jpeg,png,gif|max:1048|required_if:description,null',
-                'category'      => 'required|array|between:1,3'
+            'description.required_without'       => "You can't post without any contents.",
+            'description.max'   => 'The description must be less than 1500 characters.',
+            'category'          => 'You must select at least one interest',
+            'category.between'  => "You can select 1 to 3 interests",
 
         ]);
 
@@ -177,17 +175,14 @@ class PostController extends Controller
     {
         # 1. VALIDATE THE DATA FROM THE FORM
         $request->validate([
-            'description'   => 'max:1500|required_if:image,null',
-            'image.*'       => 'mimes:jpg,jpeg,png,gif|max:1048|required_if:description,null',
+            'description'   => 'max:1500|required_without:image',
+            'image.*'       => 'mimes:jpg,jpeg,png,gif|max:1048|required_without:description',
             'category'      => 'required|array|between:1,3'
         ], [
-            'description.max' => 'The description must be at least 1500 characters.',
-            'category.between' => 'You must select at least one interest',
-
-                'description'   => 'max:1500',
-                'image.*'       => 'mimes:jpg,jpeg,png,gif|max:1048|required_if:description,null',
-                'category'      => 'required|array|between:1,3'
-
+            'description.required_without'       => "You can't post without any contents.",
+            'description.max'   => 'The description must be less than 1500 characters.',
+            'category'          => 'You must select at least one interest',
+            'category.between'  => "You can select 1 to 3 interests",
         ]);
     
         # 2. UPDATE THE POST
@@ -237,7 +232,7 @@ class PostController extends Controller
         $post = $this->post->findOrFail($id);
         $post->forceDelete();
 
-        return redirect()->route('users.posts.index');
+        return redirect()->route('auth.postIndex');
     }
 
 
