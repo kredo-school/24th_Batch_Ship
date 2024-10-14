@@ -39,7 +39,7 @@ class EventController extends Controller
         # 1. Validate the form data
         $request->validate([
             'community_id' => 'required',
-            'event_title'  => 'required|string|max:255',
+            'event_title'  => 'required|string|max:50',
             'date'         => 'required|date|after:'.$currentDateTime->format('Y-m-d'),
             'start_time'   => 'required|date_format:H:i',
             'end_time'     => 'required|date_format:H:i|after:start_time',
@@ -182,7 +182,7 @@ class EventController extends Controller
 
         # 1. Validate the request
         $request->validate([
-            'title'        => 'required|string|max:255',
+            'event_title'  => 'required|string|max:50',
             'date'         => 'required|date|after:'.$currentDateTime->format('Y-m-d'),
             'start_time'   => 'required|date_format:H:i',
             'end_time'     => 'required|date_format:H:i|after:start_time',
@@ -197,7 +197,7 @@ class EventController extends Controller
 
         # 2. Update the event
         $event = $this->event->findOrFail($id);
-        $event->title        = $request->title;
+        $event->title        = $request->event_title;
         $event->date         = $request->date;
         $event->start_time   = $request->start_time;
         $event->end_time     = $request->end_time;
