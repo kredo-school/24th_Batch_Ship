@@ -37,7 +37,7 @@
                                 Max file size is 1048kB.
                             </div>
                             {{-- Error --}}
-                            @error('image')
+                            @error('image.*')
                                 <p class="text-danger small">{{ $message }}</p>
                             @enderror
                         </div>
