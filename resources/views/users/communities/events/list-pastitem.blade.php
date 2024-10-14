@@ -1,6 +1,6 @@
 <div class="container-fluid scroll-cont">
   <div class="row scroll-item">
-    @foreach ($community->events()->where('date', '>=', \Carbon\Carbon::now())->get() as $event)
+    @foreach ($community->events()->where('date', '<', \Carbon\Carbon::now())->get() as $event)
       <div class="col-md-6">
         <div class="card m-2 p-0 bg-transparent border-0 rounded-top">
           <div class="card-body m-0 p-0 border-0 bg-white">

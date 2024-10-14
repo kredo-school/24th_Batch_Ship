@@ -14,7 +14,7 @@
         {{-- cover img & description --}}
         <div class="mt-3 text-center">
           <img src="{{ $community->image }}" class="object-fit-cover border image-community rounded bg-white w-100" alt="{{ $community->title }}">
-          <h2 class="my-2">{{ $community->title }}</h2>
+          <h2 class="my-2 break-word">{{ $community->title }}</h2>
           <p class="lh-sm">
             {{ $community->description }}
           </p>
@@ -225,15 +225,25 @@
         </div>
       
         {{-- Events --}}
-        <div class="mb-3 d-flex justify-content-between align-items-center">
-          <h6 class="align-items-center">Events({{ $community->events->count() }})</h6>
+        <div class="mt-4 mb-1 d-flex justify-content-between align-items-center">
+          <h6 class="align-items-center">Incoming Events({{ $community->events()->where('date', '>=', \Carbon\Carbon::now())->count() }})</h6>
           @if (Auth::user()->id === $community->owner_id || $community->isJoining())
-            <a href="{{ route('event.create', $community->id) }}" class="btn btn-gold me-4">
+            <a href="{{ route('event.create', $community->id) }}" class="btn btn-gold me-4 btn-sm">
               NEW <i class="fa-solid fa-plus"></i>
             </a>  
           @endif
         </div>
-        @include('users.communities.events.list-item')
+        <div>
+          @include('users.communities.events.list-item')
+        </div>
+        <div class="mt-5 mb-1 d-flex justify-content-between align-items-center">
+          <h6 class="align-items-center mt-6">Past Events({{ $community->events()->where('date', '<', \Carbon\Carbon::now())->count() }})</h6>
+        </div>
+        <div>
+          @include('users.communities.events.list-pastitem')
+        </div>
+
+        
 
       </div> {{-- end of right side --}}
     </div> {{-- end of row --}}
@@ -245,3 +255,4 @@
 <script src="{{ asset('js/community/sort-interest.js') }}"></script>
 
 @endsection
+

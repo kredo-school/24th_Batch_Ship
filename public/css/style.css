@@ -318,3 +318,29 @@ p {
     word-wrap: break-word;
     overflow-wrap: break-word;
 }
+
+.scroll-cont {
+    white-space: nowrap;
+    overflow-x: auto; /* 横スクロールを有効にする */
+  }
+  
+  .scroll-item {
+    /* flex: 0 0 auto; サイズ固定 */
+    display: flex;
+    flex-wrap: nowrap;
+  }
+
+  .scroll-item .col-md-6 {
+    flex: 0 0 auto; /* カラムの幅を固定 */
+    width: 200px; /* カラムの幅を設定（必要に応じて調整） */
+  }
+
+  .card {
+    min-width: 100%; /* カードの最低幅を設定 */
+  }
+
+  h6 {
+    white-space: nowrap; /* テキストを1行に収める */
+    overflow: hidden;    /* 溢れた部分を非表示にする */
+    text-overflow: ellipsis; /* 溢れた部分を"..."で省略する */
+  }

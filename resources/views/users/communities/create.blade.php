@@ -95,7 +95,7 @@
             <div class="mt-4">
                 <div class="row">
                     <div class="col">
-                        <a href="{{route('communities.index')}}" class="btn btn-gold-cancel btn-sm px-4 fw-bold">CANCEL</a>
+                        <a href="{{ route('auth.communityIndex') }}" class="btn btn-gold-cancel btn-sm px-4 fw-bold">CANCEL</a>
                     </div>
                     <div class="col text-end">
                         <button type="submit" class="btn btn-turquoise btn-sm fw-bold px-4">CREATE</button>

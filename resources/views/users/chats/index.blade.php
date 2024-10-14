@@ -174,6 +174,10 @@
                                             <button type="submit" class="btn btn-outline-none text-secondary"><i class="fas fa-paper-plane"></i></button>
                                             {{-- <a href="#" class="ms-3"><i class="fas fa-paper-plane"></i></a> --}}
                                         </div>
+                                        {{-- error message --}}
+                                        @error('text')
+                                        <div class="text-danger small">{{ $message }}</div>
+                                        @enderror
                                     </form>
                                 </div>
                             </div>
