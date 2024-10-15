@@ -8,7 +8,7 @@
 
 @section('content')
 <div class="container-fluid bg-yellow rounded p-3">
-    <div class="row py-3">
+    <div class="row my-0">
         {{-- Title --}}
         <div class="col-9">
             <h1 class="h1">{{ $event->title }}</h1>
@@ -46,7 +46,7 @@
         {{-- Left Side of Contents --}}
         <div class="col-8">
             {{-- Cover Photo --}}
-            <img src="{{ $event->image }}" alt="{{ $event->title }}" class="grid-img" >
+            <img src="{{ $event->image }}" alt="{{ $event->title }}" class="grid-img mb-2" >
             <br>
             {{-- Date --}}
             <p class="d-inline me-4 mt-2">
@@ -57,17 +57,17 @@
                 <i class="fa-solid fa-money-check-dollar"></i> {{ $event->price }}
             </p>
             {{-- Location --}}
-            <p class="mt-2" data-address="{{ $encodedAddress }}">
+            <p class="mt-3" data-address="{{ $encodedAddress }}">
                 <i class="fa-solid fa-location-dot"></i> 
                 <a href="#" onclick="showMap(); return false;" class=" text-decoration-none text-dark">location</a>
                 <span class="text-secondary">{{ $event->address }}</span>
                     {{-- to show up the map of location in this page --}}
-                <iframe id="mapFrame" class="w-100" frameborder="0" 
+                <iframe id="mapFrame" class="w-100 mt-2" frameborder="0" 
                 src="https://www.google.com/maps/embed/v1/place?key=AIzaSyBgnnNXBIrWe7BxLsZufXeD9kxHb91U7Bk&q={{ urlencode($event->address) }}"></iframe>
             </p>
 
             {{-- Description --}}
-            <h1 class="h4">Event Description</h1>
+            <h1 class="h4"><i class="fa-solid fa-face-grin-wink"></i> Event Description</h1>
             <p class="break-word">{{ $event->description }}</p>
         </div>
 
@@ -75,7 +75,7 @@
         <div class="col-4">
             {{-- Community information this event belongs to --}}
             <div class="row">
-                <p class="" >This event is part of the following community:</p>
+                <p class="mb-1" >This event is part of the following community:</p>
                 <a href="{{ route('communities.show', $event->community->id) }}" class="text-decoration-none text-black">
                     <div class="card border-0 w-auto mx-auto px-0">
                         <img src="{{ $event->community->image }}" alt="{{ $event->community->title }}" class="card-img-top">
