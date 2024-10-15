@@ -13,7 +13,7 @@
       {{-- Title --}}
       <div class="col-6">
         <label for="event-title" class="form-label">Event title</label>
-        <input type="text" name="event_title" id="event-title" value="{{ old('title', $event->title) }}" class="form-control">
+        <input type="text" name="event_title" id="event-title" value="{{ old('event_title', $event->title) }}" class="form-control">
         @error('event_title')
           <div class="text-danger small">{{ $message }}</div> 
         @enderror
