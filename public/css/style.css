@@ -344,3 +344,11 @@ p {
     overflow: hidden;    /* 溢れた部分を非表示にする */
     text-overflow: ellipsis; /* 溢れた部分を"..."で省略する */
   }
+
+  /* profile post section */
+  .overflow-auto {
+    overflow-x: auto; /* nable horizontal scrolling  */
+    }
+    .card {
+    min-width: 250px; /* Set the minimum width for the card */
+    }

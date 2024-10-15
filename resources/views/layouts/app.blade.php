@@ -230,7 +230,5 @@
         </div>
     </div>
     @yield('scripts')
-    <script src="{{ asset('js/posts/empathy.js') }}"></script>
-<script src="{{ asset('js/profile/compatibility.js') }}"></script>
 </body>
 </html>
