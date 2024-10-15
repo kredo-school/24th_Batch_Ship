@@ -150,7 +150,7 @@
 
                         {{-- Comment for post --}}
                         <textarea name="comment" id="{{ $post->id }}" rows="1" class="form-control form-control-sm"
-                            placeholder="Add a comment...">{{ $existingComment->comment ?? old('comment' . $post->id) }}</textarea>
+                            placeholder="Add a comment..."></textarea>
 
                         @error('comment')
                             <div class="text-danger small">{{ $message }}</div>
