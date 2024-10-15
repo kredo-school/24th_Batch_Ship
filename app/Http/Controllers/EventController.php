@@ -148,7 +148,7 @@ class EventController extends Controller
         // Define sorting functions
         $sortFunctions = [
             'review_rate' => fn($attendee) => $attendee['review']->review_rate ?? 0,
-            'created_at' => fn($attendee) => $attendee['review']->created_at ?? null
+            'created_at' => fn($attendee) => $attendee['review']->updated_at ?? null
         ];
 
         // Apply sorting if a sort condition is specified
