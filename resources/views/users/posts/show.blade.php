@@ -128,44 +128,47 @@
                     <form action="{{ route('comment.store', $post->id) }}" method="post">
                         @csrf
 
-                        {{-- Enpathy Slider for non-owners --}}
-                        @if (!($post->user->id === Auth::user()->id))
-                            <div class="form-group mb-2 mx-3">
-                                <label for="empathy" class="my-2">Empathy:</label>
-                                <div class="range-slider">
-                                    <input type="range" id="percentage" name="percentage" value="60"
-                                        min="60" max="100" step="1" list="my-datalist"
-                                        class="bg-turquoise w-50"
-                                        oninput="document.getElementById('output1').value=this.value">
-                                    <output id="output1" class="m-2">60</output><span>%</span>
-                                </div>
-                            </div>
+                        {{-- Check if the user has already commented on this post --}}
+                        @php
+                            $existingComment = $post->comments->where('user_id', Auth::id())->first();
+                        @endphp
 
+                        {{-- Empathy Slider --}}
+                        <div class="form-group mb-2 mx-3">
+                            <label for="empathy" class="my-2">Empathy:</label>
+                            <div class="range-slider">
+                                <input type="range" id="percentage" name="percentage"
+                                    value="{{ $existingComment ? $existingComment->percentage : 60 }}"
+                                    min="60" max="100" step="1"
+                                    class="bg-turquoise w-50"
+                                    oninput="document.getElementById('output1').value=this.value">
+                                <output id="output1" class="m-2">
+                                    {{ $existingComment ? $existingComment->percentage : 60 }}
+                                </output><span>%</span>
+                            </div>
+                        </div>
 
                         {{-- Comment for post --}}
                         <textarea name="comment" id="{{ $post->id }}" rows="1" class="form-control form-control-sm"
-                            placeholder="Add a comment...">{{ old('comment' . $post->id) }}</textarea>
+                            placeholder="Add a comment...">{{ $existingComment->comment ?? old('comment' . $post->id) }}</textarea>
 
                         @error('comment')
                             <div class="text-danger small">{{ $message }}</div>
                         @enderror
 
                         <button type="submit" class="btn btn-gold form-group mt-3 ml-1 btn-lg">Send</button>
-
-                 @endif
+                    </form>
                 </div>
-            </form>
-
-                <div class="text-end">
-                    <button class="shadow-none p-0 border-0 text-turquoise bg-pink" data-bs-toggle="modal"
-                        data-bs-target="#see-all-reactions">
-
-                        see all reactions
-                    </button>
-                    @include('users.posts.modals.empathy')
+                    <div class="text-end">
+                        <button class="shadow-none p-0 border-0 text-turquoise bg-pink" data-bs-toggle="modal"
+                            data-bs-target="#see-all-reactions">
+                            see all reactions
+                        </button>
+                        @include('users.posts.modals.empathy')
+                    </div>
                 </div>
             </div>
-        </div>
+
 
 
 </div>
