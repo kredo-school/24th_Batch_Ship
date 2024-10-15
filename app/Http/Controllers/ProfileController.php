@@ -95,47 +95,44 @@ class ProfileController extends Controller
     //     return view('users.profile.index', compact('user', 'own_communities', 'join_communities', 'own_events', 'join_events','reactedCompatibilities', 'reactingCompatibilities'));
     public function profileProcess($id) {
         $user = $this->user->findOrFail($id);
+        
+        // ユーザーの投稿をページネート
         $posts = Post::where('user_id', $id)->paginate(4);
-
+    
         $own_communities = Community::where('owner_id', $id)
                             ->paginate(4, ['*'], 'own_communities');
-
+    
         $join_communities = CommunityUser::where('user_id', $id)
                               ->paginate(4, ['*'], 'join_communities');
-
+    
         $own_events = Event::where('host_id', $id)
                       ->orderByRaw('CASE WHEN date > ? THEN 0 ELSE 1 END, date desc', [now()]) // to order date newest
                       ->paginate(4, ['*'], 'own_events');
-
+    
         $join_events = Event::whereHas('attendees', function ($query) use ($id) {
                         $query->where('user_id', $id);
                     })->with('community')
                     ->orderByRaw('CASE WHEN date > ? THEN 0 ELSE 1 END, date desc', [now()]) // to order date newest
                     ->paginate(4, ['*'], 'join_events');
-
-
+    
         $reactedCompatibilities = Compatibility::with('sender')
                                   ->where('user_id', $id)
                                   ->get();
-
+    
         $reactingCompatibilities = Compatibility::with('user')
                                   ->where('send_user_id', $id)
                                   ->get();
-
-    // ユーザーの投稿を取得
-    $posts = Post::where('user_id', $id)->get();
-
-    // これらの投稿に対するコメントを取得
-    $comments = PostComment::whereIn('post_id', $posts->pluck('id'))->get();
-
-
+    
+        // これらの投稿に対するコメントを取得
+        $comments = PostComment::whereIn('post_id', $posts->pluck('id'))->get();
+    
         return view('users.profile.index', compact(
             'user', 'posts', 'own_communities', 'join_communities',
             'own_events', 'join_events',
-            'reactedCompatibilities', 'reactingCompatibilities','posts','comments'
+            'reactedCompatibilities', 'reactingCompatibilities', 'comments'
         ));
-
     }
+  
 
 
 
