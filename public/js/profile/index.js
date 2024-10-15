@@ -1,3 +1,9 @@
+// for showing modal
+function showReactions(postId) { 
+  const reactionsContent = document.getElementById(`reactions-${postId}`).innerHTML;
+  document.getElementById('modal-content').innerHTML = reactionsContent;
+}
+
 function checkCommentLength(textarea) {
   const commentLength = textarea.value.length; // コメントの長さを取得
   const postId = textarea.id; // textareaのID（post ID）を取得

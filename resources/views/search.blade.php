@@ -41,10 +41,10 @@
 
     {{-- User --}}
     <div class="mt-5 bg-green p-3">
-        <div class="d-flex justify-content-between align-items-center mb-3">
+        <div class="d-flex justify-content-between align-items-center mb-3 username-container">
             <h2 class="mb-0">Username</h2>
         </div>
-        <div class="row row-eq-height">
+        <div class="row row-eq-height username-content">
             @foreach($result_users as $user)
                 <div class="col-lg-3 col-md-6 mb-4">
                     <div class="card rounded border-0 h-100 d-flex flex-column">
