@@ -70,7 +70,7 @@
     </div>
 
     {{-- introduction --}}
-    <div class="mb-3 mx-3">
+    <div class="mb-3 mx-3 mt-3">
         <h4>{{ $user->introduction }}</h4>
     </div>
 
