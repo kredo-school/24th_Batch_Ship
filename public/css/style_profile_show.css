@@ -22,6 +22,11 @@
 
 }
 
+.compatibility-modal {
+    position: relative;
+    height: 300px;
+}
+
 /* Thumb: Chrome, Safari, Opera, Edge Chromium */
     #compatibility::-webkit-slider-runnable-track {
         appearance: none;

@@ -56,7 +56,7 @@
                             The acceptable formats are jpeg, jpg, png, and gif only.<br>
                             Max file size is 1048kB.
                         </div>
-                        @error('image')
+                        @error('image.*')
                             <div class="text-danger small">{{ $message }}</div>
                         @enderror
 
@@ -75,6 +75,10 @@
             {{-- Category --}}
             <div class="col"> {{-- right side div --}}
                 <p class="text-center mt-3">▼ Select your Interests! (at least one)</p>
+                {{-- Error message area --}}
+                @error('category')
+                    <div class="text-danger small text-center">{{ $message }}</div>
+                @enderror
                 <div class="m-3 scroll-container">
                     <div class="category">
                         @foreach($all_categories as $category)
@@ -84,9 +88,7 @@
                             <label for="{{ $category->name }}" class="form-check-label">{{ $category->name }}</label>
                         @endforeach
                     </div>
-                    @error('category')
-                        <div class="text-danger small">{{ $message }}</div>
-                    @enderror
+                    
                 </div>
             </div> {{-- end of right side div --}}
         </div> {{-- end of white background div --}}
