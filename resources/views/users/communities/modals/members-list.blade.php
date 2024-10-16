@@ -37,7 +37,7 @@
                   <p class="text-center" >{{ $member['interest']->percentage }} %</p>
                 @endif
             </div>
-            <div class="col-5 d-flex align-items-center member-list-username">
+            <div class="col-4 d-flex align-items-center member-list-username">
               <a href="{{ route('users.profile.specificProfile', $member['member']->user_id) }}" class="me-3">
                 @if ($member['member']->user->avatar)
                   <img src="{{ $member['member']->user->avatar }}" alt="{{ $member['member']->user->username }}" class="rounded-circle avatar-sm">
