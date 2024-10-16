@@ -2,7 +2,7 @@
   <div class="row scroll-item">
     @foreach ($community->events()->where('date', '>=', \Carbon\Carbon::now())->get() as $event)
       <div class="col-md-6">
-        <div class="card m-2 p-0 bg-transparent border-0 rounded-top">
+        <div class="card-event m-2 p-0 bg-transparent border-0 rounded-top">
           <div class="card-body m-0 p-0 border-0 bg-white">
             <a href="{{ route('event.show', $event->id) }}">
               <img src="{{ $event->image }}" class="w-100 rounded-top" alt="{{ $event->name }}" style="height: 100px; object-fit: cover;">            

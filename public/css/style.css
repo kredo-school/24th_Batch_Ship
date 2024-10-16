@@ -321,29 +321,28 @@ p {
 
 .scroll-cont {
     white-space: nowrap;
-    overflow-x: auto; /* 横スクロールを有効にする */
-  }
+    overflow-x: auto; 
+}
   
-  .scroll-item {
-    /* flex: 0 0 auto; サイズ固定 */
+.scroll-item {
     display: flex;
     flex-wrap: nowrap;
-  }
+}
 
-  .scroll-item .col-md-6 {
-    flex: 0 0 auto; /* カラムの幅を固定 */
-    width: 200px; /* カラムの幅を設定（必要に応じて調整） */
-  }
+.scroll-item .col-md-6 {
+    flex: 0 0 auto;
+    width: 200px;
+}
 
-  .card {
-    min-width: 100%; /* カードの最低幅を設定 */
-  }
+.card-event {
+    min-width: 100%;
+}
 
-  h6 {
-    white-space: nowrap; /* テキストを1行に収める */
-    overflow: hidden;    /* 溢れた部分を非表示にする */
-    text-overflow: ellipsis; /* 溢れた部分を"..."で省略する */
-  }
+h6 {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
 
   /* profile post section */
   .overflow-auto {
