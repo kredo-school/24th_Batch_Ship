@@ -281,35 +281,48 @@ class ProfileController extends Controller
 
     // PostComment for SpecificProfile page
 
-    public function storeEmpathy(Request $request, $post_id)
-    {
-        #1. Validate the request
-        $request->validate([
-            'percentage' => 'sometimes|integer|min:60|max:100',
-            'comment' => 'required|string|max:150',
-        ]);
 
-        #2. Save the comment to the db
-        $postComment = new PostComment(); // new instance
-        $postComment->comment = $request->comment;
+    public function storeEmpathy(Request $request, $post_id)
+{
+    // 1. Validate the request
+    $request->validate([
+        'percentage' => 'required|integer|min:60|max:100',
+        'comment' => 'nullable|string|max:150',
+    ]);
+
+    // 2. Find the post and its owner
+    $post = Post::findOrFail($post_id);
+    $ownerId = $post->user_id;
+
+    // 3. Check for an existing comment
+    $existingComment = PostComment::where('post_id', $post_id)
+        ->where('user_id', Auth::id())
+        ->first();
+
+    if ($existingComment) {
+        // 2回目以降の投稿: percentageのみを更新
+        $existingComment->percentage = $request->percentage;
+        $existingComment->save();
+    } else {
+        // 新しいコメントを作成
+        $postComment = new PostComment();
+        $postComment->comment = $request->comment; // 初回のみコメントを設定
         $postComment->percentage = $request->percentage;
-        $postComment->user_id = Auth::user()->id; // コメントを投稿したユーザーのID
-        $postComment->post_id = $post_id; // コメントが関連付けられた投稿のID
+        $postComment->user_id = Auth::id();
+        $postComment->post_id = $post_id;
         $postComment->save();
 
-        # when a comment has saved, notification will send
-        $post = Post::findOrFail($post_id); // 投稿を取得
-        $ownerId = $post->user_id; // 投稿のオーナーIDを取得
-
-        # 通知を送信
-        $user = User::find($ownerId); // オーナーのユーザーを取得
+        // 4. Send notification to the post owner
+        $user = User::find($ownerId);
         if ($user) {
             $user->notify(new CommentNotification($postComment));
         }
-
-        # 3. Redirect back to the owner's profile page
-        return redirect()->route('users.profile.specificProfile', ['id' => $ownerId]);
     }
+
+    // 5. Redirect back to the owner's profile page
+    return redirect()->route('users.profile.specificProfile', ['id' => $ownerId]);
+}
+
 
 
 
@@ -342,3 +355,5 @@ class ProfileController extends Controller
     // }
 
     }
+
+

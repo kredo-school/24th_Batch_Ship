@@ -21,6 +21,8 @@ class EventReviewController extends Controller
         $request->validate([
             'review_rate'    => 'required|integer|min:60|max:100',
             'review_comment' => 'nullable|string|max:255'
+        ], [
+            'review_comment.max' => 'The comment must not exceed 255 characters.',
         ]);
 
         # 2. Check if the user has already reviewed this event
@@ -59,3 +61,5 @@ class EventReviewController extends Controller
         return redirect()->back();
     }
 }
+
+

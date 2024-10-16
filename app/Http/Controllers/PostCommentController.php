@@ -33,28 +33,45 @@ class PostCommentController extends Controller
 
     public function store(Request $request, $post_id)
     {
-        #1. Validate the request
+        // 1. Validate the request
         $request->validate([
             'percentage' => 'required|integer|min:60|max:100',
             'comment' => 'nullable|string|max:150',
         ]);
 
-        #2. Save the comment to the db
-        $postComment = new PostComment(); // new instance
-        $postComment->comment = $request->comment;
-        $postComment->percentage = $request->percentage;
-        $postComment->user_id = Auth::user()->id;
-        $postComment->post_id = $post_id;
-        $postComment->save();
+        // 2. Check if a comment by the same user already exists for this post
+        $existingComment = PostComment::where('post_id', $post_id)
+            ->where('user_id', Auth::id())
+            ->first();
 
-        # when a comment has saved, notification will send
-        $user = User::find(1); // who get the notification）
-        $user->notify(new CommentNotification($postComment));
+        if ($existingComment) {
+            // Update the existing comment's percentage
+            $existingComment->percentage = $request->percentage;
 
-        # 3. Redirect back to the page
-        // return redirect()->route('comments.show', $post_id);
+            // コメントが新たに提供された場合のみ更新
+            if ($request->filled('comment')) {
+                $existingComment->comment = $request->comment;
+            }
+
+            $existingComment->save();
+        } else {
+            // Save a new comment to the db
+            $postComment = new PostComment(); // new instance
+            $postComment->comment = $request->comment;
+            $postComment->percentage = $request->percentage;
+            $postComment->user_id = Auth::user()->id;
+            $postComment->post_id = $post_id;
+            $postComment->save();
+        }
+
+        // Send notification when a comment is saved or updated
+        $user = User::find(1); // who gets the notification
+        $user->notify(new CommentNotification($existingComment ?? $postComment));
+
+        // 3. Redirect back to the page
         return redirect()->route('users.posts.show', $post_id);
     }
+
 
 
 

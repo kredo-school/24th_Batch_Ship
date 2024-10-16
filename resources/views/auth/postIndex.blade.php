@@ -26,19 +26,17 @@
                         <a href="{{ route('users.posts.show', $post->id) }}" class="text-decoration-none">
                             <div class="card shadow rounded border-0 bg-pink d-flex flex-column">
                                 <div class="card-body d-flex flex-column">
-                                    {{-- post description --}}
-                                    <div class="mb-3 card-text large-text text-dark">{{ Str::limit($post->description, 100) }}</div>
 
                                     {{-- post image --}}
                                     @if ($post->images->isNotEmpty())
                                     <div id="carousel-{{ $post->id }}" class="carousel slide" data-bs-ride="false">
                                         <div class="carousel-inner">
-                                            @foreach ($post->images->chunk(2) as $index => $imagesChunk)
+                                            @foreach ($post->images->chunk(1) as $index => $imagesChunk)
                                                 <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">
                                                     <div class="d-flex justify-content-center">
                                                         @foreach ($imagesChunk as $image)
                                                             <div class="mx-1" style="overflow: hidden;">
-                                                                <img src="data:image/png;base64,{{ $image->image_data }}" alt="Post ID {{ $post->id }}" class="img-fluid img-profile-index">
+                                                                <img src="data:image/png;base64,{{ $image->image_data }}" alt="Post ID {{ $post->id }}" class="img-fluid img-profile-index w-100">
                                                             </div>
                                                         @endforeach
                                                     </div>
@@ -46,20 +44,21 @@
                                             @endforeach
                                         </div>
 
-                                        @if ($post->images->count() > 2)
+                                        @if ($post->images->count() > 1)
                                             <button class="carousel-control-prev btn-profile-post-prev" type="button" data-bs-target="#carousel-{{ $post->id }}" data-bs-slide="prev">
-                                                <i class="fa-solid fa-caret-left fs-1 text-turquoise">
+                                                <i class="fa-solid fa-caret-left fs-1 text-turquoise bg-white px-1 postIndex-prev">
                                                     <span class="visually-hidden">Previous</span>
                                                 </i>
                                             </button>
                                             <button class="carousel-control-next btn-profile-post-next" type="button" data-bs-target="#carousel-{{ $post->id }}" data-bs-slide="next">
-                                                <i class="fa-solid fa-caret-right fs-1 text-turquoise">
+                                                <i class="fa-solid fa-caret-right fs-1 text-turquoise bg-white px-1 postIndex-next">
                                                     <span class="visually-hidden">Next</span>
                                                 </i>
                                             </button>
                                         @endif
                                     </div>
                                 @endif
+                                   {{-- post description --}}                                                          <div class="mb-3 card-text large-text text-dark">{{ Str::limit($post->description, 100) }}</div>
 
                                     {{-- post category --}}
                                     <div class="row card-text text-start ms-1 mt-auto">

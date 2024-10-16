@@ -37,7 +37,7 @@ Auth::routes();
 Route::group(['middleware' => 'auth'], function(){
 
     #Search
-    Route::get('/search', [HomeController::class, 'search'])->name('search');
+    Route::get('/search', [HomeController::class, 'search'])->name('search.index');
 
     //Profile
     Route::get('/', [ProfileController::class,'index'])->name('users.profile.index');
