@@ -157,5 +157,8 @@
         </div>
     </div>
 </div>
+@section('scripts')
+<script src="{{ asset('js/posts/empathy.js') }}"></script>
+@endsection
 
 @endsection
