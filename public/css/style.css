@@ -344,19 +344,20 @@ h6 {
     text-overflow: ellipsis;
 }
 
-  /* profile post section */
-  .overflow-auto {
-    overflow-x: auto; /* nable horizontal scrolling  */
-    }
-    .card {
-    min-width: 250px; /* Set the minimum width for the card */
-    }
+.postIndex-prev{
+    position: relative;
+    top: 50%;
+}
+.postIndex-next{
+    position: relative;
+    top: 50%;
+}
 
-    .username-container {
-        position: fixed; /* 固定する場合 */
-        top: 0; /* 画面の上部に配置 */
-        width: 100%; /* 幅を100%にする */
-        background-color: white; /* 背景色を設定 */
-        z-index: 1000; /* 他の要素より前に表示するためのz-index */
-    }
-    
+.postIndex-prev{
+    position: relative;
+    top: 50%;
+}
+.postIndex-next{
+    position: relative;
+    top: 50%;
+}

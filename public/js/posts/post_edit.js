@@ -14,7 +14,10 @@ document.addEventListener('DOMContentLoaded', function () {
             // to track deleted image, make hidden filed active
             // hidden filed for sending a command to delete the image
             const input = document.getElementById('image');
+            const removedImages = document.getElementById('removedImages');
+            removedImages.value = removedImages.value + ',' + key.toString();
             allFiles = allFiles.filter((_, index) => index !== parseInt(key)); // remove from allFiles
+            console.log(allFiles)
             input.files = createFileList(allFiles); // update input element
             console.log('Removed image ID: ' + key); // for debug
         });
@@ -55,6 +58,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 deleteBtn.addEventListener('click', function () {
                     imgContainer.remove(); // click to delete
                     allFiles = allFiles.filter((_, fileIndex) => fileIndex !== index); // remove from allFiles
+                    console.log(allFiles)
 
                     // update input element
                     const updatedFileList = createFileList(allFiles);

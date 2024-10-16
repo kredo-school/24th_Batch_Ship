@@ -22,7 +22,7 @@
                 @foreach ($relatedCommunities as $community)
                     <div class="col-lg-3 col-md-6 mb-2 masonry-item">
                         <a href="{{ route('communities.show', $community->id) }}" class="text-decoration-none">
-                            <div class="card shadow rounded border-0 bg-pink d-flex flex-column">
+                            <div class="card shadow rounded border-0 bg-blue d-flex flex-column">
                                 <div class="card-body d-flex flex-column">
                                     {{-- community title --}}
                                     <div class="mb-3 card-text large-text text-dark">{{ Str::limit($community->title, 100) }}</div>
