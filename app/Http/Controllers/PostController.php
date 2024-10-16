@@ -111,8 +111,8 @@ class PostController extends Controller
         ], [
             'description.required_without'       => "You can't post without any contents.",
             'description.max'   => 'The description must be less than 1500 characters.',
-            'category'          => 'You must select at least one interest',
-            'category.between'  => "You can select 1 to 3 interests",
+            'category'          => 'You must select one interest at least.',
+            'category.between'  => "You can select 1 to 3 interests.",
 
         ]);
 
@@ -181,8 +181,8 @@ class PostController extends Controller
         ], [
             'description.required_without'       => "You can't post without any contents.",
             'description.max'   => 'The description must be less than 1500 characters.',
-            'category'          => 'You must select at least one interest',
-            'category.between'  => "You can select 1 to 3 interests",
+            'category'          => 'You must select one interest at least.',
+            'category.between'  => "You can select 1 to 3 interests.",
         ]);
     
         # 2. UPDATE THE POST

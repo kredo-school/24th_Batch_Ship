@@ -122,6 +122,10 @@ class ProfileController extends Controller
         $reactingCompatibilities = Compatibility::with('user')
                                   ->where('send_user_id', $id)
                                   ->get();
+
+        $compatibilityPercentage = Compatibility::where('send_user_id', Auth::user()->id)
+                                   ->where('user_id', $id)
+                                   ->value('compatibility') ?? 60;
     
         // これらの投稿に対するコメントを取得
         $comments = PostComment::whereIn('post_id', $posts->pluck('id'))->get();
@@ -129,7 +133,7 @@ class ProfileController extends Controller
         return view('users.profile.index', compact(
             'user', 'posts', 'own_communities', 'join_communities',
             'own_events', 'join_events',
-            'reactedCompatibilities', 'reactingCompatibilities', 'comments'
+            'reactedCompatibilities', 'reactingCompatibilities', 'comments', 'compatibilityPercentage'
         ));
     }
   

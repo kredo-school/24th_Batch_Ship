@@ -41,23 +41,11 @@
                                 <div class="range-slider me-3">
                                     <input type="hidden" name="send_user_id" value="{{ $user->id }}">
                                     <label for="compatibility" class="form-label mx-3 ">Compatibility:</label>
-                                    
-                                    
-                                    @foreach ($reactedCompatibilities as $compatibility)
-                                        @if ($compatibility->send_user_id === Auth::user()->id)
-                                            <input type="range" id="compatibility" name="compatibility" value="{{ $compatibility->compatibility }}"
-                                                min="60" max="100" step="1" class=""
-                                                oninput="document.getElementById('output1').value=this.value">
-                                            <output id="output1" class="mx-2">{{ $compatibility->compatibility }}</output>
-                                            <span>%</span>
-                                        @else
-                                            <input type="range" id="compatibility" name="compatibility" value="60"
-                                                min="60" max="100" step="1" class=""
-                                                oninput="document.getElementById('output1').value=this.value">
-                                            <output id="output1" class="mx-2">60</output>
-                                            <span>%</span>
-                                        @endif
-                                    @endforeach
+                                        <input type="range" id="compatibility" name="compatibility" value="{{ $compatibilityPercentage ?? 60 }}"
+                                            min="60" max="100" step="1" class=""
+                                            oninput="document.getElementById('output1').value=this.value">
+                                        <output id="output1" class="mx-2">{{ $compatibilityPercentage ?? 60 }}</output>
+                                        <span>%</span>
                                 </div>
 
                                 <div class="me-3">
