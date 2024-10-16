@@ -4,91 +4,80 @@
 
 @section('content')
 <head>
-
     <link rel="stylesheet" href="{{ asset('css/style_postshow.css') }}">
 </head>
 
-<div class="container-fulid bg-pink p-3">
+<div class="container-fluid bg-pink p-3">
     <div class="row">
-       <div class="row">
-            {{-- Left side of the Post --}}
-            <div class="col-lg-6">
-                <div class="row">
-                    {{-- avatar --}}
-                    <div class="col-md-4 post-show-avatar">
-                              @if ($post->user->avatar)
-                            <a href="{{ route('users.profile.specificProfile', $post->user->id) }}">
-                                <img src="{{ $post->user->avatar }}" alt="" class="my-auto rounded-circle avatar-profile">
-                            </a>
-                        @else
-                            <a href="{{ route('users.profile.specificProfile', $post->user->id) }}">
-                                <i class="fas fa-circle-user text-secondary icon"></i>
-                            </a>
-                        @endif
-                    </div>
-                    {{-- name --}}
-                    <div class="col my-auto">
-                        <div class="row p-0">
-                            <div class="col ms-0 profile-name">
-                                {{-- Name of user who posted this post --}}
-                                <a href="{{ route('users.profile.specificProfile', $post->user->id) }}" class="text-decoration-none text-dark mx-2">
-                                    <p class="h1 fw-bold d-inline">{{ $post->user->username }}</p> </a>
-                            </div>
-                        </div>
-                        <div class="row">
-                                <div class="category">
-                                    @foreach ($post->categoryPost as $category_post)
-                                        <a href="{{ route('users.categories.show', $category_post->category_id) }}" class="badge bg-turquoise text-decoration-none d-inline-block me-1 mt-2">
-                                            {{ $category_post->category->name }}
-                                        </a>
-                                    @endforeach
-                                </div>
-                        </div>
-                            <div class="row">
-                                <div class="col-md text-end mt-2">
-                                    {{-- If you are the owner of the post, you can edit or delete this post --}}
-                                    @if ($post->user->id === Auth::user()->id)
-                                        {{-- edit --}}
-                                        <a href="{{ route('users.posts.edit', $post->id) }}" class="post-edit btn edit-icon pe-0">
-                                            <i class="fa-regular fa-pen-to-square show-icon"></i>
-                                        </a>
-                                        {{-- delete --}}
-                                        <span class="btn post-delete show-icon ps-2" data-bs-toggle="modal" data-bs-target="#delete">
-                                            <i class="fa-regular fa-trash-can fw-bold"></i>
-                                            @include('users.posts.modals.delete')
-                                        </span>
-                                    @else
-                                    @endif
-                                    <p class="text-uppercase text-muted text-end">{{ date('M d, Y', strtotime($post->created_at)) }}</p>
-                                </div>
-                            </div>
-                    </div>
-
-
+        {{-- Left side of the Post --}}
+        <div class="col-lg-6">
+            <div class="row">
+                {{-- avatar --}}
+                <div class="col-md-4 post-show-avatar">
+                    @if ($post->user->avatar)
+                        <a href="{{ route('users.profile.specificProfile', $post->user->id) }}">
+                            <img src="{{ $post->user->avatar }}" alt="" class="my-auto rounded-circle avatar-profile">
+                        </a>
+                    @else
+                        <a href="{{ route('users.profile.specificProfile', $post->user->id) }}">
+                            <i class="fas fa-circle-user text-secondary icon"></i>
+                        </a>
+                    @endif
                 </div>
-                <hr class="mt-2">
+                {{-- name --}}
+                <div class="col my-auto">
+                    <div class="row p-0">
+                        <div class="col ms-0 profile-name">
+                            <a href="{{ route('users.profile.specificProfile', $post->user->id) }}" class="text-decoration-none text-dark mx-2">
+                                <p class="h1 fw-bold d-inline">{{ $post->user->username }}</p>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="category">
+                            @foreach ($post->categoryPost as $category_post)
+                                <a href="{{ route('users.categories.show', $category_post->category_id) }}" class="badge bg-turquoise text-decoration-none d-inline-block me-1 mt-2">
+                                    {{ $category_post->category->name }}
+                                </a>
+                            @endforeach
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md text-end mt-2">
+                            @if ($post->user->id === Auth::user()->id)
+                                <a href="{{ route('users.posts.edit', $post->id) }}" class="post-edit btn edit-icon pe-0">
+                                    <i class="fa-regular fa-pen-to-square show-icon"></i>
+                                </a>
+                                <span class="btn post-delete show-icon ps-2" data-bs-toggle="modal" data-bs-target="#delete">
+                                    <i class="fa-regular fa-trash-can fw-bold"></i>
+                                    @include('users.posts.modals.delete')
+                                </span>
+                            @endif
+                            <p class="text-uppercase text-muted text-end">{{ date('M d, Y', strtotime($post->created_at)) }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr class="mt-2">
+        </div>
+
+        <div class="row">
+            {{-- Post content --}}
+            <div class="col-6 px-3 position-relative">
+                @if ($post->images->isNotEmpty())
+                    <p class="d-inline fw-light">{{ $post->description }}</p>
+                @endif
             </div>
 
-          </div>
-          <div class="row">
-                    {{-- Post content --}}
-                    <div class="col-6 px-3 position-relative">
-                        @if ($post->images->isNotEmpty())
-                        <p class="d-inline fw-light">{{ $post->description }}</p>
-                        @endif
-                    </div>
-
-                                {{-- Right side of the Post --}}
+            {{-- Right side of the Post --}}
             <div class="col-lg-6">
-                {{-- images or description --}}
                 @if ($post->images->isNotEmpty())
                     <div id="carouselExample" class="carousel slide" data-interval="false">
                         <div class="carousel-indicators mt-0">
-                            {{-- if there is more than 1 image, button will show up --}}
                             @if ($post->images->count() > 1)
-                            @foreach ($post->images as $index => $image)
-                                <button type="button" data-bs-target="#carouselExample" data-bs-slide-to="{{ $index }}" class="@if($index == 0) active @endif" aria-current="{{ $index == 0 ? 'true' : 'false' }}" aria-label="Slide {{ $index + 1 }}"></button>
-                            @endforeach
+                                @foreach ($post->images as $index => $image)
+                                    <button type="button" data-bs-target="#carouselExample" data-bs-slide-to="{{ $index }}" class="@if($index == 0) active @endif" aria-current="{{ $index == 0 ? 'true' : 'false' }}" aria-label="Slide {{ $index + 1 }}"></button>
+                                @endforeach
                             @endif
                         </div>
                         <div class="carousel-inner px-2">
@@ -112,19 +101,17 @@
                         @endif
                     </div>
                 @else
-                    {{-- If there are no images, show description on the right --}}
                     <div class="py-5 px-2 text-center">
                         <p class="">{{ $post->description }}</p>
                     </div>
                 @endif
-
             </div>
+        </div>
 
-            </div>
-
-            <div class="row">
-                <div class="col-lg-6">
-                    {{-- Comment form --}}
+        <div class="row">
+            <div class="col-lg-6">
+                {{-- Empathy Slider and Comment Form --}}
+                @if (Auth::user()->id != $post->user->id) {{-- Only show for non-owners --}}
                     <form action="{{ route('comment.store', $post->id) }}" method="post">
                         @csrf
 
@@ -158,22 +145,17 @@
 
                         <button type="submit" class="btn btn-gold form-group mt-3 ml-1 btn-lg">Send</button>
                     </form>
-                </div>
-                    <div class="text-end">
-                        <button class="shadow-none p-0 border-0 text-turquoise bg-pink" data-bs-toggle="modal"
-                            data-bs-target="#see-all-reactions">
-                            see all reactions
-                        </button>
-                        @include('users.posts.modals.empathy')
-                    </div>
-                </div>
+                @endif
             </div>
-
-
-
+            <div class="text-end">
+                <button class="shadow-none p-0 border-0 text-turquoise bg-pink" data-bs-toggle="modal"
+                    data-bs-target="#see-all-reactions">
+                    see all reactions
+                </button>
+                @include('users.posts.modals.empathy')
+            </div>
+        </div>
+    </div>
 </div>
 
-
 @endsection
-
-
