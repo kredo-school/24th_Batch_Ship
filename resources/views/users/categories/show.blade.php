@@ -32,7 +32,7 @@
                             <div class="d-flex align-items-center mb-1">
                                 <a href="{{ route('users.profile.specificProfile', $user->id) }}" class="me-1">
                                     @if($user->avatar)
-                                        <img src="{{ $user->avatar }}" alt="avatar" class="rounded-circle avatar-md" style="border-radius:50%;">
+                                        <img src="{{ $user->avatar }}" alt="avatar" class="rounded-circle avatar-sm">
                                     @else
                                         <i class="fa-solid fa-circle-user icon-sm me-2"></i>
                                     @endif
@@ -62,9 +62,8 @@
             @endif
         </div>       
     
-        {{-- Pagination --}}
-        <div class="d-flex justify-content-center mt-4">
-            {{ $users->links() }}
+        <div class="d-flex justify-content-center">
+            {{ $users->links('pagination::bootstrap-4') }}
         </div>
     </div>
     
@@ -81,13 +80,13 @@
                     <div class="card rounded border-0 h-100 d-flex flex-column">
                         {{-- Post image --}}
                         <div id="carouselExample" class="carousel slide" data-interval="false">
-                            <div class="carousel-inner px-3 pt-1">
-                                @foreach ($post->images->chunk(2) as $index => $imagesChunk)
+                            <div class="carousel-inner">
+                                @foreach ($post->images->chunk(1) as $index => $imagesChunk)
                                 <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">
                                     <div class="d-flex justify-content-center">
                                         @foreach ($imagesChunk as $image)
-                                            <div class="mx-1" style="overflow: hidden;">
-                                                <img src="data:image/png;base64,{{ $image->image_data }}" alt="Post ID {{ $post->id }}" class="img-fluid img-profile-index mt-3">
+                                            <div class="" style="overflow: hidden;">
+                                                <img src="data:image/png;base64,{{ $image->image_data }}" alt="Post ID {{ $post->id }}" class="fixed-size-img rounded card-img-top w-100">
                                             </div>
                                         @endforeach
                                     </div>
@@ -194,7 +193,7 @@
             @endif
         </div>
         {{-- Pagination for communities --}}
-        <div class="d-flex justify-content-center">
+        <div class="d-flex justify-content-center bg">
             {{ $communities->links('pagination::bootstrap-4') }}
         </div>  
     </div>
@@ -209,7 +208,7 @@
                 @foreach($events as $event)
                 <div class="col-lg-3 col-md-6 mb-4">
                     <div class="card rounded border-0 h-100 d-flex flex-column">
-                        <div class="card-body d-flex flex-column p-0">
+                        <div class="card-body d-flex flex-column p-0 bg-white">
                             {{-- Event image --}}
                             <div class="mb-2">
                                 <a href="{{ route('event.show', $event->id) }}">
@@ -224,7 +223,7 @@
                                 </div>
                             </div>
                             {{-- category --}}
-                            <div class="row card-text text-start ms-1 mt-auto">
+                            {{-- <div class="row card-text text-start ms-1 mt-auto">
                                 <div class="col">
                                     @if($event->categories->isNotEmpty())
                                     @foreach ($event->categories as $category)
@@ -232,7 +231,7 @@
                                     @endforeach
                                 @endif
                                 </div>
-                            </div>
+                            </div> --}}
                         </div>
                     </div>
                 </div>

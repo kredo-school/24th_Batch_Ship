@@ -60,11 +60,11 @@ class HomeController extends Controller
     $result_events = collect([]);
     $no_results_message = null;
 
-    // Search query
+    // Search processing
     if (empty($keyword) && empty($contentTypes) && empty($selectedCategory)) {
         $no_results_message = "Please enter a search keyword.";
     } else {
-        // Search processing
+        // 各検索結果をページネート
         if (in_array('username', $contentTypes) || in_array('all', $contentTypes)) {
             $result_users = $this->searchUsers($keyword, $selectedCategory);
         }
@@ -88,35 +88,34 @@ class HomeController extends Controller
     }
 
     // View response
-    return view('search')
-        ->with('result_users', $result_users)
-        ->with('result_posts', $result_posts)
-        ->with('result_communities', $result_communities)
-        ->with('result_events', $result_events)
-        ->with('search', $keyword)
-        ->with('no_results_message', $no_results_message ?? null)
-        ->with('categories', Category::all())
-        ->with('selectedCategory', $selectedCategory)
-        ->with('selectedCategoryName', $selectedCategoryName)
-        ->with('contentTypes', $contentTypes);
-    }
+    return view('search.index', [
+        'result_users' => $result_users,
+        'result_posts' => $result_posts,
+        'result_communities' => $result_communities,
+        'result_events' => $result_events,
+        'search' => $keyword,
+        'no_results_message' => $no_results_message ?? null,
+        'categories' => Category::all(),
+        'selectedCategory' => $selectedCategory,
+        'selectedCategoryName' => $selectedCategoryName,
+        'contentTypes' => $contentTypes,
+    ]);
+}
 
-    // User search processing
-    private function searchUsers($keyword, $selectedCategory)
-    {
-        return $this->user->latest()
-            ->when($keyword, function ($query) use ($keyword) {
-                return $query->where('username', 'LIKE', '%' . $keyword . '%');
-                             
-            })
-            ->when($selectedCategory, function ($query) use ($selectedCategory) {
-                return $query->whereHas('categories', function ($query) use ($selectedCategory) {
-                    $query->where('id', $selectedCategory);
-                });
-            })
-            ->where('id', '!=', auth()->id())
-            ->paginate(4);
-    }
+private function searchUsers($keyword, $selectedCategory)
+{
+    return $this->user->latest()
+        ->when($keyword, function ($query) use ($keyword) {
+            return $query->where('username', 'LIKE', '%' . $keyword . '%');
+        })
+        ->when($selectedCategory, function ($query) use ($selectedCategory) {
+            return $query->whereHas('categories', function ($query) use ($selectedCategory) {
+                $query->where('id', $selectedCategory);
+            });
+        })
+        ->where('id', '!=', auth()->id())
+        ->paginate(4, ['*'], 'users_page'); // set name on pagination
+}
     
 
     // Post search processing
@@ -132,7 +131,7 @@ class HomeController extends Controller
                 });
             })
             ->where('user_id', '!=', auth()->id()) // except own posts
-            ->paginate(4);
+            ->paginate(4,['*'], 'posts_page');
     }
     
     
@@ -150,25 +149,26 @@ class HomeController extends Controller
                 });
             })
             ->where('owner_id', '!=', auth()->id())
-            ->paginate(4);
+            ->paginate(4,['*'], 'communities_page');
     }
 
     // Event search processing
     private function searchEvents($keyword, $selectedCategory)
     {
         return $this->event->with('categories') 
-            ->orderByRaw('CASE WHEN date > ? THEN 0 ELSE 1 END, date desc', [now()]) // to order date newest
+            ->orderByRaw('CASE WHEN date > ? THEN 0 ELSE 1 END, date desc', [now()])
             ->when($keyword, function ($query) use ($keyword) {
                 return $query->where('title', 'LIKE', '%' . $keyword . '%');
             })
             ->when($selectedCategory, function ($query) use ($selectedCategory) {
                 return $query->whereHas('categories', function ($query) use ($selectedCategory) {
-                    $query->where('categories.id', $selectedCategory);
+                    $query->where('categories.id', $selectedCategory); // テーブル名を明示的に指定
                 });
             })
             ->where('host_id', '!=', auth()->id())
-            ->paginate(4);
+            ->paginate(4, ['*'], 'events_page');
     }
+    
     
 
 }

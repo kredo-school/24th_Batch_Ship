@@ -13,7 +13,7 @@
             <div class="modal-body">
                 <div id="error-message" class="alert alert-danger d-none" role="alert"></div>
 
-                <form id="search-form" action="{{ route('search') }}" method="GET">
+                <form id="search-form" action="{{ route('search.index') }}" method="GET">
                     <input type="text" name="keyword" id="keyword" class="form-control" placeholder="Enter keyword...">
                     <select name="category" id="category" class="form-select form-select-sm mt-3 w-50">
                         <option disabled value>Select Category</option>

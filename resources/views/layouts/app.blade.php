@@ -136,7 +136,7 @@
                                     <i class="fa-solid fa-magnifying-glass"></i>
                                     <span class="pe-1 menu-title">Search</span>
                                 </a>
-                                @include('layouts.modals.search')
+                                @include('search.modals.search')
                             </li>
                             {{-- Dropdown --}}
                             <li class="nav-item dropdown">

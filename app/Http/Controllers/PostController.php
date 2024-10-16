@@ -94,6 +94,11 @@ class PostController extends Controller
 {
     $post = $this->post->with(['user', 'images', 'comments.user'])->findOrFail($id);
 
+    // when remove image request has sent 
+    $removeImages = session('remove_images', []);
+    // remove images from UI
+    $images = $post->images->whereNotIn('id', $removeImages);
+
     $imageCount = $post->images->count();
     \Log::info('Number of images: ' . $imageCount); // ログに出力
 
@@ -172,56 +177,50 @@ class PostController extends Controller
     }
 
     public function update(Request $request, $id)
-    {
-        # 1. VALIDATE THE DATA FROM THE FORM
-        $request->validate([
-            'description'   => 'max:1500|required_without:image',
-            'image.*'       => 'mimes:jpg,jpeg,png,gif|max:1048|required_without:description',
-            'category'      => 'required|array|between:1,3'
-        ], [
-            'description.required_without'       => "You can't post without any contents.",
-            'description.max'   => 'The description must be less than 1500 characters.',
-            'category'          => 'You must select at least one interest',
-            'category.between'  => "You can select 1 to 3 interests",
-        ]);
-    
-        # 2. UPDATE THE POST
-        $post = $this->post->findOrFail($id); // Find the post or fail
-        $post->description = $request->description; // Update the description
-    
-        # Handle deleted images
-        if ($request->has('remove_images')) {
-            foreach ($request->remove_images as $key) {
-                // Delete images from the database
-                $post->images()->where('id', $key)->delete();
-            }
-        }
-            
-        # Process new images if uploaded
-        if ($request->hasFile('image')) {
-            foreach ($request->file('image') as $file) {
-                // Check if the file was uploaded successfully
-                if ($file->isValid()) {
-                    // Encode the image data to base64
-                    $imageData = base64_encode(file_get_contents($file->getRealPath()));
-                    
-                    // Save to the database
-                    $post->images()->create(['image_data' => $imageData]);
-                }
-            }
-        }
-    
-        $post->save(); // Save the updated post
-    
-        # 3. DELETE ALL RECORDS from the category_post table related to this POST
-        $post->categories()->detach(); // Detach all related categories
-    
-        # 4. SAVE the new categories to the category_post table
-        $post->categories()->attach($request->category); // Attach new categories
-    
-        # 5. REDIRECT to Show Post page
-        return redirect()->route('users.posts.show', $id); // Redirect to the post show page
+{
+    // Validate the data
+    $request->validate([
+        'description' => 'max:1500|required_without:image',
+        'image.*' => 'mimes:jpg,jpeg,png,gif|max:1048|required_without:description',
+        'category' => 'required|array|between:1,3'
+    ], [
+        'description.required_without' => "You can't post without any contents.",
+        'description.max' => 'The description must be less than 1500 characters.',
+        'category.required' => 'You must select at least one interest',
+        'category.between' => "You can select 1 to 3 interests",
+    ]);
+
+    // Update the post
+    $post = $this->post->findOrFail($id);
+    $post->description = $request->description;
+
+    // Remove selected images
+    if ($request->filled('remove_images')) {
+        $removeImages = explode(',', $request->remove_images);
+        $post->images()->whereIn('id', $removeImages)->delete();
     }
+
+    // Process new images if uploaded
+    if ($request->hasFile('image')) {
+        foreach ($request->file('image') as $file) {
+            if ($file->isValid()) {
+                $imageData = base64_encode(file_get_contents($file->getRealPath()));
+                $post->images()->create(['image_data' => $imageData]);
+            }
+        }
+    }
+
+    // Save the updated post
+    $post->save();
+
+    // Detach and attach categories
+    $post->categories()->detach();
+    $post->categories()->attach($request->category);
+
+    // Redirect to show post page
+    return redirect()->route('users.posts.show', $post->id);
+}
+
 
     
 
