@@ -43,12 +43,13 @@
                 <i class="fa-solid fa-circle-user text-dark icon-sm"></i>
               @endif
             </a>
-            <a href="{{ route('users.profile.specificProfile', $event->host_id) }}" class="text-decoration-none text-black">
+            <a href="{{ route('users.profile.specificProfile', $event->host_id) }}" class="text-decoration-none text-black d-flex align-items-center">
               {{ $event->host->username }}
             </a>
-          </div>          
+          </div>
         </div>
 
+        {{-- Attendee information --}} 
         @foreach ($attendeesWithReviews as $attendeeWithReview)
           <hr>
           <div class="row">
@@ -59,7 +60,7 @@
               @endif
             </div>
 
-            {{-- Attendee information --}}
+            {{-- Username and Avatar --}}  
             <div class="col-2 p-0 text-start">
               <a href="{{ route('users.profile.specificProfile', $attendeeWithReview['attendee']->user_id) }}" class="me-auto">
                 @if ($attendeeWithReview['attendee']->user->avatar)
@@ -76,7 +77,7 @@
             {{-- Review comment --}}
             <div class="col">
               @if ($attendeeWithReview['review'])
-                <p class="text-break">{{ $attendeeWithReview['review']->review_comment }}</p>                                 
+                <p class="text-break">{{ $attendeeWithReview['review']->review_comment }}</p>
               @endif
             </div>
 
@@ -88,16 +89,18 @@
                 <form action="{{ route('review.destroy', $attendeeWithReview['review']->id) }}" method="post">
                   @csrf
                   @method('DELETE')
-                  <button type="submit" class="border-0 bg-transparent text-danger small">Delete</button>
+                  <button type="submit" class="border-0 bg-transparent text-danger me-2">Delete</button>
                 </form>
               @endif              
 
-              {{-- Review date --}}
-              @if ($attendeeWithReview['review'])
-                <div class="text-uppercase text-muted xsmall ms-2">
-                  {{ date('M d, Y', strtotime($attendeeWithReview['review']->created_at)) }}
-                </div>  
-              @endif
+              {{-- Reviewed or Joined date --}}
+              <div class="text-muted me-4">
+                @if ($attendeeWithReview['review'])
+                  <p class="mb-0">Reviewed: <span class="text-uppercase">{{ date('M d, Y', strtotime($attendeeWithReview['review']->updated_at)) }}</span></p>
+                @else
+                  <p class="mb-0">Joined: <span class="text-uppercase">{{ date('M d, Y', strtotime($attendeeWithReview['attendee']->created_at)) }}</span></p>   
+                @endif
+              </div>
             </div>
           </div>
         @endforeach

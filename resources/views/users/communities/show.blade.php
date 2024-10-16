@@ -15,7 +15,7 @@
         <div class="mt-3 text-center">
           <img src="{{ $community->image }}" class="object-fit-cover border image-community rounded bg-white w-100" alt="{{ $community->title }}">
           <h2 class="my-2 break-word">{{ $community->title }}</h2>
-          <p class="lh-sm">
+          <p class="break-word lh-sm">
             {{ $community->description }}
           </p>
         </div>
@@ -180,7 +180,7 @@
                     @csrf
                     @method('PATCH')
                       <div class="range-slider">
-                        <input type="range" id="percentage" name="percentage" value="60"
+                        <input type="range" id="percentage" name="percentage" value="{{ $user_percentage }}"
                             min="60" max="100" step="1" list="my-datalist"
                             class="bg-turquoise"
                             oninput="document.getElementById('output1').value=this.value">
