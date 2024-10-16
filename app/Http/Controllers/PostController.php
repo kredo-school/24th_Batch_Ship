@@ -195,8 +195,8 @@ class PostController extends Controller
     $post->description = $request->description;
 
     // Remove selected images
-    if ($request->filled('remove_images')) {
-        $removeImages = explode(',', $request->remove_images);
+    if ($request->filled('removedImages')) {
+        $removeImages = explode(',', $request->removedImages);
         $post->images()->whereIn('id', $removeImages)->delete();
     }
 
