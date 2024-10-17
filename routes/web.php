@@ -146,8 +146,9 @@ Route::group(['middleware' => 'auth'], function(){
     Route::get('/categories/{id}', [CategoryController::class, 'show'])->name('users.categories.show');
 
     # Notification
-    // Route::get('/notifications/{id}', [NotificationController::class, 'getNotificationsForUser'])->name('notifications');
-    Route::get('/mark-as-read', [NotificationController::class, 'markAsRead'])->name('mark-as-read');
+    Route::get('/notifications', [NotificationController::class, 'getNotificationsForUser'])->name('notifications.index');
+    Route::post('/notifications/mark-as-read', [NotificationController::class, 'markAsRead'])->name('notifications.markAsRead');
+    
 
 
     # Admin
