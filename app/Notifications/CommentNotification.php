@@ -13,7 +13,7 @@ class CommentNotification extends Notification
     protected $comment;
 
     /**
-     * to get the message from PostComment
+     * Get the message from PostComment
      */
     public function __construct(PostComment $comment)
     {
@@ -21,7 +21,7 @@ class CommentNotification extends Notification
     }
 
     /**
-     * set a which channel to send a notification
+     * Set which channels to send a notification
      */
     public function via($notifiable)
     {
@@ -29,7 +29,7 @@ class CommentNotification extends Notification
     }
 
     /**
-     * method to save the notification to database
+     * Method to save the notification to the database
      */
     public function toArray($notifiable)
     {

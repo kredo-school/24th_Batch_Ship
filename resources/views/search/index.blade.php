@@ -98,37 +98,36 @@
                 <div class="col-lg-3 col-md-6 mb-4">
                     <a href="{{ route('users.posts.show', $post->id) }}" class="text-decoration-none text-black">
                         <div class="card rounded border-0 h-100 d-flex flex-column">
-                            {{-- Post image --}}
-  {{-- post image --}}
-  @if ($post->images->isNotEmpty())
-  <div id="carousel-{{ $post->id }}" class="carousel slide" data-bs-ride="false">
-      <div class="carousel-inner">
-          @foreach ($post->images->chunk(1) as $index => $imagesChunk)
-              <div class="carousel-item {{ $index === 0 ? 'active' : '' }} ">
-                  <div class="d-flex justify-content-center">
-                      @foreach ($imagesChunk as $image)
-                          <div class="" style="overflow: hidden;">
-                              <img src="data:image/png;base64,{{ $image->image_data }}" alt="Post ID {{ $post->id }}" class="img-fluid img-profile-index w-100">
-                          </div>
-                      @endforeach
-                  </div>
-              </div>
-          @endforeach
-      </div>
+                            {{-- post image --}}
+                            @if ($post->images->isNotEmpty())
+                            <div id="carousel-{{ $post->id }}" class="carousel slide" data-bs-ride="false">
+                                <div class="carousel-inner">
+                                    @foreach ($post->images->chunk(1) as $index => $imagesChunk)
+                                        <div class="carousel-item {{ $index === 0 ? 'active' : '' }} ">
+                                            <div class="d-flex justify-content-center">
+                                                @foreach ($imagesChunk as $image)
+                                                    <div class="" style="overflow: hidden;">
+                                                        <img src="data:image/png;base64,{{ $image->image_data }}" alt="Post ID {{ $post->id }}" class="img-fluid img-profile-index w-100 rounded">
+                                                    </div>
+                                                @endforeach
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
 
-      @if ($post->images->count() > 1)
-          <button class="carousel-control-prev btn-profile-post-prev" type="button" data-bs-target="#carousel-{{ $post->id }}" data-bs-slide="prev">
-              <i class="fa-solid fa-caret-left fs-1 text-turquoise bg-white px-1 ms-3">
-                  <span class="visually-hidden">Previous</span>
-              </i>
-          </button>
-          <button class="carousel-control-next btn-profile-post-next" type="button" data-bs-target="#carousel-{{ $post->id }}" data-bs-slide="next">
-              <i class="fa-solid fa-caret-right fs-1 text-turquoise bg-white px-1 me-3">
-                  <span class="visually-hidden">Next</span>
-              </i>
-          </button>
-      @endif
-  </div>
+                                @if ($post->images->count() > 1)
+                                    <button class="carousel-control-prev btn-profile-post-prev" type="button" data-bs-target="#carousel-{{ $post->id }}" data-bs-slide="prev">
+                                        <i class="fa-solid fa-caret-left fs-1 text-turquoise bg-white px-1 ms-3">
+                                            <span class="visually-hidden">Previous</span>
+                                        </i>
+                                    </button>
+                                    <button class="carousel-control-next btn-profile-post-next" type="button" data-bs-target="#carousel-{{ $post->id }}" data-bs-slide="next">
+                                        <i class="fa-solid fa-caret-right fs-1 text-turquoise bg-white px-1 me-3">
+                                            <span class="visually-hidden">Next</span>
+                                        </i>
+                                    </button>
+                                @endif
+                            </div>
 
                             @else
                                 <div class="justify-content-center" style="height: 160px; overflow-y: scroll;">
@@ -138,7 +137,6 @@
                             <div class="card-body d-flex flex-column">
                                 <div class="row mb-2 ms-1">
                                     {{-- avatar & name --}}
-                                    <h3 class="col card-title mb-0">{{ $post->user->username }}</h3>
                                     <div class="col card-text text-end">
                                         created by
                                         <a href="{{ route('users.profile.specificProfile', $post->user->id) }}" class="me-1 text-decoration-none">
@@ -236,6 +234,7 @@
         <div class="d-flex justify-content-between align-items-center mb-3">
             <h2 class="mb-0">Event</h2>
         </div>
+        <p class="my-1">The category is from the community that the event belongs to.</p>
         <div class="row row-eq-height">
             @foreach($result_events as $event)
             <div class="col-lg-3 col-md-6 mb-4">
@@ -266,15 +265,17 @@
                                         </a>
                                     </p>
                             </div>
-                            <div class="row card-text text-start ms-1 mt-auto">
+                            <div class="row card-text text-start ms-1 mb-2 mt-auto p-0">
                                 <div class="col">
-                                    @if($event->categories->isNotEmpty())
-                                    @foreach ($event->categories as $category)
-                                        <a href="{{ route('users.categories.show', $category->id) }}" class="badge me-1 bg-turquoise text-decoration-none">{{ $category->name }}</a>
-                                    @endforeach
-                                @endif
+                                   @if($event->communityCategories()->get()->isNotEmpty())
+                                     @foreach ($event->communityCategories()->get() as $category)
+                                       <a href="{{ route('users.categories.show', $category->id) }}" class="badge me-1 bg-turquoise text-decoration-none">{{ $category->name }}</a>
+                                     @endforeach
+                                    @endif 
                                 </div>
-                            </div>                                  
+                                               
+                            </div>
+                                                                                    
                             @endif
                         </div>
                     </div>

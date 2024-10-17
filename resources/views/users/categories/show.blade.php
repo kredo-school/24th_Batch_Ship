@@ -14,7 +14,7 @@
     </div>
 
     @if(isset($no_results_message))
-        <p class="text-danger text-center">{{ $no_results_message }}</p>
+    <p class="text-danger text-center">{{ $no_results_message }}</p>
     @endif   
 
     {{-- User --}}
@@ -25,7 +25,6 @@
         <div class="row">
             @if($users->isNotEmpty())
                 @foreach($users as $user)
-                
                 <div class="col-lg-3 col-md-6 mb-4">
                     <div class="card rounded border-0 h-100 d-flex flex-column">
                         <div class="card-body d-flex flex-column" style="max-height: 200px; overflow-y: auto;">
@@ -33,35 +32,44 @@
                             <div class="d-flex align-items-center mb-1">
                                 <a href="{{ route('users.profile.specificProfile', $user->id) }}" class="me-1">
                                     @if($user->avatar)
-                                        <img src="{{ $user->avatar }}" alt="avatar" class="rounded-circle avatar-sm">
+                                        <img src="{{ $user->avatar }}" alt="avatar" class="rounded-circle avatar-md" style="border-radius:50%;">
                                     @else
                                         <i class="fa-solid fa-circle-user icon-sm me-2"></i>
                                     @endif
-                                </div>
-                                
-                                {{-- Introduction --}}
-                                <p class="mb-2">{{ $user->introduction }}</p>
-                                
-                                {{-- Categories (Interests) --}}
-                                <div class="d-flex flex-wrap">
-                                    @foreach($user->categories as $category)
-                                        <a href="{{ route('users.categories.show', $category->id) }}" class="text-decoration-none">
-                                            <span class="badge bg-turquoise text-white ms-1">{{ $category->name }}</span>
-                                        </a>
-                                    @endforeach
-                                </div>                  
+                                </a>
+                                @if($user->username)
+                                    <h3 class="ms-1 mb-0">{{ $user->username }}</h3>
+                                @endif
                             </div>
+                            
+                            {{-- Introduction --}}
+                            <p class="mb-2">{{ $user->introduction }}</p>
+                            
+                            {{-- Categories (Interests) --}}
+                            <div class="d-flex flex-wrap">
+                                @foreach($user->categories as $category)
+                                    <a href="{{ route('users.categories.show', $category->id) }}" class="text-decoration-none">
+                                        <span class="badge bg-turquoise text-white ms-1">{{ $category->name }}</span>
+                                    </a>
+                                @endforeach
+                            </div>                  
                         </div>
                     </div>
+                </div>
                 @endforeach
             @else
                 <p class="text-center">No users found.</p>
             @endif
         </div>       
     
+        {{-- Pagination --}}
         <div class="d-flex justify-content-center">
-            {{ $users->links('pagination::bootstrap-4') }}
+            @if($users instanceof \Illuminate\Pagination\LengthAwarePaginator && $users->total() > 0)
+                {{ $users->appends(request()->query())->links('pagination::bootstrap-4') }}
+            @endif
         </div>
+
+        
     </div>
     
 
@@ -74,6 +82,7 @@
             @if($posts->isNotEmpty())
                 @foreach($posts as $post)
                 <div class="col-lg-3 col-md-6 mb-4">
+                    <a href="{{ route('users.posts.show', $post->id) }}" class="text-decoration-none text-black">
                     <div class="card rounded border-0 h-100 d-flex flex-column">
                         {{-- Post image --}}
                         <div id="carouselExample" class="carousel slide" data-interval="false">
@@ -83,52 +92,55 @@
                                     <div class="d-flex justify-content-center">
                                         @foreach ($imagesChunk as $image)
                                             <div class="" style="overflow: hidden;">
-                                                <img src="data:image/png;base64,{{ $image->image_data }}" alt="Post ID {{ $post->id }}" class="fixed-size-img rounded card-img-top w-100">
+                                                <img src="data:image/png;base64,{{ $image->image_data }}" alt="Post ID {{ $post->id }}" class="img-fluid img-profile-index w-100 rounded">
                                             </div>
                                         @endforeach
                                     </div>
-                                    @if ($post->images->count() > 2) 
-                                        <button class="carousel-control-prev btn-category-post-prev" type="button" data-bs-target="#carouselExample-{{ $post->id }}" data-bs-slide="prev">
-                                            <i class="fa-solid fa-caret-left fs-1 text-turquoise">
-                                                <span class="visually-hidden">Previous</span>
-                                            </i>
-                                        </button>
-                                        <button class="carousel-control-next btn-category-post-next" type="button" data-bs-target="#carouselExample-{{ $post->id }}" data-bs-slide="next">
-                                            <i class="fa-solid fa-caret-right fs-1 text-turquoise">
-                                                <span class="visually-hidden">Next</span>
-                                            </i>
-                                        </button>
-                                    @endif
-                                </div>   
-                                <div class="card-body d-flex flex-column">
-                                    <div class="row mb-2 ms-1">
-                                        {{-- avatar & name --}}
-                                        <p class="mb-3 card-text large-text text-dark">{{ Str::limit($post->description, 200) }}</p>
-                                        <div class="col card-text text-end">
-                                            created by
-                                            <a href="{{ route('users.profile.specificProfile', $post->user->id) }}" class="me-1 text-decoration-none">
-                                                @if($post->user->avatar)
-                                                    <img src="{{ $post->user->avatar }}" alt="Avatar" class="rounded-circle avatar-sm">
-                                                @else
-                                                    <i class="fa-solid fa-circle-user icon-sm me-2"></i>
-                                                @endif
-                                            </a>
-                                        </div>                      
-                                    </div>
-                                    {{-- Post category --}}
-                                    <div class="row card-text text-start ms-1 mt-auto">
-                                        <div class="col">
-                                            @foreach($post->categories as $category)
-                                                <a href="{{ route('users.categories.show', $category->id) }}" class="text-decoration-none">
-                                                    <span class="badge ms-1 bg-turquoise text-white">{{ $category->name }}</span>
-                                                </a>
-                                            @endforeach                
-                                        </div>
-                                    </div>
                                 </div>
+                            @endforeach
+                            </div>
+                            @if ($post->images->count() > 2) 
+                            <button class="carousel-control-prev btn-category-post-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+                                <i class="fa-solid fa-caret-left fs-1 text-turquoise">
+                                    <span class="visually-hidden">Previous</span>
+                                </i>
+                            </button>
+                            <button class="carousel-control-next btn-category-post-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+                                <i class="fa-solid fa-caret-right fs-1 text-turquoise">
+                                    <span class="visually-hidden">Next</span>
+                                </i>
+                            </button>
+                            @endif
+                        </div>   
+                        <div class="card-body d-flex flex-column">
+                            <div class="row mb-2 ms-1">
+                                {{-- avatar & name --}}
+                                <p class="col card-title mb-0">{{ $post->description }}</p>
+                                <div class="col card-text text-end">
+                                    created by
+                                    <a href="{{ route('users.profile.specificProfile', $post->user->id) }}" class="me-1 text-decoration-none">
+                                        @if($post->user->avatar)
+                                        <img src="{{ $post->user->avatar }}" alt="Avatar" class="rounded-circle avatar-sm">
+                                        @else
+                                        <i class="fa-solid fa-circle-user icon-sm me-2"></i>
+                                        @endif
+                                    </a>
+                                </div>                      
                             </div>
                         </a>
+                            {{-- Post category --}}
+                            <div class="row card-text text-start ms-1 mt-auto">
+                                <div class="col">
+                                    @foreach($post->categories as $category)
+                                    <a href="{{ route('users.categories.show', $category->id) }}" class="text-decoration-none">
+                                        <span class="badge ms-1 bg-turquoise text-white">{{ $category->name }}</span>
+                                    </a>
+                                    @endforeach                
+                                </div>
+                            </div>
+                        </div>
                     </div>
+                </div>
                 @endforeach
             @else
                 <p class="text-center">No posts found.</p>
@@ -188,7 +200,7 @@
             @endif
         </div>
         {{-- Pagination for communities --}}
-        <div class="d-flex justify-content-center bg">
+        <div class="d-flex justify-content-center">
             {{ $communities->links('pagination::bootstrap-4') }}
         </div>  
     </div>
@@ -198,52 +210,49 @@
         <div class="d-flex justify-content-between align-items-center mb-3">
             <h2 class="mb-0">Event</h2>
         </div>
+        <p class="my-1">The category is from the community that the event belongs to.</p>
+    
         <div class="row row-eq-height">
             @if($events->isNotEmpty())
                 @foreach($events as $event)
                 <div class="col-lg-3 col-md-6 mb-4">
-                    <div class="card rounded border-0 h-100 d-flex flex-column">
-                        <div class="card-body d-flex flex-column p-0 bg-white">
+                    <div class="card rounded border-0 h-100 d-flex flex-column bg-white">
+                        <div class="card-body d-flex flex-column p-0">
                             {{-- Event image --}}
                             <div class="mb-2">
-                                <a href="{{ route('communities.show', $community->id) }}">
-                                    <img src="{{ $community->image }}" alt="Community ID {{ $community->id }}" class="fixed-size-img rounded card-img-top">
+                                <a href="{{ route('event.show', $event->id) }}">
+                                    <img src="{{ $event->image }}" alt="Event ID {{ $event->id }}" class="fixed-size-img rounded card-img-top">
                                 </a>
                             </div>
-                            <div class="card-body d-flex flex-column">
-                                {{-- Community title & owner --}}
-                                <div class="row mb-2 ms-1">
-                                    <h3 class="col card-title">{{ $community->title }}</h3>
-                                    <p class="col card-text text-end">
-                                        created by
-                                        <a href="{{ route('users.profile.specificProfile', $community->owner_id) }}">
-                                            @if ($community->user->avatar)
-                                            <img src="{{ $community->user->avatar }}" alt="#" class="rounded-circle avatar-sm">
-                                            @else
-                                            <i class="fa-solid fa-circle-user text-secondary icon-sm"></i>
-                                            @endif
-                                        </a>
-                                    </p>
+                            {{-- Event title & date --}}
+                            <div class="row mb-2 ms-1">
+                                <h3 class="col card-title mb-0">{{ $event->title }}</h3>
+                                <div class="col card-text text-end">
+                                    <p class="me-3">{{ $event->date }}</p>
                                 </div>
-                        {{-- category --}}
-                                <div class="row card-text text-start ms-1 mt-auto">
-                                    <div class="col">
-                                        @foreach ($community->categories as $category)
+                            </div>
+                            {{-- category --}}
+                            <div class="row card-text text-start ms-1 mt-auto mb-2">
+                                <div class="col">
+                                    @if($event->communityCategories()->get()->isNotEmpty())
+                                         @foreach ($event->communityCategories()->get() as $category)
                                             <a href="{{ route('users.categories.show', $category->id) }}" class="badge me-1 bg-turquoise text-decoration-none">{{ $category->name }}</a>
                                         @endforeach
-                                    </div>
+                                    @endif
                                 </div>
-                            </div> --}}
+                            </div>
+                            
                         </div>
                     </div>
+                </div>
                 @endforeach
             @else
-                <p class="text-center">No communities found.</p>
+                <p class="text-center">No events found.</p>
             @endif
         </div>
-        {{-- Pagination for communities --}}
+        {{-- Pagination for events --}}
         <div class="d-flex justify-content-center">
-            {{ $communities->links('pagination::bootstrap-4') }}
+            {{ $events->links('pagination::bootstrap-4') }}
         </div>  
     </div>
 </div>

@@ -55,50 +55,63 @@
                                 </li>
                             @endif
                         @else
+
                             {{-- Notification icon --}}
                             <li class="nav-item dropdown">
                                 <a href="#" class="nav-link dropdown-toggle text-white" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    @if(Auth::user()->unreadNotifications->count())
-                                        {{-- icon for new message --}}
+                                    @php
+                                        $unreadNotifications = Auth::user()->unreadNotifications;
+                                    @endphp
+                                    
+                                    @if($unreadNotifications->count())
+                                        {{-- Icon for new message --}}
                                         <i class="fa-solid fa-face-laugh"></i>
                                         {{-- Display unread notification count as a badge --}}
                                         <span class="badge bg-danger rounded-circle p-1">
-                                            {{ Auth::user()->unreadNotifications->count() }}
+                                            {{ $unreadNotifications->count() }}
                                         </span>
                                     @else
-                                        {{-- icon for no message --}}
+                                        {{-- Icon for no message --}}
                                         <i class="fa-solid fa-anchor"></i>
                                         <span class="ps-1 menu-title">Any news?</span>
                                     @endif
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end">
                                     <li><h1 class="h6 text-center text-dark dropdown-title">Any news?</h1></li>
-                                    @if(Auth::user()->unreadNotifications->isEmpty())
-                                    {{-- Message when there are no notifications --}}
+                                    
+                                    @if($unreadNotifications->isEmpty())
+                                        {{-- Message when there are no notifications --}}
                                         <li><p class="text-center"><i class="fa-regular fa-face-meh"></i> not yet</p></li>
                                     @else
                                         <li>
-                                            {{-- Link to mark all as read --}}
-                                            <a href="{{ route('mark-as-read') }}" class="dropdown-item text-turquoise"><i class="fa-solid fa-circle-dot"></i> Mark all as read</a>
+                                            {{-- Form to mark all as read --}}
+                                            <form action="{{ route('notifications.markAsRead') }}" method="POST" class="dropdown-item text-turquoise">
+                                                @csrf  {{-- CSRF token --}}
+                                                <button type="submit" class="btn btn-link text-decoration-none text-turquoise p-0">
+                                                    <i class="fa-solid fa-circle-dot"></i> Mark all as read
+                                                </button>
+                                            </form>
                                         </li>
                                         <li>
                                             <div class="overflow-y-auto" style="max-height: 250px;">
-                                                @foreach (Auth::user()->unreadNotifications as $notification)
+                                                @foreach ($unreadNotifications as $notification)
                                                     <div class="d-flex flex-row align-items-center justify-content-between border-bottom p-2 {{ $loop->iteration % 2 == 0 ? 'bg-green' : 'bg-white' }}">
-                                                        <a href="{{ route('users.posts.show', $notification->data['post_id']) }}" class="font-bold text-decoration-none text-dark">
-                                                            "{{ $notification->data['comment'] ?? 'Notification' }}"
-                                                        </a>
+                                                        {{-- Check if post_id exists in the notification data --}}
+                                                        @if(isset($notification->data['post_id']))
+                                                            <a href="{{ route('users.posts.show', $notification->data['post_id']) }}" class="font-bold text-decoration-none text-dark">
+                                                                {{ $notification->data['comment'] ?? 'Notification' }}
+                                                            </a>
+                                                        @else
+                                                            <span>{{ $notification->data['comment'] ?? 'Notification' }}</span>
+                                                        @endif
                                                         <p class="xsmall my-auto">{{ $notification->created_at->diffForHumans() }}</p>
                                                     </div>
                                                 @endforeach
                                             </div>
                                         </li>
-
-
                                     @endif
                                 </ul>
                             </li>
-
                             {{-- Chat icon --}}
                             <li class="nav-item">
                                 <a href="{{ route('chat.index') }}" class="nav-link text-white active" type="button">
