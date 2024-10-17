@@ -9,7 +9,7 @@
             </a>
             <div class="row p-2">
               {{-- event title --}}
-              <h6><a href="{{ route('event.show', $event->id) }}" class="text-black text-decoration-none">{{ $event->title }}</a></h6>
+              <h6 class="h6-text"><a href="{{ route('event.show', $event->id) }}" class="text-black text-decoration-none">{{ $event->title }}</a></h6>
               <div class="d-flex justify-content-between xsmall">
                 {{-- event date --}}
                 <p class="text-muted mb-0">{{ $event->date }}</p>

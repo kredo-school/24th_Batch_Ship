@@ -32,12 +32,12 @@
         @foreach ($membersWithInterests as $member)
           <hr>
           <div class="row mb-1">
-            <div class="col-3">
+            <div class="col-2">
                 @if ($member['interest'])
                   <p class="text-center" >{{ $member['interest']->percentage }} %</p>
                 @endif
             </div>
-            <div class="col-3 d-flex align-items-center">
+            <div class="col-4 d-flex align-items-center member-list-username">
               <a href="{{ route('users.profile.specificProfile', $member['member']->user_id) }}" class="me-3">
                 @if ($member['member']->user->avatar)
                   <img src="{{ $member['member']->user->avatar }}" alt="{{ $member['member']->user->username }}" class="rounded-circle avatar-sm">
@@ -45,9 +45,9 @@
                   <i class="fa-solid fa-circle-user text-dark icon-sm"></i>
                 @endif
               </a>
-              <a href="{{ route('users.profile.specificProfile', $member['member']->user_id) }}" class="text-decoration-none text-black ms-0">
-                <h6 class="">{{ $member['member']->user->username }}</h6>
-              </a>
+                  <a href="{{ route('users.profile.specificProfile', $member['member']->user_id) }}" class="text-decoration-none text-black ms-0">
+                    <h6 class="">{{ $member['member']->user->username }}</h6>
+                  </a>
             </div>
             <div class="col text-center ms-1">
                 <p class="text-muted fw-light"> joined: {{ date('M d, Y', strtotime($member['member']->created_at)) }}</p>

@@ -338,7 +338,7 @@ p {
     min-width: 100%;
 }
 
-h6 {
+.h6-text {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -361,3 +361,9 @@ h6 {
     position: relative;
     top: 50%;
 }
+
+.member-list-username {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }

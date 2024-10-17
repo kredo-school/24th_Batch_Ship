@@ -65,7 +65,7 @@
             {{-- Post content --}}
             <div class="col-6 px-3 position-relative">
                 @if ($post->images->isNotEmpty())
-                    <p class="d-inline fw-light">{{ $post->description }}</p>
+                    <p class="d-inline fw-light break-word">{{ $post->description }}</p>
                 @endif
             </div>
 
@@ -102,7 +102,7 @@
                     </div>
                 @else
                     <div class="py-5 px-2 text-center">
-                        <p class="">{{ $post->description }}</p>
+                        <p class="break-word">{{ $post->description }}</p>
                     </div>
                 @endif
             </div>

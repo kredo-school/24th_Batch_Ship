@@ -22,7 +22,7 @@
                                     @endif
                                 </div>
                                 <div class="col-2 text-start">
-                                    <a href="{{ route('users.profile.specificProfile', $postcomment->user_id) }}">
+                                    <a class="text-decoration-none" href="{{ route('users.profile.specificProfile', $postcomment->user_id) }}">
                                         @if ($postcomment->user->avatar)
                                             <img src="{{ $postcomment->user->avatar }}" alt="{{ $postcomment->user->name }}" class=" rounded-circle avatar-sm no-underline">
                                         @else
@@ -70,10 +70,10 @@
                             <div class="replies-container" id="replies-container-{{ $postcomment->id }}" style="display:none;">
                                 @foreach ($postcomment->replies as $reply)
                                     <div class="row reply-item align-items-center my-2 ">
-                                        <div class="col-3 text-end ">
-                                            <a href="{{ route('users.profile.specificProfile', $reply->user_id) }}">
+                                        <div class="col-3 text-end">
+                                            <a class="text-decoration-none" href="{{ route('users.profile.specificProfile', $reply->user_id) }}">
                                                 @if ($reply->user->avatar)
-                                                <img src="{{ $reply->user->avatar }}" alt="{{ $reply->user->name }}" class=" rounded-circle avatar-sm no-underline">
+                                                <img src="{{ $reply->user->avatar }}" alt="{{ $reply->user->name }}" class="rounded-circle avatar-sm no-underline">
                                             @else
                                                 <i class="fa-solid fa-circle-user text-secondary  text-center icon-sm no-underline"></i>
                                             @endif
