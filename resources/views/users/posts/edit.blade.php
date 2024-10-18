@@ -67,7 +67,7 @@
 
                     {{-- Post Button --}}
                     <div class="col">
-                        <button type="submit" class="btn btn-gold mt-5 w-50">Edit</button>
+                        <button type="submit" class="btn btn-gold mt-5 w-50">Save</button>
                     </div>
                 </div>
             </div> {{-- end of left side div --}}

@@ -35,7 +35,7 @@ class Category extends Model
     public function events()
     {
         return $this->belongsToMany(Event::class, 'category_event', 'category_id', 'event_id');
-    }  
+    }     
 
     // for search result for event with category 
     public function categoryEvent()

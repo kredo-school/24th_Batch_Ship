@@ -267,15 +267,15 @@
                             </div>
                             <div class="row card-text text-start ms-1 mb-2 mt-auto p-0">
                                 <div class="col">
-                                   @if($event->communityCategories()->get()->isNotEmpty())
-                                     @foreach ($event->communityCategories()->get() as $category)
-                                       <a href="{{ route('users.categories.show', $category->id) }}" class="badge me-1 bg-turquoise text-decoration-none">{{ $category->name }}</a>
-                                     @endforeach
+                                    @if($event->communityCategories()->isNotEmpty())
+                                        @foreach ($event->communityCategories() as $category)
+                                            <a href="{{ route('users.categories.show', $category->id) }}" class="badge me-1 bg-turquoise text-decoration-none">{{ $category->name }}</a>
+                                        @endforeach
+                                    @else
+                                        <span>No categories available.</span>
                                     @endif 
                                 </div>
-                                               
-                            </div>
-                                                                                    
+                            </div>                                                   
                             @endif
                         </div>
                     </div>
@@ -292,5 +292,6 @@
           @endif
       </div>
     </div>
+
 </div>
 @endsection

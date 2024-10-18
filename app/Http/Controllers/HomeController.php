@@ -57,7 +57,8 @@ class HomeController extends Controller
     $result_users = collect([]);
     $result_posts = collect([]);
     $result_communities = collect([]);
-    $result_events = collect([]);
+    $result_events = Event::with(['community', 'community.categories'])->paginate(4, ['*'], 'events_page');
+
     $no_results_message = null;
 
     // Search processing
@@ -162,13 +163,11 @@ private function searchUsers($keyword, $selectedCategory)
             })
             ->when($selectedCategory, function ($query) use ($selectedCategory) {
                 return $query->whereHas('categories', function ($query) use ($selectedCategory) {
-                    $query->where('categories.id', $selectedCategory); // テーブル名を明示的に指定
+                    $query->where('categories.id', $selectedCategory); // カテゴリIDでフィルタリング
                 });
             })
             ->where('host_id', '!=', auth()->id())
             ->paginate(4, ['*'], 'events_page');
     }
     
-    
-
 }

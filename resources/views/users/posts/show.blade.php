@@ -147,7 +147,7 @@
                     </form>
                 @endif
             </div>
-            <div class="text-end">
+            <div class="text-end mt-3">
                 <button class="shadow-none p-0 border-0 text-turquoise bg-pink" data-bs-toggle="modal"
                     data-bs-target="#see-all-reactions">
                     see all reactions

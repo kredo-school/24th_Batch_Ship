@@ -72,7 +72,7 @@
         </div>
 
             <div class="mb-4 px-5">
-                <button type="submit" class="btn btn-success w-100 bg-turquoise">Create</button>
+                <button type="submit" class="btn btn-success w-100 btn-turquoise2">Create</button>
             </div>
         </form>
      </div>

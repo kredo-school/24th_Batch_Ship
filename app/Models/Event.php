@@ -49,7 +49,7 @@ class Event extends Model
     // events with category
     public function categories()
     {
-        return $this->belongsToMany(Category::class, 'category_event', 'event_id', 'category_id','community_category');
+        return $this->belongsToMany(Category::class, 'category_event', 'event_id', 'category_id');
     }
 
     // To get reviews written by the attendees
@@ -61,8 +61,10 @@ class Event extends Model
     // for search view
     public function communityCategories()
     {
-        return $this->community->categories(); 
+        return $this->community ? $this->community->categories : collect(); 
     }
+    
+    
 
 
     

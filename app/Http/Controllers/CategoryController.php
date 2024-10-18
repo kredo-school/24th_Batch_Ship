@@ -18,9 +18,8 @@ class CategoryController extends Controller
 
     public function show($id)
     {
-        // To get categories
         $category = Category::findOrFail($id);
-    
+        
         $users       = $category->users()->where('id', '!=', auth()->id())->paginate(4, ['*'], 'users_page');
         $posts       = $category->posts()->where('user_id', '!=', auth()->id())->paginate(4, ['*'], 'post_page');
         $communities = $category->communities()->where('owner_id', '!=', auth()->id())->paginate(4, ['*'], 'communities_page');

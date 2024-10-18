@@ -180,7 +180,7 @@
                 </div> {{-- Post Column --}}
             @endforeach
         @else
-            <p class="text-center mt-5">No posts found.</p>
+            <h3 class="text-secondary text-center">No posts found.</h3>
         @endif
     </div> {{-- Row --}}
 

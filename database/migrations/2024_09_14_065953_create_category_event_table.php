@@ -8,13 +8,16 @@ class CreateCategoryEventTable extends Migration
 {
     public function up()
     {
-        Schema::create('category_event', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('event_id')->constrained()->onDelete('cascade');
-            $table->foreignId('category_id')->constrained()->onDelete('cascade');
-            $table->timestamps();
-        });
+        if (!Schema::hasTable('category_event')) {
+            Schema::create('category_event', function (Blueprint $table) {
+                $table->id();
+                $table->foreignId('event_id')->constrained()->onDelete('cascade');
+                $table->foreignId('category_id')->constrained()->onDelete('cascade');
+                $table->timestamps();
+            });
+        }
     }
+    
 
     public function down()
     {
